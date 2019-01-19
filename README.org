@@ -1,0 +1,6 @@
+#+TITLE: README
+
+This is my way of using [[https://nixos.org/][NixOS]] to configure some of my machines. The subdirectory
+=embedded/= additionally contains some experiments using [[https://nixos.org/nix][Nix]]; perhaps most
+interestingly I have expressions for building a [[https://coreboot.org/][coreboot]] ROM. Caveat emptor!
+These images are not tested in any way as of now.

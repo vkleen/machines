@@ -1,0 +1,4 @@
+/embedded/coreboot.rom
+/embedded/nix-embedded/coreboot/blobs
+/test-*
+result

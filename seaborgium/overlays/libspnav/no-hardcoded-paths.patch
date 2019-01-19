@@ -1,0 +1,29 @@
+diff -Naur libspnav-0.2.3.orig/spnav.c libspnav-0.2.3/spnav.c
+--- libspnav-0.2.3.orig/spnav.c	2012-09-03 19:18:04.000000000 -0700
++++ libspnav-0.2.3/spnav.c	2018-02-04 19:08:43.259669738 -0800
+@@ -75,11 +75,16 @@
+ {
+ 	int s;
+ 	struct sockaddr_un addr;
++    char *sock_path;
+ 
+ 	if(IS_OPEN) {
+ 		return -1;
+ 	}
+ 
++    sock_path = getenv("SPNAV_SOCK_PATH");
++    if (!sock_path)
++        sock_path = SPNAV_SOCK_PATH;
++
+ 	if(!(ev_queue = malloc(sizeof *ev_queue))) {
+ 		return -1;
+ 	}
+@@ -92,7 +97,7 @@
+ 
+ 	memset(&addr, 0, sizeof addr);
+ 	addr.sun_family = AF_UNIX;
+-	strncpy(addr.sun_path, SPNAV_SOCK_PATH, sizeof(addr.sun_path));
++	strncpy(addr.sun_path, sock_path, sizeof(addr.sun_path));
+ 
+ 
+ 	if(connect(s, (struct sockaddr*)&addr, sizeof addr) == -1) {

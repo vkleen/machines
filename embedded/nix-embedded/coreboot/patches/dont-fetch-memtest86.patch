@@ -1,0 +1,51 @@
+diff -Naur coreboot-4.7.orig/payloads/external/Memtest86Plus/Makefile coreboot-4.7/payloads/external/Memtest86Plus/Makefile
+--- coreboot-4.7.orig/payloads/external/Memtest86Plus/Makefile	2018-10-25 00:20:48.179586701 -0700
++++ coreboot-4.7/payloads/external/Memtest86Plus/Makefile	2018-10-25 00:21:38.549950094 -0700
+@@ -24,24 +24,24 @@
+ 
+ all: build
+ 
+-$(project_dir):
+-	echo "    Cloning $(project_name) from Git"
+-	git clone $(project_git_repo) $(project_dir)
+-
+-fetch: $(project_dir)
+-	-cd $(project_dir); git show $(TAG-y) >/dev/null 2>&1 ; \
+-		if [ $$? -ne 0 ] || [ "$(TAG-y)" = "origin/master" ]; then \
+-		echo "    Fetching new commits from the $(project_name) git repo"; \
+-		git fetch; fi
+-
+-checkout: fetch
+-	echo "    Checking out $(project_name) revision $(NAME-y) ($(TAG-y))"
+-	cd $(project_dir); \
+-		git checkout master; \
+-		git branch -D coreboot 2>/dev/null; \
+-		git checkout -b coreboot $(TAG-y)
++#$(project_dir):
++#	echo "    Cloning $(project_name) from Git"
++#	git clone $(project_git_repo) $(project_dir)
++#
++#fetch: $(project_dir)
++#	-cd $(project_dir); git show $(TAG-y) >/dev/null 2>&1 ; \
++#		if [ $$? -ne 0 ] || [ "$(TAG-y)" = "origin/master" ]; then \
++#		echo "    Fetching new commits from the $(project_name) git repo"; \
++#		git fetch; fi
++#
++#checkout: fetch
++#	echo "    Checking out $(project_name) revision $(NAME-y) ($(TAG-y))"
++#	cd $(project_dir); \
++#		git checkout master; \
++#		git branch -D coreboot 2>/dev/null; \
++#		git checkout -b coreboot $(TAG-y)
+ 
+-build: checkout
++build:
+ 	echo "    MAKE       $(project_name) $(NAME-y)"
+ 	$(MAKE) -C $(project_dir) all
+ 
+@@ -54,4 +54,4 @@
+ print-repo-info:
+ 	echo "$(project_git_repo) $(project_dir)"
+ 
+-.PHONY: all build checkout clean distclean fetch print-repo-info
++.PHONY: all build clean distclean print-repo-info

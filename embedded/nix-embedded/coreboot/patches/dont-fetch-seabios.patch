@@ -1,0 +1,56 @@
+diff -Naur coreboot.orig/payloads/external/SeaBIOS/Makefile coreboot/payloads/external/SeaBIOS/Makefile
+--- coreboot.orig/payloads/external/SeaBIOS/Makefile	2018-11-28 18:55:04.503970347 -0800
++++ coreboot/payloads/external/SeaBIOS/Makefile	2018-11-28 22:00:57.343212792 -0800
+@@ -15,33 +15,32 @@
+ all: build
+ 
+ seabios:
+-	echo "    Cloning SeaBIOS from Git"
+-	git clone $(project_git_repo) $(project_dir)
++	true
++# echo "    Cloning SeaBIOS from Git"
++#	git clone $(project_git_repo) $(project_dir)
+ 
+ fetch: seabios
+-ifeq ($(TAG-y),)
+-	echo "Error: The specified tag is invalid"
+-ifeq ($(CONFIG_SEABIOS_REVISION),y)
+-	echo "Error: There is no revision specified for SeaBIOS"
+-	false
+-endif
+-	false
+-endif
+-	cd seabios; git show $(TAG-y) >/dev/null 2>&1 ;	if [ $$? -ne 0 ] || \
+-		[ "$(TAG-y)" = "origin/master" ]; then \
+-		echo "    Fetching new commits from the SeaBIOS git repo"; \
+-		git fetch; fi
++	true
++#ifeq ($(TAG-y),)
++#	echo "Error: The specified tag is invalid"
++#ifeq ($(CONFIG_SEABIOS_REVISION),y)
++#	echo "Error: There is no revision specified for SeaBIOS"
++#	false
++#endif
++#	false
++#endif
++#	cd seabios; git show $(TAG-y) >/dev/null 2>&1 ;	if [ $$? -ne 0 ] || \
++#		[ "$(TAG-y)" = "origin/master" ]; then \
++#		echo "    Fetching new commits from the SeaBIOS git repo"; \
++#		git fetch; fi
+ 
+ checkout: fetch
+-	echo "    Checking out SeaBIOS revision $(TAG-y)"
+-	cd seabios; git checkout master; git branch -D coreboot 2>/dev/null; git checkout -b coreboot $(TAG-y)
++#	echo "    Checking out SeaBIOS revision $(TAG-y)"
++#	cd seabios; git checkout master; git branch -D coreboot 2>/dev/null; git checkout -b coreboot $(TAG-y)
+ 	for patch in $(CURDIR)/patches/*.patch; do \
+ 		echo "Applying $$patch"; \
+ 		cd $(project_dir); \
+-		export GIT_COMMITTER_EMAIL="`grep 'From:' $$patch | grep -Po '<\K[^>]+@[^>]+(?=>)'`"; \
+-		export GIT_COMMITTER_NAME="`grep 'From:' $$patch | cut -d '<' -f 1 | tail -c +7`"; \
+-		git am --committer-date-is-author-date --keep-cr $$patch || \
+-			( echo " Error when applying patches.\n"; git am --abort; exit 1; ); \
++		patch -p1 < $$patch; \
+ 	done;
+ 
+ config: checkout

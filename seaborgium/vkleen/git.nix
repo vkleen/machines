@@ -1,8 +1,5 @@
 {pkgs, ...}:
 {
-  imports = [
-    ./secrets.nix
-  ];
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;

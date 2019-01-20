@@ -14,6 +14,7 @@ builtins.map (x: import x args) [
   ./qt.nix
   ./redshift.nix
   ./rg.nix
+  ./secrets.nix
   ./xsession.nix
   ./zathura.nix
   ./zsh.nix

@@ -152,17 +152,19 @@ in {
     # freecad-master
     # solvespace
 
-    adapta-gtk-theme materia-theme
-    paper-gtk-theme
-    numix-icon-theme numix-solarized-gtk-theme
-    paper-icon-theme
-    hicolor-icon-theme
-    gnome3.adwaita-icon-theme
-    nixos-icons
-    arc-theme
+    adapta-gtk-theme
     arc-icon-theme
+    arc-theme
+    gnome3.adwaita-icon-theme
     gtk-engine-murrine
     gtk_engines
+    hicolor-icon-theme
+    materia-theme
+    nixos-icons
+    numix-icon-theme
+    numix-solarized-gtk-theme
+    paper-gtk-theme
+    paper-icon-theme
 
     dhall
 

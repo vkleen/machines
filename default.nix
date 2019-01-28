@@ -29,16 +29,20 @@ let
       overlays = all-overlays-in ./seaborgium/overlays;
     };
   seaborgium-pkgs = import "${pkgs-path}/pkgs/top-level" seaborgium-pkgs-args;
-  seaborgium = (import "${pkgs-path}/nixos/lib/eval-config.nix" {
-    inherit (seaborgium-pkgs.stdenv.hostPlatform) system;
-    modules = [ ({lib,...}: {
-                  config.nixpkgs.pkgs = lib.mkForce seaborgium-pkgs;
-                })
-                (import ./seaborgium/configuration.nix)
-              ];
-  }).config.system.build;
+  seaborgium = seaborgium-pkgs.nixos (import ./seaborgium/configuration.nix);
 
-  freyr = (nixpkgs-x86_64 {}).nixos (import ./freyr/configuration.nix pkgs-path);
+  freyr-pkgs-args = {
+      crossSystem = null;
+      localSystem = {
+        system = "x86_64-linux";
+        platform = lib.systems.platforms.pc64;
+      };
+      config = { android_sdk.accept_license = true;
+               };
+      overlays = all-overlays-in ./freyr/overlays;
+    };
+  freyr-pkgs = import "${pkgs-path}/pkgs/top-level" freyr-pkgs-args;
+  freyr = freyr-pkgs.nixos (import ./freyr/configuration.nix);
 
   samarium = (nixpkgs-x86_64 {
     overlays = all-overlays-in ./samarium/overlays;

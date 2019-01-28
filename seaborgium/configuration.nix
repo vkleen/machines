@@ -42,11 +42,16 @@
   boot.kernel.sysctl = { "net.ipv4.ip_default_ttl" = 65; };
 
   boot.kernelPackages = pkgs.linuxPackages_latest.extend (self: super: {
-    kernel = super.kernel.override {
-      structuredExtraConfig = {
-        PKCS8_PRIVATE_KEY_PARSER = "y";
+    kernel = with (import "${pkgs.path}/lib/kernel.nix" { inherit lib; inherit (super.kernel) version; });
+      super.kernel.override {
+        structuredExtraConfig = {
+          PKCS8_PRIVATE_KEY_PARSER = yes;
+
+          POWERCAP = yes;
+          IDLE_INJECT = yes;
+          INTEL_RAPL = module;
+        };
       };
-    };
   });
 
   boot.supportedFilesystems = [ "zfs" ];
@@ -165,6 +170,7 @@
   environment.systemPackages = with pkgs; [
     wget vim git rsync
     adbfs-rootless
+    s-tar mbuffer
   ];
 
   programs.wireshark = {
@@ -201,6 +207,11 @@
     extraPackages = with pkgs; [ opencl-info vaapiIntel libva-utils ];
   };
 
+  services.thermald = {
+    enable = true;
+    debug = false;
+  };
+
   services.illum.enable = true;
 
   boot.cleanTmpDir = true;
@@ -222,8 +233,8 @@
 
   systemd.services."macchanger-wlan" = {
     wants = [ "network-pre.target" ];
-    wantedBy = [ "supplicant-wlan.service" ];
-    before = [ "supplicant-wlan.service" ];
+    wantedBy = [ "iwd.service" ];
+    before = [ "iwd.service" ];
     bindsTo = [ "sys-subsystem-net-devices-wlan.device" ];
     after = [ "sys-subsystem-net-devices-wlan.device" ];
     script = ''
@@ -237,9 +248,14 @@
   };
 
   services.udev.extraRules = ''
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0660", GROUP:="input"
-    SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a0e", ATTRS{idProduct}=="0003|0020", MODE:="0660", GROUP:="wireshark"
-  '';
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0660", GROUP:="input"
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a0e", ATTRS{idProduct}=="0003|0020", MODE:="0660", GROUP:="wireshark"
+
+      SUBSYSTEM=="drm", ACTION=="change", ENV{HOTPLUG}=="1" RUN+="${pkgs.autorandr}/bin/autorandr --batch -c --default clone-largest"
+
+      SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.powerscript}/bin/powerscript.sh offline"
+      SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${pkgs.powerscript}/bin/powerscript.sh online"
+    '';
 
   system.nixos = rec {
     revision = lib.commitIdFromGitRepo "${toString ./../.git}";

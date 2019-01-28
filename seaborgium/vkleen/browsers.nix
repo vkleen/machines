@@ -13,9 +13,9 @@
   };
 
   home.packages =
-    let fcfg = lib.setAttrByPath ["firefox-devedition-bin-unwrapped"] {
+    let fcfg = lib.setAttrByPath ["firefox"] {
           enableAdobeFlash = false;
-          enableGoogleTalkPlugin = false;
+          enableGoogleTalkPlugin = true;
           icedtea = false;
         };
 

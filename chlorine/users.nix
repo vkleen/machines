@@ -11,7 +11,7 @@
         createHome = true;
         home = "/home/vkleen";
         isNormalUser = true;
-        shell = "${pkgs.zsh}/bin/zsh";
+        # shell = "${pkgs.zsh}/bin/zsh";
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP03cNnW4bB4rqxfp62V1SqskfI9Gja0+EApP9//tz+b vkleen@arbro"
         ];
@@ -35,7 +35,7 @@
       };
 
       "root" = {
-        inherit (vkleen) shell;
+        inherit (config.users.extraUsers.vkleen) shell;
         openssh.authorizedKeys.keys = vkleen.openssh.authorizedKeys.keys;
       };
     };

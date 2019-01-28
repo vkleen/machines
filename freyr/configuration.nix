@@ -1,4 +1,3 @@
-nixpkgs:
 { config, pkgs, ... }:
 
 {
@@ -11,7 +10,6 @@ nixpkgs:
   nix = {
     nixPath = [
       "nixpkgs=${pkgs.path}"
-      "nixpkgs-overlays=${./overlays}"
     ];
 
     binaryCaches = [

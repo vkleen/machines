@@ -29,7 +29,7 @@
   time.timeZone = "UTC";
 
   environment.systemPackages = with pkgs; [
-    wget vim zsh i2c-tools
+    wget zsh i2c-tools
     tmux
   ];
 
@@ -43,7 +43,8 @@
 
   system.stateVersion = "19.03";
 
-  hardware.opengl.enable = true;
+  hardware.opengl.enable = false;
+  services.udisks2.enable = false;
   services.xserver.enable = false;
 
   nix.buildCores = 144;

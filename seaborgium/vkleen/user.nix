@@ -1,6 +1,7 @@
 args@{ pkgs, lib, ... }:
 
 builtins.map (x: import x args) [
+  ./autorandr.nix
   ./browsers.nix
   ./direnv.nix
   ./dunst.nix

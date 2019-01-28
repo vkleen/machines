@@ -38,6 +38,22 @@ let
       purple-events purple-libnotify-plus
     ];
   };
+
+  cycle_powersaving = pkgs.writeShellScriptBin "cycle-powersaving" ''
+    case "$1" in
+      on)
+        sudo ${pkgs.powerscript}/bin/powerscript.sh offline
+        sudo ${pkgs.powerscript}/bin/powerscript.sh online
+        ;;
+      off)
+        sudo ${pkgs.powerscript}/bin/powerscript.sh online
+        sudo ${pkgs.powerscript}/bin/powerscript.sh offline
+        ;;
+      *)
+        exit 1
+        ;;
+    esac
+  '';
 in {
   home.packages = with pkgs; [
     (python36.withPackages (ps: with ps; [ py3status dbus-python ]))
@@ -57,12 +73,13 @@ in {
     file
     gajim
     gdrive
-    gitAndTools.gitRemoteGcrypt
     gitAndTools.git-crypt
+    gitAndTools.gitRemoteGcrypt
     gitAndTools.hub
     gitRepo
     gnome3.gsettings_desktop_schemas
     gnupg
+    htop
     i3status
     imagemagick
     ip2unix
@@ -82,6 +99,7 @@ in {
     nix-index nix-prefetch-scripts
     notmuch
     nox
+    p7zip
     pandoc
     parallel
     pass
@@ -92,6 +110,7 @@ in {
     pinentry
     pmtools
     poppler_utils
+    proot
     psmisc
     pv
     python3Packages.alot
@@ -105,8 +124,6 @@ in {
     tmux
     tree
     tsocks
-    unrar
-    unzip
     usb-modeswitch
     usbutils
     w3m
@@ -150,5 +167,7 @@ in {
     dhall
 
     fast-p.bin
+
+    cycle_powersaving
   ];
 }

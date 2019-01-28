@@ -48,13 +48,23 @@
         format = "";
       };
       signed_on_ignore = {
-        appname = "Pidgin";
+        appname = "libpurple";
         summary = "*signed on*";
         format = "";
       };
       signed_off_ignore = {
-        appname = "Pidgin";
+        appname = "libpurple";
         summary = "*signed off*";
+        format = "";
+      };
+      came_back_ignore = {
+        appname = "libpurple";
+        summary = "*came back*";
+        format = "";
+      };
+      went_away_ignore = {
+        appname = "libpurple";
+        summary = "*went away*";
         format = "";
       };
     };

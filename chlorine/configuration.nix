@@ -43,7 +43,10 @@
 
   system.stateVersion = "19.03";
 
-  hardware.opengl.enable = false;
+  hardware.opengl = {
+    enable = true;
+    extraPackages = [ pkgs.rocm-opencl-icd ];
+  };
   services.udisks2.enable = false;
   services.xserver.enable = false;
 

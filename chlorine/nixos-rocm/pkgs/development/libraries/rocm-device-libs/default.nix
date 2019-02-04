@@ -1,6 +1,10 @@
 { stdenv, fetchFromGitHub, cmake
 , rocm-llvm, rocm-lld, rocm-clang, rocr }:
-stdenv.mkDerivation rec {
+let
+  enableTargets = [ stdenv.hostPlatform stdenv.targetPlatform "AMDGPU" ];
+  inherit (import ../../llvm-backends.nix { inherit (stdenv) lib; })
+    llvmBackendList;
+in stdenv.mkDerivation rec {
   name = "rocm-device-libs";
   version = "2.0.0";
   src = fetchFromGitHub {
@@ -13,7 +17,7 @@ stdenv.mkDerivation rec {
   buildInputs = [ rocm-llvm rocm-lld rocm-clang rocr ];
   cmakeBuildType = "Release";
   cmakeFlags = [
-    "-DLLVM_TARGETS_TO_BUILD='AMDGPU;X86'"
+    "-DLLVM_TARGETS_TO_BUILD=${llvmBackendList enableTargets}"
     "-DLLVM_DIR=${rocm-llvm}/lib/cmake/llvm"
   ];
   patchPhase = ''

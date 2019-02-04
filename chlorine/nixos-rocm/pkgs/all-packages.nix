@@ -78,7 +78,7 @@ with pkgs;
   # OpenCL stack
   rocm-opencl-driver = callPackage ./development/libraries/rocm-opencl-driver {
     stdenv = pkgs.overrideCC stdenv self.rocm-clang;
-    inherit (self) rocm-llvm rocm-clang-unwrapped;
+    inherit (self) rocm-llvm rocm-clang;
   };
   rocm-opencl-runtime = callPackage ./development/libraries/rocm-opencl-runtime.nix {
     stdenv = pkgs.overrideCC stdenv self.rocm-clang;

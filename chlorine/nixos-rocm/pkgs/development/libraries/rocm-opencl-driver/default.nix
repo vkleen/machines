@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, cmake, rocm-llvm, rocm-lld, rocm-clang-unwrapped }:
+{ stdenv, fetchFromGitHub, cmake, rocm-llvm, rocm-lld, rocm-clang, rocm-clang-unwrapped }:
 stdenv.mkDerivation rec {
   name = "rocm-opencl-driver";
   version = "2.0.0";
@@ -11,9 +11,10 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ cmake ];
   cmakeFlags = [
     "-DLLVM_DIR=${rocm-llvm}/lib/cmake/llvm"
+#    "-DCMAKE_CXX_FLAGS=-I${rocm-clang.}"
   ];
   enableParallelBuilding = true;
-  buildInputs = [ rocm-llvm rocm-lld rocm-clang-unwrapped ];
+  buildInputs = [ rocm-llvm rocm-lld rocm-clang rocm-clang-unwrapped ];
   patchPhase = ''
     sed -e 's|include(AddLLVM)|include_directories(${rocm-llvm.src}/lib/Target/AMDGPU)|' \
         -e 's|add_subdirectory(src/unittest)||' \

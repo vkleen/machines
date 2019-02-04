@@ -7,7 +7,11 @@
 , name ? "rocm-llvm"
 , version ? "2.0.0"
 , src}:
-stdenv.mkDerivation rec {
+let
+  enableTargets = [ stdenv.hostPlatform stdenv.targetPlatform "AMDGPU" ];
+  inherit (import ../../llvm-backends.nix { inherit (stdenv) lib; })
+    llvmBackendList;
+in stdenv.mkDerivation rec {
   inherit name version src;
 
   outputs = [ "out" "python" ]
@@ -40,7 +44,7 @@ stdenv.mkDerivation rec {
     "-DLLVM_ENABLE_FFI=ON"
     "-DLLVM_ENABLE_RTTI=ON"
     "-DLLVM_ENABLE_DUMP=ON"
-    "-DLLVM_TARGETS_TO_BUILD=AMDGPU;X86"
+    "-DLLVM_TARGETS_TO_BUILD=${llvmBackendList enableTargets}"
   ]
   ++ stdenv.lib.optional enableSharedLibraries
     "-DLLVM_LINK_LLVM_DYLIB=ON"

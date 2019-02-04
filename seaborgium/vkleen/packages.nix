@@ -117,6 +117,7 @@ in {
     qutebrowser
     rfkill
     rsync
+    s-tui
     socat2pre
     sqlite
     sxiv

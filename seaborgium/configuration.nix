@@ -252,9 +252,6 @@
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a0e", ATTRS{idProduct}=="0003|0020", MODE:="0660", GROUP:="wireshark"
 
       SUBSYSTEM=="drm", ACTION=="change", ENV{HOTPLUG}=="1" RUN+="${pkgs.autorandr}/bin/autorandr --batch -c --default clone-largest"
-
-      SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.powerscript}/bin/powerscript.sh offline"
-      SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${pkgs.powerscript}/bin/powerscript.sh online"
     '';
 
   system.nixos = rec {

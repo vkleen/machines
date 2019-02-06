@@ -10,7 +10,7 @@
       ./custom/lock-on-suspend.nix
       ./nginx.nix
       ./power.nix
-      ./tor.nix
+      # ./tor.nix
       ./cups.nix
       ./nspawn.nix
       ./fcitx.nix

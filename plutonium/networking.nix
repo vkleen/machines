@@ -5,7 +5,7 @@
   ];
 
   services.ndppd = {
-    enable = true;
+    enable = false;
     configFile = pkgs.writeText "ndppd.conf" ''
       route-ttl 30000
       proxy ens3 {
@@ -20,23 +20,23 @@
   };
 
   networking = {
-    hostName = "samarium";
+    hostName = "plutonium";
     useDHCP = false;
     defaultGateway = {
-      address = "94.16.120.1";
-      interface = "ens3";
+      address = "45.33.37.1";
+      interface = "enp0s3";
     };
     defaultGateway6 = {
       address = "fe80::1";
-      interface = "ens3";
+      interface = "enp0s3";
     };
     interfaces = {
-      "ens3".ipv4.addresses = [ {
-        address = "94.16.123.211";
-        prefixLength = 22;
+      "enp0s3".ipv4.addresses = [ {
+        address = "45.33.37.163";
+        prefixLength = 24;
       } ];
-      "ens3".ipv6.addresses = [ {
-        address = "2a03:4000:21:6c9::1";
+      "enp0s3".ipv6.addresses = [ {
+        address = "2600:3c01::f03c:91ff:fea9:5fff";
         prefixLength = 64;
       } ];
     };
@@ -72,25 +72,23 @@
     };
 
     wireguard.interfaces = {
-      wg0 = {
-        ips = [ "10.172.20.1/24" "2a03:4000:21:6c9:ba9c:c4de:cb69:1/80" ];
-        privateKeyFile = "/run/keys/samarium";
-        listenPort = 51820;
-        peers = [
-          { publicKey = builtins.readFile ../wireguard/seaborgium.pub;
-            allowedIPs = [ "10.172.20.128/32" "2a03:4000:21:6c9:ba9c:b01a:0a7d::/112" ];
-          }
-          { publicKey = builtins.readFile ../wireguard/freyr.pub;
-            allowedIPs = [ "10.172.20.129/32" "2a03:4000:21:6c9:ba9c:cc8e:b00c::/112" ];
-          }
-        ];
-      };
+      # wg0 = {
+      #   ips = [ "10.172.20.1/24" "2a03:4000:21:6c9:ba9c:c4de:cb69:1/80" ];
+      #   privateKeyFile = "/run/keys/samarium";
+      #   listenPort = 51820;
+      #   peers = [
+      #     { publicKey = builtins.readFile ../wireguard/seaborgium.pub;
+      #       allowedIPs = [ "10.172.20.128/32" "2a03:4000:21:6c9:ba9c:b01a:0a7d::/112" ];
+      #     }
+      #     { publicKey = builtins.readFile ../wireguard/freyr.pub;
+      #       allowedIPs = [ "10.172.20.129/32" "2a03:4000:21:6c9:ba9c:cc8e:b00c::/112" ];
+      #     }
+      #   ];
+      # };
     };
   };
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
     "net.ipv6.conf.all.forwarding" = 2;
-    "net.ipv6.conf.all.proxy_ndp" = 1;
-    "net.ipv6.conf.default.proxy_ndp" = 1;
   };
 }

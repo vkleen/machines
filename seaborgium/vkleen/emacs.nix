@@ -5,7 +5,7 @@ let
     withGTK2 = false;
     withGTK3 = false;
   });
-  emacsPackage = emacsPackages.emacsWithPackages (epkgs: [ epkgs.pdf-tools ]);
+  emacsPackage = emacsPackages.emacsWithPackages (epkgs: [ ]);
 in {
   home.packages = [ emacsPackage ];
 

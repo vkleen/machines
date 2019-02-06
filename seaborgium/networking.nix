@@ -36,9 +36,9 @@
     dhcpcd = {
       allowInterfaces = [ "wlan" "eth-usb" ];
       enable = true;
-      # extraConfig = ''
-      #   static domain_name_servers=8.8.8.8 8.8.4.4
-      # '';
+      extraConfig = ''
+        metric 400
+      '';
     };
 
     wlanInterfaces = {
@@ -60,6 +60,20 @@
           address = "10.1.1.254";
           prefixLength = 24;
         } ];
+      };
+    };
+
+    wireguard.interfaces = {
+      wg0 = {
+        ips = [ "10.172.20.128/24" "2a03:4000:21:6c9:ba9c:b01a:0a7d:1/80"];
+        privateKeyFile = "/private/seaborgium";
+        allowedIPsAsRoutes = false;
+        peers = [
+          { publicKey = builtins.readFile ../wireguard/samarium.pub;
+            allowedIPs = [ "0.0.0.0/0" "::/0" ];
+            endpoint = "samarium.kleen.org:51820";
+          }
+        ];
       };
     };
 

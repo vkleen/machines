@@ -68,7 +68,7 @@
     };
     firewall = {
       enable = true;
-      trustedInterfaces = [ "enp0s25" "enp2s0" "wlp3s0" "ap0" ];
+      trustedInterfaces = [ "enp0s25" "enp2s0" "wlp3s0" "ap0" "wg0" ];
       allowPing = true;
       extraCommands = ''
         iptables -t mangle -F POSTROUTING
@@ -86,6 +86,21 @@
       192.168.12.1 freyr freyr.lan
       192.168.24.1 freyr freyr.lan
     '';
+
+    wireguard.interfaces = {
+      wg0 = {
+        ips = [ "10.172.20.129/24" "2a03:4000:21:6c9:ba9c:cc8e:b00c:1/80" ];
+        privateKeyFile = "/private/freyr";
+        allowedIPsAsRoutes = false;
+        peers = [
+          { publicKey = builtins.readFile ../wireguard/samarium.pub;
+            allowedIPs = [ "0.0.0.0/0" "::/0" ];
+            endpoint = "samarium.kleen.org:51820";
+            persistentKeepalive = 25;
+          }
+        ];
+      };
+    };
   };
 
   services.hostapd = {
@@ -176,7 +191,7 @@
 
   environment.systemPackages = with pkgs; [
     wget vim zsh pciutils iw
-    tmux
+    tmux mosh
   ];
 
   # List services that you want to enable:

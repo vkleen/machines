@@ -1,4 +1,3 @@
-nixpkgs:
 { config, pkgs, ... }:
 
 {
@@ -7,18 +6,24 @@ nixpkgs:
       ./hardware-configuration.nix
       ./users.nix
       ./networking.nix
-
-      ./mailserver.nix
     ];
 
-  nix.nixPath = [
-    "nixpkgs=${nixpkgs}"
-  ];
+  nix = {
+    nixPath = [
+      "nixpkgs=${pkgs.path}"
+    ];
 
-  nix.binaryCachePublicKeys = [
-    "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
-    "freyr.1:d8VFt+9VtvwWAMKEGEERpZtWWh8Z3bDf+O2HrOLjBYQ="
-  ];
+    binaryCaches = [
+      "https://cache.nixos.org/"
+      "https://ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org"
+    ];
+
+    binaryCachePublicKeys = [
+      "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
+      "freyr.1:d8VFt+9VtvwWAMKEGEERpZtWWh8Z3bDf+O2HrOLjBYQ="
+      "ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org-1:reOmDDtgU13EasMsy993sq3AuzGmXwfSxNTYPfGf3Hc="
+    ];
+  };
 
   nix.buildCores = 4;
   nix.maxJobs = 4;
@@ -30,8 +35,8 @@ nixpkgs:
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ ];
-  networking.hostId = "c4decb69";
-  environment.etc."machine-id".text = "c4decb69165ba83fa1167e065c1a5bc7";
+  networking.hostId = "d034b380";
+  environment.etc."machine-id".text = "d034b380c72ffdad1704dc935c5b57d0";
 
   environment.systemPackages = with pkgs; [
     wget vim mosh

@@ -148,11 +148,11 @@ in
         };
 
         "uucp" = {
-	        type = "unix";
-	        privileged = true;
-	        chroot = false;
-	        maxproc = 100;
-	        command = "pipe flags=Fqhu user=uucp argv=/run/wrappers/bin/uux -r -n -z -a $sender - $nexthop!rmail ($recipient)";
+          type = "unix";
+          privileged = true;
+          chroot = false;
+          maxproc = 100;
+          command = "pipe flags=Fqhu user=uucp argv=/run/wrappers/bin/uux -r -n -z -a $sender - $nexthop!rmail ($recipient)";
         };
       };
     };

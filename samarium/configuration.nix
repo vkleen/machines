@@ -1,4 +1,3 @@
-nixpkgs:
 { config, pkgs, ... }:
 
 {
@@ -9,19 +8,26 @@ nixpkgs:
       ./networking.nix
 
       ./mailserver.nix
+      ../seaborgium/secrets.nix
     ];
 
-  nix.nixPath = [
-    "nixpkgs=${nixpkgs}"
-  ];
+  nix = {
+    nixPath = [
+      "nixpkgs=${pkgs.path}"
+      "nixpkgs-overlays=${./overlays}"
+    ];
 
-  nix.binaryCachePublicKeys = [
-    "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
-    "freyr.1:d8VFt+9VtvwWAMKEGEERpZtWWh8Z3bDf+O2HrOLjBYQ="
-  ];
+    binaryCaches = [
+      "https://cache.nixos.org/"
+      "https://ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org"
+    ];
 
-  nix.buildCores = 4;
-  nix.maxJobs = 4;
+    binaryCachePublicKeys = [
+      "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
+      "freyr.1:d8VFt+9VtvwWAMKEGEERpZtWWh8Z3bDf+O2HrOLjBYQ="
+      "ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org-1:reOmDDtgU13EasMsy993sq3AuzGmXwfSxNTYPfGf3Hc="
+    ];
+  };
 
   nix.useSandbox = true;
   nix.trustedUsers = [ "root" ];
@@ -34,7 +40,7 @@ nixpkgs:
   environment.etc."machine-id".text = "c4decb69165ba83fa1167e065c1a5bc7";
 
   environment.systemPackages = with pkgs; [
-    wget vim mosh
+    wget vim mosh tmux
   ];
 
   # Enable the OpenSSH daemon.

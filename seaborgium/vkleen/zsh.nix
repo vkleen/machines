@@ -69,7 +69,7 @@ in {
       e = "e-in-current-ws";
       ".." = "cd ..";
       scratch = "editor-scratch";
-      p = "${pkgs.parallel}/bin/parallel"
+      p = "${pkgs.parallel}/bin/parallel";
 
       tmux = "${root-direnv} tmux";
     };

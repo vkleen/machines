@@ -2,7 +2,9 @@ args@{ pkgs, lib, ... }:
 
 builtins.map (x: import x args) [
   ./autorandr.nix
+  ./bluetooth.nix
   ./browsers.nix
+  ./clipster.nix
   ./direnv.nix
   ./dunst.nix
   ./emacs.nix
@@ -11,11 +13,9 @@ builtins.map (x: import x args) [
   ./gpg.nix
   ./keynav.nix
   ./packages.nix
-  ./parcellite.nix
   ./qt.nix
   ./redshift.nix
   ./rg.nix
-  ./secrets.nix
   ./xsession.nix
   ./zathura.nix
   ./zsh.nix

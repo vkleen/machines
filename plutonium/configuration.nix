@@ -6,6 +6,8 @@
       ./hardware-configuration.nix
       ./users.nix
       ./networking.nix
+      ./matrix.nix
+      ../seaborgium/secrets.nix
     ];
 
   nix = {
@@ -25,9 +27,6 @@
     ];
   };
 
-  nix.buildCores = 4;
-  nix.maxJobs = 4;
-
   nix.useSandbox = true;
   nix.trustedUsers = [ "root" ];
 
@@ -39,7 +38,7 @@
   environment.etc."machine-id".text = "d034b380c72ffdad1704dc935c5b57d0";
 
   environment.systemPackages = with pkgs; [
-    wget vim mosh
+    wget vim mosh tmux
   ];
 
   # Enable the OpenSSH daemon.

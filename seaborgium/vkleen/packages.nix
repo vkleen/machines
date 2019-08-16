@@ -57,9 +57,11 @@ let
 in {
   home.packages = with pkgs; [
     (python36.withPackages (ps: with ps; [ py3status dbus-python ]))
+
     a2ps
     alacritty
     autossh
+    batctl
     bc
     blackbox
     calc
@@ -68,10 +70,10 @@ in {
     dnsutils
     docker-machine
     dos2unix
+    dpt-rp1-py
     entr
     feh
     file
-    gajim
     gdrive
     gitAndTools.git-crypt
     gitAndTools.gitRemoteGcrypt
@@ -85,7 +87,10 @@ in {
     ip2unix
     iperf
     iw
+    ldns
     libbladeRF
+    llpp
+    # lorri
     lrzsz
     lshw
     lsof
@@ -114,8 +119,10 @@ in {
     psmisc
     pv
     python3Packages.alot
+    qpdf
     qutebrowser
     rfkill
+    riot-desktop
     rsync
     s-tui
     socat2pre
@@ -125,6 +132,7 @@ in {
     tmux
     tree
     tsocks
+    uhk-agent
     usb-modeswitch
     usbutils
     w3m
@@ -150,7 +158,7 @@ in {
     pulseview
     sigrok-cli
 
-    # freecad-master
+    freecad
     # solvespace
 
     adapta-gtk-theme
@@ -172,5 +180,10 @@ in {
     fast-p.bin
 
     cycle_powersaving
+
+    hledger
+    hledger-interest
+    hledger-ui
+    ledger-autosync
   ];
 }

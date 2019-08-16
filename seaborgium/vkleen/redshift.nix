@@ -2,8 +2,8 @@
 {
   services.redshift = {
     enable = true;
-    latitude = "34";
-    longitude = "-118";
+    latitude = "51";
+    longitude = "7";
     tray = true;
     temperature = {
       day = 6500;

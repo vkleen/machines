@@ -22,5 +22,5 @@
         wrapper = pkgs.wrapFirefox.override {
           config = fcfg;
         };
-    in [ (wrapper pkgs.firefox-devedition-bin-unwrapped { browserName = "firefox"; }) ];
+    in [ (wrapper pkgs.firefox-bin-unwrapped { browserName = "firefox"; }) ];
 }

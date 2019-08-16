@@ -46,4 +46,7 @@ in {
   };
 
   services.xserver.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
+
+  environment.systemPackages = with pkgs; [ brillo ];
+  services.udev.packages = with pkgs; [ brillo ];
 }

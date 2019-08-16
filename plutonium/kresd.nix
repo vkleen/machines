@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  services.kresd.enable = true;
-  networking.nameservers = [ "127.0.0.1" ];
+  services.kresd.enable = false;
+  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
 }

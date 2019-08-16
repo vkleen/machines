@@ -4,21 +4,6 @@
     ./kresd.nix
   ];
 
-  services.ndppd = {
-    enable = false;
-    configFile = pkgs.writeText "ndppd.conf" ''
-      route-ttl 30000
-      proxy ens3 {
-        router yes
-        timeout 5000
-        ttl 30000
-        rule 2a03:4000:21:6c9:ba9c::/80 {
-          static
-        };
-      };
-    '';
-  };
-
   networking = {
     hostName = "plutonium";
     useDHCP = false;
@@ -45,7 +30,7 @@
       trustedInterfaces = [ "wg0" ];
       allowPing = true;
       allowedTCPPorts = [ 25 80 443 ];
-      allowedUDPPorts = [ 51820 ];
+      allowedUDPPorts = [ 51820 53 ];
       allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
 
       extraCommands = ''
@@ -70,25 +55,57 @@
         ip46tables -X nixos-fw-forward 2> /dev/null || true
       '';
     };
-
+    nat = {
+      enable = true;
+      internalInterfaces = [ "wg0" ];
+      internalIPs = [ "10.172.30.1/24" ];
+      externalInterface = "enp0s3";
+      externalIP = "45.33.37.163";
+      forwardPorts = [];
+      extraCommands = ''
+        iptables -t nat -A nixos-nat-pre -i enp0s3 -p udp --dport 53 -j REDIRECT --to-port 51820
+      '';
+    };
     wireguard.interfaces = {
-      # wg0 = {
-      #   ips = [ "10.172.20.1/24" "2a03:4000:21:6c9:ba9c:c4de:cb69:1/80" ];
-      #   privateKeyFile = "/run/keys/samarium";
-      #   listenPort = 51820;
-      #   peers = [
-      #     { publicKey = builtins.readFile ../wireguard/seaborgium.pub;
-      #       allowedIPs = [ "10.172.20.128/32" "2a03:4000:21:6c9:ba9c:b01a:0a7d::/112" ];
-      #     }
-      #     { publicKey = builtins.readFile ../wireguard/freyr.pub;
-      #       allowedIPs = [ "10.172.20.129/32" "2a03:4000:21:6c9:ba9c:cc8e:b00c::/112" ];
-      #     }
-      #   ];
-      # };
+      wg0 = {
+        ips = [ "10.172.30.1/24" "2600:3c01:e002:8b9d:d034:b380::1/64" ];
+        privateKeyFile = "/run/keys/plutonium";
+        listenPort = 51820;
+        peers = [
+          { publicKey = builtins.readFile ../wireguard/seaborgium.pub;
+            allowedIPs = [ "10.172.30.128/32" "2600:3c01:e002:8b9d:b01a:0a7d::/96" ];
+          }
+          { publicKey = builtins.readFile ../wireguard/freyr.pub;
+            allowedIPs = [ "10.172.30.129/32" "2600:3c01:e002:8b9d:cc8e:b00c::/96" ];
+          }
+          { publicKey = builtins.readFile ../wireguard/einsteinium.pub;
+            allowedIPs = [ "10.172.30.130/32" "2600:3c01:e002:8b9d:c456:3f87::/96" ];
+          }
+        ];
+        postSetup = ''
+          ip link add gre-seaborgium type ip6gretap dev wg0 key 1 \
+            local 2600:3c01:e002:8b9d:d034:b380::1 \
+            remote 2600:3c01:e002:8b9d:b01a:0a7d::1
+
+          ip link add gre-freyr type ip6gretap dev wg0 key 2 \
+            local 2600:3c01:e002:8b9d:d034:b380::1 \
+            remote 2600:3c01:e002:8b9d:cc8e:b00c::1
+
+          ip link set gre-seaborgium up
+          ip link set gre-freyr up
+          ${pkgs.batctl}/bin/batctl if create
+          ${pkgs.batctl}/bin/batctl if add gre-seaborgium
+          ${pkgs.batctl}/bin/batctl if add gre-freyr
+        '';
+        postShutdown = ''
+          ${pkgs.batctl}/bin/batctl if destroy
+          ip link delete gre-freyr
+          ip link delete gre-seaborgium
+        '';
+      };
     };
   };
   boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = 1;
     "net.ipv6.conf.all.forwarding" = 2;
   };
 }

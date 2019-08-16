@@ -7,7 +7,7 @@
     extraUsers = rec {
       "vkleen" = {
         group = "users";
-        extraGroups = [ "wheel" "network" ];
+        extraGroups = [ "wheel" "kvm" "libvirtd" ];
         createHome = true;
         home = "/home/vkleen";
         isNormalUser = true;
@@ -38,9 +38,6 @@
         inherit (config.users.extraUsers.vkleen) shell;
         openssh.authorizedKeys.keys = vkleen.openssh.authorizedKeys.keys;
       };
-    };
-    extraGroups = {
-      "network" = { };
     };
   };
 }

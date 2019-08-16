@@ -1,11 +1,11 @@
 self: super: let
-  version = "1.2.9";
+  version = "1.2.12";
 
   image = self.stdenv.mkDerivation {
     name = "uhk-agent-image";
     src = self.fetchurl {
       url = "https://github.com/UltimateHackingKeyboard/agent/releases/download/v${version}/UHK.Agent-${version}-linux-x86_64.AppImage";
-      sha256 = "07afjs7yxh61mrjbcb463ik5p0jf8zzs5gv3lr3grvcga6kvvk0s";
+      sha256 = "1gr3q37ldixcqbwpxchhldlfjf7wcygxvnv6ff9nl7l8gxm732l6";
     };
     buildCommand = ''
       mkdir -p $out

@@ -11,9 +11,12 @@ in {
 
   mailserver = {
     enable = true;
-    fqdn = "samarium.17220103.de";
+    fqdn = "samarium.kleen.org";
     domains = [
       "samarium.kleen.org"
+      "samarium.17220103.de"
+      "kleen.org"
+      "17220103.de"
     ];
     virtualAliases = {
       "tatjana@samarium.kleen.org" = "dr.kleen@t-online.de";

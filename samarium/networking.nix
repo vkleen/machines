@@ -63,6 +63,7 @@
 
         ip46tables -A nixos-fw-forward -j DROP
         ip46tables -A FORWARD -j nixos-fw-forward
+        iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
       '';
       extraStopCommands = ''
         ip46tables -D FORWARD -j nixos-fw-forward 2>/dev/null || true

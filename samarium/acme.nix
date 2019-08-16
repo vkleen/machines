@@ -22,6 +22,7 @@ in {
       serverName = cfg.fqdn;
       forceSSL = true;
       enableACME = true;
+      http2 = false;
       acmeRoot = acmeRoot;
     };
   };

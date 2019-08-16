@@ -31,8 +31,14 @@
     binaryCachePublicKeys = [
       "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
       "freyr.1:d8VFt+9VtvwWAMKEGEERpZtWWh8Z3bDf+O2HrOLjBYQ="
+      (import ../chlorine/chlorine.1)
+      (import ../chlorine/guests/build-x86.1)
       "ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org-1:reOmDDtgU13EasMsy993sq3AuzGmXwfSxNTYPfGf3Hc="
     ];
+
+    extraOptions = ''
+      secret-key-files = /private/seaborgium.1.sec
+    '';
   };
 
   boot.loader.grub.enable = true;
@@ -54,12 +60,12 @@
       };
   });
 
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs = {
-    enableUnstable = true;
-    forceImportRoot = false;
-    forceImportAll = false;
-  };
+  boot.supportedFilesystems = [ ];
+  # boot.zfs = {
+  #   enableUnstable = true;
+  #   forceImportRoot = false;
+  #   forceImportAll = false;
+  # };
   networking.hostId = "b01a0a7d";
   environment.etc."machine-id".text = "b01a0a7d66dbb73b74ddde865b1c4386";
 
@@ -136,8 +142,8 @@
       '';
     };
 
-    ntp.enable = false;
-    timesyncd.enable = true;
+    ntp.enable = true;
+    #timesyncd.enable = true;
 
     upower.enable = true;
   };
@@ -169,7 +175,7 @@
 
   environment.systemPackages = with pkgs; [
     wget vim git rsync
-    adbfs-rootless
+    adbfs-rootless blueman
     s-tar mbuffer
   ];
 
@@ -186,7 +192,7 @@
       source-code-pro source-sans-pro source-serif-pro
       source-han-serif-simplified-chinese source-han-serif-traditional-chinese
       source-han-sans-simplified-chinese source-han-sans-simplified-chinese
-      babelstone-han corefonts
+      corefonts
       noto-fonts noto-fonts-cjk
       noto-fonts-emoji
       fira-code
@@ -197,8 +203,10 @@
   };
 
   hardware.bluetooth.enable = true;
+  services.dbus.packages = [ pkgs.blueman ];
   hardware.pulseaudio = {
     enable = true;
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pkgs.pulseaudioFull;
   };
 
@@ -220,7 +228,7 @@
     docker.enable = false;
     libvirtd.enable = false;
     kvmgt = {
-      enable = true;
+      enable = false;
       vgpus = {
         "i915-GVTg_V5_4" = {
           uuid = "7656394f-a77a-4a93-acee-01a1aba0ae60";
@@ -231,16 +239,16 @@
 
   programs.adb.enable = true;
 
-  systemd.services."macchanger-wlan" = {
+  systemd.services."macchanger-wlan0" = {
     wants = [ "network-pre.target" ];
     wantedBy = [ "iwd.service" ];
     before = [ "iwd.service" ];
-    bindsTo = [ "sys-subsystem-net-devices-wlan.device" ];
-    after = [ "sys-subsystem-net-devices-wlan.device" ];
+    bindsTo = [ "sys-subsystem-net-devices-wlan0.device" ];
+    after = [ "sys-subsystem-net-devices-wlan0.device" ];
     script = ''
-      ${pkgs.iproute}/bin/ip link set dev wlan down
-      ${pkgs.macchanger}/bin/macchanger -e wlan
-      ${pkgs.iproute}/bin/ip link set dev wlan up
+      ${pkgs.iproute}/bin/ip link set dev wlan0 down
+      ${pkgs.macchanger}/bin/macchanger -e wlan0
+      ${pkgs.iproute}/bin/ip link set dev wlan0 up
     '';
     serviceConfig = {
       Type = "oneshot";
@@ -248,10 +256,22 @@
   };
 
   services.udev.extraRules = ''
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0660", GROUP:="input"
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0660", GROUP:="input", ATTR{power/control}:="on"
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a0e", ATTRS{idProduct}=="0003|0020", MODE:="0660", GROUP:="wireshark"
 
+      SUBSYSTEM!="usb", GOTO="librem5_devkit_rules_end"
+      # Devkit USB flash
+      ATTR{idVendor}=="1fc9", ATTR{idProduct}=="012b", GROUP:="dialout", MODE:="0660"
+      ATTR{idVendor}=="0525", ATTR{idProduct}=="a4a5", GROUP:="dialout", MODE:="0660"
+      ATTR{idVendor}=="0525", ATTR{idProduct}=="b4a4", GROUP:="dialout", MODE:="0660"
+      LABEL="librem5_devkit_rules_end"
+
       SUBSYSTEM=="drm", ACTION=="change", ENV{HOTPLUG}=="1" RUN+="${pkgs.autorandr}/bin/autorandr --batch -c --default clone-largest"
+
+      SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
+
+      ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1f01", RUN+="${pkgs.usb_modeswitch}/bin/usb_modeswitch -J -v %s{idVendor} -p %s{idProduct}"
+      KERNEL=="eth*", ATTR{address}=="58:2c:80:13:92:63", NAME="wwan"
     '';
 
   system.nixos = rec {

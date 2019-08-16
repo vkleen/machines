@@ -14,7 +14,7 @@
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="pci", ATTR{power/control}="auto"
     ACTION=="add", SUBSYSTEM=="scsi_host", KERNEL=="host*", ATTR{link_power_management_policy}="min_power"
-    ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan", RUN+="${pkgs.iw}/bin/iw dev %k set power_save on"
+    ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan0", RUN+="${pkgs.iw}/bin/iw dev %k set power_save on"
     ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{power/control}="auto"
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="17ef", ATTR{idProduct}=="6047", TEST=="power/control", ATTR{power/control}="on"
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="5332", ATTR{idProduct}=="1300", TEST=="power/control", ATTR{power/control}="on"

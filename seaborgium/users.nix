@@ -6,7 +6,7 @@
     extraUsers = rec {
       "vkleen" = {
         group = "users";
-        extraGroups = [ "wheel" "network" "dialout" "audio" "video" "input" "wireshark" "docker" "libvirtd" "adbusers" "bladerf" ];
+        extraGroups = [ "wheel" "network" "dialout" "audio" "video" "input" "wireshark" "docker" "libvirtd" "adbusers" "bladerf" "kvm" ];
         createHome = true;
         home = "/home/vkleen";
         isNormalUser = true;
@@ -35,6 +35,7 @@
     };
     extraGroups = {
       "network" = { };
+      "kvm" = {  };
     };
   };
 
@@ -43,6 +44,7 @@
     "${import ./vkleen/fetch-home-manager.nix}/nixos"
   ];
 
+  home-manager.useUserPackages = true;
   home-manager.users.vkleen = lib.mkMerge ([
     { programs.home-manager = {
         enable = true;

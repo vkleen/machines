@@ -16,45 +16,43 @@ let
                                       (readDir dir));
     in attrValues (allNixFilesIn dir);
 
-  seaborgium-pkgs-args = {
-      crossSystem = null;
-      localSystem = {
-        system = "x86_64-linux";
-        platform = lib.systems.platforms.pc64;
-      };
-      config = { allowUnfree = true;
-                 retroarch.enableHiganSFC = true;
-                 android_sdk.accept_license = true;
-               };
-      overlays = all-overlays-in ./seaborgium/overlays;
-    };
-  seaborgium-pkgs = import "${pkgs-path}/pkgs/top-level" seaborgium-pkgs-args;
+  seaborgium-pkgs = nixpkgs-x86_64 {
+    config = { allowUnfree = true;
+               retroarch.enableHiganSFC = true;
+               android_sdk.accept_license = true;
+             };
+    overlays = all-overlays-in ./seaborgium/overlays;
+  };
   seaborgium = seaborgium-pkgs.nixos (import ./seaborgium/configuration.nix);
 
-  freyr-pkgs-args = {
-      crossSystem = null;
-      localSystem = {
-        system = "x86_64-linux";
-        platform = lib.systems.platforms.pc64;
-      };
-      config = { android_sdk.accept_license = true;
-               };
-      overlays = all-overlays-in ./freyr/overlays;
-    };
-  freyr-pkgs = import "${pkgs-path}/pkgs/top-level" freyr-pkgs-args;
+  freyr-pkgs = nixpkgs-x86_64 {
+    config = { android_sdk.accept_license = true;
+             };
+    overlays = all-overlays-in ./freyr/overlays;
+  };
   freyr = freyr-pkgs.nixos (import ./freyr/configuration.nix);
 
   samarium = (nixpkgs-x86_64 {
     overlays = all-overlays-in ./samarium/overlays;
-  }).nixos (import ./samarium/configuration.nix pkgs-path);
+  }).nixos (import ./samarium/configuration.nix);
   plutonium = (nixpkgs-x86_64 {
-    crossSystem = null;
-    localSystem = {
-      system = "x86_64-linux";
-      platform = lib.systems.platforms.pc64;
-    };
     overlays = all-overlays-in ./plutonium/overlays;
   }).nixos (import ./plutonium/configuration.nix);
+
+  aws-ami = (nixpkgs-x86_64 {
+    overlays = all-overlays-in ./aws/overlays;
+  }).nixos ({...}: {
+    imports = [ "${pkgs-path}/nixos/maintainers/scripts/ec2/amazon-image.nix"
+                ./aws/grow-partition.nix
+              ];
+    disabledModules = [ "virtualisation/amazon-init.nix"
+                        "system/boot/grow-partition.nix"
+                      ];
+    services.udisks2.enable = false;
+    services.xserver.enable = false;
+    hardware.opengl.enable = false;
+    ec2.hvm = true;
+  });
 
   installer = (nixpkgs-x86_64 {}).nixos ({pkgs, lib, ...}: {
     imports = [
@@ -110,4 +108,11 @@ in {
     overlays = all-overlays-in ./chlorine/overlays;
   };
   chlorine = chlorine.toplevel;
+  chlorine' = chlorine;
+
+  chlorine-guest-base = chlorine.guests.base-x86_64;
+
+  aws-ami = aws-ami.amazonImage;
+
+  inherit (import "${pkgs-path}/lib") version;
 }

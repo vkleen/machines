@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
@@ -68,8 +68,9 @@
     };
     firewall = {
       enable = true;
-      trustedInterfaces = [ "enp0s25" "enp2s0" "wlp3s0" "ap0" "wg0" ];
+      trustedInterfaces = [ "enp0s25" "enp2s0" "wlp3s0" "ap0" "wg0" "wg1" ];
       allowPing = true;
+      allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
       extraCommands = ''
         iptables -t mangle -F POSTROUTING
         iptables -t mangle -A POSTROUTING -o wwan -j TTL --ttl-set 65
@@ -97,6 +98,45 @@
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
             endpoint = "samarium.kleen.org:51820";
             persistentKeepalive = 25;
+          }
+        ];
+      };
+      wg1 = {
+        ips = [ "10.172.30.129/24" "2600:3c01:e002:8b9d:cc8e:b00c::1/64" ];
+        privateKeyFile = "/private/freyr";
+        allowedIPsAsRoutes = false;
+        peers = [
+          { publicKey = builtins.readFile ../wireguard/plutonium.pub;
+            allowedIPs = [ "0.0.0.0/0" "::/0" ];
+            endpoint = "plutonium.kleen.org:51820";
+            persistentKeepalive = 25;
+          }
+        ];
+        postSetup = ''
+          ip link add gre-plutonium type ip6gretap dev wg1 key 2 \
+            local 2600:3c01:e002:8b9d:cc8e:b00c::1 \
+            remote 2600:3c01:e002:8b9d:d034:b380::1
+
+          ip link set gre-plutonium up
+          ${pkgs.batctl}/bin/batctl if create
+          ${pkgs.batctl}/bin/batctl if add gre-plutonium
+        '';
+        postShutdown = ''
+          ${pkgs.batctl}/bin/batctl if destroy
+          ip link delete gre-plutonium
+        '';
+      };
+      wg2 = {
+        ips = [ "2600:3c01:e002:8b87:cc8e:b00c::1/64" ];
+        privateKeyFile = "/private/freyr";
+        listenPort = 51820;
+        allowedIPsAsRoutes = false;
+        peers = [
+          { publicKey = builtins.readFile ../wireguard/seaborgium.pub;
+            allowedIPs = [ "2600:3c01:e002:8b87::/64" ];
+          }
+          { publicKey = builtins.readFile ../wireguard/einsteinium.pub;
+            allowedIPs = [ "2600:3c01:e002:8b87::/64" ];
           }
         ];
       };
@@ -176,8 +216,11 @@
           patch = ./ath_regd_optional.patch;
         }
       ];
-      structuredExtraConfig = {
-        ATH_USER_REGD = "y";
+      structuredExtraConfig = with (import "${pkgs.path}/lib/kernel.nix" {
+        inherit lib;
+        inherit (super.kernel) version;
+      }); {
+        ATH_USER_REGD = yes;
       };
     };
   });
@@ -204,7 +247,7 @@
   };
 
   services.tor = {
-    enable = true;
+    enable = false;
     client.enable = true;
     relay.enable = false;
     hiddenServices = {

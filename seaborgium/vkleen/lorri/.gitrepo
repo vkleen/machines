@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/target/lorri
+	branch = master
+	commit = e8c99c1ddc51243358cccbf4c3387d0adb309a5f
+	parent = e53ad5140009af7511ee3cd55a6bc60d4a881d10
+	cmdver = 0.3.1

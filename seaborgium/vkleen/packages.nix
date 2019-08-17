@@ -54,8 +54,6 @@ let
         ;;
     esac
   '';
-
-  lorri = pkgs.callPackage ./lorri {};
 in {
   home.packages = with pkgs; [
     (python36.withPackages (ps: with ps; [ py3status dbus-python ]))
@@ -92,7 +90,6 @@ in {
     ldns
     libbladeRF
     llpp
-    lorri
     lrzsz
     lshw
     lsof

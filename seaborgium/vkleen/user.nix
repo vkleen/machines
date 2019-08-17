@@ -19,4 +19,5 @@ builtins.map (x: import x args) [
   ./xsession.nix
   ./zathura.nix
   ./zsh.nix
+  ./lorri.nix
 ]

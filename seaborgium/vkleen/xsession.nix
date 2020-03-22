@@ -17,9 +17,10 @@
     '';
   in ''
     systemctl --user import-environment GTK_PATH
-    xset s off
+    ${pkgs.xorg.xset}/bin/xset s off
     ${pkgs.xss-lock}/bin/xss-lock -- ${i3-locker}/bin/i3-locker &
-    fcitx &
+    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -option 'ctrl:nocaps'
+    ${pkgs.xcape}/bin/xcape -e 'Control_L=Escape'
   '';
 
   services.random-background = {

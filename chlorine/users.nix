@@ -1,7 +1,6 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  imports = [ ./secrets.nix ];
   users = {
     mutableUsers = false;
     extraUsers = rec {
@@ -11,7 +10,7 @@
         createHome = true;
         home = "/home/vkleen";
         isNormalUser = true;
-        # shell = "${pkgs.zsh}/bin/zsh";
+        shell = "${pkgs.zsh}/bin/zsh";
         openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP03cNnW4bB4rqxfp62V1SqskfI9Gja0+EApP9//tz+b vkleen@arbro"
         ];
@@ -35,9 +34,25 @@
       };
 
       "root" = {
-        inherit (config.users.extraUsers.vkleen) shell;
         openssh.authorizedKeys.keys = vkleen.openssh.authorizedKeys.keys;
       };
     };
   };
+
+  imports = [
+    ./secrets.nix
+    "${import ./vkleen/fetch-home-manager.nix}/nixos"
+  ];
+
+  home-manager.useUserPackages = true;
+  home-manager.users.vkleen = lib.mkMerge ([
+    { programs.home-manager = {
+        enable = true;
+      };
+
+      manual.manpages.enable = true;
+    }] ++ (import ./vkleen/user.nix { inherit pkgs lib;
+                                      config = config.home-manager.users.vkleen;
+                                      nixos = config;
+                                    }));
 }

@@ -7,5 +7,8 @@ self: super: {
       rev = "fc4d0912a818665867a864d44089a027d71ec5b9";
       sha256 = "07381k4a3y67vmnakjldr8dah2m04inyfhf8ydv2l1gb57pzmsvn";
     };
+    propagatedBuildInputs = o.propagatedBuildInputs ++ [
+      self.python3Packages.setuptools
+    ];
   });
 }

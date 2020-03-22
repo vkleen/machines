@@ -22,6 +22,8 @@ in {
       "tatjana@samarium.kleen.org" = "dr.kleen@t-online.de";
       "@samarium.17220103.de" = "vkleen";
       "@samarium.kleen.org" = "vkleen";
+      "@kleen.org" = "vkleen";
+      "@17220103.de" = "vkleen";
     };
     debug = false;
     messageSizeLimit = 0;

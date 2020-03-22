@@ -5,7 +5,7 @@
     [
       ./hardware-configuration.nix
       ./users.nix
-      ./guests/guests.nix
+      # ./guests/guests.nix
     ];
 
   nix = {
@@ -15,35 +15,89 @@
     ];
 
     binaryCaches = [
-      "https://cache.nixos.org/"
-      "https://ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org"
+      "s3://vkleen-nix-cache?region=eu-central-1"
     ];
 
     binaryCachePublicKeys = [
       "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
-      "freyr.1:d8VFt+9VtvwWAMKEGEERpZtWWh8Z3bDf+O2HrOLjBYQ="
-      "ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org-1:reOmDDtgU13EasMsy993sq3AuzGmXwfSxNTYPfGf3Hc="
+      (import ../cache-keys/aws-vkleen-nix-cache-1.public)
     ];
   };
+
+  system.build.squashfsStore = pkgs.buildPackages.callPackage "${pkgs.path}/nixos/lib/make-squashfs.nix" {
+    storeContents = [
+      config.system.build.toplevel
+    ];
+  };
+
+  system.build.tarball = pkgs.buildPackages.callPackage "${pkgs.path}/nixos/lib/make-system-tarball.nix" {
+    storeContents = [
+      { object = config.system.build.toplevel;
+        symlink = "/run/current-system";
+      }
+    ];
+    contents = [
+      { source = config.system.build.initialRamdisk + "/" + config.system.boot.loader.initrdFile;
+        target = "/boot/" + config.system.boot.loader.initrdFile;
+      }
+      { source = config.system.build.kernel + "/" + config.system.boot.loader.kernelFile;
+        target = "/boot/" + config.system.boot.loader.kernelFile;
+      }
+    ];
+  };
+
+  boot.postBootCommands =
+  ''
+    # After booting, register the contents of the Nix store on the
+    # CD in the Nix database in the tmpfs.
+    if [ -f /nix-path-registration ]; then
+      ${config.nix.package.out}/bin/nix-store --load-db < /nix-path-registration &&
+      rm /nix-path-registration
+    fi
+
+    # nixos-rebuild also requires a "system" profile and an
+    # /etc/NIXOS tag.
+    touch /etc/NIXOS
+    ${config.nix.package.out}/bin/nix-env -p /nix/var/nix/profiles/system --set /run/current-system
+  '';
+
+  system.build.netbootRamdisk = pkgs.makeInitrd {
+    inherit (config.boot.initrd) compressor;
+    prepend = [ "${config.system.build.initialRamdisk}/initrd" ];
+
+    contents =
+      [ { object = config.system.build.squashfsStore;
+          symlink = "/nix-store.squashfs";
+        }
+      ];
+  };
+  system.build.netboot-params = pkgs.buildPackages.writeText "netboot-params" ''
+    kernel ${toString config.system.build.kernel}/${toString config.system.boot.loader.kernelFile} init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
+    initrd ${toString config.system.build.netbootRamdisk}/${toString config.system.boot.loader.initrdFile}
+  '';
 
   system.boot.loader.kernelFile = "vmlinux";
   system.build.installBootloader = lib.mkForce false;
   boot.loader.grub.enable = false;
 
+  boot.kernelParams = [ "console=hvc0" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "chlorine";
-  networking.hostId = "5c1f0c11";
+  networking.hostId = "53199d00";
 
-  environment.etc.machine-id.text = "5c1f0c11dba9b38e50f807605baacc6f";
+  environment.etc.machine-id.text = "53199d006f21acb7707e9ed34c1c4a3a";
 
-  boot.initrd.availableKernelModules = [ "nvme" "ast" "xfs" ];
+  boot.initrd.availableKernelModules = [ "nvme" "ast" "xfs" "squashfs" ];
+  boot.initrd.kernelModules = [ "loop" ];
   boot.initrd.supportedFilesystems = [ "xfs" "ext4" "ext3" "btrfs" ];
 
   time.timeZone = "UTC";
 
   environment.systemPackages = with pkgs; [
     wget zsh i2c-tools
+    pciutils numactl
+    vim
     tmux mosh batctl
     qemu
   ];
@@ -59,76 +113,41 @@
   system.stateVersion = "19.03";
 
   hardware.opengl = {
-    enable = true;
-    extraPackages = []; #[ pkgs.rocm-opencl-icd ];
+    enable = false;
+    extraPackages = [];
   };
   services.udisks2.enable = false;
   services.xserver.enable = false;
+  security.polkit.enable = false;
 
   virtualisation.libvirtd = {
-    enable = true;
+    enable = false;
     qemuOvmf = false;
     qemuRunAsRoot = false;
   };
 
+  boot.kernelModules = [ "powernv-cpufreq" ];
+  powerManagement.cpuFreqGovernor = "ondemand";
+
   nix.buildCores = 144;
   nix.maxJobs = 144;
-  nix.package = let
-      all-overlays-in = dir: with builtins; with lib;
-        let allNixFilesIn = dir: mapAttrs (name: _: import (dir + "/${name}"))
-                                          (filterAttrs (name: _: hasSuffix ".nix" name)
-                                          (readDir dir));
-        in attrValues (allNixFilesIn dir);
 
-      x86-pkgs = import "${pkgs.path}/pkgs/top-level" ({
-        crossSystem = null;
-        localSystem = {
-          system = "x86_64-linux";
-          platform = lib.systems.platforms.pc64;
-        };
-        overlays = all-overlays-in ./overlays;
-      });
-    in x86-pkgs.nixUnstable;#(pkgs.nix2_0_4.override { boehmgc = pkgs.boehmgc_766; }).overrideAttrs (_: { doInstallCheck = false; });
   nix.extraOptions = ''
     system = powerpc64le-linux
-    filter-syscalls = false
-    extra-platforms = x86_64-linux i686-linux powerpc64le-linux
     secret-key-files = /run/keys/chlorine.1.sec
   '';
-  nix.useSandbox = false;
 
-  boot.binfmtMiscRegistrations = {
-    i386 = {
-      fixBinary = true;
-      interpreter = "${pkgs.qemu}/bin/qemu-i386";
-      recognitionType = "magic";
-      magicOrExtension = "\\x7fELF\\x01\\x01\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x02\\x00\\x03\\x00";
-      mask = "\\xff\\xff\\xff\\xff\\xff\\xfe\\xfe\\x00\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xfe\\xff\\xff\\xff";
-    };
-    i486 = {
-      fixBinary = true;
-      interpreter = "${pkgs.qemu}/bin/qemu-i386";
-      recognitionType = "magic";
-      magicOrExtension = "\\x7fELF\\x01\\x01\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x02\\x00\\x06\\x00";
-      mask = "\\xff\\xff\\xff\\xff\\xff\\xfe\\xfe\\x00\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xfe\\xff\\xff\\xff";
-    };
-    x86_64 = {
-      fixBinary = true;
-      interpreter = "${pkgs.qemu}/bin/qemu-x86_64";
-      recognitionType = "magic";
-      magicOrExtension = "\\x7fELF\\x02\\x01\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x02\\x00\\x3e\\x00";
-      mask = "\\xff\\xff\\xff\\xff\\xff\\xfe\\xfe\\x00\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xfe\\xff\\xff\\xff";
-    };
-  };
+  boot.binfmt.emulatedSystems = [
+    "x86_64-linux" "i686-linux" "armv6l-linux" "armv7l-linux"
+  ];
 
-  guests = {
-    "build-x86" = {
-      type = "qemu";
-      arch = "x86_64";
-      memory = 50*1024;
-      cores = 36;
-      diskSize = 100;
-      config = import ./guests/build-x86.nix;
-    };
-  };
+  security.sudo.configFile = ''
+    Defaults:root,%wheel env_keep+=TERMINFO_DIRS
+    Defaults:root,%wheel env_keep+=TERMINFO
+    Defaults env_keep+=SSH_AUTH_SOCK
+    Defaults !lecture,insults,rootpw
+
+    root        ALL=(ALL) SETENV: ALL
+    %wheel      ALL=(ALL:ALL) SETENV: ALL
+  '';
 }

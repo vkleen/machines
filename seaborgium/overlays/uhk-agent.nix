@@ -1,11 +1,11 @@
 self: super: let
-  version = "1.2.12";
+  version = "1.2.15";
 
   image = self.stdenv.mkDerivation {
     name = "uhk-agent-image";
     src = self.fetchurl {
       url = "https://github.com/UltimateHackingKeyboard/agent/releases/download/v${version}/UHK.Agent-${version}-linux-x86_64.AppImage";
-      sha256 = "1gr3q37ldixcqbwpxchhldlfjf7wcygxvnv6ff9nl7l8gxm732l6";
+      hash = "sha256-vqlROjmAlLYU1N0lt+mznTd3PetQnE8L6HW/dEsCQwQ=";
     };
     buildCommand = ''
       mkdir -p $out
@@ -15,7 +15,23 @@ self: super: let
   };
 
 in {
-  uhk-agent = self.writeScriptBin "uhk-agent" ''
-                ${self.appimage-run}/bin/appimage-run ${image}/appimage
-              '';
+  appimage-run = super.appimage-run.override {
+    extraPkgs = p: with p; [
+      at-spi2-core
+    ];
+  };
+
+  uhk-agent = self.runCommand "uhk-agent" {} ''
+    mkdir -p $out/bin $out/etc/udev/rules.d
+    echo "${self.appimage-run}/bin/appimage-run ${image}/appimage" > $out/bin/uhk-agent
+    chmod +x $out/bin/uhk-agent
+    cat > $out/etc/udev/rules.d/50-uhk60.rules <<EOF
+    # Ultimate Hacking Keyboard rules
+    # These are the udev rules for accessing the USB interfaces of the UHK as non-root users.
+    # Copy this file to /etc/udev/rules.d and physically reconnect the UHK afterwards.
+    SUBSYSTEM=="input", GROUP="input", MODE="0664"
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0664", GROUP="plugdev"
+    KERNEL=="hidraw*", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0664", GROUP="plugdev"
+    EOF
+  '';
 }

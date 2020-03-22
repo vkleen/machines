@@ -10,11 +10,13 @@
       ./custom/lock-on-suspend.nix
       ./nginx.nix
       ./power.nix
+      ./dconf.nix
       # ./tor.nix
       ./cups.nix
       ./nspawn.nix
-      ./fcitx.nix
+      # ./fcitx.nix
       ./xserver.nix
+      ./qemu.nix
     ];
 
   nix = {
@@ -24,21 +26,25 @@
     ];
 
     binaryCaches = [
-      "https://cache.nixos.org/"
-      "https://ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org"
+      "s3://vkleen-nix-cache?region=eu-central-1"
     ];
 
     binaryCachePublicKeys = [
       "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
-      "freyr.1:d8VFt+9VtvwWAMKEGEERpZtWWh8Z3bDf+O2HrOLjBYQ="
       (import ../chlorine/chlorine.1)
       (import ../chlorine/guests/build-x86.1)
-      "ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org-1:reOmDDtgU13EasMsy993sq3AuzGmXwfSxNTYPfGf3Hc="
+      (import ../cache-keys/aws-vkleen-nix-cache-1.public)
     ];
 
     extraOptions = ''
       secret-key-files = /private/seaborgium.1.sec
+      builders-use-substitutes = true
     '';
+  };
+
+  qemu-user = {
+    arm = true;
+    ppc64le = true;
   };
 
   boot.loader.grub.enable = true;
@@ -52,6 +58,13 @@
       super.kernel.override {
         structuredExtraConfig = {
           PKCS8_PRIVATE_KEY_PARSER = yes;
+
+          BATMAN_ADV_NC = yes;
+
+          MAC80211_MESH = yes;
+
+          BPFILTER = yes;
+          BPFILTER_UMH = module;
 
           POWERCAP = yes;
           IDLE_INJECT = yes;
@@ -88,9 +101,6 @@
   # the past
   boot.kernel.sysctl."kernel.unprivileged_bpf_disabled" = true;
 
-  # Disable bpf() JIT (to eliminate spray attacks)
-  boot.kernel.sysctl."net.core.bpf_jit_enable" = false;
-
   # ... or at least apply some hardening to it
   boot.kernel.sysctl."net.core.bpf_jit_harden" = true;
 
@@ -124,7 +134,7 @@
 
   networking.hostName = "seaborgium";
 
-  time.timeZone = "America/Los_Angeles";
+  time.timeZone = "UTC";
 
   services = {
     openssh = {
@@ -175,8 +185,9 @@
 
   environment.systemPackages = with pkgs; [
     wget vim git rsync
-    adbfs-rootless blueman
+    adbfs-rootless
     s-tar mbuffer
+    uhk-agent
   ];
 
   programs.wireshark = {
@@ -198,12 +209,14 @@
       fira-code
       emacs-all-the-icons-fonts material-icons
       pragmatapro
-      libertine xits-math
+      libertine #xits-math
+
+      virt-viewer
     ];
   };
 
   hardware.bluetooth.enable = true;
-  services.dbus.packages = [ pkgs.blueman ];
+  services.blueman.enable = true;
   hardware.pulseaudio = {
     enable = true;
     extraModules = [ pkgs.pulseaudio-modules-bt ];
@@ -226,7 +239,16 @@
 
   virtualisation = {
     docker.enable = false;
-    libvirtd.enable = false;
+    libvirtd = {
+      enable = true;
+      qemuVerbatimConfig = ''
+        namespaces = []
+        user = "vkleen"
+        group = "libvirtd"
+      '';
+      onBoot = "ignore";
+      onShutdown = "shutdown";
+    };
     kvmgt = {
       enable = false;
       vgpus = {
@@ -256,7 +278,13 @@
   };
 
   services.udev.extraRules = ''
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0660", GROUP:="input", ATTR{power/control}:="on"
+      #UHK
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0660", GROUP:="input", ATTR{power/control}="on"
+
+      #DSLogic
+      SUBSYSTEMS=="usb", ATTRS{idVendor}=="054c", ATTRS{idProduct}=="0be5|0bdd", MODE:="0660", GROUP:="kvm", ATTR{power/control}="on"
+
+      #DPT
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="2a0e", ATTRS{idProduct}=="0003|0020", MODE:="0660", GROUP:="wireshark"
 
       SUBSYSTEM!="usb", GOTO="librem5_devkit_rules_end"
@@ -269,13 +297,20 @@
       SUBSYSTEM=="drm", ACTION=="change", ENV{HOTPLUG}=="1" RUN+="${pkgs.autorandr}/bin/autorandr --batch -c --default clone-largest"
 
       SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
-
-      ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1f01", RUN+="${pkgs.usb_modeswitch}/bin/usb_modeswitch -J -v %s{idVendor} -p %s{idProduct}"
-      KERNEL=="eth*", ATTR{address}=="58:2c:80:13:92:63", NAME="wwan"
     '';
 
-  system.nixos = rec {
-    revision = lib.commitIdFromGitRepo "${toString ./../.git}";
-    versionSuffix = ".git." + revision;
+  security.wrappers = {
+    fping = {
+      source = "${pkgs.fping}/bin/fping";
+      owner = "nobody";
+      group = "nogroup";
+      capabilities = "cap_net_raw+ep";
+    };
   };
+
+  # system.nixos = rec {
+  #   revision = lib.commitIdFromGitRepo "${toString ./../.git}";
+  #   versionSuffix = ".git." + revision;
+  # };
+  system.stateVersion = "19.03";
 }

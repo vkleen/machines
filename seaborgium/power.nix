@@ -19,6 +19,10 @@
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="17ef", ATTR{idProduct}=="6047", TEST=="power/control", ATTR{power/control}="on"
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="5332", ATTR{idProduct}=="1300", TEST=="power/control", ATTR{power/control}="on"
 
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0bda", ATTR{idProduct}=="8153", TEST=="power/control", ATTR{power/control}="on"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0bda", ATTR{idProduct}=="0411", TEST=="power/control", ATTR{power/control}="on"
+    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0bda", ATTR{idProduct}=="5411", TEST=="power/control", ATTR{power/control}="on"
+
     SUBSYSTEM=="power_supply", ATTR{online}=="0", RUN+="${pkgs.powerscript}/bin/powerscript.sh offline"
     SUBSYSTEM=="power_supply", ATTR{online}=="1", RUN+="${pkgs.powerscript}/bin/powerscript.sh online"
   '';

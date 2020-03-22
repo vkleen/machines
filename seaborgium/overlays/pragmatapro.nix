@@ -1,15 +1,15 @@
 let name = "pragmatapro-${version}";
-    version = "0.827";
+    version = "0.828-2";
 in self: super: {
   pragmatapro = self.runCommand name rec {
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = "064c66g3rcw4crhdwnx8jhddb1mjm1qg9gf62lapkj7ni44pyq26";
+    outputHash = "0zh21h1rq96q8l0k1135pvdwcik0fsjbcqmsq46fhv7f9j936zlx";
 
     src = self.requireFile rec {
       name = "PragmataPro${version}.zip";
       url = "file://path/to/${name}";
-      sha256 = "0aryjsmcrqaybx8yy6bnx0hgvblmpsh8z8ppmh35v4hkq0aq19gx";
+      sha256 = "19q6d0dxgd9k2mhr31944wpprks1qbqs1h5f400dyl5qzis2dji3";
     };
 
     buildInputs = [ self.unzip ];

@@ -10,11 +10,9 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/nvme0n1";
-      fsType = "btrfs";
+    { device = "/dev/nvme0n1p1";
+      fsType = "ext4";
     };
 
   swapDevices = [ ];
-
-  nix.maxJobs = lib.mkDefault 144;
 }

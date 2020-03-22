@@ -1,11 +1,11 @@
 self: pkgs: {
   solvespace = pkgs.solvespace.overrideAttrs (old: rec {
-    name = "solvespace-2.3-20180510";
-    rev = "2b9ffd15424eb95a21db6e6ca35339b3d9372b2e";
+    name = "solvespace-2.3-20190818";
+    rev = "97c8cb7d710aeca59cf691259e9d0cdefb103e51";
     src = pkgs.fetchgit {
       url = https://github.com/solvespace/solvespace;
       inherit rev;
-      sha256 = "0hslqkck7aila4m6c5k42mdsz5si3wq0pfw6qn4v2psn529d43lx";
+      sha256 = "0hwnvb2ywh8r39fn0lbakp06y7i4hzqysglgnia2armmqwg8y1g5";
       fetchSubmodules = true;
     };
     buildInputs = old.buildInputs ++ [

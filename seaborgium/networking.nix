@@ -1,33 +1,33 @@
 { config, pkgs, lib, ... }:
 
 {
-  services.kresd = {
-    enable = true;
-    extraConfig = ''
-      modules = { 'policy' }
-      local ffi = require('ffi')
-      local function genRR (state, req)
-        local answer = req.answer
-        local qry = req:current()
-        answer:rcode(kres.rcode.NOERROR)
-        answer:begin(kres.section.ANSWER)
-        if qry.stype == kres.type.AAAA then
-          answer:put(qry.sname, 900, answer:qclass(), kres.type.AAAA,
-            '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\1')
-        elseif qry.stype == kres.type.A then
-          answer:put(qry.sname, 900, answer:qclass(), kres.type.A, '\127\0\0\1')
-        end
-        return kres.DONE
-      end
-      policy.add(policy.suffix(policy.FLAGS({'NO_CACHE'}), policy.todnames({ 'hoogle.', 'local.', 'lan.' }) ))
+  # services.kresd = {
+  #   enable = true;
+  #   extraConfig = ''
+  #     modules = { 'policy' }
+  #     local ffi = require('ffi')
+  #     local function genRR (state, req)
+  #       local answer = req.answer
+  #       local qry = req:current()
+  #       answer:rcode(kres.rcode.NOERROR)
+  #       answer:begin(kres.section.ANSWER)
+  #       if qry.stype == kres.type.AAAA then
+  #         answer:put(qry.sname, 900, answer:qclass(), kres.type.AAAA,
+  #           '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\1')
+  #       elseif qry.stype == kres.type.A then
+  #         answer:put(qry.sname, 900, answer:qclass(), kres.type.A, '\127\0\0\1')
+  #       end
+  #       return kres.DONE
+  #     end
+  #     policy.add(policy.suffix(policy.FLAGS({'NO_CACHE'}), policy.todnames({ 'hoogle.', 'local.', 'lan.' }) ))
 
-      policy.add(policy.suffix(genRR, { todname('hoogle.') }))
-      policy.add(policy.suffix(genRR, { todname('docs.gl.local.') }))
+  #     policy.add(policy.suffix(genRR, { todname('hoogle.') }))
+  #     policy.add(policy.suffix(genRR, { todname('docs.gl.local.') }))
 
-      policy.add(policy.suffix(policy.STUB('192.168.12.1'), { todname('lan.') }))
-      policy.add(policy.suffix(policy.STUB('8.8.8.8'), { todname('.') }))
-    '';
-  };
+  #     policy.add(policy.suffix(policy.STUB('192.168.12.1'), { todname('lan.') }))
+  #     policy.add(policy.suffix(policy.STUB('8.8.8.8'), { todname('.') }))
+  #   '';
+  # };
   networking = {
     # nameservers = [ "127.0.0.1" ];
 
@@ -41,15 +41,18 @@
         ip6tables -A nixos-fw -p udp --dport 5353 -m pkttype --pkt-type multicast -j nixos-fw-accept
         iptables -A nixos-fw -p udp --dport 5353 -m pkttype --pkt-type multicast -j nixos-fw-accept
 
+        iptables -I nixos-fw -s 94.16.123.211 -p tcp -m tcp --sport 8443 -j DROP
+
         iptables -t mangle -F POSTROUTING
         iptables -t mangle -A POSTROUTING -o wwan -j TTL --ttl-set 65
       '';
       extraStopCommands = ''
       '';
+      logRefusedConnections = false;
     };
 
     dhcpcd = {
-      allowInterfaces = [ "wlan0" "eth-usb" "wwan" ];
+      allowInterfaces = [ "wlan0" "eth-usb" "wwan" "einsteinium" ];
       enable = true;
       extraConfig = ''
         metric 400
@@ -87,7 +90,7 @@
         peers = [
           { publicKey = builtins.readFile ../wireguard/samarium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
-            endpoint = "samarium.kleen.org:51820";
+            endpoint = "127.0.0.2:51820";
           }
         ];
       };
@@ -158,83 +161,50 @@
     # IWD_TLS_DEBUG = "on";
   };
 
-  # system.activationScripts.var =
-  #   let networks = [
-  #         { name = "eduroam.config"; config = ''
-  #             [service_eduroam]
-  #             Type=wifi
-  #             Name=eduroam
-  #             EAP=peap
-  #             AnonymousIdentity=anonymous@usc.edu
-  #             Phase2=MSCHAPV2
-  #             Identity=kleen@usc.edu
-  #             #Passphrase=%pass USC/kleen%
-  #           '';
-  #         }
-
-  #         { name = "USCSecure.config"; config = ''
-  #             [service_USCSecure]
-  #             Type=wifi
-  #             Name=USC Secure Wireless
-  #             EAP=peap
-  #             AnonymousIdentity=anonymous
-  #             Phase2=MSCHAPV2
-  #             Identity=kleen
-  #             #Passphrase=%pass USC/kleen%
-  #           '';
-  #         }
-  #       ];
-  #       mkNetworkFile = {name, config}:
-  #         let file = pkgs.writeText (lib.replaceStrings [" "] ["-"] name) config;
-  #         in ''
-  #           mkdir -p -m 0700 /var/lib/connman
-  #           cp "${file}" /var/lib/connman/"${name}".temp
-  #           mv /var/lib/connman/"${name}".temp /var/lib/connman/"${name}"
-  #         '';
-  #       mkNetworkFiles = map mkNetworkFile networks;
-  #   in lib.concatStringsSep "\n" mkNetworkFiles;
-
-  system.activationScripts.var =
-    let networks = [
-          { name = "eduroam.8021x"; config = ''
-              [Security]
-              EAP-Method=PEAP
-              EAP-Identity=anonymous@usc.edu
-              EAP-PEAP-Phase2-Method=MSCHAPV2
-              EAP-PEAP-Phase2-Identity=kleen@usc.edu
-              #EAP-PEAP-Phase2-Password=%pass eduroam/kleen@usc.edu%
-              [Settings]
-              Autoconnect=True
-            '';
-          }
-
-          { name = "USC Secure Wireless.8021x"; config = ''
-              [Security]
-              EAP-Method=PEAP
-              EAP-Identity=anonymous
-              EAP-PEAP-Phase2-Method=MSCHAPV2
-              EAP-PEAP-Phase2-Identity=kleen
-              #EAP-PEAP-Phase2-Password=%pass USC/kleen%
-              [Settings]
-              Autoconnect=True
-            '';
-          }
-        ];
-        mkNetworkFile = {name, config}:
-          let file = pkgs.writeText (lib.replaceStrings [" "] ["-"] name) config;
-          in ''
-            mkdir -p -m 0700 /var/lib/iwd
-            cp "${file}" /var/lib/iwd/"${name}".temp
-            mv /var/lib/iwd/"${name}".temp /var/lib/iwd/"${name}"
-          '';
-        mkNetworkFiles = map mkNetworkFile networks;
-    in lib.concatStringsSep "\n" mkNetworkFiles;
-
   systemd.services.supplicant-wlan0.partOf = lib.mkForce [];
 
   services.udev.packages = [ pkgs.crda ];
 
   services.udev.extraRules = ''
-    SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="70:88:6b:87:74:b6", NAME:="eth-usb"
+    SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="70:88:6b:8a:f1:5f", NAME:="eth-usb"
+    ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1f01", RUN+="${pkgs.usb_modeswitch}/bin/usb_modeswitch -J -v %s{idVendor} -p %s{idProduct}"
+    KERNEL=="eth*", ATTR{address}=="58:2c:80:13:92:63", NAME="wwan"
+    SUBSYSTEM=="net", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee3", ATTRS{serial}=="FA6CN0301735", NAME:="einsteinium"
   '';
+
+  programs.mtr.enable = true;
+  programs.captive-browser = {
+    enable = true;
+    interface = "wlan0";
+    browser = lib.concatStringsSep " " [
+      ''${pkgs.chromium}/bin/chromium''
+      ''--user-data-dir=$XDG_RUNTIME_DIR/.chromium-captive''
+      ''--proxy-server="socks5://$PROXY"''
+      ''--host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE localhost"''
+      ''--no-first-run''
+      ''--new-window''
+      ''--incognito''
+      ''http://plutonium.kleen.org''
+    ];
+  };
+
+  systemd.services.udp2rawtunnel = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    description = "Wireguard over udp2raw";
+    serviceConfig = {
+      User = "nobody";
+      ExecStart = "${config.security.wrapperDir}/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
+    };
+  };
+
+  security.wrappers = {
+    udp2raw = {
+      source = "${pkgs.udp2raw}/bin/udp2raw";
+      owner = "nobody";
+      group = "nogroup";
+      capabilities = "cap_net_raw+ep";
+    };
+  };
+
 }

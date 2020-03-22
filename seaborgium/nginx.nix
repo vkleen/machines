@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   services.nginx = let cfg = config; in rec {
-    enable = true;
+    enable = false;
     stateDir = "/tmp/${toString cfg.users.extraUsers.${user}.uid}/nginx";
     user = "vkleen";
     group = "users";

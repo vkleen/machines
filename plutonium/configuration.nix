@@ -16,14 +16,12 @@
     ];
 
     binaryCaches = [
-      "https://cache.nixos.org/"
-      "https://ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org"
+      "s3://vkleen-nix-cache?region=eu-central-1"
     ];
 
     binaryCachePublicKeys = [
       "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
-      "freyr.1:d8VFt+9VtvwWAMKEGEERpZtWWh8Z3bDf+O2HrOLjBYQ="
-      "ntqrfoedxliczzavdvuwhzvhkxbhxbpv.cachix.org-1:reOmDDtgU13EasMsy993sq3AuzGmXwfSxNTYPfGf3Hc="
+      (import ../cache-keys/aws-vkleen-nix-cache-1.public)
     ];
   };
 

@@ -27,7 +27,7 @@
       ${pkgs.jq}/bin/jq -crns \
           '{ args: $ARGS.positional, target_arg: null, version: $ARGS.named["version"], protocol_version: 1 }' \
           --arg version 1.5.2 --args ":open -t $@" \
-              | ${pkgs.socat2pre}/bin/socat - "$socket"
+              | ${pkgs.socat}/bin/socat - "$socket"
     '';
   in {
     enable = true;

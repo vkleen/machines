@@ -9,18 +9,18 @@
     useDHCP = false;
     defaultGateway = {
       address = "45.33.37.1";
-      interface = "enp0s3";
+      interface = "enp0s4";
     };
     defaultGateway6 = {
       address = "fe80::1";
-      interface = "enp0s3";
+      interface = "enp0s4";
     };
     interfaces = {
-      "enp0s3".ipv4.addresses = [ {
+      "enp0s4".ipv4.addresses = [ {
         address = "45.33.37.163";
         prefixLength = 24;
       } ];
-      "enp0s3".ipv6.addresses = [ {
+      "enp0s4".ipv6.addresses = [ {
         address = "2600:3c01::f03c:91ff:fea9:5fff";
         prefixLength = 64;
       } ];
@@ -59,11 +59,11 @@
       enable = true;
       internalInterfaces = [ "wg0" ];
       internalIPs = [ "10.172.30.1/24" ];
-      externalInterface = "enp0s3";
+      externalInterface = "enp0s4";
       externalIP = "45.33.37.163";
       forwardPorts = [];
       extraCommands = ''
-        iptables -t nat -A nixos-nat-pre -i enp0s3 -p udp --dport 53 -j REDIRECT --to-port 51820
+        iptables -t nat -A nixos-nat-pre -i enp0s4 -p udp --dport 53 -j REDIRECT --to-port 51820
       '';
     };
     wireguard.interfaces = {

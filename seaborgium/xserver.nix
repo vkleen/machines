@@ -14,8 +14,7 @@ in {
     '';
     useGlamor = true;
     displayManager = {
-      slim.enable = true;
-      session = lib.mkForce [];
+      lightdm.enable = true;
     };
     windowManager.i3 = {
       enable = true;

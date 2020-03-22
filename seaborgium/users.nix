@@ -6,7 +6,7 @@
     extraUsers = rec {
       "vkleen" = {
         group = "users";
-        extraGroups = [ "wheel" "network" "dialout" "audio" "video" "input" "wireshark" "docker" "libvirtd" "adbusers" "bladerf" "kvm" ];
+        extraGroups = [ "wheel" "network" "dialout" "audio" "video" "input" "wireshark" "docker" "libvirtd" "adbusers" "bladerf" "kvm" "lp" ];
         createHome = true;
         home = "/home/vkleen";
         isNormalUser = true;

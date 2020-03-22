@@ -63,8 +63,6 @@
   #   '';
   # };
 
-  security.acme.directory = "/var/lib/acme";
-  security.acme.production = true;
   security.acme.certs = {
     "matrix.kleen.org" = {
       postRun = ''

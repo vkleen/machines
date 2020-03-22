@@ -54,16 +54,32 @@ let
         ;;
     esac
   '';
+
+  cached-nix-shell = import (pkgs.fetchgit {
+    url = "https://github.com/xzfc/cached-nix-shell";
+    rev = "f34407cec7141971f55d453805935b47066f3eb8";
+    sha256 = "0qhwylacrnw2k3g9ndi0s7y6ymvrf74yhmq2jkd8xvqg5vk833h2";
+  }) { inherit pkgs; };
 in {
   home.packages = with pkgs; [
     (python36.withPackages (ps: with ps; [ py3status dbus-python ]))
 
+    # socat2pre
+    #papis
     a2ps
     alacritty
+    aspell
+    aspellDicts.de
+    aspellDicts.en
+    aspellDicts.en
+    aspellDicts.en-computers
+    aspellDicts.en-science
     autossh
+    awscli
     batctl
     bc
     blackbox
+    cached-nix-shell
     calc
     calibre
     djvulibre
@@ -72,6 +88,8 @@ in {
     dos2unix
     dpt-rp1-py
     entr
+    exiftool
+    fd
     feh
     file
     gdrive
@@ -89,11 +107,13 @@ in {
     iw
     ldns
     libbladeRF
+    libreoffice
     llpp
     lrzsz
     lshw
     lsof
     lsscsi
+    magic-wormhole
     man-pages
     mercurial
     mkpasswd
@@ -101,6 +121,7 @@ in {
     mpv
     neovim
     nix-index nix-prefetch-scripts
+    noti
     notmuch
     nox
     p7zip
@@ -117,39 +138,48 @@ in {
     proot
     psmisc
     pv
+    pwgen
     python3Packages.alot
     qpdf
     qutebrowser
+    radare2
+    renderdoc
     rfkill
     riot-desktop
     rsync
-    s-tui
-    socat2pre
+    socat
     sqlite
+    streamlink
+    s-tui
     sxiv
+    tealdeer
     telnet
     tmux
     tree
     tsocks
-    uhk-agent
     usb-modeswitch
     usbutils
     w3m
     xorg.xbacklight
     xorg.xinit
+    xorg.xkill
     xorg.xmodmap
     xorg.xprop
     xsel
     xsuspender
     xterm
     youtube-dl
+    yq
+
+    kakoune
+    kak-lsp
 
     adms
     caneda
     geda
     gerbv
     gtkwave
-    kicad-unstable
+    kicad
     librepcb
     ngspice
     qucs
@@ -157,8 +187,10 @@ in {
     pulseview
     sigrok-cli
 
+    cura
+    openscad
     freecad
-    # solvespace
+    solvespace
 
     adapta-gtk-theme
     arc-icon-theme
@@ -183,6 +215,6 @@ in {
     hledger
     hledger-interest
     hledger-ui
-    ledger-autosync
+    # ledger-autosync
   ];
 }

@@ -48,6 +48,7 @@ in {
       "--bind 'ctrl-j:down'"
       "--bind 'ctrl-k:up'"
     ];
+    changeDirWidgetCommand = "${pkgs.fd}/bin/fd --type d";
     changeDirWidgetOptions = [
       "--preview 'tree -C {} | head -200'"
     ];
@@ -55,6 +56,14 @@ in {
       "--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
     ];
     defaultCommand = "${pkgs.ripgrep}/bin/rg --files --no-ignore --hidden --follow --glob '!.git/*'";
+  };
+
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "ansi-dark";
+      pager = "less -FR";
+    };
   };
 
   programs.zsh = {
@@ -70,6 +79,7 @@ in {
       ".." = "cd ..";
       scratch = "editor-scratch";
       p = "${pkgs.parallel}/bin/parallel";
+      cat = "${pkgs.bat}/bin/bat";
 
       tmux = "${root-direnv} tmux";
     };
@@ -130,6 +140,13 @@ in {
 
       source "${git-subrepo}/.rc"
       source "${zsh-syntax-highlighting}/zsh-syntax-highlighting.zsh"
+
+      bindkey "^B" backward-delete-char
+      bindkey "^H" backward-char
+      bindkey "^L" forward-char
+      bindkey "^K" up-line-or-search
+      bindkey "^J" down-line-or-search
+      bindkey "^O" clear-screen
     '';
   };
 

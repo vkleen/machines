@@ -39,7 +39,7 @@ terminate-instance() {
 }
 
 
-DRVNAME=${1:-seaborgium}
+DRVNAME=${1:-seaborgium.toplevel}
 echo "Instantiating $DRVNAME..."
 DRV=$(nix-instantiate -A "$DRVNAME")
 

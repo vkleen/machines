@@ -16,13 +16,24 @@
       ./nspawn.nix
       # ./fcitx.nix
       ./xserver.nix
-      ./qemu.nix
     ];
 
   nix = {
-    nixPath = [
+    nixPath = let overlays = pkgs.writeText "overlays.nix" ''
+      let
+        pkgs-path = <nixpkgs>;
+        lib = import "''${pkgs-path}/lib";
+
+        all-overlays-in = dir: with builtins; with lib;
+          let allNixFilesIn = dir: mapAttrs (name: _: import (dir + "/''${name}"))
+                                            (filterAttrs (name: _: hasSuffix ".nix" name)
+                                            (readDir dir));
+          in attrValues (allNixFilesIn dir);
+      in all-overlays-in ${./overlays}
+    '';
+    in [
       "nixpkgs=${pkgs.path}"
-      "nixpkgs-overlays=${./overlays}"
+      "nixpkgs-overlays=${overlays}"
     ];
 
     binaryCaches = [
@@ -32,7 +43,6 @@
     binaryCachePublicKeys = [
       "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
       (import ../chlorine/chlorine.1)
-      (import ../chlorine/guests/build-x86.1)
       (import ../cache-keys/aws-vkleen-nix-cache-1.public)
     ];
 
@@ -42,10 +52,12 @@
     '';
   };
 
-  qemu-user = {
-    arm = true;
-    ppc64le = true;
-  };
+  boot.binfmt.emulatedSystems = [
+    "powerpc64le-linux"
+    "armv6l-linux"
+    "armv7l-linux"
+    "riscv64-linux"
+  ];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -54,7 +66,7 @@
   boot.kernel.sysctl = { "net.ipv4.ip_default_ttl" = 65; };
 
   boot.kernelPackages = pkgs.linuxPackages_latest.extend (self: super: {
-    kernel = with (import "${pkgs.path}/lib/kernel.nix" { inherit lib; inherit (super.kernel) version; });
+    kernel = with (import "${pkgs.path}/lib/kernel.nix" { inherit lib; });
       super.kernel.override {
         structuredExtraConfig = {
           PKCS8_PRIVATE_KEY_PARSER = yes;

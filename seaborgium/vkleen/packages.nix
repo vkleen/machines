@@ -102,7 +102,6 @@ in {
     htop
     i3status
     imagemagick
-    ip2unix
     iperf
     iw
     ldns

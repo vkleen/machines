@@ -66,7 +66,7 @@ in {
       l = "ls -l";
       la = "ls -la";
       lg = "l --git";
-      ls = "${pkgs.exa}/bin/exa -F";
+      ls = "${pkgs.exa}/bin/exa --color=always -F";
       e = "e-in-current-ws";
       ".." = "cd ..";
       scratch = "editor-scratch";

@@ -106,6 +106,9 @@
     enable = true;
     passwordAuthentication = false;
     permitRootLogin = "yes";
+    extraConfig = ''
+      StreamLocalBindUnlink yes
+    '';
   };
 
   networking.firewall.enable = false;

@@ -5,13 +5,24 @@
     [
       ./hardware-configuration.nix
       ./users.nix
-      # ./guests/guests.nix
     ];
 
   nix = {
-    nixPath = [
+    nixPath = let overlays = pkgs.writeText "overlays.nix" ''
+      let
+        pkgs-path = <nixpkgs>;
+        lib = import "''${pkgs-path}/lib";
+
+        all-overlays-in = dir: with builtins; with lib;
+          let allNixFilesIn = dir: mapAttrs (name: _: import (dir + "/''${name}"))
+                                            (filterAttrs (name: _: hasSuffix ".nix" name)
+                                            (readDir dir));
+          in attrValues (allNixFilesIn dir);
+      in all-overlays-in ${./overlays}
+    '';
+    in [
       "nixpkgs=${pkgs.path}"
-      "nixpkgs-overlays=${./overlays}"
+      "nixpkgs-overlays=${overlays}"
     ];
 
     binaryCaches = [

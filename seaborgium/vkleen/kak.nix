@@ -11,13 +11,19 @@ let plugins = with pkgs.kakounePlugins; [
         destination = "/share/kak/autoload/config.kak";
       })
     ];
-in {
-  home.packages = with pkgs; [
-    (kakoune.override {
+
+    kak = pkgs.kakoune.override {
       configure = {
         inherit plugins;
       };
-    })
+    };
+in {
+  home.sessionVariables = {
+    EDITOR = "${kak}/bin/kak";
+  };
+
+  home.packages = with pkgs; [
+    kak
     kak-lsp
   ];
 }

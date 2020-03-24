@@ -15,7 +15,7 @@ in {
       exec ${emacsPackage}/bin/emacsclient --alternate-editor ${emacsPackage}/bin/emacs "$@"
     '';
   in {
-    EDITOR = "${editorScript}/bin/emacseditor";
+    # EDITOR = "${editorScript}/bin/emacseditor";
   };
 
   xresources.properties = {

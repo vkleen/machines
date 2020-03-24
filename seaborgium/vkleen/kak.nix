@@ -3,7 +3,7 @@ let plugins = with pkgs.kakounePlugins; [
       kak-auto-pairs
       kak-fzf
       kak-buffers
-      (pkgs.callPackage ./packages/kakoune-surround.nix {})
+      (pkgs.callPackage ./kakoune/kakoune-surround.nix {})
 
       (pkgs.writeTextFile {
         name = "kak-config";

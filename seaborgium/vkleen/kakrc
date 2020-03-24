@@ -1,0 +1,80 @@
+colorscheme solarized-dark
+set-option global ui_options ncurses_status_on_top=false
+
+add-highlighter global/ show-matching
+add-highlighter global/ number-lines
+add-highlighter global/ wrap -word -indent
+set-option global scrolloff 5,0
+
+add-highlighter global/ regex \b(TODO|FIXME|NOTE)\b 0:default+rb
+
+# -   to select inner object
+# =   to select outer object
+# a-s to add a new cursor to the next occurence of the selection
+map global normal -- -     <a-i>
+map global normal -- =     <a-a>
+map global normal -- <a-s> '*N'
+map global normal -- (     ':surround<ret>'
+map global normal -- )     ':delete-surround<ret>'
+map global normal -- *     ':change-surround<ret>'
+
+# use system clipboard
+hook global NormalKey y|d|c %{ nop %sh{
+ printf %s "$kak_main_reg_dquote" | xsel --input --clipboard
+}}
+map global normal P '!xsel --output --clipboard<ret>'
+map global normal p '<a-!>xsel --output --clipboard<ret>'
+
+# case insensitive search
+map global normal / /(?i)
+
+# tab inserts spaces
+hook global InsertChar \t %{ exec -draft -itersel h@ }
+set global tabstop 4
+set global indentwidth 4
+
+# always indent as much as the previous one
+set global disabled_hooks .*-indent
+hook global InsertChar \n %{ execute-keys -draft \; K <a-&> }
+
+# remove trailing spaces
+hook global BufWritePre .* %{ try %{ execute-keys -draft \%s\h+$<ret>d } }
+
+# lsp
+eval %sh{kak-lsp --kakoune -s $kak_session}
+hook global WinSetOption filetype=(haskell) %{
+    lsp-enable-window
+}
+map global user l ':enter-user-mode lsp<ret>' -docstring 'LSP menu'
+map global user h ':lsp-hover<ret>' -docstring 'LSP Show hover info'
+map global user d ':lsp-definition<ret>' -docstring 'LSP Jump to definition'
+map global user a ':lsp-code-actions<ret>' -docstring 'LSP code actions'
+
+map global user c ':comment-line<ret>' -docstring 'Comment lines'
+map global user C ':comment-block<ret>' -docstring 'Comment as block'
+
+# formatting
+#hook global WinSetOption filetype=(rust,terraform) %{
+#    hook window BufWritePre .* lsp-formatting-sync
+#}
+
+# kak-buffers
+
+map global normal ^ q
+map global normal <a-^> Q
+
+map global normal q b
+map global normal Q B
+map global normal <a-q> <a-b>
+map global normal <a-Q> <a-B>
+
+map global normal b ':enter-buffers-mode<ret>'              -docstring 'buffers…'
+map global normal B ':enter-user-mode -lock buffers<ret>'   -docstring 'buffers (lock)…'
+
+hook global WinDisplay .* info-buffers
+
+alias global bd delete-buffer
+alias global bf buffer-first
+alias global bl buffer-last
+alias global bo buffer-only
+alias global bo! buffer-only-force

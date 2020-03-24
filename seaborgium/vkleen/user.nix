@@ -11,6 +11,7 @@ builtins.map (x: import x args) [
   ./env.nix
   ./git.nix
   ./gpg.nix
+  ./kak.nix
   ./keynav.nix
   ./packages.nix
   ./qt.nix

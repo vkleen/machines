@@ -170,9 +170,6 @@ in {
     youtube-dl
     yq
 
-    kakoune
-    kak-lsp
-
     adms
     caneda
     geda
@@ -188,7 +185,7 @@ in {
 
     cura
     openscad
-    freecad
+    # freecad
     solvespace
 
     adapta-gtk-theme

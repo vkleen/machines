@@ -30,18 +30,18 @@ map global normal / /(?i)
 
 # tab inserts spaces
 hook global InsertChar \t %{ exec -draft -itersel h@ }
-set global tabstop 4
-set global indentwidth 4
+set-option global tabstop 4
+set-option global indentwidth 4
 
 # always indent as much as the previous one
-set global disabled_hooks .*-indent
+set-option global disabled_hooks .*-indent
 hook global InsertChar \n %{ execute-keys -draft \; K <a-&> }
 
 # remove trailing spaces
 hook global BufWritePre .* %{ try %{ execute-keys -draft \%s\h+$<ret>d } }
 
 # lsp
-eval %sh{kak-lsp --kakoune -s $kak_session}
+evaluate-commands %sh{kak-lsp --kakoune -s $kak_session}
 hook global WinSetOption filetype=(haskell) %{
     lsp-enable-window
 }
@@ -50,8 +50,10 @@ map global user h ':lsp-hover<ret>' -docstring 'LSP Show hover info'
 map global user d ':lsp-definition<ret>' -docstring 'LSP Jump to definition'
 map global user a ':lsp-code-actions<ret>' -docstring 'LSP code actions'
 
-map global user c ':comment-line<ret>' -docstring 'Comment lines'
-map global user C ':comment-block<ret>' -docstring 'Comment as block'
+map global user c ':comment-line<ret>' -docstring '(Un)comment lines'
+map global user C ':comment-block<ret>' -docstring '(Un)comment as block'
+
+set-option global grepcmd 'rg --column'
 
 # formatting
 #hook global WinSetOption filetype=(rust,terraform) %{
@@ -78,3 +80,18 @@ alias global bf buffer-first
 alias global bl buffer-last
 alias global bo buffer-only
 alias global bo! buffer-only-force
+
+# auto-pairs.kak
+hook global WinCreate .* %{ auto-pairs-enable }
+
+# fzf.kak
+require-module fzf
+set-option global fzf_implementation 'sk'
+set-option global fzf_file_command 'fd'
+set-option global fzf_window_map 'alt-w'
+set-option global fzf_horizontal_map 'alt-h'
+set-option global fzf_vertical_map 'alt-s'
+set-option global fzf_sk_grep_command 'rg'
+set-option global fzf_highlight_command 'bat --color=always -p {}'
+
+map global normal <c-p> ':fzf-mode<ret>'

@@ -65,7 +65,7 @@ in {
     (python36.withPackages (ps: with ps; [ py3status dbus-python ]))
 
     # socat2pre
-    #papis
+    # papis
     a2ps
     alacritty
     aspell
@@ -146,6 +146,7 @@ in {
     rfkill
     riot-desktop
     rsync
+    skim
     socat
     sqlite
     streamlink

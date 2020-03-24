@@ -7,5 +7,6 @@ builtins.map (x: import x args) [
   ./kak.nix
   ./packages.nix
   ./rg.nix
+  ./scripts.nix
   ./zsh.nix
 ]

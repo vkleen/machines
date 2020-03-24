@@ -78,9 +78,6 @@ in {
     youtube-dl
     yq
 
-    kakoune
-    kak-lsp
-
     sigrok-cli
 
     #dhall

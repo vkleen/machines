@@ -185,7 +185,7 @@ in {
 
     cura
     openscad
-    # freecad
+    freecad
     solvespace
 
     adapta-gtk-theme

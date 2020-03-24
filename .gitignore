@@ -6,3 +6,4 @@ result
 /aws-spot.json
 /cachix
 /.lego
+/chlorine/boot

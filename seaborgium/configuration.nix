@@ -164,8 +164,14 @@
       '';
     };
 
-    ntp.enable = true;
-    #timesyncd.enable = true;
+    ntp.enable = false;
+    chrony = {
+      enable = true;
+      initstepslew = {
+        enabled = true;
+        threshold = 1000;
+      };
+    };
 
     upower.enable = true;
   };

@@ -4,6 +4,7 @@ let plugins = with pkgs.kakounePlugins; [
       kak-fzf
       kak-buffers
       (pkgs.callPackage ./kakoune/kakoune-surround.nix {})
+      (pkgs.callPackage ./kakoune/kakoune-change-directory.nix {})
 
       (pkgs.writeTextFile {
         name = "kak-config";

@@ -93,6 +93,9 @@
 
   boot.kernelParams = [ "console=hvc0" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  hardware.firmware = with pkgs; [
+    firmwareLinuxNonfree
+  ];
 
   networking.hostName = "chlorine";
   networking.hostId = "53199d00";

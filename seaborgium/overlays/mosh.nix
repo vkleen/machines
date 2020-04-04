@@ -7,8 +7,8 @@ self: super: {
       sha256 = "0w7jxdsyxgnf5h09rm8mfgm5z1qc1sqwvgzvrwzb04yshxpsg0zd";
     };
     patches = [
-      "${self.path}/pkgs/tools/networking/mosh/ssh_path.patch"
-      "${self.path}/pkgs/tools/networking/mosh/utempter_path.patch"
+      ./mosh/ssh_path.patch
+      ./mosh/utempter_path.patch
     ];
   });
 }

@@ -243,7 +243,6 @@
 
   hardware.opengl = {
     enable = true;
-    extraPackages = with pkgs; [ opencl-info vaapiIntel libva-utils ];
   };
 
   services.thermald = {

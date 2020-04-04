@@ -38,10 +38,14 @@ terminate-instance() {
     aws ec2 terminate-instances --instance-ids "$1"
 }
 
-
-DRVNAME=${1:-seaborgium.toplevel}
-echo "Instantiating $DRVNAME..."
-DRV=$(nix-instantiate -A "$DRVNAME")
+DRV=
+if [[ -z "${1}" ]]; then
+  echo "Instantiating seaborgium.toplevel..."
+  DRV=$(nix-instantiate -A seaborgium.toplevel)
+else
+  DRV=${1}
+fi
+echo "Building ${DRV}"
 
 INSTANCE=$(launch-spot-request)
 cleanup() {

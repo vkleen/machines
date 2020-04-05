@@ -144,7 +144,7 @@
   };
 
   boot.kernelModules = [ "powernv-cpufreq" ];
-  powerManagement.cpuFreqGovernor = "ondemand";
+  powerManagement.cpuFreqGovernor = "schedutil";
 
   nix.buildCores = 144;
   nix.maxJobs = 144;

@@ -160,6 +160,7 @@ in {
     usb-modeswitch
     usbutils
     w3m
+    wavemon
     xorg.xbacklight
     xorg.xinit
     xorg.xkill

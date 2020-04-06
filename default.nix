@@ -88,10 +88,10 @@ let
 
   nixpkgs-arm = args: import "${pkgs-path}" ({
     config = {};
-    overlays = [];
+    overlays = all-overlays-in ./chlorine/overlays;
     localSystem = {
-      system = "x86_64-linux";
-      platform = lib.systems.platforms.pc64;
+      system = "powerpc64le-linux";
+      platform = lib.systems.platforms.powernv;
     };
     crossSystem = (import "${pkgs-path}/lib").systems.examples.armv7l-hf-multiplatform;
     crossOverlays = [
@@ -181,8 +181,8 @@ let
 
 
     environment.systemPackages = [
-      # pkgs.parted
-      # pkgs.gptfdisk
+      pkgs.parted
+      pkgs.gptfdisk
       # pkgs.ddrescue
       pkgs.cryptsetup # needed for dm-crypt volumes
       pkgs.mkpasswd # for generating password files
@@ -299,8 +299,7 @@ in {
   amazon-image = amazon-image.toplevel;
   aws-ami = amazon-image.amazonImage;
 
-  novena-install = novena-install.toplevel;
-  inherit novena-pkgs;
+  inherit novena-pkgs novena-install;
   novena-uboot = novena-pkgs.ubootNovena;
 
   inherit (import "${pkgs-path}/lib") version;

@@ -88,6 +88,7 @@ in {
     dos2unix
     dpt-rp1-py
     entr
+    et
     exiftool
     fd
     feh

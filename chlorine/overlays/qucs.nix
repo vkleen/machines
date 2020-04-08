@@ -1,0 +1,1 @@
+../../seaborgium/overlays/qucs.nix

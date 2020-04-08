@@ -1,0 +1,1 @@
+../../seaborgium/overlays/fast-p.nix

@@ -1,0 +1,1 @@
+../../seaborgium/vkleen/qt.nix

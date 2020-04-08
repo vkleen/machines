@@ -1,0 +1,1 @@
+../../seaborgium/overlays/freecad.nix

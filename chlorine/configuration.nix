@@ -5,6 +5,7 @@
     [
       ./hardware-configuration.nix
       ./users.nix
+      ./xserver.nix
     ];
 
   nix = {
@@ -130,12 +131,9 @@
   system.stateVersion = "19.03";
 
   hardware.opengl = {
-    enable = false;
+    enable = true;
     extraPackages = [];
   };
-  services.udisks2.enable = false;
-  services.xserver.enable = false;
-  security.polkit.enable = false;
 
   virtualisation.libvirtd = {
     enable = false;

@@ -1,0 +1,1 @@
+../../seaborgium/vkleen/clipster.nix

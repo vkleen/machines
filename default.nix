@@ -1,6 +1,6 @@
-{ override-rev ? null }:
+args@{ override-rev ? null, override-pkgs ? null }:
 let
-  pkgs-path = import ./fetch-nixpkgs.nix { inherit override-rev; };
+  pkgs-path = args.override-pkgs or (import ./fetch-nixpkgs.nix { inherit override-rev; });
   lib = import "${pkgs-path}/lib";
 
   nixpkgs-x86_64 = args: import "${pkgs-path}/pkgs/top-level" ({

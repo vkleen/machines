@@ -98,6 +98,8 @@
     firmwareLinuxNonfree
   ];
 
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+
   networking.hostName = "chlorine";
   networking.hostId = "53199d00";
 

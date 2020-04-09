@@ -1,1 +1,7 @@
-../../seaborgium/vkleen/qt.nix
+{pkgs, ...}:
+{
+  qt = {
+    enable = true;
+    platformTheme = "gtk";
+  };
+}

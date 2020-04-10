@@ -173,6 +173,8 @@ in {
     youtube-dl
     yq
 
+    arduino-cli
+
     adms
     caneda
     geda

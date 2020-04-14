@@ -49,6 +49,7 @@
     extraOptions = ''
       secret-key-files = /private/seaborgium.1.sec
       builders-use-substitutes = true
+      keep-outputs = true
     '';
   };
 

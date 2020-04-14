@@ -150,6 +150,7 @@
   nix.maxJobs = 144;
 
   nix.extraOptions = ''
+    keep-outputs = true
     system = powerpc64le-linux
     secret-key-files = /run/keys/chlorine.1.sec
   '';

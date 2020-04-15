@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:colemickens/nixpkgs-wayland.git
+	branch = master
+	commit = a3be4ae65ef77dc6a35eae89492080944371d1b9
+	parent = 014e4a26dc6f0025b7fff57f49160ea5b355f1cf
+	cmdver = 0.3.1

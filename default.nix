@@ -26,12 +26,13 @@ let
   };
   seaborgium = seaborgium-pkgs.nixos (import ./seaborgium/configuration.nix);
 
-  freyr-pkgs = nixpkgs-x86_64 {
-    config = { android_sdk.accept_license = true;
+  bohrium-pkgs = nixpkgs-x86_64 {
+    config = { allowUnfree = true;
+               android_sdk.accept_license = true;
              };
-    overlays = all-overlays-in ./freyr/overlays;
+    overlays = all-overlays-in ./bohrium/overlays;
   };
-  freyr = freyr-pkgs.nixos (import ./freyr/configuration.nix);
+  bohrium = bohrium-pkgs.nixos (import ./bohrium/configuration.nix);
 
   samarium = (nixpkgs-x86_64 {
     overlays = all-overlays-in ./samarium/overlays;
@@ -42,7 +43,7 @@ let
 
   installer = (nixpkgs-x86_64 {}).nixos ({pkgs, lib, ...}: {
     imports = [
-      "${pkgs.path}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+      "${pkgs-path}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
     ];
     boot.kernelPackages = pkgs.linuxPackages_latest;
     boot.supportedFilesystems = [ "zfs" ];
@@ -278,10 +279,9 @@ let
       };
   });
 in {
-  inherit seaborgium;
-#  seaborgium = seaborgium.toplevel;
-  inherit seaborgium-pkgs;
-  freyr = freyr.toplevel;
+  inherit seaborgium seaborgium-pkgs;
+  inherit bohrium bohrium-pkgs;
+
   samarium = samarium.toplevel;
   plutonium = plutonium.toplevel;
 

@@ -103,6 +103,7 @@ in {
     htop
     i3status
     imagemagick
+    imv
     iperf
     iw
     ldns
@@ -152,7 +153,6 @@ in {
     sqlite
     streamlink
     s-tui
-    sxiv
     tealdeer
     telnet
     tmux

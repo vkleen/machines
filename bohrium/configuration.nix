@@ -78,6 +78,25 @@
           POWERCAP = yes;
           IDLE_INJECT = yes;
           INTEL_RAPL = module;
+
+          USB_CONFIGFS_F_HID = yes;
+          USB_CONFIGFS_F_UVC = yes;
+          USB_CONFIGFS_MASS_STORAGE = yes;
+          USB_CONFIGFS_SERIAL = yes;
+
+          USB_F_HID = module;
+          USB_F_MASS_STORAGE = module;
+          USB_F_SERIAL = module;
+          USB_F_UVC = module;
+          USB_GADGETFS = module;
+          USB_GADGET_TARGET = module;
+
+          USB_G_HID = module;
+
+          USB_G_WEBCAM = module;
+          USB_MASS_STORAGE = module;
+
+          USB_U_SERIAL = module;
         };
       };
   });

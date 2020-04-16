@@ -1,0 +1,1 @@
+import ./wayland/nixpkgs-wayland

@@ -1,4 +1,5 @@
 self: super: {
+  cryptsetup = self.cryptsetup23;
   cryptsetup23 = super.cryptsetup.overrideAttrs (o: rec {
     name = "cryptsetup-2.3.1";
     src = self.fetchurl {

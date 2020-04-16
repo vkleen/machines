@@ -108,6 +108,7 @@
   boot.initrd.availableKernelModules = [ "nvme" "ast" "xfs" "squashfs" ];
   boot.initrd.kernelModules = [ "loop" ];
   boot.initrd.supportedFilesystems = [ "xfs" "ext4" "ext3" "btrfs" ];
+  boot.supportedFilesystems = [ "zfs" ];
 
   time.timeZone = "UTC";
 
@@ -146,8 +147,8 @@
   boot.kernelModules = [ "powernv-cpufreq" ];
   powerManagement.cpuFreqGovernor = "schedutil";
 
-  nix.buildCores = 144;
-  nix.maxJobs = 144;
+  nix.buildCores = 72;
+  nix.maxJobs = 72;
 
   nix.extraOptions = ''
     keep-outputs = true

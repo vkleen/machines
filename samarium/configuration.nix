@@ -47,6 +47,9 @@
     passwordAuthentication = false;
     permitRootLogin = "yes";
   };
+  services.eternal-terminal = {
+    enable = true;
+  };
 
   security.sudo.configFile =
   ''

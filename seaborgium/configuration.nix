@@ -253,8 +253,6 @@
     debug = false;
   };
 
-  services.illum.enable = true;
-
   boot.cleanTmpDir = true;
 
   virtualisation = {

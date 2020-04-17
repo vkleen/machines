@@ -194,17 +194,20 @@
     description = "Wireguard over udp2raw";
     serviceConfig = {
       User = "nobody";
-      ExecStart = "${config.security.wrapperDir}/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
+      Group = "nogroup";
+      AmbientCapabilities = "CAP_NET_RAW";
+      NoNewPrivileges = true;
+      ExecStart = "${pkgs.udp2raw}/bin/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
     };
   };
 
-  security.wrappers = {
-    udp2raw = {
-      source = "${pkgs.udp2raw}/bin/udp2raw";
-      owner = "nobody";
-      group = "nogroup";
-      capabilities = "cap_net_raw+ep";
-    };
-  };
+  # security.wrappers = {
+  #   udp2raw = {
+  #     source = "${pkgs.udp2raw}/bin/udp2raw";
+  #     owner = "nobody";
+  #     group = "nogroup";
+  #     capabilities = "cap_net_raw+ep";
+  #   };
+  # };
 
 }

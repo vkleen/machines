@@ -60,6 +60,14 @@ let
     rev = "f34407cec7141971f55d453805935b47066f3eb8";
     sha256 = "0qhwylacrnw2k3g9ndi0s7y6ymvrf74yhmq2jkd8xvqg5vk833h2";
   }) { inherit pkgs; };
+
+  egg-timer = pkgs.et.overrideAttrs (o: {
+    postFixup = (o.postFixup or "") + ''
+      mv $out/bin/et $out/bin/egg-timer
+      mv $out/bin/et-status $out/bin/egg-status
+      sed -i 's/-x et/-x egg-timer/' $out/bin/egg-status
+    '';
+  });
 in {
   home.packages = with pkgs; [
     (python36.withPackages (ps: with ps; [ py3status dbus-python ]))
@@ -88,7 +96,8 @@ in {
     dos2unix
     dpt-rp1-py
     entr
-    et
+    egg-timer
+    eternal-terminal
     exiftool
     fd
     feh

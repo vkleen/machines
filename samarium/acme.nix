@@ -27,8 +27,12 @@ in {
     };
   };
 
-  security.acme.certs."${cfg.fqdn}".postRun = ''
+  security.acme = {
+    email = "vkleen-acme@17220103.de";
+    acceptTerms = true;
+    certs."${cfg.fqdn}".postRun = ''
       systemctl reload nginx
       systemctl reload postfix
     '';
+  };
 }

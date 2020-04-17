@@ -282,8 +282,7 @@ in {
   inherit seaborgium seaborgium-pkgs;
   inherit bohrium bohrium-pkgs;
 
-  samarium = samarium.toplevel;
-  plutonium = plutonium.toplevel;
+  inherit samarium plutonium;
 
   installer-iso = installer.isoImage;
 

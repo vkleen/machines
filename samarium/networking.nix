@@ -44,7 +44,7 @@
       enable = true;
       trustedInterfaces = [ "wg0" ];
       allowPing = true;
-      allowedTCPPorts = [ 25 80 443 ];
+      allowedTCPPorts = [ 25 80 443 2022 ];
       allowedUDPPorts = [ 51820 ];
       allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
 

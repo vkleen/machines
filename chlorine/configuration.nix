@@ -128,6 +128,9 @@
       StreamLocalBindUnlink yes
     '';
   };
+  services.eternal-terminal = {
+    enable = true;
+  };
 
   networking.firewall.enable = false;
 

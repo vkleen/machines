@@ -81,6 +81,9 @@
           { publicKey = builtins.readFile ../wireguard/einsteinium.pub;
             allowedIPs = [ "10.172.30.130/32" "2600:3c01:e002:8b9d:c456:3f87::/96" ];
           }
+          { publicKey = builtins.readFile ../wireguard/bohrium.pub;
+            allowedIPs = [ "10.172.20.132/32" "2600:3c01:e002:8b9d:2469:eead::/96" ];
+          }
         ];
         postSetup = ''
           ip link add gre-seaborgium type ip6gretap dev wg0 key 1 \

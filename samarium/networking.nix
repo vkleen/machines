@@ -91,6 +91,9 @@
           { publicKey = builtins.readFile ../wireguard/helium.pub;
             allowedIPs = [ "10.172.20.131/32" "2a03:4000:21:6c9:ba9c:b467:24b8::/112" ];
           }
+          { publicKey = builtins.readFile ../wireguard/bohrium.pub;
+            allowedIPs = [ "10.172.30.132/32" "2a03:4000:21:6c9:ba9c:2469:eead::/112" ];
+          }
         ];
       };
     };

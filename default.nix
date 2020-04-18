@@ -44,6 +44,7 @@ let
   installer = (nixpkgs-x86_64 {}).nixos ({pkgs, lib, ...}: {
     imports = [
       "${pkgs-path}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+      ./seaborgium/secrets.nix
     ];
     boot.kernelPackages = pkgs.linuxPackages_latest;
     boot.supportedFilesystems = [ "zfs" ];
@@ -56,11 +57,16 @@ let
     networking.hostId = "9c4940eb";
     environment.etc.machine-id.text = "9c4940eb9b564dd759092e215bcbc157";
 
+    networking = {
+      wireless.enable = false;
+      wireless.iwd.enable = true;
+    };
+    systemd.services.supplicant-wlan0.partOf = lib.mkForce [];
+
     users = {
       mutableUsers = false;
       extraUsers = {
         "root" = {
-          hashedPassword = "$6$rounds=500000$LOTAq.HWQYxy$lKdVbv3O7kER44KRcmVL6q5Ahvwi78CfLNVElX/KwXuqXsAu6L9NQ98Y2BWbkI9fHyuqr8lBfD30BTgikLhB20";
           openssh.authorizedKeys.keys = [
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP03cNnW4bB4rqxfp62V1SqskfI9Gja0+EApP9//tz+b vkleen@arbro"
           ];
@@ -284,7 +290,7 @@ in {
 
   inherit samarium plutonium;
 
-  installer-iso = installer.isoImage;
+  inherit installer;
 
   chlorine-bootstrap = (import "${pkgs-path}/pkgs/stdenv/linux/make-bootstrap-tools-cross.nix" { system = "powerpc64le-linux"; }).powerpc64le;
   chlorine-musl-bootstrap = (import "${pkgs-path}/pkgs/stdenv/linux/make-bootstrap-tools-cross.nix" { system = "powerpc64le-linux"; }).powerpc64le-musl;

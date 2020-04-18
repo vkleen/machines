@@ -61,32 +61,32 @@ in {
 
       commandPath = mkOption {
         type = types.listOf types.path;
-        default = [ "${pkgs.rmail}/bin" ];
+        default = [ "${pkgs.rmail config.security.wrapperDir}/bin" ];
         description = ''
           Command search path for all systems
         '';
       };
 
       defaultCommands = mkOption {
-        type = types.listOf types.string;
+        type = types.listOf types.str;
         default = ["rmail"];
         description = "Commands allowed for remotes without explicit override";
       };
 
       commands = mkOption {
-        type = types.attrsOf (types.listOf types.string);
+        type = types.attrsOf (types.listOf types.str);
         default = {};
         description = "Override commands for specific remotes";
       };
 
       defaultProtocol = mkOption {
-        type = types.string;
+        type = types.str;
 	default = "e";
 	description = "UUCP protocol to use within ssh unless overriden";
       };
 
       protocols = mkOption {
-        type = types.attrsOf types.string;
+        type = types.attrsOf types.str;
 	default = {};
 	description = "UUCP protocols to use for specific remotes";
       };
@@ -137,7 +137,7 @@ in {
       };
 
       extraConfig = mkOption {
-        type = types.string;
+        type = types.str;
         default = ''
           run-uuxqt 1
         '';
@@ -145,7 +145,7 @@ in {
       };
 
       extraSys = mkOption {
-        type = types.string;
+        type = types.str;
         default = ''
           protocol-parameter g packet-size 4096
         '';
@@ -213,7 +213,7 @@ in {
     security.wrappers = let
       wrapper = p: { name = p;
                      value = {
-                       source = "${pkgs.uucp}/bin/${p}";
+                       source = "${pkgs.uucp config.security.wrapperDir}/bin/${p}";
                        owner = "root";
                        group = "root";
                        setuid = true;
@@ -223,7 +223,7 @@ in {
     in listToAttrs (map wrapper ["uucico" "uuxqt" "cu" "uucp" "uuname" "uustat" "uux"]);
 
     environment.systemPackages = with pkgs; [
-      uucp rmail
+      (uucp config.security.wrapperDir) (rmail config.security.wrapperDir)
     ];
 
     systemd.services."uucico@" = {

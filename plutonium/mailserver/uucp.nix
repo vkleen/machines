@@ -68,25 +68,25 @@ in {
       };
 
       defaultCommands = mkOption {
-        type = types.listOf types.string;
+        type = types.listOf types.str;
         default = ["rmail"];
         description = "Commands allowed for remotes without explicit override";
       };
 
       commands = mkOption {
-        type = types.attrsOf (types.listOf types.string);
+        type = types.attrsOf (types.listOf types.str);
         default = {};
         description = "Override commands for specific remotes";
       };
 
       defaultProtocol = mkOption {
-        type = types.string;
+        type = types.str;
         default = "e";
         description = "UUCP protocol to use within ssh unless overriden";
       };
 
       protocols = mkOption {
-        type = types.attrsOf types.string;
+        type = types.attrsOf types.str;
         default = {};
         description = "UUCP protocols to use for specific remotes";
       };
@@ -137,7 +137,7 @@ in {
       };
 
       extraConfig = mkOption {
-        type = types.string;
+        type = types.str;
         default = ''
           run-uuxqt 1
         '';
@@ -145,7 +145,7 @@ in {
       };
 
       extraSys = mkOption {
-        type = types.string;
+        type = types.str;
         default = ''
           protocol-parameter g packet-size 4096
         '';

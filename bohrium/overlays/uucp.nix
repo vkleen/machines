@@ -1,10 +1,9 @@
-self: pkgs: with pkgs; let
-  wrapperDir = "/run/wrappers/bin"; # HACK: this shouldn't be hard-coded
-in {
-  uucp = uucp.overrideAttrs (_: {
+self: super:
+{
+  uucp = wrapperDir: super.uucp.overrideAttrs (_: {
     configureFlags = "--with-newconfigdir=/etc/uucp";
     patches = [
-      (pkgs.writeText "mailprogram" ''
+      (self.writeText "mailprogram" ''
          policy.h | 2 +-
          1 file changed, 1 insertion(+), 1 deletion(-)
 
@@ -24,8 +23,8 @@ in {
       '')
     ];
   });
-  rmail = pkgs.writeScriptBin "rmail" ''
-      #!${pkgs.stdenv.shell}
+  rmail = wrapperDir: self.writeScriptBin "rmail" ''
+      #!${self.stdenv.shell}
 
       # Dummy UUCP rmail command for postfix/qmail systems
 

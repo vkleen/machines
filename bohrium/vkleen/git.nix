@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{pkgs, nixos, ...}:
 {
   programs.git = {
     enable = true;
@@ -14,7 +14,7 @@
         ui = true;
       };
       sendemail = {
-        smtpServer = "/run/wrappers/bin/sendmail";
+        smtpServer = "${nixos.security.wrapperDir}/sendmail";
       };
       http = {
         sslcainfo = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";

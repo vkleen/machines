@@ -14,9 +14,6 @@
         iptables -A nixos-fw -p udp --dport 5353 -m pkttype --pkt-type multicast -j nixos-fw-accept
 
         iptables -I nixos-fw -s 94.16.123.211 -p tcp -m tcp --sport 8443 -j DROP
-
-        iptables -t mangle -F POSTROUTING
-        iptables -t mangle -A POSTROUTING -o wwan -j TTL --ttl-set 65
       '';
       extraStopCommands = ''
       '';
@@ -56,8 +53,8 @@
 
     wireguard.interfaces = {
       wg0 = {
-        ips = [ "10.172.20.128/24" "2a03:4000:21:6c9:ba9c:b01a:0a7d:1/80"];
-        privateKeyFile = "/private/bohrium";
+        ips = [ "10.172.20.132/24" "2a03:4000:21:6c9:ba9c:2469:eead:1/80"];
+        privateKeyFile = "/persist/keys/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
           { publicKey = builtins.readFile ../wireguard/samarium.pub;
@@ -67,8 +64,8 @@
         ];
       };
       wg1 = {
-        ips = [ "10.172.30.128/24" "2600:3c01:e002:8b9d:b01a:0a7d::1/64" ];
-        privateKeyFile = "/private/bohrium";
+        ips = [ "10.172.30.132/24" "2600:3c01:e002:8b9d:2469:eead::1/64" ];
+        privateKeyFile = "/persist/keys/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
           { publicKey = builtins.readFile ../wireguard/plutonium.pub;
@@ -121,17 +118,10 @@
     description = "Wireguard over udp2raw";
     serviceConfig = {
       User = "nobody";
-      ExecStart = "${config.security.wrapperDir}/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
+      Group = "nogroup";
+      AmbientCapabilities = "CAP_NET_RAW";
+      NoNewPrivileges = true;
+      ExecStart = "${pkgs.udp2raw}/bin/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
     };
   };
-
-  security.wrappers = {
-    udp2raw = {
-      source = "${pkgs.udp2raw}/bin/udp2raw";
-      owner = "nobody";
-      group = "nogroup";
-      capabilities = "cap_net_raw+ep";
-    };
-  };
-
 }

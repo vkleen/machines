@@ -9,15 +9,6 @@ let
 in {
   home.packages = [ emacsPackage ];
 
-  home.sessionVariables = let
-    editorScript = pkgs.writeScriptBin "emacseditor" ''
-      #!${pkgs.runtimeShell}
-      exec ${emacsPackage}/bin/emacsclient --alternate-editor ${emacsPackage}/bin/emacs "$@"
-    '';
-  in {
-    # EDITOR = "${editorScript}/bin/emacseditor";
-  };
-
   xresources.properties = {
     "emacs.FontBackend" = "xft";
   };

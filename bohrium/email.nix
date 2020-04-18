@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
-{
+let cfg = config;
+in {
   imports =
     [ ./custom/uucp.nix
     ];
@@ -8,7 +9,7 @@
   services = {
     uucp = {
       enable = true;
-      nodeName = config.networking.hostName;
+      nodeName = cfg.networking.hostName;
       remoteNodes = [ "amy" "samarium" ];
       sshConfig = ''
         Host amy
@@ -43,7 +44,7 @@
           privileged = true;
           chroot = false;
           maxproc = 100;
-          command = "pipe flags=Fqhu user=uucp argv=/run/wrappers/bin/uux -z -a $sender - $nexthop!rmail ($recipient)";
+          command = "pipe flags=Fqhu user=uucp argv=${cfg.security.wrapperDir}/uux -z -a $sender - $nexthop!rmail ($recipient)";
         };
       };
 

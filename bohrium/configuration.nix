@@ -2,18 +2,20 @@
 
 {
   imports =
-    [ ./hardware-configuration.nix
+    [
       ./cups.nix
       ./custom/lock-on-suspend.nix
       ./custom/uucp.nix
       ./dconf.nix
       ./email.nix
+      ./hardware-configuration.nix
       ./networking.nix
       ./nginx.nix
       ./nspawn.nix
       ./power.nix
       ./users.nix
-      ./xserver.nix
+      ./wayland.nix
+      # ./xserver.nix
     ];
 
   nix = {
@@ -104,11 +106,12 @@
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
   boot.supportedFilesystems = [ "zfs" ];
-  # boot.zfs = {
-  #   enableUnstable = true;
-  #   forceImportRoot = false;
-  #   forceImportAll = false;
-  # };
+  boot.zfs = {
+    enableUnstable = true;
+    forceImportRoot = false;
+    forceImportAll = false;
+  };
+
   networking.hostId = "2469eead";
   environment.etc."machine-id".text = "2469eead8c84bfe7caf902d7f00a1a7c";
 
@@ -245,8 +248,6 @@
       emacs-all-the-icons-fonts material-icons
       pragmatapro
       libertine #xits-math
-
-      virt-viewer
     ];
   };
 
@@ -266,8 +267,6 @@
     enable = true;
     debug = false;
   };
-
-  services.illum.enable = true;
 
   boot.cleanTmpDir = true;
 
@@ -294,22 +293,6 @@
   };
 
   programs.adb.enable = true;
-
-  # systemd.services."macchanger-wlan0" = {
-  #   wants = [ "network-pre.target" ];
-  #   wantedBy = [ "iwd.service" ];
-  #   before = [ "iwd.service" ];
-  #   bindsTo = [ "sys-subsystem-net-devices-wlan0.device" ];
-  #   after = [ "sys-subsystem-net-devices-wlan0.device" ];
-  #   script = ''
-  #     ${pkgs.iproute}/bin/ip link set dev wlan0 down
-  #     ${pkgs.macchanger}/bin/macchanger -e wlan0
-  #     ${pkgs.iproute}/bin/ip link set dev wlan0 up
-  #   '';
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #   };
-  # };
 
   services.udev.extraRules = ''
       #UHK
@@ -342,9 +325,5 @@
     };
   };
 
-  # system.nixos = rec {
-  #   revision = lib.commitIdFromGitRepo "${toString ./../.git}";
-  #   versionSuffix = ".git." + revision;
-  # };
   system.stateVersion = "20.03";
 }

@@ -279,22 +279,6 @@
 
   programs.adb.enable = true;
 
-  systemd.services."macchanger-wlan0" = {
-    wants = [ "network-pre.target" ];
-    wantedBy = [ "iwd.service" ];
-    before = [ "iwd.service" ];
-    bindsTo = [ "sys-subsystem-net-devices-wlan0.device" ];
-    after = [ "sys-subsystem-net-devices-wlan0.device" ];
-    script = ''
-      ${pkgs.iproute}/bin/ip link set dev wlan0 down
-      ${pkgs.macchanger}/bin/macchanger -e wlan0
-      ${pkgs.iproute}/bin/ip link set dev wlan0 up
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-    };
-  };
-
   services.udev.extraRules = ''
       #UHK
       SUBSYSTEMS=="usb", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", MODE:="0660", GROUP:="input", ATTR{power/control}="on"

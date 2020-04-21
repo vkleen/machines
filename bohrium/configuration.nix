@@ -60,10 +60,6 @@
     "riscv64-linux"
   ];
 
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/nvme0n1";
-
   boot.kernelPackages = pkgs.linuxPackages_latest.extend (self: super: {
     kernel = with (import "${pkgs.path}/lib/kernel.nix" { inherit lib; });
       super.kernel.override {

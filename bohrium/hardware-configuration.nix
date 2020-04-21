@@ -12,32 +12,36 @@
   boot.initrd.kernelModules = [ "kvm-intel" "dm_snapshot" "dm_integrity" ];
   boot.extraModulePackages = [ ];
 
+  boot.loader.systemd-boot = {
+    enable = true;
+    editor = true;
+  };
+
   boot.initrd.luks = {
     devices = {
-      "seaborgium_pv" = {
-        device = "/dev/disk/by-uuid/329f66f4-0181-4b3b-ac2d-f305383e08cf";
+      "bohrium-tmp_pv" = {
+        device = "/dev/disk/by-uuid/03cdff41-e1e0-4767-bc42-52b4c9542f33";
       };
     };
     cryptoModules = [
-      "aegis256" "aegis256_aesni" "dm_integrity" "aes"
-      "aes_generic" "aes_x86_64" "xts" "sha256" "sha512"
-      "dm_bufio" "algif_aead" "algif_skcipher" "md4"
-      "algif_hash" "arc4" "ctr" "cbc" "authenc" "cmac" "ccm"
+      "dm_integrity" "aes" "aes_generic" "aes_x86_64"  "sha256"
+      "aegis128" "aegos128_aesni"
+      "dm_bufio" "algif_aead" "algif_skcipher" "algif_hash" "authenc"
     ];
   };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/a1dcc9cc-a7b5-47db-8ea0-85b8cb81b120";
+    { device = "/dev/disk/by-uuid/48a9f9ca-4460-4889-9b9c-f164afa69b79";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/12497b5c-85d7-46aa-99d7-4007cad2938d";
-      fsType = "ext4";
+    { device = "/dev/disk/by-uuid/F2D7-8671";
+      fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/seaborgium/swap"; }
+    [ { device = "/dev/bohrium-tmp/swap"; }
     ];
 
   nix.maxJobs = lib.mkDefault 4;

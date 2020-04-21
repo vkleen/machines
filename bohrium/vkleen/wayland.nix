@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   start-sway = pkgs.writeShellScriptBin "start-sway" ''
     # first import environment variables from the login manager
@@ -110,6 +110,7 @@ in {
     };
     Service = {
       Type = "simple";
+      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p ${config.home.homeDirectory}/.local/share";
       ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch ${pkgs.clipman}/bin/clipman store --max-items=1";
       RestartSec = 5;
       Restart = "always";

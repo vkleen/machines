@@ -62,8 +62,6 @@ let
   }) { inherit pkgs; };
 in {
   home.packages = with pkgs; [
-    (python36.withPackages (ps: with ps; [ py3status dbus-python ]))
-
     # socat2pre
     # papis
     a2ps
@@ -122,6 +120,7 @@ in {
     mpv
     neovim
     nix-index nix-prefetch-scripts
+    nix-prefetch-github
     noti
     notmuch
     nox

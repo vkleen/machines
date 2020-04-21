@@ -4,8 +4,8 @@ let
   zsh-syntax-highlighting = pkgs.fetchFromGitHub {
     owner = "vkleen";
     repo = "zsh-syntax-highlighting";
-    rev = "0.6.0";
-    sha256 = "0zmq66dzasmr5pwribyh4kbkk23jxbpdw4rjxx0i7dx8jjp2lzl4";
+    rev = "f5d1be7ec2436cfa9d45dfc2bb72fb060eae650f";
+    sha256 = "1k83lrcd8w699gfg060qahp8x2g5g20m0ikmpihgv5hkwdmc1df9";
   };
 
   pure-theme = pkgs.stdenv.mkDerivation {
@@ -13,8 +13,8 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "vkleen";
       repo = "pure";
-      rev = "94e1067f25a602c29ac60d00737ebf974d5efcda";
-      sha256 = "0776243j7657wphvkhr7982v27idvcvycwh82c11rqzax5fnl7jj";
+      rev = "495bff2f87480509af8d18a498faf43ce2828a01";
+      sha256 = "1bdk2dv8p3bc4y27v78mm3xg21g1hp9yik7r4lbyf4mh2ixgy55h";
     };
     preferLocalBuild = true;
     allowSubstitutes = false;
@@ -28,8 +28,8 @@ let
   git-subrepo = pkgs.fetchFromGitHub {
     owner = "vkleen";
     repo = "git-subrepo";
-    rev = "a7ee886e0260e847dea6240eaa6278fb2f23be8a";
-    sha256 = "0fih3bdabfbv0b2fckddiskpmvzwaq510rkzdyg12rdxcgihphqb";
+    rev = "a04d8c2e55c31931d66b5c92ef6d4fe4c59e3226";
+    sha256 = "0n10qnc8kyms6cv65k1n5xa9nnwpwbjn9h2cq47llxplawzqgrvp";
   };
 
   dotDir = ".config/zsh";
@@ -79,59 +79,12 @@ in {
       ".." = "cd ..";
       scratch = "editor-scratch";
       p = "${pkgs.parallel}/bin/parallel";
-      cat = "${pkgs.bat}/bin/bat";
+      cat = "${pkgs.bat}/bin/bat -p";
 
       tmux = "${root-direnv} tmux";
     };
     initExtra = ''
       path=("${config.home.homeDirectory}/.software/bin" $path)
-
-      se() {
-        e-in-current-ws /sudo::"$1"
-      }
-
-      vkleen--find-emacs-id () {
-          ${root-direnv} ${pkgs.i3}/bin/i3-msg -t get_tree | \
-              ${pkgs.jq}/bin/jq '  recurse(.nodes[])
-                  | select( .type == "workspace" and (recurse(.nodes[]) | .focused == true) )
-                  | recurse(.nodes[])
-                  | select(.window_properties.class == "Emacs").window' | \
-                      head -n1
-      }
-
-      e-in-current-ws() {
-          editor-in-current-ws "(find-file-noselect \"$1\")"
-      }
-
-      editor-in-current-ws() {
-          local w
-          w=$(vkleen--find-emacs-id)
-          if [[ ! -z "$w" ]]; then
-              $EDITOR -n -e "(+vkleen/open-buffer-in-frame-by-id $1 \"$w\")"
-              ${pkgs.i3}/bin/i3-msg "[id=\"''${w}\"] focus"
-          else
-              $EDITOR -c -n -e "(switch-to-buffer $1)"
-              w=$(vkleen--find-emacs-id)
-              ${pkgs.i3}/bin/i3-msg "[id=\"''${w}\"] focus"
-          fi
-      }
-
-      editor-scratch() {
-          editor-in-current-ws '(get-buffer-create "*scratch*")'
-      }
-
-      magit() {
-          local w
-          w=$(vkleen--find-emacs-id)
-          if [[ ! -z "$w" ]]; then
-              $EDITOR -n -e "(+vkleen/magit-status-in-frame-by-id \"$w\")"
-              ${pkgs.i3}/bin/i3-msg "[id=\"''${w}\"] focus"
-          else
-              $EDITOR -c -n -e "(magit-status)"
-              w=$(vkleen--find-emacs-id)
-              ${pkgs.i3}/bin/i3-msg "[id=\"''${w}\"] focus"
-          fi
-      }
 
       fpath+=( "${config.home.homeDirectory}/${pluginsDir}/pure" )
       PURE_PROMPT_SYMBOL='%(!.$.❯)'

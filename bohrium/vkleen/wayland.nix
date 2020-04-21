@@ -77,6 +77,28 @@ in {
       Restart = "always";
     };
   };
+  xdg.configFile."mako/config".text = ''
+    font="PragmataPro 13"
+    background-color=#282c34
+    text-color=#bbc2cf
+    icons=0
+    format=<b>%s</b>\n%b
+    default-timeout=6000
+    border-color=#98be65
+    border-radius=10
+
+    [urgency=low]
+    border-color=#51afef
+    default-timeout=4000
+
+    [urgency=normal]
+    border-color=#98be65
+    default-timeout=6000
+
+    [urgency=high]
+    border-color=#ff6c6b
+    default-timeout=8000
+  '';
 
   systemd.user.services.clipman = {
     Unit = {

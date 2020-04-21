@@ -60,7 +60,7 @@ in
     services.uucp = {
       enable = true;
       nodeName = config.networking.hostName;
-      remoteNodes = [ "amy" "seaborgium" ];
+      remoteNodes = [ "amy" "seaborgium" "bohrium" ];
       sshUser = {
         openssh.authorizedKeys.keys = [
           ''

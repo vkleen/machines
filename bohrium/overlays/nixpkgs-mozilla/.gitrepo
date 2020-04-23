@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:mozilla/nixpkgs-mozilla.git
+	branch = master
+	commit = e912ed483e980dfb4666ae0ed17845c4220e5e7c
+	parent = 85659facdef1716dcb85aaf9bacbdd7d75511056
+	method = merge
+	cmdver = 0.4.1

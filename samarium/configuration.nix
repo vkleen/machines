@@ -22,6 +22,7 @@
     ];
 
     binaryCachePublicKeys = [
+      "bohrium.1:4jkGCWrIChiDoTjSK4+tErEwtN6kvbkp5uO1BrAYguE="
       "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
       (import ../cache-keys/aws-vkleen-nix-cache-1.public)
     ];

@@ -11,9 +11,11 @@
       ./networking.nix
       ./nginx.nix
       ./nspawn.nix
+      ./persist.nix
       ./power.nix
       ./users.nix
       ./wayland.nix
+      ./zfs.nix
       # ./xserver.nix
       # ./custom/lock-on-suspend.nix
     ];
@@ -46,8 +48,11 @@
       (import ../cache-keys/aws-vkleen-nix-cache-1.public)
     ];
 
+    maxJobs = 4;
+    buildCores = 4;
+
     extraOptions = ''
-      secret-key-files = /private/bohrium.1.sec
+      secret-key-files = /persist/private/bohrium.1.sec
       builders-use-substitutes = true
       keep-outputs = true
     '';
@@ -102,13 +107,6 @@
   });
 
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs = {
-    enableUnstable = true;
-    forceImportRoot = false;
-    forceImportAll = false;
-  };
 
   networking.hostId = "2469eead";
   environment.etc."machine-id".text = "2469eead8c84bfe7caf902d7f00a1a7c";
@@ -165,6 +163,8 @@
 
     "i915.enable_gvt=1" "kvm.ignore_msrs=1"
     "intel_iommu=on"
+
+    "elevator=none"
   ];
 
   networking.hostName = "bohrium";

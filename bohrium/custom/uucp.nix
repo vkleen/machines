@@ -3,12 +3,14 @@
 with lib;
 
 let
+  knownHostsFile = pkgs.writeText "known_hosts" cfg.sshHosts;
+  sshConfigFile = pkgs.writeText "uucp_ssh_config" cfg.sshConfig;
   portSpec = name: ''
     port ${name}
     type pipe
     protocol ${if builtins.hasAttr name cfg.protocols then cfg.protocols."${name}" else cfg.defaultProtocol}
     reliable true
-    command ${pkgs.openssh}/bin/ssh -x -o batchmode=yes ${name}
+    command ${pkgs.openssh}/bin/ssh -x -F "${sshConfigFile}" -o UserKnownHostsFile="${knownHostsFile}" -o HostKeyAlias="${name}" -o batchmode=yes "${name}"
   '';
   sysSpec = name: ''
     system ${name}
@@ -50,6 +52,12 @@ in {
         description = "~uucp/.ssh/config";
       };
 
+      sshHosts = mkOption {
+        type = types.lines;
+        default = "";
+        description = "known_hosts entries";
+      };
+
       remoteNodes = mkOption {
         type = types.listOf types.str;
         default = {};
@@ -81,14 +89,14 @@ in {
 
       defaultProtocol = mkOption {
         type = types.str;
-	default = "e";
-	description = "UUCP protocol to use within ssh unless overriden";
+        default = "e";
+        description = "UUCP protocol to use within ssh unless overriden";
       };
 
       protocols = mkOption {
         type = types.attrsOf types.str;
-	default = {};
-	description = "UUCP protocols to use for specific remotes";
+        default = {};
+        description = "UUCP protocols to use for specific remotes";
       };
 
       spoolDir = mkOption {
@@ -149,7 +157,7 @@ in {
         default = ''
           protocol-parameter g packet-size 4096
         '';
-	description = "Extra configuration to prepend verbatim to `/etc/uucp/sys`";
+        description = "Extra configuration to prepend verbatim to `/etc/uucp/sys`";
       };
     };
   };
@@ -179,13 +187,6 @@ in {
       description = "User for uucp over ssh";
       useDefaultShell = true;
     } // cfg.sshUser;
-
-    system.activationScripts."uucp-sshconfig" = ''
-      mkdir -p ${config.users.users."uucp".home}/.ssh
-      chown ${config.users.users."uucp".name}:${config.users.users."uucp".group} ${config.users.users."uucp".home}/.ssh
-      chmod 700 ${config.users.users."uucp".home}/.ssh
-      ln -fs ${builtins.toFile "ssh-config" cfg.sshConfig} ${config.users.users."uucp".home}/.ssh/config
-    '';
 
     system.activationScripts."uucp-logs" = ''
       touch ${cfg.logFile}

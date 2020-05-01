@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{pkgs, config, nixos, ...}:
 let
   purple-events = with pkgs;
     stdenv.mkDerivation {
@@ -60,12 +60,15 @@ let
     rev = "f34407cec7141971f55d453805935b47066f3eb8";
     sha256 = "0qhwylacrnw2k3g9ndi0s7y6ymvrf74yhmq2jkd8xvqg5vk833h2";
   }) { inherit pkgs; };
+
+  firejail-riot = pkgs.writeShellScriptBin "riot-desktop" ''
+    exec ${nixos.security.wrapperDir}/firejail --whitelist=${config.home.homeDirectory}/.config/Riot ${pkgs.riot-desktop}/bin/riot-desktop
+  '';
 in {
   home.packages = with pkgs; [
     # socat2pre
     # papis
     a2ps
-    alacritty
     aspell
     aspellDicts.de
     aspellDicts.en
@@ -89,8 +92,8 @@ in {
     et
     exiftool
     fd
-    feh
     file
+    firejail-riot
     gdrive
     gitAndTools.git-crypt
     gitAndTools.gitRemoteGcrypt
@@ -117,7 +120,6 @@ in {
     mercurial
     mkpasswd
     mosh
-    mpv
     neovim
     nix-index nix-prefetch-scripts
     nix-prefetch-github
@@ -145,7 +147,6 @@ in {
     radare2
     renderdoc
     rfkill
-    riot-desktop
     rsync
     skim
     socat
@@ -191,20 +192,6 @@ in {
     openscad
     freecad
     solvespace
-
-    adapta-gtk-theme
-    arc-icon-theme
-    arc-theme
-    gnome3.adwaita-icon-theme
-    gtk-engine-murrine
-    gtk_engines
-    hicolor-icon-theme
-    materia-theme
-    nixos-icons
-    numix-icon-theme
-    numix-solarized-gtk-theme
-    paper-gtk-theme
-    paper-icon-theme
 
     dhall
 

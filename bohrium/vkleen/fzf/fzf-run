@@ -1,0 +1,55 @@
+#!@zsh@
+
+zmodload zsh/mapfile
+history_file=$HOME/.fzf-run-history
+history_lines=( "${(f)mapfile[$history_file]}" )
+
+function _do_fzf() {
+    {@awk@ '!seen[$0]++' | @fzf@ --reverse --prompt='exec> ' --print-query --expect='alt-enter,enter' --print0} < <(
+        for x in $history_lines; do
+            printf '%s\n' "$x"
+        done
+        for x in $path; do
+            [[ -e "$x" ]] && @find@ -L "$x" -maxdepth 1 -mindepth 1 -type f -executable -printf '%P\n'
+        done
+    )
+}
+
+function laststatus() {
+    case $? in
+        0) return 0 ;;
+        1) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+function die() {
+    @tmux@ detach
+    exit $1
+}
+
+output=( "${(0)$(_do_fzf)}" )
+laststatus || die 1
+
+case "${output[2]}" in
+    alt-enter)
+        cmd="${output[1]}"
+        ;;
+    enter)
+        cmd="${output[3]}"
+        ;;
+esac
+
+echo $cmd
+[[ -z "$cmd" ]] && die 1
+
+(setopt NO_HUP; exec ${(z)cmd} >/dev/null 2>&1 &!)
+
+@awk@ '!seen[$0]++ {print}; NR==1000 {exit}' > $history_file < <(
+    printf '%s\n' "$cmd"
+    for x in $history_lines; do
+        printf '%s\n' "$x"
+    done
+)
+
+die 0

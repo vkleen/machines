@@ -32,6 +32,9 @@
           }
         ];
       };
+      "root" = {
+        openssh.authorizedKeys.keys = config.users.extraUsers."vkleen".openssh.authorizedKeys.keys;
+      };
     };
     extraGroups = {
       "network" = { };

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, nixos, lib, ... }:
 let
   start-sway = pkgs.writeShellScriptBin "start-sway" ''
     # first import environment variables from the login manager
@@ -7,15 +7,152 @@ let
     exec systemctl --user start sway.service
   '';
 
-  start-waybar = pkgs.writeShellScriptBin "start-waybar" ''
-    export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -f 'sway$').sock
+  get-swaysock = ''
+    export SWAYSOCK=/run/user/$(${pkgs.coreutils}/bin/id -u)/sway-ipc.$(${pkgs.coreutils}/bin/id -u).$(${pkgs.procps}/bin/pgrep -f 'sway$').sock
+  '';
+
+  start-waybar = pkgs.writeShellScript "start-waybar" ''
+    ${get-swaysock}
     ${pkgs.waybar}/bin/waybar
   '';
+
+  get-random-bg-file = pkgs.writeScriptBin "get-random-bg-file" ''
+    #!${pkgs.zsh}/bin/zsh
+    FILE=(~/wallpapers/*.jpg(Noe{'REPLY=$RANDOM,$RANDOM'}[1,1]))
+    echo "$FILE"
+  '';
+
+  set-random-bg = pkgs.writeScript "set-random-bg" ''
+    #!${pkgs.zsh}/bin/zsh
+    ${get-swaysock}
+    ${pkgs.sway}/bin/swaymsg 'output "*" background '$(${get-random-bg-file}/bin/get-random-bg-file)' fill'
+  '';
+
+  swaylock-do-lock = pkgs.writeScript "swaylock-do-lock" ''
+    #!${pkgs.zsh}/bin/zsh
+    ${get-swaysock}
+    ${pkgs.swaylock}/bin/swaylock -f -i "$(${get-random-bg-file}/bin/get-random-bg-file)" -s fill
+  '';
+
+  sway-dpms = pkgs.writeScriptBin "sway-dpms" ''
+    #!${pkgs.zsh}/bin/zsh
+    [[ -n "''${1}" ]] || exit 1
+    ${get-swaysock}
+    ${pkgs.sway}/bin/swaymsg "output * dpms ''${1}"
+  '';
+
+  vol = let
+    notebook-sink = "alsa_output.pci-0000_00_1f.3.analog-stereo";
+  in pkgs.writeScriptBin "vol" ''
+    #!${pkgs.zsh}/bin/zsh
+    case "''${1}" in
+      up)
+        ${pkgs.pulseaudioFull}/bin/pactl set-sink-mute "${notebook-sink}" 0
+        ${pkgs.pulseaudioFull}/bin/pactl set-sink-volume "${notebook-sink}" +2dB
+        ;;
+      down)
+        ${pkgs.pulseaudioFull}/bin/pactl set-sink-volume "${notebook-sink}" -2dB
+        ;;
+      mute)
+        ${pkgs.pulseaudioFull}/bin/pactl set-sink-mute "${notebook-sink}" 1
+        ;;
+    esac
+  '';
+
+  mpv-pause-toggle = pkgs.writeScript "mpv-pause-toggle" ''
+    #!${pkgs.stdenv.shell}
+    [[ -S "${config.mpv.ipc-socket}" ]] || exit 1
+
+    STATE=$(echo '{ "command": ["get_property", "pause"] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}" | ${pkgs.jq}/bin/jq -r '.data')
+    case "$STATE" in
+      false) echo '{ "command": ["set_property", "pause", true] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}" ;;
+      true) echo '{ "command": ["set_property", "pause", false] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}" ;;
+      *) exit 1;;
+    esac
+  '';
+
+  mpv-pause = pkgs.writeScript "mpv-pause" ''
+    #!${pkgs.stdenv.shell}
+    [[ -S "${config.mpv.ipc-socket}" ]] || exit 1
+
+    echo '{ "command": ["set_property", "pause", true] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}"
+  '';
+
+  mpv-next = pkgs.writeScript "mpv-next" ''
+    #!${pkgs.stdenv.shell}
+    [[ -S "${config.mpv.ipc-socket}" ]] || exit 1
+    echo '{ "command": ["playlist-next", "force"] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}"
+  '';
+  mpv-prev = pkgs.writeScript "mpv-prev" ''
+    #!${pkgs.stdenv.shell}
+    [[ -S "${config.mpv.ipc-socket}" ]] || exit 1
+    echo '{ "command": ["playlist-prev"] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}"
+  '';
+
+  open-tmux = pkgs.writeShellScript "open-tmux" ''
+    SESSION_NAME=persistent
+    if ${pkgs.tmux}/bin/tmux has-session -t $SESSION_NAME; then
+      if [ "$1" == "-e" ]; then
+        exec ${pkgs.tmux}/bin/tmux new-session -t $SESSION_NAME \; set-option destroy-unattached on
+      else
+        exec ${pkgs.tmux}/bin/tmux new-session -t $SESSION_NAME \; set-option destroy-unattached on \; new-window
+      fi
+    else
+      sudo systemd-run -p PAMName=login -p Type=forking --uid=vkleen --gid=users tmux new-session -d -s persistent
+    fi
+  '';
+
+  open-fzf = pkgs.writeShellScript "open-fzf" ''
+    SESSION_NAME=fzf
+
+    if ! ${pkgs.tmux}/bin/tmux has-session -t $SESSION_NAME; then
+      ${pkgs.tmux}/bin/tmux new-session -d -s $SESSION_NAME
+    fi
+
+    ${pkgs.tmux}/bin/tmux send-keys -t $SESSION_NAME "$*" ENTER
+    exec ${pkgs.tmux}/bin/tmux attach-session -t $SESSION_NAME
+  '';
+
+  fzf-run = pkgs.writeScript "fzf-run" (builtins.replaceStrings
+    [ "@zsh@" "@awk@" "@fzf@" "@find@" "@tmux@" ]
+    [ "${pkgs.zsh}/bin/zsh" "${pkgs.gawk}/bin/awk" "${pkgs.fzf}/bin/fzf" "${pkgs.findutils}/bin/find" "${pkgs.tmux}/bin/tmux" ]
+    (builtins.readFile ./fzf/fzf-run)
+  );
+
+  fzf-ff-url-candidates = pkgs.writeScript "fzf-ff-url-candidates" (builtins.replaceStrings
+    [ "@zsh@" "@sqlite3@" "@cat@" ]
+    [ "${pkgs.zsh}/bin/zsh" "${pkgs.sqlite}/bin/sqlite3" "${pkgs.coreutils}/bin/cat" ]
+    (builtins.readFile ./fzf/fzf-ff-url-candidates)
+  );
+
+  fzf-ff-url = pkgs.writeScript "fzf-ff-url" (builtins.replaceStrings
+    [ "@zsh@" "@fzf-ff-url-candidates@" "@awk@" "@fzf@" "@grep@" "@pgrep@" "@tmux@" "@firefox-unwrapped@" "@firefox@" ]
+    [ "${pkgs.zsh}/bin/zsh" "${fzf-ff-url-candidates}" "${pkgs.gawk}/bin/awk" "${pkgs.fzf}/bin/fzf" "${pkgs.gnugrep}/bin/grep"  "${pkgs.procps}/bin/pgrep" "${pkgs.tmux}/bin/tmux" "${config.browser.firefox-unwrapped}/bin/firefox" "${config.browser.firefox}/bin/firefox" ]
+    (builtins.readFile ./fzf/fzf-ff-url)
+  );
+
+  fzf-pass = pkgs.writeScript "fzf-pass" (builtins.replaceStrings
+    [ "@zsh@" "@tmux@" "@pass@" "@head@" "@wl-copy@" "@fzf@" ]
+    [ "${pkgs.zsh}/bin/zsh" "${pkgs.tmux}/bin/tmux" "${pkgs.pass}/bin/pass" "${pkgs.coreutils}/bin/head" "${pkgs.wl-clipboard}/bin/wl-copy" "${pkgs.fzf}/bin/fzf" ]
+    (builtins.readFile ./fzf/fzf-pass)
+  );
+
+  color-blue = "#51afef";
+  color-gray = "#2a2e38";
 in {
   home.packages = with pkgs; [
     grim wl-clipboard slurp brightnessctl
+    libappindicator
+    mako
     start-sway
+    get-random-bg-file sway-dpms
+    vol
   ];
+
+  home.sessionVariables = {
+    MOZ_ENABLE_WAYLAND = "1";
+    XDG_CURRENT_DESKTOP = "Unity";
+  };
 
   systemd.user.sockets.dbus = {
     Unit = {
@@ -42,6 +179,171 @@ in {
     Install = {
       Also = [ "dbus.socket" ];
     };
+  };
+
+  wayland.windowManager.sway = {
+    enable = true;
+    package = nixos.programs.sway.swayPackage;
+    systemdIntegration = false;
+    config = let
+      mod = "Mod4";
+      ws = lib.genAttrs (map (i: "${builtins.toString i}") (lib.range 1 9)) (n: n) // {
+        "0" = "10";
+        "1" = "web";
+        "grave" = "video";
+        "t" = "chat";
+        "m" = "mail";
+        "e" = "tex";
+      };
+      switch-ws-keys = lib.mapAttrs' (k: n: lib.nameValuePair "${mod}+${k}" "workspace ${n}") ws;
+      move-ws-keys = lib.mapAttrs' (k: n: lib.nameValuePair "${mod}+Shift+${k}" "move container to workspace ${n}") ws;
+    in {
+      fonts = [ "PragmataPro 11" ];
+      focus = {
+        newWindow = "none";
+        followMouse = false;
+        forceWrapping = true;
+        mouseWarping = true;
+      };
+      modifier = mod;
+      workspaceLayout = "tabbed";
+      workspaceAutoBackAndForth = true;
+      window = {
+        titlebar = false;
+        commands = [
+          {
+            command = "move window to scratchpad, scratchpad show, resize set 1536 864, move position center";
+            criteria = {
+              title = "^scratchpad";
+            };
+          }
+          {
+            command = "mark \"mpv\", move --no-auto-back-and-forth container to workspace video";
+            criteria = {
+              app_id = "mpv";
+            };
+          }
+        ];
+      };
+      colors = {
+        focused = {
+          border = color-blue;
+          background = color-blue;
+          text = color-gray;
+          indicator = color-blue;
+          childBorder = color-blue;
+        };
+        focusedInactive = {
+          border = color-gray;
+          background = color-gray;
+          text = "#dfdfdf";
+          indicator = color-gray;
+          childBorder = color-gray;
+        };
+        unfocused = {
+          border = color-gray;
+          background = color-gray;
+          text = "#dfdfdf";
+          indicator = color-gray;
+          childBorder = color-gray;
+        };
+      };
+      keybindings = switch-ws-keys // move-ws-keys // {
+        "${mod}+Shift+q" = "kill";
+        "${mod}+f" = "fullscreen";
+
+        "${mod}+h" = "focus left";
+        "${mod}+j" = "focus down";
+        "${mod}+k" = "focus up";
+        "${mod}+l" = "focus right";
+        "${mod}+Shift+h" = "move left";
+        "${mod}+Shift+j" = "move down";
+        "${mod}+Shift+k" = "move up";
+        "${mod}+Shift+l" = "move right";
+
+        "${mod}+comma" = "layout default";
+        "${mod}+period" = "layout tabbed";
+        "${mod}+slash" = "layout toggle split";
+
+        "${mod}+Shift+space" = "floating toggle";
+        "${mod}+space" = "focus mode_toggle";
+
+        "${mod}+a" = "focus parent";
+        "${mod}+Shift+a" = "focus child";
+
+        "${mod}+b" = "border toggle";
+
+        "${mod}+Shift+c" = "reload";
+        "${mod}+Shift+r" = "restart";
+        "${mod}+Shift+x" = "exit";
+
+        "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux}";
+        "${mod}+Shift+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux} -e";
+
+        "${mod}+d" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-run}";
+        "${mod}+Shift+p" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pass}";
+        "${mod}+q" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
+        "${mod}+w" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url} search";
+
+        "XF86AudioMute" = "exec ${vol}/bin/vol mute";
+        "XF86AudioLowerVolume" = "exec ${vol}/bin/vol down";
+        "XF86AudioRaiseVolume" = "exec ${vol}/bin/vol up";
+
+        "XF86AudioPause" = "exec ${mpv-pause}";
+        "XF86AudioPlay" = "exec ${mpv-pause-toggle}";
+        "XF86AudioNext" = "exec ${mpv-next}";
+        "XF86AudioPrev" = "exec ${mpv-prev}";
+
+        "XF86Sleep" = "exec ${pkgs.systemd}/bin/loginctl lock-session";
+
+        "${mod}+Shift+less" = "move workspace to output left";
+        "${mod}+Shift+greater" = "move workspace to output right";
+
+        "${mod}+Shift+w" = "mode \"resize\"";
+
+        "${mod}+v" = "[con_mark=\"mpv\"] focus";
+      };
+
+      modes = {
+        "resize" = {
+          "h" = "resize shrink width 10 px or 10ppt";
+          "j" = "resize grow height 10 px or 10ppt";
+          "k" = "resize shrink height 10 px or 10ppt";
+          "l" = "resize grow width 10 px or 10ppt";
+          "s" = "split v; mode \"default\"";
+          "v" = "split h; mode \"default\"";
+          "Escape" = "mode \"default\"";
+          "Return" = "mode \"default\"";
+        };
+      };
+
+      input = {
+        "2:14:ETPS/2_Elantech_Touchpad" = {
+          accel_profile = "adaptive";
+          pointer_accel = "1";
+          tap = "enabled";
+          drag_lock = "enabled";
+          natural_scroll = "enabled";
+        };
+        "*" = {
+          xkb_options = "ctrl:nocaps,compose:ralt";
+        };
+      };
+      bars = [ ];
+
+      gaps = {
+        smartGaps = true;
+        smartBorders = "on";
+        inner = 5;
+        outer = 3;
+      };
+    };
+    extraConfig = ''
+      hide_edge_borders --i3 none
+      no_focus [tiling]
+      seat * hide_cursor 1000
+      output * adaptive_sync on
+    '';
   };
 
   systemd.user.services.sway = {
@@ -78,7 +380,7 @@ in {
     };
   };
   xdg.configFile."mako/config".text = ''
-    font="PragmataPro 13"
+    font=PragmataPro
     background-color=#282c34
     text-color=#bbc2cf
     icons=0
@@ -117,6 +419,29 @@ in {
     };
   };
 
+  systemd.user.services.swayidle = let
+    swayidle-cmd = "${pkgs.swayidle}/bin/swayidle -w"
+      + " lock '${swaylock-do-lock}'"
+      + " timeout 600 '${swaylock-do-lock}'"
+      + " timeout 1200 '${sway-dpms}/bin/sway-dpms off'"
+      + " resume '${sway-dpms}/bin/sway-dpms on'"
+      + " before-sleep '${swaylock-do-lock}'";
+  in {
+    Unit = {
+      Description = "Idle manager for sway";
+      PartOf = [ "graphical-session.target" ];
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = swayidle-cmd;
+      RestartSec = 5;
+      Restart = "always";
+    };
+  };
+
   systemd.user.services.kanshi = {
     Unit = {
       Description = "Kanshi dynamic display configuration";
@@ -137,6 +462,10 @@ in {
     {
       output eDP-1 mode 1920x1080 position 0,0
     }
+    {
+      output eDP-1 mode 1920x1080 position 0,1440
+      output DP-4 mode 2560x1440 position 0,0
+    }
   '';
 
   systemd.user.services.waybar = {
@@ -149,9 +478,212 @@ in {
     };
     Service = {
       Type = "simple";
-      ExecStart = "${start-waybar}/bin/start-waybar";
+      ExecStart = "${start-waybar}";
       RestartSec = 5;
       Restart = "always";
+    };
+  };
+
+  xdg.configFile."waybar/config".text = ''
+    {
+      "layer": "top",
+      "modules-left": ["sway/workspaces", "sway/mode"],
+      "modules-center": ["sway/window"],
+      "modules-right": ["network", "pulseaudio", "backlight", "battery", "cpu", "clock", "tray", "idle_inhibitor"],
+      "sway/workspaces": {
+        "disable-scroll": true
+      },
+      "sway/window": {
+        "max-length": 120
+      },
+      "battery": {
+        "states": {
+            "full": 100,
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "full-at": 100,
+        "format": "{time} {capacity}%{icon}",
+        "format-charging": "{time} {capacity}%",
+        "format-full": "{icon}",
+        "format-icons": [ "", "", "", "", "", "", "", "", "", "" ],
+        "format-time": "{H}:{M:02}"
+      },
+      "clock": {
+        "format": "{:%d-%m %H:%M %Z}"
+      },
+      "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+          "activated": "",
+          "deactivated": ""
+        }
+      },
+      "pulseaudio": {
+        "format": "{volume}%{icon} {format_source}",
+        "format-bluetooth": "{volume}%{icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "{volume}%",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "default": [ "", "", "" ]
+        },
+        "on-click": "${pkgs.pavucontrol}/bin/pavucontrol"
+      },
+      "backlight": {
+        "device": "intel_backlight",
+        "on-scroll-up": "${pkgs.brightnessctl}/bin/brightnessctl -d intel_backlight s +1%",
+        "on-scroll-down": "${pkgs.brightnessctl}/bin/brightnessctl -d intel_backlight s 1%-",
+        "format": "{percent}%"
+      },
+      "network": {
+           "format": "{ifname}",
+           "format-wifi": "{essid}",
+           "format-ethernet": "{ifname}",
+           "format-disconnected": "", //An empty format will hide the module.
+           "tooltip-format": "{ifname}",
+           "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+           "tooltip-format-ethernet": "{ifname} ",
+           "tooltip-format-disconnected": "Disconnected",
+           "max-length": 50
+      },
+      "cpu": {
+        "format": "{usage}%"
+      }
+    }
+  '';
+
+  xdg.configFile."waybar/style.css".text = ''
+    * {
+        border: none;
+        border-radius: 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0.2ex;
+        padding-bottom: 0.2ex;
+        margin: 0;
+        font-family: PragmataPro;
+        font-size: 15px;
+        min-height: 0;
+    }
+
+    label {
+        padding-left: 0.5ex;
+        padding-right: 0.5ex;
+    }
+
+    window#waybar {
+        background-color: rgba(42, 46, 56, 0.7) ;
+        color: #bbc2cf;
+        border: none;
+        transition-property: background-color;
+        transition-duration: .5s;
+    }
+
+    #workspaces button {
+        min-width: 1em;
+        color: #bbc2cf;
+    }
+
+    #workspaces button:hover {
+        box-shadow: inherit;
+        text-shadow: inherit;
+    }
+
+    #workspaces button.focused {
+        background-color: ${color-blue};
+        color: ${color-gray};
+    }
+
+    #workspaces button.urgent {
+        background-color: #eb4d4b;
+    }
+
+    #mode {
+        background-color: #ff665c;
+        color: ${color-gray};
+    }
+
+    #battery.full, #battery.plugged {
+        color: #98be65;
+    }
+
+    #battery.good {
+        color: #bbc2cf;
+    }
+
+    #battery.warning {
+        color: #ecbe7b;
+    }
+
+    #battery.critical {
+        color: #ff665c;
+    }
+
+    @keyframes blink {
+        to {
+            background-color: #ff665c;
+            color: ${color-gray};
+        }
+    }
+
+    #battery.critical:not(.charging) {
+        background-color: ${color-gray};
+        color: #ff665c;
+        animation-name: blink;
+        animation-duration: 0.5s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+
+    @define-color col_border_solid rgba(187, 194, 207, 1);
+    @define-color col_border_trans rgba(187, 194, 207, 0);
+
+    #waybar > box:nth-child(2) > box:nth-child(3) > * > label, #tray {
+      padding: 0 10px;
+    }
+
+    #waybar > box:nth-child(2) > box:nth-child(3) > :last-child > label {
+      padding-right: 0.5ex;
+    }
+
+    #waybar > box:nth-child(2) > box:nth-child(3) > *:not(:first-child) > label, #tray {
+        background-image:
+          linear-gradient(@col_border_trans, @col_border_solid 20%, @col_border_solid 80%, @col_border_trans);
+        background-size: 1px 80%;
+        background-position: 0 50%;
+        background-repeat: no-repeat;
+    }
+  '';
+
+  systemd.user.services.random-background = {
+    Unit = {
+      Description = "Set random desktop background for sway";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "sway.service" ];
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${set-random-bg}";
+      IOSchedulingClass = "idle";
+    };
+  };
+  systemd.user.timers.random-background = {
+    Unit = {
+      Description = "Set random desktop background for sway";
+    };
+    Timer = {
+      OnUnitActiveSec = "1h";
+    };
+    Install = {
+      WantedBy = [ "timers.target" ];
     };
   };
 }

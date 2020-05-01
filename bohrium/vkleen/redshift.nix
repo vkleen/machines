@@ -9,6 +9,7 @@
       day = 6500;
       night = 3500;
     };
-    extraOptions = [ "-m randr" ];
+    package = pkgs.redshift-wlr;
+    extraOptions = [ "-m wayland" ];
   };
 }

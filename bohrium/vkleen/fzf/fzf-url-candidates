@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+_qute_basedir="$1"
+
+history_lines=( "${(f)$(sed -e 's/ /\t/' <$_qute_basedir/config/bookmarks/urls)}" )
+
+printf '%s\0' "${(@)history_lines}"
+
+{sqlite3 -separator $'\t' ${_qute_basedir}/data/history.sqlite | tr '\n' '\0'} <<EOF
+select url, title from (select url, title, max(atime) as atime from history group by url) t order by atime desc
+EOF

@@ -4,7 +4,6 @@
   imports =
     [
       ./cups.nix
-      ./custom/lock-on-suspend.nix
       ./custom/uucp.nix
       ./dconf.nix
       ./email.nix
@@ -16,6 +15,7 @@
       ./users.nix
       ./wayland.nix
       # ./xserver.nix
+      # ./custom/lock-on-suspend.nix
     ];
 
   nix = {
@@ -70,6 +70,8 @@
 
           MAC80211_MESH = yes;
 
+          CONFIG_MOUSE_ELAN_I2C_SMBUS = yes;
+
           BPFILTER = yes;
           BPFILTER_UMH = module;
 
@@ -110,6 +112,11 @@
 
   networking.hostId = "2469eead";
   environment.etc."machine-id".text = "2469eead8c84bfe7caf902d7f00a1a7c";
+
+  systemd.coredump.extraConfig = ''
+    Storage=none
+    ProcessSizeMax=0
+  '';
 
   environment.etc."systemd/sleep.conf".text = lib.mkForce ''
     [Sleep]
@@ -253,10 +260,17 @@
     enable = true;
     extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pkgs.pulseaudioFull;
+    extraConfig = ''
+      load-module module-switch-on-connect
+    '';
   };
 
   hardware.opengl = {
     enable = true;
+    extraPackages = with pkgs; [
+      vaapiIntel
+      intel-media-driver
+    ];
   };
 
   services.thermald = {

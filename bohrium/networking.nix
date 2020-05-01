@@ -21,7 +21,7 @@
     };
 
     dhcpcd = {
-      allowInterfaces = [ "wlan0" "eth-usb" "wwan" "einsteinium" ];
+      allowInterfaces = [ "wlan0" "eth-usb" "eth-dock" "wwan" "einsteinium" ];
       enable = true;
       extraConfig = ''
         metric 400
@@ -54,7 +54,7 @@
     wireguard.interfaces = {
       wg0 = {
         ips = [ "10.172.20.132/24" "2a03:4000:21:6c9:ba9c:2469:eead:1/80"];
-        privateKeyFile = "/persist/keys/bohrium";
+        privateKeyFile = "/persist/private/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
           { publicKey = builtins.readFile ../wireguard/samarium.pub;
@@ -65,7 +65,7 @@
       };
       wg1 = {
         ips = [ "10.172.30.132/24" "2600:3c01:e002:8b9d:2469:eead::1/64" ];
-        privateKeyFile = "/persist/keys/bohrium";
+        privateKeyFile = "/persist/private/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
           { publicKey = builtins.readFile ../wireguard/plutonium.pub;
@@ -91,6 +91,7 @@
 
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="70:88:6b:8a:f1:5f", NAME:="eth-usb"
+    SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="00:50:b6:ec:74:02", NAME:="eth-dock"
     ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1f01", RUN+="${pkgs.usb_modeswitch}/bin/usb_modeswitch -J -v %s{idVendor} -p %s{idProduct}"
     KERNEL=="eth*", ATTR{address}=="58:2c:80:13:92:63", NAME="wwan"
     SUBSYSTEM=="net", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee3", ATTRS{serial}=="FA6CN0301735", NAME:="einsteinium"

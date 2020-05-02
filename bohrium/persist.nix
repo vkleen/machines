@@ -13,7 +13,11 @@
   ];
 
   systemd.tmpfiles.rules = [
-    "L /var/lib/iwd - - - - /persist/iwd"
     "L /var/lib/bluetooth - - - - /persist/bluetooth"
   ];
+
+  fileSystems."/var/lib/iwd" = {
+    device = "/persist/iwd";
+    options = [ "bind" ];
+  };
 }

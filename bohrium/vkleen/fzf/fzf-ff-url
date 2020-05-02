@@ -19,7 +19,6 @@ function _do_fzf() {
           --print-query \
           --expect='alt-enter,enter' \
           --preview-window up:1 \
-          --history="$HOME/.fzf-ff-url-history" \
           --preview 'v=$(echo {q} | tr " " "|"); echo {2..} | @grep@ -E "^|$v" -i --color=always' \
     | @awk@ 'BEGIN {FS="\t"; OFS="\t"}; {print $1}'
 }

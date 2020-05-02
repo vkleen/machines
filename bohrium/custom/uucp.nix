@@ -5,12 +5,13 @@ with lib;
 let
   knownHostsFile = pkgs.writeText "known_hosts" cfg.sshHosts;
   sshConfigFile = pkgs.writeText "uucp_ssh_config" cfg.sshConfig;
+  # Don't use quotes, uucp doesn't understand them
   portSpec = name: ''
     port ${name}
     type pipe
     protocol ${if builtins.hasAttr name cfg.protocols then cfg.protocols."${name}" else cfg.defaultProtocol}
     reliable true
-    command ${pkgs.openssh}/bin/ssh -x -F "${sshConfigFile}" -o UserKnownHostsFile="${knownHostsFile}" -o HostKeyAlias="${name}" -o batchmode=yes "${name}"
+    command ${pkgs.openssh}/bin/ssh -x -F ${sshConfigFile} -o UserKnownHostsFile=${knownHostsFile} -o HostKeyAlias=${name} -o batchmode=yes ${name}
   '';
   sysSpec = name: ''
     system ${name}
@@ -189,6 +190,10 @@ in {
     } // cfg.sshUser;
 
     system.activationScripts."uucp-logs" = ''
+      mkdir -p $(dirname "${cfg.logFile}")
+      mkdir -p $(dirname "${cfg.statFile}")
+      mkdir -p $(dirname "${cfg.debugFile}")
+      mkdir -p "${cfg.spoolDir}"
       touch ${cfg.logFile}
       chown ${config.users.users."uucp".name}:${config.users.users."uucp".group} ${cfg.logFile}
       chmod 644 ${cfg.logFile}

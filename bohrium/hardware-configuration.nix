@@ -16,6 +16,10 @@
     forceImportAll = false;
   };
 
+  boot.loader.efi = {
+    canTouchEfiVariables = true;
+    efiSysMountPoint = "/boot/efi";
+  };
   boot.loader.grub = {
     enable = true;
     device = "nodev";
@@ -25,20 +29,31 @@
     copyKernels = true;
     extraInitrd = "/boot/keyfiles.gz";
     extraPrepareConfig = ''
-      umask 277
-      ${pkgs.coreutils}/bin/sort | ${pkgs.cpio}/bin/cpio -o -H newc -R +0:+0 --reproducible | ${pkgs.gzip}/bin/gzip -9 > @bootPath@/keyfiles.gz <<EOF
+      umask 0277
+      echo "Generating @bootPath@/keyfiles.gz"
+      (${pkgs.coreutils}/bin/sort | ${pkgs.cpio}/bin/cpio -o -H newc -R +0:+0 --reproducible | ${pkgs.gzip}/bin/gzip -9 > @bootPath@/keyfiles.gz) <<EOF
 /persist/private/keyfiles/swap
 /persist/private/keyfiles/data
 /persist/private/keyfiles/boot
-/persist/private/keyfiles/zfs
-      EOF
+/persist/private/zfs
+/persist
+/persist/private
+/persist/private/keyfiles
+EOF
     '';
   };
 
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    ${pkgs.zfs}/bin/zfs rollback -r bohrium/local/root@blank
+  '';
+
 # cryptsetup:
-#   cryptsetup luksFormat /dev/nvme0n1p2 --cipher='capi:xts(aes)-plain64' --key-size=512 --keyslot-key-size=512 --keyslot-cipher=aes-xts-plain64 --hash=sha256 --type luks
+#   cryptsetup luksFormat /dev/nvme0n1p2 --cipher='aes-xts-plain64' --key-size=512 --keyslot-key-size=512 --keyslot-cipher=aes-xts-plain64 --hash=sha256 --type luks
 #   cryptsetup luksFormat /dev/nvme0n1p3 --cipher='capi:adiantum(xchacha20,aes)-plain64' --key-size=256 --keyslot-key-size=512 --keyslot-cipher=aes-xts-plain64 --pbkdf=argon2i --hash=blake2b512 --sector-size=4096
 #   cryptsetup luksFormat /dev/nvme0n1p4 --cipher='capi:adiantum(xchacha20,aes)-plain64' --key-size=256 --keyslot-key-size=512 --keyslot-cipher=aes-xts-plain64 --pbkdf=argon2i --hash=blake2b512 --sector-size=4096
+#   cryptsetup luksAddKey /dev/nvme0n1p2 /persist/private/keyfiles/boot
+#   cryptsetup luksAddKey /dev/nvme0n1p3 /persist/private/keyfiles/swap
+#   cryptsetup luksAddKey /dev/nvme0n1p4 /persist/private/keyfiles/data
 #
 # ZFS formatting:
 #   zpool create -o ashift=12 -O encryption=aes-256-ccm -O keyformat=passphrase -O keylocation=file:///persist/private/zfs -O mountpoint=none bohrium /dev/mapper/bohrium-data
@@ -61,13 +76,13 @@
         keyFile = "/persist/private/keyfiles/data";
       };
       "bohrium-boot" = {
-        device = "/dev/disk/by-uuid/a1e2190b-557c-4b94-852a-d855f326b72f";
+        device = "/dev/disk/by-uuid/4e3ff2bf-bdd2-4c43-beae-e16fcc110845";
         keyFile = "/persist/private/keyfiles/boot";
       };
     };
     cryptoModules = [
-      "dm_integrity" "aes" "aes_generic" "aes_x86_64"  "sha256"
-      "aegis128" "aegis128_aesni"
+      "dm_integrity" "aes" "aesni_intel" "sha256"
+      "adiantum" "nhpoly1305_avx2" "curve25519_x86_64" "chacha_x86_64" "poly1305_x86_64" "blake2s_x86_64"
       "dm_bufio" "algif_aead" "algif_skcipher" "algif_hash" "authenc"
     ];
   };
@@ -93,7 +108,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/de25fe4d-e6d0-4f1e-9eb4-89f19bd51009";
+    device = "/dev/disk/by-uuid/d5530f58-e33b-40e7-8919-d0a7fe8df5e8";
     fsType = "ext4";
   };
 

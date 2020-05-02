@@ -33,6 +33,7 @@
         ];
       };
       "root" = {
+        initialHashedPassword = lib.mkForce null;
         openssh.authorizedKeys.keys = config.users.extraUsers."vkleen".openssh.authorizedKeys.keys;
       };
     };

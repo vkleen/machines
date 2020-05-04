@@ -11,10 +11,10 @@ let
   pure-theme = pkgs.stdenv.mkDerivation {
     name = "zsh-pure-theme";
     src = pkgs.fetchFromGitHub {
-      owner = "vkleen";
+      owner = "intelfx";
       repo = "pure";
-      rev = "495bff2f87480509af8d18a498faf43ce2828a01";
-      sha256 = "1bdk2dv8p3bc4y27v78mm3xg21g1hp9yik7r4lbyf4mh2ixgy55h";
+      rev = "e9f8ad4e639f3a43133d6a0dc7a21d4f1e7878a1";
+      sha256 = "0chbwrvhyc6asa49k1s43jha5c5lhjdhrlf0nl8la4an3j78mdh5";
     };
     preferLocalBuild = true;
     allowSubstitutes = false;
@@ -88,6 +88,8 @@ in {
 
       fpath+=( "${config.home.homeDirectory}/${pluginsDir}/pure" )
       PURE_PROMPT_SYMBOL='%(!.$.❯)'
+      PURE_GIT_FETCH=0
+      PURE_GIT_UNTRACKED=0
       autoload -Uz promptinit; promptinit
       prompt pure
 

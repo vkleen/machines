@@ -16,6 +16,11 @@ let
     ${pkgs.waybar}/bin/waybar
   '';
 
+  start-kanshi = pkgs.writeShellScript "start-kanshi" ''
+    ${get-swaysock}
+    ${pkgs.kanshi}/bin/kanshi
+  '';
+
   get-random-bg-file = pkgs.writeScriptBin "get-random-bg-file" ''
     #!${pkgs.zsh}/bin/zsh
     FILE=(~/wallpapers/*.jpg(Noe{'REPLY=$RANDOM,$RANDOM'}[1,1]))
@@ -452,19 +457,19 @@ in {
     };
     Service = {
       Type = "simple";
-      ExecStart = "${pkgs.kanshi}/bin/kanshi";
+      ExecStart = "${start-kanshi}";
       RestartSec = 5;
       Restart = "always";
     };
   };
 
   xdg.configFile."kanshi/config".text = ''
-    {
+    profile nomad {
       output eDP-1 mode 1920x1080 position 0,0
     }
-    {
+    profile multi-dock {
       output eDP-1 mode 1920x1080 position 0,1440
-      output DP-4 mode 2560x1440 position 0,0
+      output "Unknown ASUS PB27U 0x0000388B" mode 2560x1440 position 0,0
     }
   '';
 

@@ -116,11 +116,6 @@
     ProcessSizeMax=0
   '';
 
-  environment.etc."systemd/sleep.conf".text = lib.mkForce ''
-    [Sleep]
-    HibernateDelaySec=15min
-  '';
-
   security.hideProcessInformation = false;
   security.apparmor.enable = false;
 
@@ -165,6 +160,11 @@
     "intel_iommu=on"
 
     "elevator=none"
+    "loglevel=0"
+  ];
+
+  systemd.tmpfiles.rules = [
+    "w /sys/power/image_size - - - - ${builtins.toString (8*1024*1024*1024)}"
   ];
 
   networking.hostName = "bohrium";
@@ -209,18 +209,18 @@
     %wheel      ALL=(ALL:ALL) SETENV: ALL
   '';
 
-  security.polkit.extraConfig = ''
-    polkit.addRule(function(action, subject) {
-        if (action.id == "org.freedesktop.systemd1.manage-units") {
-            if (action.lookup("unit") == "physlock.service") {
-                var verb = action.lookup("verb");
-                if (verb == "start") {
-                    return polkit.Result.YES;
-                }
-            }
-        }
-    });
-  '';
+  # security.polkit.extraConfig = ''
+  #   polkit.addRule(function(action, subject) {
+  #       if (action.id == "org.freedesktop.systemd1.manage-units") {
+  #           if (action.lookup("unit") == "physlock.service") {
+  #               var verb = action.lookup("verb");
+  #               if (verb == "start") {
+  #                   return polkit.Result.YES;
+  #               }
+  #           }
+  #       }
+  #   });
+  # '';
 
   programs.firejail.enable = true;
 
@@ -320,8 +320,6 @@
       ATTR{idVendor}=="0525", ATTR{idProduct}=="a4a5", GROUP:="dialout", MODE:="0660"
       ATTR{idVendor}=="0525", ATTR{idProduct}=="b4a4", GROUP:="dialout", MODE:="0660"
       LABEL="librem5_devkit_rules_end"
-
-      # SUBSYSTEM=="drm", ACTION=="change", ENV{HOTPLUG}=="1" RUN+="${pkgs.autorandr}/bin/autorandr --batch -c --default clone-largest"
 
       SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
     '';

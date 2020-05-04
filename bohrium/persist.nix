@@ -20,4 +20,13 @@
     device = "/persist/iwd";
     options = [ "bind" ];
   };
+
+  fileSystems."/root/.aws" = {
+    device = "/persist/aws";
+    options = [ "bind" ];
+  };
+  fileSystems."/home/vkleen/.aws" = {
+    device = "/persist/aws";
+    options = [ "bind" ];
+  };
 }

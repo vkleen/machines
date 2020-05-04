@@ -168,7 +168,6 @@ in {
     xorg.xmodmap
     xorg.xprop
     xsel
-    xsuspender
     xterm
     youtube-dl
     yq

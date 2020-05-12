@@ -1,6 +1,6 @@
-{ override-rev ? null }:
+{ override-rev ? null, override-json ? ./nixpkgs-src.json }:
 let
-  spec = builtins.fromJSON (builtins.readFile ./nixpkgs-src.json) // {
+  spec = builtins.fromJSON (builtins.readFile override-json) // {
     ${if override-rev != null then "rev" else null} = override-rev;
   };
   src = let url = "https://github.com/${spec.owner}/${spec.repo}/archive/${spec.rev}.tar.gz";

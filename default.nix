@@ -1,6 +1,7 @@
 args@{ override-rev ? null, override-pkgs ? null }:
 let
   pkgs-path = args.override-pkgs or (import ./fetch-nixpkgs.nix { inherit override-rev; });
+  pkgs-power9-path = args.override-pkgs or (import ./fetch-nixpkgs.nix { inherit override-rev; override-json = ./nixpkgs-power9-src.json; });
   lib = import "${pkgs-path}/lib";
 
   nixpkgs-x86_64 = args: import "${pkgs-path}/pkgs/top-level" ({
@@ -75,7 +76,7 @@ let
     };
   });
 
-  nixpkgs-ppc64 = args: import "${pkgs-path}/pkgs/top-level" ({
+  nixpkgs-ppc64 = args: import "${pkgs-power9-path}/pkgs/top-level" ({
     config = {
       allowUnsupportedSystem = true;
     };
@@ -93,7 +94,7 @@ let
     overlays = all-overlays-in ./chlorine/overlays;
   }).nixos (import ./chlorine/configuration.nix);
 
-  nixpkgs-arm = args: import "${pkgs-path}" ({
+  nixpkgs-arm = args: import "${pkgs-power9-path}" ({
     config = {};
     overlays = all-overlays-in ./chlorine/overlays;
     localSystem = {

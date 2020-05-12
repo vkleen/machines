@@ -89,7 +89,7 @@ in {
     iw
     ldns
     libbladeRF
-    libreoffice
+    # libreoffice
     llpp
     lrzsz
     lshw
@@ -99,14 +99,13 @@ in {
     man-pages
     mercurial
     mkpasswd
-    mosh
+    # mosh
     mpv
     nix-index nix-prefetch-scripts
     noti
     notmuch
     nox
-    p7zip
-    pandoc
+    # pandoc
     parallel
     pass
     pavucontrol
@@ -166,7 +165,7 @@ in {
 
     cura
     openscad
-    freecad
+    # freecad
     solvespace
 
     adapta-gtk-theme
@@ -183,86 +182,6 @@ in {
     paper-gtk-theme
     paper-icon-theme
 
-    dhall
-
-    fast-p.bin
-
-
-
-    a2ps
-    aspell
-    aspellDicts.de
-    aspellDicts.en
-    aspellDicts.en
-    aspellDicts.en-computers
-    aspellDicts.en-science
-    autossh
-    awscli
-    batctl
-    bc
-    blackbox
-    cached-nix-shell
-    calc
-    djvulibre
-    dnsutils
-    dos2unix
-    entr
-    exiftool
-    fd
-    file
-    gdrive
-    gitAndTools.git-crypt
-    gitAndTools.gitRemoteGcrypt
-    gitAndTools.hub
-    gitRepo
-    gnupg
-    htop
-    imagemagick
-    iperf
-    ldns
-    libbladeRF
-    lrzsz
-    lshw
-    lsof
-    lsscsi
-    magic-wormhole
-    man-pages
-    mercurial
-    mkpasswd
-    mosh
-    nix-index nix-prefetch-scripts
-    nox
-    p7zip
-    #pandoc
-    #papis
-    parallel
-    pciutils
-    picocom
-    pmtools
-    psmisc
-    pv
-    pwgen
-    qpdf
-    radare2
-    rsync
-    sqlite
-    s-tui
-    tealdeer
-    telnet
-    tmux
-    tree
-    tsocks
-    usb-modeswitch
-    usbutils
-    xterm
-    youtube-dl
-    yq
-
-    sigrok-cli
-
-    # hledger
-    # hledger-interest
-    # hledger-ui
-    # ledger-autosync
+    # dhall
   ];
 }

@@ -15,8 +15,6 @@
   home.packages =
     let fcfg = lib.setAttrByPath ["firefox"] {
           enableAdobeFlash = false;
-          enableGoogleTalkPlugin = false;
-          icedtea = false;
         };
 
         wrapper = pkgs.wrapFirefox.override {

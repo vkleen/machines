@@ -116,7 +116,7 @@
     wget zsh i2c-tools
     pciutils numactl
     vim
-    tmux mosh batctl
+    tmux batctl
     qemu
   ];
 

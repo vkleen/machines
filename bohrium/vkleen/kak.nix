@@ -23,6 +23,14 @@ in {
     EDITOR = "${kak}/bin/kak";
   };
 
+  xdg.configFile."kak-lsp/kak-lsp.toml".text = ''
+    [language.haskell]
+    filetypes = ["haskell"]
+    roots = ["Setup.hs", "stack.yaml", "*.cabal"]
+    command = "haskell-language-server"
+    args = ["--lsp"]
+  '';
+
   home.packages = with pkgs; [
     kak
     kak-lsp

@@ -35,6 +35,9 @@
     };
 
     interfaces = {
+      "wlan0" = {
+        useDHCP = true;
+      };
       "tap-vkleen" = {
         virtual = true;
         virtualType = "tap";

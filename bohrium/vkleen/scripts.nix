@@ -15,9 +15,22 @@ let update-chlorine-boot = pkgs.writeScriptBin "update-chlorine-boot" ''
            "https://avwx.rest/api/taf/''${station}" "https://avwx.rest/api/metar/''${station}" 2>/dev/null \
                 | jq -r '.raw'
     '';
+
+    update-envrc = pkgs.writeScriptBin "update-envrc" ''
+      #!${pkgs.stdenv.shell}
+      SHELLNIX=''${1:-shell.nix}
+
+      DIRENV=${pkgs.direnv}/bin/direnv
+
+      mkdir -p .gcroots
+
+      nix-instantiate "''${SHELLNIX}" --indirect --add-root "$PWD"/.gcroots/shell.drv
+      nix-shell "$(readlink "$PWD"/.gcroots/shell.drv)" --run 'unset ''${!SSH_@} ''${!DIRENV_@} shellHook TEMP TEMPDIR TMP TMPDIR SSL_CERT_FILE NIX_SSL_CERT_FILE ''${!DBUS@} ''${!DESKTOP@} ''${!XDG@} ''${!TMUX@} I3SOCK TERM && '"$DIRENV"' dump bash > '"''${2:-.envrc.cache}"' '
+    '';
 in {
   home.packages = [
     update-chlorine-boot
     wx
+    update-envrc
   ];
 }

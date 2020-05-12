@@ -119,14 +119,13 @@ in {
     man-pages
     mercurial
     mkpasswd
-    mosh
+    # mosh
     neovim
     nix-index nix-prefetch-scripts
     nix-prefetch-github
     noti
     notmuch
     nox
-    p7zip
     pandoc
     parallel
     pass
@@ -179,7 +178,7 @@ in {
     geda
     gerbv
     gtkwave
-    kicad
+    kicad-unstable
     librepcb
     ngspice
     qucs
@@ -193,8 +192,6 @@ in {
     solvespace
 
     dhall
-
-    fast-p.bin
 
     cycle_powersaving
 

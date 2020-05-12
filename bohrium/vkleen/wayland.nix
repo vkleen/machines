@@ -94,16 +94,15 @@ let
     echo '{ "command": ["playlist-prev"] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}"
   '';
 
-  open-tmux = pkgs.writeShellScript "open-tmux" ''
-    SESSION_NAME=persistent
-    if ${pkgs.tmux}/bin/tmux has-session -t $SESSION_NAME; then
+  open-tmux = session: pkgs.writeShellScript "open-tmux" ''
+    if ${pkgs.tmux}/bin/tmux has-session -t ${session}; then
       if [ "$1" == "-e" ]; then
-        exec ${pkgs.tmux}/bin/tmux new-session -t $SESSION_NAME \; set-option destroy-unattached on
+        exec ${pkgs.tmux}/bin/tmux new-session -t ${session} \; set-option destroy-unattached on
       else
-        exec ${pkgs.tmux}/bin/tmux new-session -t $SESSION_NAME \; set-option destroy-unattached on \; new-window
+        exec ${pkgs.tmux}/bin/tmux new-session -t ${session} \; set-option destroy-unattached on \; new-window
       fi
     else
-      sudo systemd-run -p PAMName=login -p Type=forking --uid=vkleen --gid=users tmux new-session -d -s persistent
+      exec ${pkgs.tmux}/bin/tmux new-session -t ${session} \; set-option destroy-unattached off
     fi
   '';
 
@@ -282,8 +281,10 @@ in {
         "${mod}+Shift+r" = "restart";
         "${mod}+Shift+x" = "exit";
 
-        "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux}";
-        "${mod}+Shift+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux} -e";
+        "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux "persistent"}";
+        "${mod}+Shift+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux "persistent"} -e";
+        "${mod}+s" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux "kak"}";
+        "${mod}+Shift+s" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux "kak"} -e";
 
         "${mod}+d" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-run}";
         "${mod}+Shift+p" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pass}";
@@ -465,11 +466,11 @@ in {
 
   xdg.configFile."kanshi/config".text = ''
     profile nomad {
-      output eDP-1 mode 1920x1080 position 0,0
+      output eDP-1 enable mode 1920x1080 position 0,0
     }
-    profile multi-dock {
-      output eDP-1 mode 1920x1080 position 0,1440
-      output "Unknown ASUS PB27U 0x0000388B" mode 2560x1440 position 0,0
+    profile single-dock {
+      output eDP-1 disable
+      output "Unknown ASUS PB27U 0x0000388B" enable mode 2560x1440 position 0,0
     }
   '';
 
@@ -499,7 +500,7 @@ in {
         "disable-scroll": true
       },
       "sway/window": {
-        "max-length": 120
+        "max-length": 80
       },
       "battery": {
         "states": {

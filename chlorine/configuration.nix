@@ -150,8 +150,8 @@
   boot.kernelModules = [ "powernv-cpufreq" ];
   powerManagement.cpuFreqGovernor = "schedutil";
 
-  nix.buildCores = 72;
-  nix.maxJobs = 72;
+  nix.buildCores = 1;
+  nix.maxJobs = 144*2;
 
   nix.extraOptions = ''
     keep-outputs = true

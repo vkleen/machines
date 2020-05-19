@@ -2,7 +2,6 @@
 {
   services.nginx = let cfg = config; in rec {
     enable = false;
-    stateDir = "/tmp/${toString cfg.users.extraUsers.${user}.uid}/nginx";
     user = "vkleen";
     group = "users";
     config = ''

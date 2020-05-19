@@ -19,6 +19,7 @@ let
   '';
   mpv-playlist = pkgs.writeScriptBin "mpv-playlist" ''
     #!${pkgs.bash}/bin/bash
+    [[ -S "${mpv-socket}" ]] || exit 1
 
     mapfile jq_command <<eof
     .data | .[] | (if has("current") then "> " else "  " end) + .filename
@@ -27,6 +28,12 @@ let
     echo '{ "command": ["get_property", "playlist"] }' \
         | ${pkgs.socat}/bin/socat - "${mpv-socket}" \
         | ${pkgs.jq}/bin/jq -r "''${jq_command[*]}"
+  '';
+  mpv-clear = pkgs.writeScriptBin "mpv-clear" ''
+    #!${pkgs.bash}/bin/bash
+    [[ -S "${mpv-socket}" ]] || exit 1
+
+    echo '{ "command": ["playlist-clear"] }' | ${pkgs.socat}/bin/socat - "${mpv-socket}"
   '';
 in {
   options = {
@@ -38,6 +45,7 @@ in {
     home.packages = with pkgs; [
       mpv
       start-mpv play play-clip mpv-playlist
+      mpv-clear
     ];
     xdg.configFile."mpv/mpv.conf".text = ''
       gpu-context=waylandvk

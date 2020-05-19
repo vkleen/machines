@@ -9,7 +9,7 @@
       ./email.nix
       ./hardware-configuration.nix
       ./networking.nix
-      ./nginx.nix
+      # ./nginx.nix
       ./nspawn.nix
       ./persist.nix
       ./power.nix

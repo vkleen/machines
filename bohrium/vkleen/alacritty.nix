@@ -43,34 +43,28 @@
       style: Block
       hide_when_typing: false
 
-    # Colors (Solarized Dark)
     colors:
-      # Default colors
       primary:
-        background: '0x002b36'
-        foreground: '0x839496'
-
-      # Normal colors
+        background: '0x103c48'
+        foreground: '0xadbcbc'
       normal:
-        black:   '0x073642'
-        red:     '0xdc322f'
-        green:   '0x859900'
-        yellow:  '0xb58900'
-        blue:    '0x268bd2'
-        magenta: '0xd33682'
-        cyan:    '0x2aa198'
-        white:   '0xeee8d5'
-
-      # Bright colors
+        black:   '0x184956'
+        red:     '0xfa5750'
+        green:   '0x75b938'
+        yellow:  '0xdbb32d'
+        blue:    '0x4695f7'
+        magenta: '0xf275be'
+        cyan:    '0x41c7b9'
+        white:   '0x72898f'
       bright:
-        black:   '0x586e75'
-        red:     '0xcb4b16'
-        green:   '0x586e75'
-        yellow:  '0x657b83'
-        blue:    '0x839496'
-        magenta: '0x6c71c4'
-        cyan:    '0x93a1a1'
-        white:   '0xfdf6e3'
+        black:   '0x2d5b69'
+        red:     '0xff665c'
+        green:   '0x84c747'
+        yellow:  '0xebc13d'
+        blue:    '0x58a3ff'
+        magenta: '0xff84cd'
+        cyan:    '0x53d6c7'
+        white:   '0xcad8d9'
 
     visual_bell:
       animation: EaseOutExpo

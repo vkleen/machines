@@ -93,6 +93,8 @@ in {
       autoload -Uz promptinit; promptinit
       prompt pure
 
+      export LS_COLORS="$LS_COLORS:ow=1;7;34:st=30;44:su=30;41"
+
       source "${git-subrepo}/.rc"
       source "${zsh-syntax-highlighting}/zsh-syntax-highlighting.zsh"
 

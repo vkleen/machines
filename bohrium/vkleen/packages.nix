@@ -157,6 +157,7 @@ in {
     tmux
     tree
     tsocks
+    unzip
     usb-modeswitch
     usbutils
     w3m

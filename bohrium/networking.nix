@@ -42,10 +42,6 @@
         virtual = true;
         virtualType = "tap";
         virtualOwner = "vkleen";
-        ipv4.addresses =  [ {
-          address = "10.1.1.254";
-          prefixLength = 24;
-        } ];
       };
     };
 

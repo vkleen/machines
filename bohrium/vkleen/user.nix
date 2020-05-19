@@ -11,6 +11,7 @@ builtins.map (x: import x args) [
   ./gpg.nix
   ./gtk.nix
   ./kak.nix
+  ./kitty.nix
   ./mpv.nix
   ./packages.nix
   ./redshift.nix

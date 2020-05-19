@@ -1,19 +1,19 @@
 { pkgs, config, ... }:
 {
   home.packages = with pkgs; [
-    adapta-gtk-theme
-    arc-icon-theme
-    arc-theme
-    gnome3.adwaita-icon-theme
-    gtk-engine-murrine
-    gtk_engines
-    hicolor-icon-theme
-    materia-theme
-    nixos-icons
-    numix-icon-theme
-    numix-solarized-gtk-theme
-    paper-gtk-theme
-    paper-icon-theme
+    # adapta-gtk-theme
+    # arc-icon-theme
+    # arc-theme
+    # gnome3.adwaita-icon-theme
+    # gtk-engine-murrine
+    # gtk_engines
+    # hicolor-icon-theme
+    # materia-theme
+    # nixos-icons
+    # numix-icon-theme
+    # numix-solarized-gtk-theme
+    # paper-gtk-theme
+    # paper-icon-theme
   ];
 
   gtk = {

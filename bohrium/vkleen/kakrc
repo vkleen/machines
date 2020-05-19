@@ -1,4 +1,4 @@
-colorscheme solarized-dark
+colorscheme selenized-dark
 set-option global ui_options ncurses_status_on_top=false
 
 add-highlighter global/ show-matching
@@ -95,3 +95,6 @@ set-option global fzf_sk_grep_command 'rg'
 set-option global fzf_highlight_command 'bat --color=always -p {}'
 
 map global normal <c-p> ':fzf-mode<ret>'
+
+# wiki
+wiki-setup %sh{ echo $HOME/work }

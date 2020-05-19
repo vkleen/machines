@@ -2,9 +2,9 @@ let name = "pragmatapro-${version}";
     version = "0.828-2";
 in self: super: {
   pragmatapro = self.runCommand name rec {
-    outputHashMode = "recursive";
-    outputHashAlgo = "sha256";
-    outputHash = "0zh21h1rq96q8l0k1135pvdwcik0fsjbcqmsq46fhv7f9j936zlx";
+    # outputHashMode = "recursive";
+    # outputHashAlgo = "sha256";
+    # outputHash = "0zh21h1rq96q8l0k1135pvdwcik0fsjbcqmsq46fhv7f9j936zlx";
 
     src = self.requireFile rec {
       name = "PragmataPro${version}.zip";
@@ -17,6 +17,6 @@ in self: super: {
     unzip $src
     install_path=$out/share/fonts/truetype/pragmatapro
     mkdir -p $install_path
-    find -name "PragmataPro*.ttf" -and -not -name "*liga*" -exec cp {} $install_path \;
+    find -name "PragmataPro*.ttf" -exec cp {} $install_path \;
   '';
 }

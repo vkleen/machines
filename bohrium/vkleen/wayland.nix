@@ -141,8 +141,33 @@ let
     (builtins.readFile ./fzf/fzf-pass)
   );
 
-  color-blue = "#51afef";
-  color-gray = "#2a2e38";
+  colors = {
+    bg = "#103c48";
+    black = "#184956";
+    br_black = "#2d5b69";
+
+    white = "#72898f";
+    fg = "#adbcbc";
+    br_white = "#cad8d9";
+
+    red = "#fa5750";
+    green = "#75b938";
+    yellow = "#dbb32d";
+    blue = "#4695f7";
+    magenta = "#f275be";
+    cyan = "#41c7b9";
+    orange = "#ed8649";
+    violet = "#af88eb";
+
+    br_red = "#ff665c";
+    br_green = "#84c747";
+    br_yellow = "#ebc13d";
+    br_blue = "#58a3ff";
+    br_magenta = "#ff84cd";
+    br_cyan = "#53d6c7";
+    br_orange = "#fd9456";
+    br_violet = "#bd96fa";
+  };
 in {
   home.packages = with pkgs; [
     grim wl-clipboard slurp brightnessctl
@@ -191,6 +216,8 @@ in {
     systemdIntegration = false;
     config = let
       mod = "Mod4";
+      terminal = "${pkgs.kitty}/bin/kitty -1";
+      scratch-terminal = "${pkgs.alacritty}/bin/alacritty";
       ws = lib.genAttrs (map (i: "${builtins.toString i}") (lib.range 1 9)) (n: n) // {
         "0" = "10";
         "1" = "web";
@@ -231,25 +258,25 @@ in {
       };
       colors = {
         focused = {
-          border = color-blue;
-          background = color-blue;
-          text = color-gray;
-          indicator = color-blue;
-          childBorder = color-blue;
+          border = colors.blue;
+          background = colors.blue;
+          text = colors.black;
+          indicator = colors.green;
+          childBorder = colors.blue;
         };
         focusedInactive = {
-          border = color-gray;
-          background = color-gray;
-          text = "#dfdfdf";
-          indicator = color-gray;
-          childBorder = color-gray;
+          border = colors.cyan;
+          background = colors.cyan;
+          text = colors.black;
+          indicator = colors.violet;
+          childBorder = colors.cyan;
         };
         unfocused = {
-          border = color-gray;
-          background = color-gray;
-          text = "#dfdfdf";
-          indicator = color-gray;
-          childBorder = color-gray;
+          border = colors.black;
+          background = colors.black;
+          text = colors.fg;
+          indicator = colors.white;
+          childBorder = colors.white;
         };
       };
       keybindings = switch-ws-keys // move-ws-keys // {
@@ -281,15 +308,15 @@ in {
         "${mod}+Shift+r" = "restart";
         "${mod}+Shift+x" = "exit";
 
-        "${mod}+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux "persistent"}";
-        "${mod}+Shift+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux "persistent"} -e";
-        "${mod}+s" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux "kak"}";
-        "${mod}+Shift+s" = "exec ${pkgs.alacritty}/bin/alacritty -e ${open-tmux "kak"} -e";
+        "${mod}+Return" = "exec ${terminal} -e ${open-tmux "persistent"}";
+        "${mod}+Shift+Return" = "exec ${terminal} -e ${open-tmux "persistent"} -e";
+        "${mod}+s" = "exec ${terminal} -e ${open-tmux "kak"}";
+        "${mod}+Shift+s" = "exec ${terminal} -e ${open-tmux "kak"} -e";
 
-        "${mod}+d" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-run}";
-        "${mod}+Shift+p" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pass}";
-        "${mod}+q" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
-        "${mod}+w" = "exec ${pkgs.alacritty}/bin/alacritty -t \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url} search";
+        "${mod}+d" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-run}";
+        "${mod}+Shift+p" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pass}";
+        "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
+        "${mod}+w" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url} search";
 
         "XF86AudioMute" = "exec ${vol}/bin/vol mute";
         "XF86AudioLowerVolume" = "exec ${vol}/bin/vol down";
@@ -387,24 +414,24 @@ in {
   };
   xdg.configFile."mako/config".text = ''
     font=PragmataPro
-    background-color=#282c34
-    text-color=#bbc2cf
+    background-color=${colors.bg}
+    text-color=${colors.fg}
     icons=0
     format=<b>%s</b>\n%b
     default-timeout=6000
-    border-color=#98be65
+    border-color=${colors.green}
     border-radius=10
 
     [urgency=low]
-    border-color=#51afef
+    border-color=${colors.cyan}
     default-timeout=4000
 
     [urgency=normal]
-    border-color=#98be65
+    border-color=${colors.green}
     default-timeout=6000
 
     [urgency=high]
-    border-color=#ff6c6b
+    border-color=${colors.red}
     default-timeout=8000
   '';
 
@@ -583,7 +610,7 @@ in {
 
     window#waybar {
         background-color: rgba(42, 46, 56, 0.7) ;
-        color: #bbc2cf;
+        color: ${colors.fg};
         border: none;
         transition-property: background-color;
         transition-duration: .5s;
@@ -591,7 +618,7 @@ in {
 
     #workspaces button {
         min-width: 1em;
-        color: #bbc2cf;
+        color: ${colors.fg};
     }
 
     #workspaces button:hover {
@@ -600,45 +627,46 @@ in {
     }
 
     #workspaces button.focused {
-        background-color: ${color-blue};
-        color: ${color-gray};
+        background-color: ${colors.blue};
+        color: ${colors.br_black};
     }
 
     #workspaces button.urgent {
-        background-color: #eb4d4b;
+        background-color: ${colors.red};
+        color: ${colors.br_black};
     }
 
     #mode {
-        background-color: #ff665c;
-        color: ${color-gray};
+        background-color: ${colors.red};
+        color: ${colors.br_black};
     }
 
     #battery.full, #battery.plugged {
-        color: #98be65;
+        color: ${colors.green};
     }
 
     #battery.good {
-        color: #bbc2cf;
+        color: ${colors.fg};
     }
 
     #battery.warning {
-        color: #ecbe7b;
+        color: ${colors.orange};
     }
 
     #battery.critical {
-        color: #ff665c;
+        color: ${colors.red};
     }
 
     @keyframes blink {
         to {
-            background-color: #ff665c;
-            color: ${color-gray};
+            background-color: ${colors.red};
+            color: ${colors.br_black};
         }
     }
 
     #battery.critical:not(.charging) {
-        background-color: ${color-gray};
-        color: #ff665c;
+        background-color: ${colors.br_black};
+        color: ${colors.red};
         animation-name: blink;
         animation-duration: 0.5s;
         animation-timing-function: linear;

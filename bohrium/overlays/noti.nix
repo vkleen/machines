@@ -8,7 +8,7 @@ self: super: {
       rev = "4dab6def9a400e08bb1890b652bfafe2037597db";
       sha256 = "1644bivjcky07n3rrm83vsms7hw47p4hnp2536q0z3qca5jyri2f";
     };
-    modSha256 = self.lib.fakeSha256;
+    vendorSha256 = self.lib.fakeSha256;
     configurePhase = ''
       runHook preConfigure
 

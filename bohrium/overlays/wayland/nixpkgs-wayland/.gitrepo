@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:colemickens/nixpkgs-wayland.git
 	branch = master
-	commit = 4c16e7c9e4b704176b07d5fb01df5d9ae3fecc3b
-	parent = 84aa9fa5cac659fc569b0921c57cc93e9e508a1a
+	commit = e2345d284d51f26cd1f4651fbf15af491a039fb7
+	parent = 22480f0ae85f68e2fdaa718a5ee1cb2d18fc8c0b
 	method = merge
 	cmdver = 0.4.1

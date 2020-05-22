@@ -374,7 +374,7 @@ in {
     extraConfig = ''
       hide_edge_borders --i3 none
       no_focus [tiling]
-      seat * hide_cursor 1000
+      seat * hide_cursor 5000
       output * adaptive_sync on
     '';
   };
@@ -520,9 +520,9 @@ in {
   xdg.configFile."waybar/config".text = ''
     {
       "layer": "top",
-      "modules-left": ["sway/workspaces", "sway/mode"],
+      "modules-left": ["idle_inhibitor", "sway/workspaces", "sway/mode"],
       "modules-center": ["sway/window"],
-      "modules-right": ["network", "pulseaudio", "backlight", "battery", "cpu", "clock", "tray", "idle_inhibitor"],
+      "modules-right": ["network", "pulseaudio", "backlight", "battery", "cpu", "clock", "tray"],
       "sway/workspaces": {
         "disable-scroll": true
       },
@@ -575,13 +575,13 @@ in {
       "network": {
            "format": "{ifname}",
            "format-wifi": "{essid}",
-           "format-ethernet": "{ifname}",
+           "format-ethernet": "",
            "format-disconnected": "", //An empty format will hide the module.
            "tooltip-format": "{ifname}",
-           "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-           "tooltip-format-ethernet": "{ifname} ",
+           "tooltip-format-wifi": "{ipaddr}/{cidr} {essid} ({signalStrength}%)",
+           "tooltip-format-ethernet": "{ipaddr}/{cidr} {ifname}",
            "tooltip-format-disconnected": "Disconnected",
-           "max-length": 50
+               "max-length": 50
       },
       "cpu": {
         "format": "{usage}%"

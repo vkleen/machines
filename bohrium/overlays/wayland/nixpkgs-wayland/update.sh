@@ -6,7 +6,7 @@ set -x
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # keep track of what we build for the README
-pkgentries=(); nixpkgentries=();
+pkgentries=(); nixpkgentries=(); commitmsg="auto-updates:";
 cache="nixpkgs-wayland";
 build_attr="${1:-"waylandPkgs"}"
 
@@ -25,6 +25,9 @@ function update() {
   metadata="${pkg}/metadata.nix"
   pkgname="$(basename "${pkg}")"
 
+  # TODO: nix2json, update in parallel
+  # TODO: aka, not in bash
+
   branch="$(nix-instantiate "${metadata}" --eval --json -A branch 2>/dev/null | jq -r .)"
   rev="$(nix-instantiate "${metadata}" --eval --json -A rev  2>/dev/null | jq -r .)"
   date="$(nix-instantiate "${metadata}" --eval --json -A revdate  2>/dev/null | jq -r .)"
@@ -32,6 +35,7 @@ function update() {
   upattr="$(nix-instantiate "${metadata}" --eval --json -A upattr  2>/dev/null | jq -r . || echo "${pkgname}")"
   url="$(nix-instantiate "${metadata}" --eval --json -A url  2>/dev/null | jq -r . || echo "missing_url")"
   cargoSha256="$(nix-instantiate "${metadata}" --eval --json -A cargoSha256  2>/dev/null | jq -r . || echo "missing_cargoSha256")"
+  vendorSha256="$(nix-instantiate "${metadata}" --eval --json -A vendorSha256  2>/dev/null | jq -r . || echo "missing_vendorSha256")"
   skip="$(nix-instantiate "${metadata}" --eval --json -A skip  2>/dev/null | jq -r . || echo "false")"
 
   newdate="${date}"
@@ -53,6 +57,7 @@ function update() {
 
     if [[ "${rev}" != "${newrev}" ]]; then
       up=$(( $up + 1 ))
+      commitmsg="${commitmsg} ${pkgname},"
 
       echo "${pkg}: ${rev} => ${newrev}"
 
@@ -62,10 +67,10 @@ function update() {
       d="$(mktemp -d)"
       if [[ "${repotyp}" == "git" ]]; then
         git clone -b "${branch}" --single-branch --depth=1 "${repo}" "${d}" &>/dev/null
-        newdate="$(cd "${d}"; git log --format=%ci --max-count=1)"
+        newdate="$(cd "${d}"; TZ=UTC git show --quiet --date='format-local:%Y-%m-%d %H:%M:%SZ' --format="%cd")"
       elif [[ "${repotyp}" == "hg" ]]; then
         hg clone "${repo}#${branch}" "${d}"
-        newdate="$(cd "${d}"; hg log -r1 --template '{date|isodate}')" &>/dev/null
+        newdate="$(cd "${d}"; TZ=UTC hg log -l1 --template "{date(date, '%Y-%m-%d %H:%M:%S')}\n")" &>/dev/null
       fi
       rm -rf "${d}"
 
@@ -80,7 +85,7 @@ function update() {
 
       # TODO: do this with nix instead of sed?
       sed -i "s/${rev}/${newrev}/" "${metadata}"
-      sed -i "s/${date}/${newdate}/" "${metadata}"
+      sed -i "s|${date}|${newdate}|" "${metadata}"
       sed -i "s/${sha256}/${newsha256}/" "${metadata}"
 
       # CargoSha256 has to happen AFTER the other rev/sha256 bump
@@ -89,6 +94,14 @@ function update() {
           nix-prefetch \
             "{ sha256 }: let p=(import ./build.nix).${upattr}; in p.cargoDeps.overrideAttrs (_: { cargoSha256 = sha256; })")"
         sed -i "s/${cargoSha256}/${newcargoSha256}/" "${metadata}"
+      fi
+
+      # VendorSha256 has to happen AFTER the other rev/sha256 bump
+      if [[ "${vendorSha256}" != "missing_vendorSha256" ]]; then
+        newvendorSha256="$(NIX_PATH="${tmpnixpath}" \
+          nix-prefetch \
+            "{ sha256 }: let p=(import ./build.nix).${upattr}; in p.go-modules.overrideAttrs (_: { vendorSha256 = sha256; })")"
+        sed -i "s/${vendorSha256}/${newvendorSha256}/" "${metadata}"
       fi
 
       set +x
@@ -111,8 +124,8 @@ function update_readme() {
   set +x
 
   replace="$(printf "<!--pkgs-->")"
-  replace="$(printf "%s\n| Package | Last Update | Description |" "${replace}")"
-  replace="$(printf "%s\n| ------- | ----------- | ----------- |" "${replace}")"
+  replace="$(printf "%s\n| Package | Last Updated (UTC) | Description |" "${replace}")"
+  replace="$(printf "%s\n| ------- | ------------------ | ----------- |" "${replace}")"
   for p in "${pkgentries[@]}"; do
     replace="$(printf "%s\n%s\n" "${replace}" "${p}")"
   done
@@ -150,7 +163,9 @@ done
 echo "============================================================================"
 
 if [[ "${CI_BUILD:-}" == "sr.ht" ]]; then
+  echo -e "${commitmsg::-1}" > .ci/commit-message
   echo "summary: updated packages: ${up}" &>/dev/stderr
+  echo "summary: commit msg: ${commitmsg::-1}" &>/dev/stderr
   if (( ${up} <= 0 )); then
     echo "summary: refusing to proceed, no packages were updated." &>/dev/stderr
     exit 0

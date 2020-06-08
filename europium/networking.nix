@@ -8,25 +8,35 @@
 
   networking = {
     hostName = "europium";
-    useDHCP = true;
-    # defaultGateway = {
-    #   address = "172.104.139.1";
-    #   interface = "enp0s4";
-    # };
-    # defaultGateway6 = {
-    #   address = "fe80::1";
-    #   interface = "enp0s4";
-    # };
-    # interfaces = {
-    #   "enp0s4".ipv4.addresses = [ {
-    #     address = "172.104.139.29";
-    #     prefixLength = 24;
-    #   } ];
-    #   # "enp0s4".ipv6.addresses = [ {
-    #   #   address = "2600:3c01::f03c:91ff:fea9:5fff";
-    #   #   prefixLength = 64;
-    #   # } ];
-    # };
+    useDHCP = false;
+    defaultGateway = {
+      address = "172.104.139.1";
+      interface = "eth0";
+    };
+    defaultGateway6 = {
+      address = "fe80::1";
+      interface = "eth0";
+    };
+    interfaces = {
+      "eth0".ipv4.addresses = [ {
+        address = "172.104.139.29";
+        prefixLength = 24;
+      } ];
+      "eth0".ipv6.addresses = [
+        {
+          address = "2a01:7e01:e002:aa00::1";
+          prefixLength = 56;
+        }
+        {
+          address = "2a01:7e01::f03c:92ff:fe12:a0f4";
+          prefixLength = 128;
+        }
+        {
+          address = "fe80::f03c:92ff:fe12:a0f4";
+          prefixLength = 64;
+        }
+      ];
+    };
     firewall = {
       enable = true;
       trustedInterfaces = [ "wg0" ];
@@ -111,6 +121,7 @@
     };
   };
   boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
     "net.ipv6.conf.all.forwarding" = 2;
   };
 }

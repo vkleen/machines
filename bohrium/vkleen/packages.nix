@@ -80,6 +80,7 @@ in {
     batctl
     bc
     blackbox
+    borgbackup
     cached-nix-shell
     calc
     calibre
@@ -91,6 +92,7 @@ in {
     entr
     et
     exiftool
+    expect
     fd
     file
     firejail-riot
@@ -173,6 +175,8 @@ in {
     yq
 
     arduino-cli
+
+    imx_usb_loader
 
     adms
     caneda

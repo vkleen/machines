@@ -46,8 +46,9 @@
     };
 
     hosts = {
-      "45.33.37.163"  = [ "plutonium.kleen.org" ];
-      "94.16.123.211" = [ "samarium.kleen.org" ];
+      "45.33.37.163"   = [ "plutonium.kleen.org" ];
+      "94.16.123.211"  = [ "samarium.kleen.org" ];
+      "172.104.139.29" = [ "europium.kleen.org" ];
     };
 
     wireguard.interfaces = {
@@ -59,6 +60,7 @@
           { publicKey = builtins.readFile ../wireguard/samarium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
             endpoint = "127.0.0.2:51820";
+            persistentKeepalive = 5;
           }
         ];
       };
@@ -70,6 +72,19 @@
           { publicKey = builtins.readFile ../wireguard/plutonium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
             endpoint = "plutonium.kleen.org:51820";
+            persistentKeepalive = 5;
+          }
+        ];
+      };
+      wg2 = {
+        ips = [ "10.172.40.132/24" ];
+        privateKeyFile = "/persist/private/bohrium";
+        allowedIPsAsRoutes = false;
+        peers = [
+          { publicKey = builtins.readFile ../wireguard/europium.pub;
+            allowedIPs = [ "0.0.0.0/0" "::/0" ];
+            endpoint = "europium.kleen.org:51820";
+            persistentKeepalive = 5;
           }
         ];
       };

@@ -1,4 +1,5 @@
 secrets.nix filter=git-crypt diff=git-crypt
+wifi-secrets.nix filter=git-crypt diff=git-crypt
 *.sec filter=git-crypt diff=git-crypt
 wireguard/** filter=git-crypt diff=git-crypt
 cache-keys/** filter=git-crypt diff=git-crypt

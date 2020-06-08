@@ -180,7 +180,7 @@
     logind = {
       lidSwitch = "lock";
       extraConfig = ''
-        HandlePowerKey = ignore
+        HandlePowerKey = suspend
         HandleHibernateKey = ignore
         HandleSuspendKey = ignore
         LidSwitchIgnoreInhibited = no
@@ -320,6 +320,9 @@
       ATTR{idVendor}=="0525", ATTR{idProduct}=="a4a5", GROUP:="dialout", MODE:="0660"
       ATTR{idVendor}=="0525", ATTR{idProduct}=="b4a4", GROUP:="dialout", MODE:="0660"
       LABEL="librem5_devkit_rules_end"
+
+      # Freescale i.MX6 recovery
+      ATTR{idVendor}=="15a2", ATTR{idProduct}=="0054", GROUP:="dialout", MODE:="0660"
 
       SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
     '';

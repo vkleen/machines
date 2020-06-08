@@ -38,6 +38,9 @@ let
   samarium = (nixpkgs-x86_64 {
     overlays = all-overlays-in ./samarium/overlays;
   }).nixos (import ./samarium/configuration.nix);
+  europium = (nixpkgs-x86_64 {
+    overlays = all-overlays-in ./europium/overlays;
+  }).nixos (import ./europium/configuration.nix);
   plutonium = (nixpkgs-x86_64 {
     overlays = all-overlays-in ./plutonium/overlays;
   }).nixos (import ./plutonium/configuration.nix);
@@ -60,7 +63,7 @@ let
 
     networking = {
       wireless.enable = false;
-      wireless.iwd.enable = true;
+      wireless.iwd.enable = false;
     };
     systemd.services.supplicant-wlan0.partOf = lib.mkForce [];
 
@@ -289,7 +292,7 @@ in {
   inherit seaborgium seaborgium-pkgs;
   inherit bohrium bohrium-pkgs;
 
-  inherit samarium plutonium;
+  inherit samarium europium plutonium;
 
   inherit installer;
 

@@ -6,6 +6,7 @@
       ./hardware-configuration.nix
       ./users.nix
       ./xserver.nix
+      ./networking.nix
     ];
 
   nix = {
@@ -131,8 +132,6 @@
   services.eternal-terminal = {
     enable = true;
   };
-
-  networking.firewall.enable = false;
 
   system.stateVersion = "19.03";
 

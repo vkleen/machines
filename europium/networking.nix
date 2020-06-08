@@ -83,6 +83,9 @@
           { publicKey = builtins.readFile ../wireguard/hydrogen.pub;
             allowedIPs = [ "10.172.40.134/32" ];
           }
+          { publicKey = builtins.readFile ../wireguard/chlorine.pub;
+            allowedIPs = [ "10.172.40.135/32" ];
+          }
         ];
         # postSetup = ''
         #   ip link add gre-seaborgium type ip6gretap dev wg0 key 1 \

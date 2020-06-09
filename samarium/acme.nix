@@ -24,6 +24,7 @@ in {
       enableACME = true;
       http2 = false;
       acmeRoot = acmeRoot;
+      locations."/".return = "404";
     };
   };
 

@@ -1,6 +1,10 @@
 { config, pkgs, lib, ... }:
 let
   cfg = config.mailserver;
+
+  blockedSpam = [
+    "vkleen+wws.shop" "vkleen+gearbest" "vkleen-greeting" "funimation" "voelkner" "kleen@kleen.org" "admin@kleen.org"
+  ];
 in {
   imports = [
     ./mailserver/options.nix
@@ -19,12 +23,13 @@ in {
       "17220103.de"
     ];
     virtualAliases = {
+      "tatjana@kleen.org" = "dr.kleen@t-online.de";
       "tatjana@samarium.kleen.org" = "dr.kleen@t-online.de";
       "@samarium.17220103.de" = "vkleen";
       "@samarium.kleen.org" = "vkleen";
       "@kleen.org" = "vkleen";
       "@17220103.de" = "vkleen";
-    };
+    } // lib.genAttrs blockedSpam (_: "devnull");
     debug = false;
     messageSizeLimit = 0;
     mailboxSizeLimit = 0;

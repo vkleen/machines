@@ -99,16 +99,6 @@
     };
   };
 
-  systemd.services.wstunnel = {
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    description = "Wireguard over wstunnel";
-    serviceConfig = {
-      User = "nobody";
-      ExecStart = "${pkgs.wstunnel}/bin/wstunnel -u --server ws://127.0.0.1:8080 -r 127.0.0.1:51820";
-    };
-  };
-
   systemd.services.udp2rawtunnel = {
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
@@ -125,16 +115,6 @@
       owner = "nobody";
       group = "nogroup";
       capabilities = "cap_net_raw+ep";
-    };
-  };
-
-  services.nginx.virtualHosts."${config.mailserver.fqdn}" = {
-    locations."/iLTCfCvXrwOuenVWtahGddnNWgGJRBLc/" = {
-      proxyPass = "http://127.0.0.1:8080";
-      proxyWebsockets = true;
-      extraConfig = ''
-        proxy_set_header X-Real-IP $remote_addr;
-      '';
     };
   };
 

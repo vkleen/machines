@@ -13,7 +13,7 @@ in {
       remoteNodes = [ "amy" "samarium" ];
       sshConfig = ''
         Host amy
-          Hostname ssh.17220103.de
+          Hostname amy.17220103.de
           IdentityFile /persist/uucp_ed25519
 
         Host samarium

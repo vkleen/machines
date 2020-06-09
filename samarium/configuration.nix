@@ -7,6 +7,8 @@
       ./users.nix
       ./networking.nix
 
+      ./math.kleen.org.nix
+
       ./mailserver.nix
       ../seaborgium/secrets.nix
     ];

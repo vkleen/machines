@@ -21,7 +21,7 @@ let
   valias_domains = concatStringsSep ", " cfg.domains;
 
   transport_postfix =    builtins.map (x: "${x} local:") (cfg.domains ++ [ "${cfg.fqdn}" ])
-                      ++ [ "seaborgium.kleen.org uucp:seaborgium" ];
+                      ++ [ "bohrium.kleen.org uucp:bohrium" ];
   transport_file = builtins.toFile "transport"
                        (lib.concatStringsSep "\n" transport_postfix);
 
@@ -60,7 +60,7 @@ in
     services.uucp = {
       enable = true;
       nodeName = config.networking.hostName;
-      remoteNodes = [ "amy" "seaborgium" "bohrium" ];
+      remoteNodes = [ "bohrium" ];
       sshUser = {
         openssh.authorizedKeys.keys = [
           ''
@@ -85,6 +85,11 @@ in
       recipientDelimiter = "+-";
 
       destination = [ "localhost" "${fqdn}" ];
+
+      extraAliases = ''
+        vklee: vkleen
+        devnull: /dev/null
+      '';
 
       extraConfig =
       ''

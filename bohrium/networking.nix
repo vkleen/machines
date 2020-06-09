@@ -77,7 +77,7 @@
         ];
       };
       wg2 = {
-        ips = [ "10.172.40.132/24" ];
+        ips = [ "10.172.40.132/24" "2a01:7e01:e002:aa00:2469:eead::1/64" ];
         privateKeyFile = "/persist/private/bohrium";
         allowedIPsAsRoutes = false;
         peers = [

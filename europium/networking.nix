@@ -77,24 +77,24 @@
     };
     wireguard.interfaces = {
       wg0 = {
-        ips = [ "10.172.40.1/24" ];
+        ips = [ "10.172.40.1/24" "2a01:7e01:e002:aa00:f8a1:f27f::1/64" ];
         privateKeyFile = "/run/keys/europium";
         listenPort = 51820;
         peers = [
           { publicKey = builtins.readFile ../wireguard/einsteinium.pub;
-            allowedIPs = [ "10.172.40.131/32" ];
+            allowedIPs = [ "10.172.40.131/32" "2a01:7e01:e002:aa00:c456:3f87::/96" ];
           }
           { publicKey = builtins.readFile ../wireguard/bohrium.pub;
-            allowedIPs = [ "10.172.40.132/32" ];
+            allowedIPs = [ "10.172.40.132/32" "2a01:7e01:e002:aa00:2469:eead::/96" ];
           }
           { publicKey = builtins.readFile ../wireguard/helium.pub;
-            allowedIPs = [ "10.172.40.133/32" ];
+            allowedIPs = [ "10.172.40.133/32" "2a01:7e01:e002:aa00:b467:24b8::/96" "2a01:7e01:e002:aa:01::/64" ];
           }
           { publicKey = builtins.readFile ../wireguard/hydrogen.pub;
-            allowedIPs = [ "10.172.40.134/32" ];
+            allowedIPs = [ "10.172.40.134/32" "2a01:7e01:e002:aa00:a42f:9c97::/96" ];
           }
           { publicKey = builtins.readFile ../wireguard/chlorine.pub;
-            allowedIPs = [ "10.172.40.135/32" ];
+            allowedIPs = [ "10.172.40.135/32" "2a01:7e01:e002:aa00:5319:9d00::/96" ];
           }
         ];
         # postSetup = ''

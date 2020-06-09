@@ -112,6 +112,7 @@ in {
     ldns
     libbladeRF
     libreoffice
+    linode-cli
     llpp
     lrzsz
     lshw
@@ -149,6 +150,7 @@ in {
     renderdoc
     rfkill
     rsync
+    sanoid
     skim
     socat
     sqlite

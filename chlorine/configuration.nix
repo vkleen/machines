@@ -119,6 +119,7 @@
     vim
     tmux batctl
     qemu
+    mbuffer sanoid
   ];
 
   services.openssh = {

@@ -61,6 +61,7 @@ in {
     batctl
     bc
     blackbox
+    borgbackup
     cached-nix-shell
     calc
     djvulibre
@@ -97,6 +98,7 @@ in {
     lsscsi
     magic-wormhole
     man-pages
+    mbuffer
     mercurial
     mkpasswd
     # mosh
@@ -125,6 +127,7 @@ in {
     rfkill
     # riot-desktop
     rsync
+    sanoid
     skim
     sqlite
     streamlink

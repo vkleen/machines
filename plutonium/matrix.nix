@@ -2,7 +2,6 @@
 {
   imports = [
     ./secrets.nix
-#    ./acme.nix
   ];
   disabledModules = [ ];
 
@@ -29,57 +28,16 @@
 
   };
 
-  # services.matrix-synapse = {
-  #   enable = true;
-  #   server_name = "kleen.org";
-  #   public_baseurl = "https://matrix.kleen.org/";
-  #   database_type = "sqlite3";
-
-  #   listeners = [
-  #     { # federation
-  #       bind_address = "127.0.0.1";
-  #       port = 8449;
-  #       resources = [
-  #         { compress = true; names = [ "client" "webclient" ]; }
-  #         { compress = false; names = [ "federation" ]; }
-  #       ];
-  #       tls = false;
-  #       type = "http";
-  #       x_forwarded = true;
-  #     }
-  #     { # client
-  #       bind_address = "127.0.0.1";
-  #       port = 8008;
-  #       resources = [
-  #         { compress = true; names = [ "client" "webclient" ]; }
-  #       ];
-  #       tls = false;
-  #       type = "http";
-  #       x_forwarded = true;
-  #     }
-  #   ];
-  #   extraConfig = ''
-  #     max_upload_size: "100M"
-  #   '';
-  # };
-
-  security.acme.certs = {
-    "matrix.kleen.org" = {
-      postRun = ''
-        systemctl reload nginx.service
-      '';
+  security.acme = {
+    acceptTerms = true;
+    email = "vkleen-acme@17220103.de";
+    certs = {
+      "matrix.kleen.org" = {
+        postRun = ''
+          systemctl reload nginx.service
+        '';
+      };
     };
-    # "kleen.org" = {
-    #   group = "nginx";
-    #   user = "nginx";
-    #   email = "vkleen-G1v6YSOb@17220103.de";
-    #   method = "dns";
-    #   dns.provider = "route53";
-    #   dns.environment = "route53-acme-creds";
-    #   postRun = ''
-    #     systemctl reload nginx.service
-    #   '';
-    # };
   };
 
   services.nginx = {
@@ -112,6 +70,7 @@
         locations."/_matrix" = {
           proxyPass = "http://[::1]:8008";
         };
+        locations."/".return = "301 https://www.kleen.org$request_uri";
       };
       "matrix.kleen.org" = {
         enableACME = true;
@@ -131,36 +90,6 @@
       };
     };
   };
-
-  # services.nginx = {
-  #   enable = true;
-  #   virtualHosts."matrix.kleen.org" = {
-  #     forceSSL = true;
-  #     enableACME = true;
-  #     http2 = false;
-  #     acmeRoot = "/var/lib/acme/acme-challenge";
-  #     locations."/" = {
-  #       proxyPass = "http://127.0.0.1:8008";
-  #     };
-  #   };
-  #   virtualHosts."kleen.org" = {
-  #     default = true;
-  #     onlySSL = true;
-  #     http2 = false;
-  #     enableACME = false;
-  #     listen = [
-  #       { addr = "0.0.0.0"; port = 8448; ssl = true; }
-  #       { addr = "[::]"; port = 8448; ssl = true; }
-  #     ];
-  #     locations."/" = {
-  #       proxyPass = "http://127.0.0.1:8449";
-  #     };
-  #     sslCertificate = "/var/lib/acme/kleen.org/fullchain.pem";
-  #     sslCertificateKey = "/var/lib/acme/kleen.org/key.pem";
-  #     sslTrustedCertificate = "/var/lib/acme/kleen.org/full.pem";
-  #   };
-  #   recommendedTlsSettings = true;
-  # };
 
   networking.firewall.allowedTCPPorts = [ 80 443 8448 ];
 }

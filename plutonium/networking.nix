@@ -75,9 +75,6 @@
           { publicKey = builtins.readFile ../wireguard/seaborgium.pub;
             allowedIPs = [ "10.172.30.128/32" "2600:3c01:e002:8b9d:b01a:0a7d::/96" ];
           }
-          { publicKey = builtins.readFile ../wireguard/freyr.pub;
-            allowedIPs = [ "10.172.30.129/32" "2600:3c01:e002:8b9d:cc8e:b00c::/96" ];
-          }
           { publicKey = builtins.readFile ../wireguard/einsteinium.pub;
             allowedIPs = [ "10.172.30.130/32" "2600:3c01:e002:8b9d:c456:3f87::/96" ];
           }
@@ -85,26 +82,26 @@
             allowedIPs = [ "10.172.20.132/32" "2600:3c01:e002:8b9d:2469:eead::/96" ];
           }
         ];
-        postSetup = ''
-          ip link add gre-seaborgium type ip6gretap dev wg0 key 1 \
-            local 2600:3c01:e002:8b9d:d034:b380::1 \
-            remote 2600:3c01:e002:8b9d:b01a:0a7d::1
+        # postSetup = ''
+        #   ip link add gre-seaborgium type ip6gretap dev wg0 key 1 \
+        #     local 2600:3c01:e002:8b9d:d034:b380::1 \
+        #     remote 2600:3c01:e002:8b9d:b01a:0a7d::1
 
-          ip link add gre-freyr type ip6gretap dev wg0 key 2 \
-            local 2600:3c01:e002:8b9d:d034:b380::1 \
-            remote 2600:3c01:e002:8b9d:cc8e:b00c::1
+        #   ip link add gre-freyr type ip6gretap dev wg0 key 2 \
+        #     local 2600:3c01:e002:8b9d:d034:b380::1 \
+        #     remote 2600:3c01:e002:8b9d:cc8e:b00c::1
 
-          ip link set gre-seaborgium up
-          ip link set gre-freyr up
-          ${pkgs.batctl}/bin/batctl if create
-          ${pkgs.batctl}/bin/batctl if add gre-seaborgium
-          ${pkgs.batctl}/bin/batctl if add gre-freyr
-        '';
-        postShutdown = ''
-          ${pkgs.batctl}/bin/batctl if destroy
-          ip link delete gre-freyr
-          ip link delete gre-seaborgium
-        '';
+        #   ip link set gre-seaborgium up
+        #   ip link set gre-freyr up
+        #   ${pkgs.batctl}/bin/batctl if create
+        #   ${pkgs.batctl}/bin/batctl if add gre-seaborgium
+        #   ${pkgs.batctl}/bin/batctl if add gre-freyr
+        # '';
+        # postShutdown = ''
+        #   ${pkgs.batctl}/bin/batctl if destroy
+        #   ip link delete gre-freyr
+        #   ip link delete gre-seaborgium
+        # '';
       };
     };
   };

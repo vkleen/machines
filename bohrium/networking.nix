@@ -3,7 +3,8 @@
 {
 
   networking = {
-    iproute2.enable = true;
+    useDHCP = false;
+    useNetworkd = true;
     firewall = {
       enable = true;
       checkReversePath = false;
@@ -20,13 +21,13 @@
       logRefusedConnections = false;
     };
 
-    dhcpcd = {
-      allowInterfaces = [ "wlan0" "eth-usb" "eth-dock" "wwan" "einsteinium" ];
-      enable = true;
-      extraConfig = ''
-        metric 400
-      '';
-    };
+    # dhcpcd = {
+    #   allowInterfaces = [ "wlan0" "eth-usb" "eth-dock" "wwan" "einsteinium" ];
+    #   enable = true;
+    #   extraConfig = ''
+    #     metric 400
+    #   '';
+    # };
 
     wlanInterfaces = {
       "wlan0" = {
@@ -38,11 +39,11 @@
       "wlan0" = {
         useDHCP = true;
       };
-      "tap-vkleen" = {
-        virtual = true;
-        virtualType = "tap";
-        virtualOwner = "vkleen";
-      };
+      # "tap-vkleen" = {
+      #   virtual = true;
+      #   virtualType = "tap";
+      #   virtualOwner = "vkleen";
+      # };
     };
 
     hosts = {

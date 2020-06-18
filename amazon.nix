@@ -17,8 +17,8 @@ in
       "aws-vkleen-nix-cache-1:0mQ08qXrc6QAAXrQZic3R4plUs96tObJsiTwIOKYldU="
     ];
 
-    buildCores = 18;
-    maxJobs = 18;
+    buildCores = 1;
+    maxJobs = 36;
   };
   networking = {
     firewall = {

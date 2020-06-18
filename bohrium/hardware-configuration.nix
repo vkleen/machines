@@ -16,6 +16,14 @@
     forceImportAll = false;
   };
 
+  boot.initrd.secrets = {
+    "/persist/private/keyfiles/swap" = null;
+    "/persist/private/keyfiles/data" = null;
+    "/persist/private/keyfiles/boot" = null;
+    "/persist/private/zfs" = null;
+  };
+  boot.loader.supportsInitrdSecrets = true;
+
   boot.loader.efi = {
     canTouchEfiVariables = true;
     efiSysMountPoint = "/boot/efi";
@@ -27,20 +35,6 @@
     efiSupport = true;
     enableCryptodisk = true;
     copyKernels = true;
-    extraInitrd = "/boot/keyfiles.gz";
-    extraPrepareConfig = ''
-      umask 0277
-      echo "Generating @bootPath@/keyfiles.gz"
-      (${pkgs.coreutils}/bin/sort | ${pkgs.cpio}/bin/cpio -o -H newc -R +0:+0 --reproducible | ${pkgs.gzip}/bin/gzip -9 > @bootPath@/keyfiles.gz) <<EOF
-/persist/private/keyfiles/swap
-/persist/private/keyfiles/data
-/persist/private/keyfiles/boot
-/persist/private/zfs
-/persist
-/persist/private
-/persist/private/keyfiles
-EOF
-    '';
   };
 
   boot.initrd.postDeviceCommands = lib.mkAfter ''

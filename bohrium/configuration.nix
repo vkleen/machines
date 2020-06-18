@@ -16,6 +16,7 @@
       ./users.nix
       ./wayland.nix
       ./zfs.nix
+      ./bitlbee.nix
       # ./xserver.nix
       # ./custom/lock-on-suspend.nix
     ];
@@ -75,10 +76,11 @@
 
           MAC80211_MESH = yes;
 
-          CONFIG_MOUSE_ELAN_I2C_SMBUS = yes;
-
-          BPFILTER = yes;
-          BPFILTER_UMH = module;
+          MOUSE_PS2_ELANTECH = yes;
+          MOUSE_PS2_ELANTECH_SMBUS = yes;
+          MOUSE_ELAN_I2C = module;
+          MOUSE_ELAN_I2C_I2C = no;
+          MOUSE_ELAN_I2C_SMBUS = yes;
 
           POWERCAP = yes;
           IDLE_INJECT = yes;

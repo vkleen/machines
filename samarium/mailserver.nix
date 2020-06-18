@@ -3,7 +3,13 @@ let
   cfg = config.mailserver;
 
   blockedSpam = [
-    "vkleen+wws.shop" "vkleen+gearbest" "vkleen-greeting" "funimation" "voelkner" "kleen@kleen.org" "admin@kleen.org"
+    "vkleen+wws.shop@17220103.de"
+    "vkleen+gearbest@17220103.de"
+    "vkleen-greeting@17220103.de"
+    "funimation@17220103.de"
+    "voelkner@17220103.de"
+    "kleen@kleen.org"
+    "admin@kleen.org"
   ];
 in {
   imports = [
@@ -17,7 +23,6 @@ in {
     enable = true;
     fqdn = "samarium.kleen.org";
     domains = [
-      "samarium.kleen.org"
       "samarium.17220103.de"
       "kleen.org"
       "17220103.de"
@@ -26,7 +31,6 @@ in {
       "tatjana@kleen.org" = "dr.kleen@t-online.de";
       "tatjana@samarium.kleen.org" = "dr.kleen@t-online.de";
       "@samarium.17220103.de" = "vkleen";
-      "@samarium.kleen.org" = "vkleen";
       "@kleen.org" = "vkleen";
       "@17220103.de" = "vkleen";
     } // lib.genAttrs blockedSpam (_: "devnull");

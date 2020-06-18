@@ -391,7 +391,7 @@ in {
       hide_edge_borders --i3 none
       no_focus [tiling]
       seat * hide_cursor 5000
-      output * adaptive_sync on
+      # output * adaptive_sync on
     '';
   };
 

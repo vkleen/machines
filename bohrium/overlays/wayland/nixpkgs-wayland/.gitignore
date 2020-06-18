@@ -1,0 +1,4 @@
+.ci/commit-message
+*.qcow2
+result
+result-*

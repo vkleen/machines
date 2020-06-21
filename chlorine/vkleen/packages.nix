@@ -166,6 +166,8 @@ in {
     pulseview
     sigrok-cli
 
+    imx_usb_loader
+
     cura
     openscad
     # freecad

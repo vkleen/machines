@@ -1,6 +1,9 @@
 { config, pkgs, lib, ... }:
 
 {
+  imports = [
+    ./wifi-secrets.nix
+  ];
 
   networking = {
     useDHCP = false;

@@ -105,54 +105,37 @@ let
       platform = lib.systems.platforms.powernv;
     };
     crossSystem = (import "${pkgs-path}/lib").systems.examples.armv7l-hf-multiplatform;
+  } // args);
+
+  novena-pkgs = nixpkgs-arm {
     crossOverlays = [
       (self: super: {
         gobject-introspection = (super.gobject-introspection.override { x11Support = false; }).overrideAttrs (o: {
           nativeBuildInputs = o.nativeBuildInputs ++ [ self.python3 self.flex self.bison ];
         });
+        libftdi1 = super.libftdi1.override { docSupport = false; };
+        flashrom = super.flashrom.overrideAttrs (o: {
+          mesonFlags = [ "-Dconfig_ft2232_spi=false" "-Dconfig_nic3com=false" "-Dconfig_rayer_spi=false" "-Dconfig_satamv=false" "-Dconfig_nicrealtek=false" "-Dconfig_usbblaster_spi=false" ];
+          postPatch = ''
+            sed -i 's;^need_raw_access = false$;need_raw_access = true;' meson.build
+          '';
+          buildInputs = with super; [ libusb1 pciutils ];
+        });
       })
     ];
-    # crossSystem = {
-    #   config = "armv7l-unknown-linux-gnueabi";
-    #   platform = {
-    #     name = "novena";
-    #     kernelMajor = "2.6"; # Using "2.6" enables 2.6 kernel syscalls in glibc.
-    #     kernelBaseConfig = "multi_v7_defconfig";
-    #     kernelArch = "arm";
-    #     kernelDTB = true;
-    #     kernelAutoModules = true;
-    #     kernelPreferBuiltin = true;
-    #     kernelTarget = "zImage";
-    #     kernelExtraConfig = ''
-    #       # Serial port for Raspberry Pi 3. Upstream forgot to add it to the ARMv7 defconfig.
-    #       SERIAL_8250_BCM2835AUX y
-    #       SERIAL_8250_EXTENDED y
-    #       SERIAL_8250_SHARE_IRQ y
-
-    #       # Fix broken sunxi-sid nvmem driver.
-    #       TI_CPTS y
-
-    #       # Hangs ODROID-XU4
-    #       ARM_BIG_LITTLE_CPUIDLE n
-
-    #       # Disable OABI to have seccomp_filter (required for systemd)
-    #       # https://github.com/raspberrypi/firmware/issues/651
-    #       OABI_COMPAT n
-    #     '';
-    #     gcc = {
-    #       arch = "armv7-a";
-    #       fpu = "neon-fp16";
-    #     };
-    #   };
-    # };
-  } // args);
-
-  novena-pkgs = nixpkgs-arm {};
+  };
   novena-install = novena-pkgs.nixos ({pkgs, lib, config, ...}: {
     imports = [
       # "${pkgs-path}/nixos/modules/profiles/minimal.nix"
-      # "${pkgs-path}/nixos/modules/installer/cd-dvd/sd-image.nix"
+      "${pkgs-path}/nixos/modules/installer/cd-dvd/sd-image.nix"
     ];
+    sdImage = {
+      populateFirmwareCommands = "";
+      populateRootCommands = "";
+    };
+
+    networking.hostName = "novena";
+
     boot.loader.grub.enable = false;
     boot.loader.generic-extlinux-compatible.enable = true;
 
@@ -173,23 +156,6 @@ let
         "nixpkgs=${pkgs.path}"
       ];
     };
-
-
-    fileSystems = {
-      "/boot/firmware" = {
-        device = "/dev/disk/by-label/FIRMWARE";
-        fsType = "vfat";
-        # Alternatively, this could be removed from the configuration.
-        # The filesystem is not needed at runtime, it could be treated
-        # as an opaque blob instead of a discrete FAT32 filesystem.
-        options = [ "nofail" "noauto" ];
-      };
-      "/" = {
-        device = "/dev/disk/by-label/NIXOS_SD";
-        fsType = "ext4";
-      };
-    };
-
 
     environment.systemPackages = [
       pkgs.parted
@@ -216,16 +182,26 @@ let
       pkgs.dosfstools
       pkgs.e2fsprogs
 
-      # Some compression/archiver tools.
-      pkgs.p7zip
-
       # pkgs.ubootTools
       pkgs.ubootNovena
-    ];
-    boot.supportedFilesystems = lib.mkForce [ "vfat" "ext4" ];
 
-    boot.consoleLogLevel = lib.mkDefault 7;
-    boot.kernelParams = ["console=ttyS0,115200n8" "console=ttymxc0,115200n8" "console=ttyAMA0,115200n8" "console=ttyO0,115200n8" "console=ttySAC2,115200n8" "console=tty0"];
+      pkgs.flashrom
+    ];
+    boot.supportedFilesystems = lib.mkForce [ "vfat" "ext4" "zfs" ];
+    boot.zfs = {
+      enableUnstable = true;
+      forceImportRoot = false;
+      forceImportAll = false;
+    };
+    services.zfs.zed.settings = {
+      ZED_EMAIL_PROG = "${pkgs.coreutils}/bin/true";
+    };
+    networking.hostId = "cc6b36a1";
+    environment.etc."machine-id".text = "cc6b36a180ac98069c5e6266bf0b4041";
+
+    boot.kernelParams = ["console=ttymxc1,115200n8" "console=ttymxc0,115200n8"];
+
+    services.openssh.enable = true;
 
     users = {
       mutableUsers = false;
@@ -240,6 +216,10 @@ let
     };
   });
 
+  nixpkgs-boron = nixpkgs-arm {
+    crossOverlays = all-overlays-in ./boron/overlays;
+  };
+  boron = nixpkgs-boron.nixos (import ./boron/configuration.nix);
 
   amazon-image = (nixpkgs-x86_64 {}).nixos ({pkgs, lib, config, ...}: {
     imports = [
@@ -294,6 +274,8 @@ in {
 
   inherit samarium europium plutonium;
 
+  inherit boron;
+
   inherit installer;
 
   chlorine-bootstrap = (import "${pkgs-path}/pkgs/stdenv/linux/make-bootstrap-tools-cross.nix" { system = "powerpc64le-linux"; }).powerpc64le;
@@ -309,7 +291,10 @@ in {
   aws-ami = amazon-image.amazonImage;
 
   inherit novena-pkgs novena-install;
-  novena-uboot = novena-pkgs.ubootNovena;
+  novena-uboot = novena-pkgs.ubootNovena.overrideAttrs (o: {
+    buildInputs = (o.buildInputs or []) ++ [ novena-pkgs.pkg-config ];
+    nativeBuildInputs = o.nativeBuildInputs ++ [ novena-pkgs.buildPackages.ncurses novena-pkgs.buildPackages.ncurses.dev novena-pkgs.buildPackages.pkg-config novena-pkgs.buildPackages.lzop novena-pkgs.buildPackages.libusb1 ];
+  });
 
   inherit (import "${pkgs-path}/lib") version;
 }

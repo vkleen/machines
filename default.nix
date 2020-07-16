@@ -97,12 +97,12 @@ let
     overlays = all-overlays-in ./chlorine/overlays;
   }).nixos (import ./chlorine/configuration.nix);
 
-  nixpkgs-arm = args: import "${pkgs-power9-path}" ({
+  nixpkgs-arm = args: import "${pkgs-path}/pkgs/top-level" ({
     config = {};
-    overlays = all-overlays-in ./chlorine/overlays;
+    # overlays = all-overlays-in ./chlorine/overlays;
     localSystem = {
-      system = "powerpc64le-linux";
-      platform = lib.systems.platforms.powernv;
+      system = "x86_64-linux";
+      platform = lib.systems.platforms.pc64;
     };
     crossSystem = (import "${pkgs-path}/lib").systems.examples.armv7l-hf-multiplatform;
   } // args);
@@ -218,6 +218,14 @@ let
 
   nixpkgs-boron = nixpkgs-arm {
     crossOverlays = all-overlays-in ./boron/overlays;
+    crossSystem = let
+      orig = (import "${pkgs-path}/lib").systems.examples.armv7l-hf-multiplatform;
+    in orig // {
+      platform = orig.platform // {
+        kernelTarget = "uImage";
+        kernelMakeFlags = [ "LOADADDR=0x12000000" ];
+      };
+    };
   };
   boron = nixpkgs-boron.nixos (import ./boron/configuration.nix);
 
@@ -275,6 +283,7 @@ in {
   inherit samarium europium plutonium;
 
   inherit boron;
+  boron-pkgs = nixpkgs-boron;
 
   inherit installer;
 
@@ -297,4 +306,6 @@ in {
   });
 
   inherit (import "${pkgs-path}/lib") version;
+
+
 }

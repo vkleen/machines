@@ -21,6 +21,11 @@
     options = [ "bind" ];
   };
 
+  fileSystems."/var/lib/bitlbee" = {
+    device = "/persist/bitlbee";
+    options = [ "bind" ];
+  };
+
   fileSystems."/root/.aws" = {
     device = "/persist/aws";
     options = [ "bind" ];

@@ -10,18 +10,13 @@ in {
     uucp = {
       enable = true;
       nodeName = cfg.networking.hostName;
-      remoteNodes = [ "amy" "samarium" ];
+      remoteNodes = [ "samarium" ];
       sshConfig = ''
-        Host amy
-          Hostname amy.17220103.de
-          IdentityFile /persist/uucp_ed25519
-
         Host samarium
           Hostname samarium.17220103.de
           IdentityFile /persist/uucp_ed25519
       '';
       sshHosts = ''
-        amy ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDN4cPeBWV6dynzj8EvFfky3ABK3DBdSvfKyXZcnjFY
         samarium ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4wuOpHO+UmLG+D5xEQadJaeR5lm7FKmt22a2uysOYE
       '';
       interval = "10min";

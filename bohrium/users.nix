@@ -48,6 +48,9 @@
     "${import ./vkleen/fetch-home-manager.nix}/nixos"
   ];
 
+  system.build.vkleen-chromium = config.home-manager.users.vkleen.browser.chromium-unwrapped;
+  system.build.vkleen-weechat-discord = config.home-manager.users.vkleen.weechat.weechat-discord;
+
   home-manager.useUserPackages = true;
   home-manager.users.vkleen = lib.mkMerge ([
     { programs.home-manager = {

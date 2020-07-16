@@ -6,6 +6,7 @@
       ./hardware-configuration.nix
       ./users.nix
       ./networking.nix
+      ./matrix.nix
 
       ../seaborgium/secrets.nix
     ];

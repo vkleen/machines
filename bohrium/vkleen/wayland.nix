@@ -329,10 +329,10 @@ in {
 
         "${mod}+d" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-run}";
         "${mod}+Shift+p" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pass}";
-        "${mod}+u" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
-        "${mod}+i" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url} search";
+        # "${mod}+u" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
+        # "${mod}+i" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url} search";
         "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url}";
-        "${mod}+w" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url} search";
+        # "${mod}+w" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url} search";
 
         "XF86AudioMute" = "exec ${vol}/bin/vol mute";
         "XF86AudioLowerVolume" = "exec ${vol}/bin/vol down";
@@ -586,6 +586,7 @@ in {
         "device": "intel_backlight",
         "on-scroll-up": "${pkgs.brightnessctl}/bin/brightnessctl -d intel_backlight s +1%",
         "on-scroll-down": "${pkgs.brightnessctl}/bin/brightnessctl -d intel_backlight s 1%-",
+        "on-click": "${pkgs.brightnessctl}/bin/brightnessctl -d intel_backlight s 1%",
         "format": "{percent}%"
       },
       "network": {

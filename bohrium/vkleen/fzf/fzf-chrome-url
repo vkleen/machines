@@ -60,6 +60,12 @@ case "${output[2]}" in
         ;;
 esac
 
+case "${cmd}" in
+    \!*)
+        _url_mod=_duckduckgo
+        ;;
+esac
+
 [[ -z "$cmd" ]] && die 1
 
 if chromium_running; then

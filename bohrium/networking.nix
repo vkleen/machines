@@ -105,6 +105,10 @@
 
   systemd.services.supplicant-wlan0.partOf = lib.mkForce [];
 
+  services.resolved = {
+    llmnr = "false";
+  };
+
   services.udev.packages = [ pkgs.crda ];
 
   services.udev.extraRules = ''
@@ -142,5 +146,34 @@
       NoNewPrivileges = true;
       ExecStart = "${pkgs.udp2raw}/bin/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
     };
+  };
+
+  # environment.etc."resolv.conf" = lib.mkForce {
+  #   text = ''
+  #     nameserver 127.0.0.1
+  #     options edns0
+  #   '';
+  # };
+
+  services.kresd = {
+    enable = false;
+    extraConfig = ''
+      modules = { 'policy' }
+      local ffi = require('ffi')
+      local function denyAAAA(zone_list)
+        local AC = require('ahocorasick')
+        local tree = AC.create(zone_list)
+        return function(state, query)
+          local match = AC.match(tree, query:name(), false)
+          if match ~= nil and query.stype == kres.type.AAAA then
+            return policy.DENY
+          end
+          return nil
+        end
+      end
+
+      policy.add(denyAAAA({ todname('netflix.com.'), todname('nflximg.net.'), todname('nflxvideo.net.'), todname('nflxso.net.'), todname('nflxext.com.') }))
+      policy.add(policy.suffix(policy.STUB('127.0.0.53'), { todname('.') }))
+    '';
   };
 }

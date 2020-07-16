@@ -8,6 +8,8 @@
       ./networking.nix
       ./zfs.nix
 
+      ./cross-hacks.nix
+
       ../bohrium/secrets.nix
     ];
 
@@ -62,7 +64,7 @@
 
   services.ntp.enable = false;
   services.chrony = {
-    enable = false;
+    enable = true;
     initstepslew = {
       enabled = true;
       threshold = 1000;

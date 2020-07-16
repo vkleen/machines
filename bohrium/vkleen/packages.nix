@@ -36,6 +36,7 @@ let
       purple-matrix purple-plugin-pack telegram-purple
       pidgin-carbons pidgin-xmpp-receipts
       purple-events purple-libnotify-plus
+      purple-plugins-prpl
     ];
   };
 

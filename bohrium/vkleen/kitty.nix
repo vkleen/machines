@@ -73,5 +73,8 @@
     linux_display_server wayland
 
     clear_all_shortcuts yes
+
+    map kitty_mod+e kitten hints --program wl-copy
+    map kitty_mod+u kitten unicode_input
   '';
 }

@@ -19,6 +19,7 @@ builtins.map (x: import x args) [
   ./scripts.nix
   ./tmux.nix
   ./wayland.nix
+  ./weechat.nix
   ./zathura.nix
   ./zsh.nix
 

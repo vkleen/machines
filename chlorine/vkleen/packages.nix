@@ -123,9 +123,7 @@ in {
     python3Packages.alot
     qpdf
     radare2
-    renderdoc
     rfkill
-    # riot-desktop
     rsync
     sanoid
     skim

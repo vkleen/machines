@@ -6,6 +6,7 @@ let plugins = with pkgs.kakounePlugins; [
       (pkgs.callPackage ./kakoune/kakoune-surround.nix {})
       (pkgs.callPackage ./kakoune/kakoune-change-directory.nix {})
       (pkgs.callPackage ./kakoune/kakoune-wiki.nix {})
+      (pkgs.callPackage ./kakoune/kakoune-idris.nix {})
 
       (pkgs.writeTextFile {
         name = "kak-config";

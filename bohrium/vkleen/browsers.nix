@@ -12,11 +12,15 @@ let
   });
 
   firejail-firefox = pkgs.writeShellScriptBin "firefox" ''
-    exec ${nixos.security.wrapperDir}/firejail --ignore=nodbus --whitelist=/home/vkleen/dl ${cfg.firefox-unwrapped}/bin/firefox
+    exec ${nixos.security.wrapperDir}/firejail --ignore=nodbus --whitelist="${config.home.homeDirectory}/dl" ${cfg.firefox-unwrapped}/bin/firefox
   '';
 
   firejail-chromium = pkgs.writeShellScriptBin "chromium" ''
-    exec ${nixos.security.wrapperDir}/firejail --ignore=nodbus --whitelist=/home/vkleen/dl ${cfg.chromium-unwrapped}/bin/chromium-browser "$@"
+    exec ${nixos.security.wrapperDir}/firejail --ignore=nodbus --whitelist="${config.home.homeDirectory}/dl" ${cfg.chromium-unwrapped}/bin/chromium-browser "$@"
+  '';
+
+  foreflight-chromium = pkgs.writeShellScriptBin "foreflight" ''
+    exec ${nixos.security.wrapperDir}/firejail --blacklist="${config.home.homeDirectory}/.config/chromium" --whitelist="${config.home.homeDirectory}/.foreflight" --ignore=nodbus ${cfg.chromium-unwrapped}/bin/chromium-browser --new-window --user-data-dir="${config.home.homeDirectory}/.foreflight" "https://plan.foreflight.com"
   '';
 in {
   options = {
@@ -48,6 +52,7 @@ in {
 
     home.packages = [
       cfg.firefox
+      foreflight-chromium
     ];
   };
 }

@@ -98,3 +98,6 @@ map global normal <c-p> ':fzf-mode<ret>'
 
 # wiki
 wiki-setup %sh{ echo $HOME/work }
+
+# idris.kak
+map global user i ':enter-user-mode idris-ide<ret>'

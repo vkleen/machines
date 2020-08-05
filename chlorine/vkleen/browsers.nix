@@ -12,13 +12,13 @@
     ];
   };
 
-  home.packages =
-    let fcfg = lib.setAttrByPath ["firefox"] {
-          enableAdobeFlash = false;
-        };
+  # home.packages =
+  #   let fcfg = lib.setAttrByPath ["firefox"] {
+  #         enableAdobeFlash = false;
+  #       };
 
-        wrapper = pkgs.wrapFirefox.override {
-          config = fcfg;
-        };
-    in [ (wrapper pkgs.firefox-unwrapped { browserName = "firefox"; }) ];
+  #       wrapper = pkgs.wrapFirefox.override {
+  #         config = fcfg;
+  #       };
+  #   in [ (wrapper pkgs.firefox-unwrapped { browserName = "firefox"; }) ];
 }

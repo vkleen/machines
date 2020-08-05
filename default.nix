@@ -223,7 +223,7 @@ let
     in orig // {
       platform = orig.platform // {
         kernelTarget = "uImage";
-        kernelMakeFlags = [ "LOADADDR=0x12000000" ];
+        kernelMakeFlags = [ "LOADADDR=0x12000000" "EXTRA_CFLAGS=-DVERBOSE=1" ];
       };
     };
   };

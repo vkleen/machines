@@ -62,8 +62,8 @@ let
     sha256 = "0qhwylacrnw2k3g9ndi0s7y6ymvrf74yhmq2jkd8xvqg5vk833h2";
   }) { inherit pkgs; };
 
-  firejail-riot = pkgs.writeShellScriptBin "riot-desktop" ''
-    exec ${nixos.security.wrapperDir}/firejail --whitelist=${config.home.homeDirectory}/.config/Riot ${pkgs.riot-desktop}/bin/riot-desktop
+  firejail-element = pkgs.writeShellScriptBin "element-desktop" ''
+    exec ${nixos.security.wrapperDir}/firejail --whitelist=${config.home.homeDirectory}/.config/Riot ${pkgs.element-desktop}/bin/element-desktop
   '';
 in {
   home.packages = with pkgs; [
@@ -96,7 +96,7 @@ in {
     expect
     fd
     file
-    firejail-riot
+    firejail-element
     gdrive
     gitAndTools.git-crypt
     gitAndTools.gitRemoteGcrypt
@@ -112,7 +112,6 @@ in {
     iw
     ldns
     libbladeRF
-    libreoffice
     linode-cli
     llpp
     lrzsz

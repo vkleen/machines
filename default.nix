@@ -12,6 +12,17 @@ let
     };
   } // args);
 
+  nixpkgs-cross-x86_64 = args: import "${pkgs-power9-path}/pkgs/top-level" ({
+    crossSystem = {
+      system = "x86_64-linux";
+      platform = lib.systems.platforms.pc64;
+    };
+    localSystem = {
+      system = "powerpc64le-linux";
+      platform = lib.systems.platforms.powernv;
+    };
+  } // args);
+
   all-overlays-in = dir: with builtins; with lib;
     let allNixFilesIn = dir: mapAttrs (name: _: import (dir + "/${name}"))
                                       (filterAttrs (name: _: hasSuffix ".nix" name)
@@ -27,6 +38,13 @@ let
   };
   seaborgium = seaborgium-pkgs.nixos (import ./seaborgium/configuration.nix);
 
+  bohrium-cross-pkgs = nixpkgs-cross-x86_64 {
+    config = { allowUnfree = true;
+               android_sdk.accept_license = true;
+             };
+    overlays =    (all-overlays-in ./chlorine/overlays)
+               ++ (all-overlays-in ./bohrium/overlays);
+  };
   bohrium-pkgs = nixpkgs-x86_64 {
     config = { allowUnfree = true;
                android_sdk.accept_license = true;
@@ -279,6 +297,7 @@ let
 in {
   inherit seaborgium seaborgium-pkgs;
   inherit bohrium bohrium-pkgs;
+  inherit bohrium-cross-pkgs;
 
   inherit samarium europium plutonium;
 

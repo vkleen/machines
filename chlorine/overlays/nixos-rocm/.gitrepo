@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:nixos-rocm/nixos-rocm.git
+	branch = 3.5.x
+	commit = d08050a12eeb43ace66c02d104f031b4f9611143
+	parent = 55facb9d8ac845838d9404a92b1e6123844f9f5a
+	cmdver = 0.3.1

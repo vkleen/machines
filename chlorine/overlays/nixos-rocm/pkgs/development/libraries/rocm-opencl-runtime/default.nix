@@ -61,6 +61,14 @@ in stdenv.mkDerivation rec {
     "-DUSE_COMGR_LIBRARY='yes'"
   ];
 
+  NIX_CFLAGS_COMPILE = [
+    "-DNO_WARN_X86_INTRINSICS"
+  ];
+
+  patches = [
+    ./non-x86.patch
+  ];
+
   dontStrip = true;
 
   # Fix the ICD installation path for NixOS

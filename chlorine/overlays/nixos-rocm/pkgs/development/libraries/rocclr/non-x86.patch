@@ -1,0 +1,119 @@
+diff -Naur source.orig/CMakeLists.txt source/CMakeLists.txt
+--- source.orig/CMakeLists.txt	2020-08-11 22:02:30.617345413 +0000
++++ source/CMakeLists.txt	2020-08-11 22:05:51.264354017 +0000
+@@ -57,11 +57,11 @@
+ set(CMAKE_CXX_EXTENSIONS OFF)
+ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+ 
+-add_definitions(-D__x86_64__ -DOPENCL_MAJOR=2 -DOPENCL_MINOR=1 -DCL_TARGET_OPENCL_VERSION=220 -DATI_OS_LINUX -DATI_ARCH_X86 -DLITTLEENDIAN_CPU -DATI_BITS_64 -DWITH_TARGET_AMDGCN -DOPENCL_EXPORTS -DCL_USE_DEPRECATED_OPENCL_1_0_APIS -DCL_USE_DEPRECATED_OPENCL_1_1_APIS -DCL_USE_DEPRECATED_OPENCL_1_2_APIS -DCL_USE_DEPRECATED_OPENCL_2_0_APIS -DVEGA10_ONLY=false -DWITH_LIGHTNING_COMPILER)
++add_definitions(-DOPENCL_MAJOR=2 -DOPENCL_MINOR=1 -DCL_TARGET_OPENCL_VERSION=220 -DATI_OS_LINUX -DLITTLEENDIAN_CPU -DATI_BITS_64 -DWITH_TARGET_AMDGCN -DOPENCL_EXPORTS -DCL_USE_DEPRECATED_OPENCL_1_0_APIS -DCL_USE_DEPRECATED_OPENCL_1_1_APIS -DCL_USE_DEPRECATED_OPENCL_1_2_APIS -DCL_USE_DEPRECATED_OPENCL_2_0_APIS -DVEGA10_ONLY=false -DWITH_LIGHTNING_COMPILER)
+ add_definitions(-DOPENCL_C_MAJOR=2 -DOPENCL_C_MINOR=0)
+ 
+ set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-Bsymbolic -Wl,--unresolved-symbols=report-all")
+-set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
++set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_LIBDIR})
+ 
+ if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+   add_definitions(-DDEBUG)
+diff -Naur source.orig/os/os.cpp source/os/os.cpp
+--- source.orig/os/os.cpp	2020-08-11 22:02:30.637343124 +0000
++++ source/os/os.cpp	2020-08-11 22:02:37.736530623 +0000
+@@ -31,9 +31,9 @@
+ #include <unistd.h>
+ #endif  // !_WIN32
+ 
+-#if defined(ATI_ARCH_X86)
++// #if defined(ATI_ARCH_X86)
+ #include <xmmintrin.h>  // for _mm_pause
+-#endif                  // ATI_ARCH_X86
++// #endif                  // ATI_ARCH_X86
+ 
+ namespace amd {
+ 
+diff -Naur source.orig/os/os.hpp source/os/os.hpp
+--- source.orig/os/os.hpp	2020-08-11 22:02:30.637343124 +0000
++++ source/os/os.hpp	2020-08-11 22:02:37.736530623 +0000
+@@ -294,21 +294,21 @@
+ #else  // !_WIN64
+ 
+ ALWAYSINLINE address Os::currentStackPtr() {
+-  intptr_t value;
++  intptr_t value = 0;
+ 
+-#if defined(__GNUC__)
+-  __asm__ __volatile__(
+-#if defined(ATI_ARCH_X86)
+-      LP64_SWITCH("movl %%esp", "movq %%rsp") ",%0"
+-      : "=r"(value)
+-#elif defined(ATI_ARCH_ARM)
+-      "mov %0,sp"
+-      : "=r"(value)
+-#endif
+-          );
+-#else   // !__GNUC__
+-  __asm mov value, esp;
+-#endif  // !__GNUC__
++// #if defined(__GNUC__)
++//   __asm__ __volatile__(
++// #if defined(ATI_ARCH_X86)
++//       LP64_SWITCH("movl %%esp", "movq %%rsp") ",%0"
++//       : "=r"(value)
++// #elif defined(ATI_ARCH_ARM)
++//       "mov %0,sp"
++//       : "=r"(value)
++// #endif
++//           );
++// #else   // !__GNUC__
++//   __asm mov value, esp;
++// #endif  // !__GNUC__
+ 
+   return (address)value;
+ }
+diff -Naur source.orig/os/os_posix.cpp source/os/os_posix.cpp
+--- source.orig/os/os_posix.cpp	2020-08-11 22:02:30.637343124 +0000
++++ source/os/os_posix.cpp	2020-08-11 22:02:37.736530623 +0000
+@@ -298,8 +298,8 @@
+ 
+   ::pthread_attr_destroy(&threadAttr);
+ 
+-  assert(Os::currentStackPtr() >= *base - *size && Os::currentStackPtr() < *base &&
+-         "just checking");
++  // assert(Os::currentStackPtr() >= *base - *size && Os::currentStackPtr() < *base &&
++  //        "just checking");
+ }
+ 
+ void Os::setCurrentThreadName(const char* name) { ::prctl(PR_SET_NAME, name); }
+@@ -666,7 +666,7 @@
+   sp -= sizeof(void*);
+   *(void**)sp = __builtin_return_address(0);
+ 
+-#if defined(ATI_ARCH_ARM)
++#if !defined(ATI_ARCH_X86)
+   assert(!"Unimplemented");
+ #else
+   __asm__ __volatile__(
+diff -Naur source.orig/top.hpp source/top.hpp
+--- source.orig/top.hpp	2020-08-11 22:02:30.617345413 +0000
++++ source/top.hpp	2020-08-11 22:07:53.390337337 +0000
+@@ -34,6 +34,9 @@
+ 
+ #include "utils/macros.hpp"
+ #include "CL/opencl.h"
++#undef bool
++#undef pixel
++#undef vector
+ 
+ #if defined(CL_VERSION_2_0)
+ /* Deprecated in OpenCL 2.0 */
+@@ -41,9 +44,9 @@
+ #define CL_DEVICE_HOST_UNIFIED_MEMORY 0x1035
+ #endif
+ 
+-#if !defined(ATI_ARCH_ARM)
++#if defined(ATI_ARCH_X86)
+ #include <xmmintrin.h>
+-#endif /*!ATI_ARCH_ARM*/
++#endif /*!ATI_ARCH_X86*/
+ 
+ #include <cstdint>
+ #include <cstddef>

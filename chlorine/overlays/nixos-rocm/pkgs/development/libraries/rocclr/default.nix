@@ -29,7 +29,7 @@ stdenv.mkDerivation rec {
 
   propagatedBuildInputs = [ libelf libglvnd libX11 ];
 
-  prePatch = ''
+  postPatch = ''
     substituteInPlace CMakeLists.txt \
       --replace 'set(ROCCLR_EXPORTS_FILE "''${CMAKE_CURRENT_BINARY_DIR}/amdrocclr_staticTargets.cmake")' \
         'set(ROCCLR_EXPORTS_FILE "''${CMAKE_INSTALL_LIBDIR}/cmake/amdrocclr_staticTargets.cmake")' \
@@ -42,6 +42,14 @@ stdenv.mkDerivation rec {
 
   cmakeFlags = [
     "-DOPENCL_DIR=${rocm-opencl-runtime.src}"
+  ];
+
+  patches = [
+    ./non-x86.patch
+  ];
+
+  NIX_CFLAGS_COMPILE = [
+    "-DNO_WARN_X86_INTRINSICS"
   ];
 
   preFixup = ''

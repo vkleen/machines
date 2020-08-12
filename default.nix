@@ -111,9 +111,10 @@ let
       platform = lib.systems.platforms.powernv;
     };
   } // args);
-  chlorine = (nixpkgs-ppc64 {
+  chlorine-pkgs = nixpkgs-ppc64 {
     overlays = all-overlays-in ./chlorine/overlays;
-  }).nixos (import ./chlorine/configuration.nix);
+  };
+  chlorine = chlorine-pkgs.nixos (import ./chlorine/configuration.nix);
 
   nixpkgs-arm = args: import "${pkgs-path}/pkgs/top-level" ({
     config = {};
@@ -308,10 +309,7 @@ in {
 
   chlorine-bootstrap = (import "${pkgs-path}/pkgs/stdenv/linux/make-bootstrap-tools-cross.nix" { system = "powerpc64le-linux"; }).powerpc64le;
   chlorine-musl-bootstrap = (import "${pkgs-path}/pkgs/stdenv/linux/make-bootstrap-tools-cross.nix" { system = "powerpc64le-linux"; }).powerpc64le-musl;
-  chlorine-pkgs = nixpkgs-ppc64 {
-    overlays = all-overlays-in ./chlorine/overlays;
-  };
-  inherit chlorine;
+  inherit chlorine chlorine-pkgs;
 
   chlorine-guest-base = chlorine.guests.base-x86_64;
 

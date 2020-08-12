@@ -22,12 +22,16 @@ stdenv.mkDerivation rec {
 
   cmakeFlags = [ "-DCMAKE_PREFIX_PATH=${rocm-thunk}" ];
 
+  patches = [
+    ./rocr-power9.patch
+  ];
+
   # Use the ROCR_EXT_DIR environment variable and/or OpenGL driver
   # link path to try to find binary-only ROCm runtime extension
   # libraries.  Without this change, we would have to rely on
   # LD_LIBRARY_PATH to let the HSA runtime discover the shared
   # libraries.
-  patchPhase = ''
+  postPatch = ''
     substitute '${./rocr-ext-dir.diff}' ./rocr-ext-dir.diff \
       --subst-var-by rocrExtDir "${addOpenGLRunpath.driverLink}/lib/rocm-runtime-ext"
     patch -p2 < ./rocr-ext-dir.diff

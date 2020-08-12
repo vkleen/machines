@@ -20,6 +20,10 @@ stdenv.mkDerivation rec {
     export cmakeFlags="$cmakeFlags "
   '';
 
+  patches = [
+    ./rocm-thunk-power9.patch
+  ];
+
   nativeBuildInputs = [ cmake pkg-config ];
 
   buildInputs = [ numactl ];

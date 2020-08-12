@@ -1,0 +1,50 @@
+diff -Naur ROCm-OpenCL-Runtime-roc-3.5.0-src.orig/amdocl/CMakeLists.txt ROCm-OpenCL-Runtime-roc-3.5.0-src/amdocl/CMakeLists.txt
+--- ROCm-OpenCL-Runtime-roc-3.5.0-src.orig/amdocl/CMakeLists.txt	2020-08-11 21:08:03.006805604 +0000
++++ ROCm-OpenCL-Runtime-roc-3.5.0-src/amdocl/CMakeLists.txt	2020-08-11 21:08:39.182676050 +0000
+@@ -16,7 +16,7 @@
+ 
+ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake" "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
+ 
+-add_definitions(-DLINUX -D__x86_64__ -D__AMD64__ -DUNIX_OS -DqLittleEndian -DOPENCL_MAJOR=2 -DOPENCL_MINOR=0 -DCL_TARGET_OPENCL_VERSION=220 -DWITH_AQL -DWITH_ONLINE_COMPILER -DATI_OS_LINUX -DATI_ARCH_X86 -DLITTLEENDIAN_CPU -DATI_BITS_64 -DATI_COMP_GCC -DWITH_HSA_DEVICE -DWITH_TARGET_AMDGCN -DOPENCL_EXPORTS -DCL_USE_DEPRECATED_OPENCL_1_0_APIS -DCL_USE_DEPRECATED_OPENCL_1_1_APIS -DCL_USE_DEPRECATED_OPENCL_1_2_APIS -DCL_USE_DEPRECATED_OPENCL_2_0_APIS -DVEGA10_ONLY=false -DWITH_LIGHTNING_COMPILER)
++add_definitions(-DLINUX -DUNIX_OS -DqLittleEndian -DOPENCL_MAJOR=2 -DOPENCL_MINOR=0 -DCL_TARGET_OPENCL_VERSION=220 -DWITH_AQL -DWITH_ONLINE_COMPILER -DATI_OS_LINUX -DLITTLEENDIAN_CPU -DATI_BITS_64 -DATI_COMP_GCC -DWITH_HSA_DEVICE -DWITH_TARGET_AMDGCN -DOPENCL_EXPORTS -DCL_USE_DEPRECATED_OPENCL_1_0_APIS -DCL_USE_DEPRECATED_OPENCL_1_1_APIS -DCL_USE_DEPRECATED_OPENCL_1_2_APIS -DCL_USE_DEPRECATED_OPENCL_2_0_APIS -DVEGA10_ONLY=false -DWITH_LIGHTNING_COMPILER)
+ 
+ if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+   add_definitions(-DDEBUG)
+diff -Naur ROCm-OpenCL-Runtime-roc-3.5.0-src.orig/amdocl/glibc_functions.cpp ROCm-OpenCL-Runtime-roc-3.5.0-src/amdocl/glibc_functions.cpp
+--- ROCm-OpenCL-Runtime-roc-3.5.0-src.orig/amdocl/glibc_functions.cpp	2020-08-11 21:08:03.006805604 +0000
++++ ROCm-OpenCL-Runtime-roc-3.5.0-src/amdocl/glibc_functions.cpp	2020-08-11 21:11:43.921560558 +0000
+@@ -26,13 +26,13 @@
+ extern "C" {
+ #endif // __cplusplus
+ 
+-#if defined(_LP64)
+-asm (".symver memcpy, memcpy@GLIBC_2.2.5");
+-void *__wrap_memcpy(void *dest, const void *src, size_t n)
+-{
+-    return memcpy(dest, src, n);
+-}
+-#endif // _LP64
++// #if defined(_LP64)
++// asm (".symver memcpy, memcpy@GLIBC_2.2.5");
++// void *__wrap_memcpy(void *dest, const void *src, size_t n)
++// {
++//     return memcpy(dest, src, n);
++// }
++// #endif // _LP64
+ 
+ #if defined(__cplusplus)
+ }
+diff -Naur ROCm-OpenCL-Runtime-roc-3.5.0-src.orig/khronos/headers/opencl2.2/CL/cl_platform.h ROCm-OpenCL-Runtime-roc-3.5.0-src/khronos/headers/opencl2.2/CL/cl_platform.h
+--- ROCm-OpenCL-Runtime-roc-3.5.0-src.orig/khronos/headers/opencl2.2/CL/cl_platform.h	2020-08-11 21:08:03.016804463 +0000
++++ ROCm-OpenCL-Runtime-roc-3.5.0-src/khronos/headers/opencl2.2/CL/cl_platform.h	2020-08-11 21:26:53.844772768 +0000
+@@ -356,6 +356,10 @@
+ /* Define basic vector types */
+ #if defined( __VEC__ )
+    #include <altivec.h>   /* may be omitted depending on compiler. AltiVec spec provides no way to detect whether the header is required. */
++   #undef pixel
++   #undef vector
++   #undef bool
++
+    typedef __vector unsigned char     __cl_uchar16;
+    typedef __vector signed char       __cl_char16;
+    typedef __vector unsigned short    __cl_ushort8;

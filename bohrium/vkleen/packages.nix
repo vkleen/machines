@@ -67,8 +67,6 @@ let
   '';
 in {
   home.packages = with pkgs; [
-    # socat2pre
-    # papis
     a2ps
     aspell
     aspellDicts.de
@@ -92,6 +90,7 @@ in {
     dpt-rp1-py
     entr
     et
+    evince
     exiftool
     expect
     fd
@@ -130,6 +129,7 @@ in {
     notmuch
     nox
     pandoc
+    # papis
     parallel
     pass
     pavucontrol
@@ -153,6 +153,7 @@ in {
     sanoid
     skim
     socat
+    # socat2pre
     sqlite
     streamlink
     s-tui

@@ -16,6 +16,7 @@
         x: 2
         y: 2
       decorations: none
+      dynamic_title: true
 
     draw_bold_text_with_bright_colors: false
 
@@ -66,7 +67,7 @@
         cyan:    '0x53d6c7'
         white:   '0xcad8d9'
 
-    visual_bell:
+    bell:
       animation: EaseOutExpo
       duration: 0
 
@@ -83,8 +84,6 @@
 
     selection:
       semantic_escape_chars: ",│`|:\"' ()[]{}<>"
-
-    dynamic_title: true
 
     live_config_reload: true
 

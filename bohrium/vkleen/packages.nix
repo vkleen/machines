@@ -196,7 +196,7 @@ in {
 
     cura
     openscad
-    # freecad
+    freecad
     solvespace
 
     dhall

@@ -1,4 +1,0 @@
-{ ... }:
-{
-  services.parcellite.enable = true;
-}

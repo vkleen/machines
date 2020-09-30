@@ -1,10 +1,1 @@
-/embedded/coreboot.rom
-/embedded/nix-embedded/coreboot/blobs
-/test-*
 result
-/aws-builder
-/aws-spot.json
-/cachix
-/.lego
-/chlorine/boot
-/lead

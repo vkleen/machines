@@ -2,7 +2,6 @@ flake:
 { modulesPath, pkgSources, pkgset, ... }: {
   imports = [
     ../users/root ../users/vkleen
-    ./bohrium/bitlbee.nix
     ./bohrium/cups.nix
     ./bohrium/dconf.nix
     ./bohrium/hardware.nix

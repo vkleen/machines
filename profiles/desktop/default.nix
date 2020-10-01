@@ -2,7 +2,7 @@ flake:
 { pkgs, ... }:
 {
   imports = [
-    ./sway ./audio
+    ./sway ./audio ./bitlbee
   ];
   hardware.opengl = {
     enable = true;

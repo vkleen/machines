@@ -1,0 +1,39 @@
+#!/usr/bin/env zsh
+
+prefix=(~/dl ~/math ~/books ~/papers ~/dptrp1 ~/hw/xilinx/documentation)
+
+files=(${(0)"$(rg -0 --files -tzathuradoc "${(@)prefix}")"})
+
+DIR="$1"
+mkdir -p "${DIR}/global"
+GLOBALHASH=$(printf "%s\0" "${(@)files}" | xargs -0 -- stat -c '%d %i %Y %n' | sort | b2sum | cut -c 1-128)
+
+if [[ -f "${DIR}/global/${GLOBALHASH}" ]]; then
+    cat "${DIR}/global/${GLOBALHASH}"
+    exit 0
+fi
+
+function cleanup() {
+    rm -f "${DIR}/global/${GLOBALHASH}" "${CACHE}"
+}
+trap cleanup EXIT INT HUP
+
+function extract_meta() {
+    exiftool -j -XMP-dc:Creator -Title "$1" 2>/dev/null | \
+        jq -rj '(.[0]."Creator" | if type == "array" then . else [.] end) + [.[0]."Title"] | map(tostring) | .[] + "\n"'
+}
+
+{printf "%s\0" "${(@)files}"
+while read -d$'\0' -r FILE; do
+   HASH=$(stat -c '%d %i %Y %n' "${FILE}" | b2sum | cut -c 1-128)
+   CACHE="${DIR}/${HASH}"
+   if [[ ! ( -f "${CACHE}" || "${FILE}" = "*.ps" ) ]]; then
+       { extract_meta "${FILE}"
+         pdftotext -f 1 -l 1 "${FILE}" - 2>/dev/null
+       } | tr -cd "\11\12\15\40-\176" > "${CACHE}"
+   fi
+   printf "%s\t%s\0" "${FILE}" "$(tr "\n" "_" < ${CACHE})"
+done < <(printf "%s\0" "${(@)files}")} \
+    | tee "${DIR}/global/${GLOBALHASH}"
+trap - EXIT INT HUP
+exit 0

@@ -1,0 +1,71 @@
+#!@zsh@
+
+if [[ "$1" == "search" ]]; then
+    _url_mod=_duckduckgo
+else
+    _url_mod=_id
+fi
+
+setopt EXTENDED_GLOB
+_profile_=( ~/.mozilla/firefox/*.default-([0-9])## )
+_profile="${_profile_[1]}"
+
+function _do_fzf() {
+    FZF_DEFAULT_COMMAND="@fzf-ff-url-candidates@ \"$_profile\"" \
+    @fzf@ --read0 --print0 -e -d '\t' \
+          --no-sort \
+          --reverse \
+          --prompt="open${1+ }$1> " \
+          --print-query \
+          --expect='alt-enter,enter' \
+          --preview-window up:1 \
+          --preview 'v=$(echo {q} | tr " " "|"); echo {2..} | @grep@ -E "^|$v" -i --color=always' \
+    | @awk@ 'BEGIN {FS="\t"; OFS="\t"}; {print $1}'
+}
+
+function laststatus() {
+    case $? in
+        0) return 0 ;;
+        1) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+function die() {
+    @tmux@ detach
+    exit $1
+}
+
+function firefox_running() {
+    @pgrep@ -f 'firejail.*firefox' >/dev/null
+}
+
+function _duckduckgo() {
+    printf 'https://duckduckgo.com/?q=%s' "$*"
+}
+
+function _id() {
+    printf "%s" "$*"
+}
+
+output=( "${(0)$(_do_fzf "$@")}" )
+laststatus || die 1
+
+case "${output[2]}" in
+    alt-enter)
+        cmd="${output[1]}"
+        ;;
+    enter)
+        cmd="${output[3]}"
+        ;;
+esac
+
+[[ -z "$cmd" ]] && die 1
+
+if firefox_running; then
+    @firefox-unwrapped@ --new-window "$("$_url_mod" "$cmd")"
+else
+    @firefox@ --new-window "$("$_url_mod" "$cmd")"
+fi
+
+die 0

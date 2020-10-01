@@ -1,0 +1,29 @@
+#!/usr/bin/env zsh
+
+DIR="${HOME}/.local/cache/pdftotext"
+
+function _do_fzf() {
+    FZF_DEFAULT_COMMAND="$HOME/.software/bin/.fzf-paper-candidates \"$DIR\"" fzf --read0 -e -d '\t' \
+            --prompt='zathura> ' \
+            --reverse \
+            --preview-window right:75% \
+            --preview 'v=$(echo {q} | tr " " "|"); [ -n {} ] && grep -E "^|$v" -i --color=always <'$DIR'/$(stat -c "%d %i %Y %n" {1} | b2sum | cut -c 1-128)' \
+    | awk 'BEGIN {FS="\t"; OFS="\t"}; {print $1}'
+}
+
+function laststatus() {
+    return $?
+}
+
+function die() {
+    tmux detach
+    exit $1
+}
+
+file=$(_do_fzf)
+
+laststatus || die 1
+[[ -z "$file" ]] && die 0
+
+(set -m; trap ':' 1; exec zathura "$file" >/dev/null 2>&1) &!
+die 0

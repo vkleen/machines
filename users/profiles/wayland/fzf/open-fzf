@@ -1,0 +1,10 @@
+#!/bin/sh
+
+SESSION_NAME=fzf
+
+if ! tmux has-session -t $SESSION_NAME; then
+  tmux new-session -d -s $SESSION_NAME
+fi
+
+tmux send-keys -t $SESSION_NAME "$*" ENTER
+exec tmux attach-session -t $SESSION_NAME

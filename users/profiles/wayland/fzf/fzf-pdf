@@ -1,0 +1,29 @@
+#!/usr/bin/env zsh
+
+prefix=(~/dl)
+
+function laststatus() {
+    return $?
+}
+
+function die() {
+    tmux detach
+    exit $1
+}
+
+function _do_fzf() {
+    rg -0 --files --sortr=modified -tzathuradoc "${(@)prefix}" \
+      | fzf --read0 -e -d '\t' \
+            --prompt='zathura> ' \
+            --reverse \
+            --preview-window right:75% \
+            --preview 'v=$(echo {q} | tr " " "|"); pdftotext -f 1 -l 1 {1} - 2>/dev/null | tr -cd "\11\12\15\40-\176" | grep -E "^|$v" -i --color=always'
+}
+
+file=$(_do_fzf)
+
+laststatus || die 1
+[[ -z "$file" ]] && die 0
+
+(set -m; trap ':' 1; exec zathura "$file" >/dev/null 2>&1) &!
+die 0

@@ -3,7 +3,6 @@ flake:
   imports = [
     ../users/root ../users/vkleen
     ./bohrium/cups.nix
-    ./bohrium/dconf.nix
     ./bohrium/hardware.nix
     ./bohrium/networking.nix
     ./bohrium/persist.nix

@@ -5,11 +5,11 @@ flake:
     ./bohrium/hardware.nix
     ./bohrium/networking.nix
     ./bohrium/persist.nix
-    ./bohrium/power.nix
     ./bohrium/udev.nix
     ./bohrium/zfs.nix
   ] ++ (with flake.nixosModules.profiles; [
     desktop
+    laptop
     latest-linux
     no-coredump
     ssh

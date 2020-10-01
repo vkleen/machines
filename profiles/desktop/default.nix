@@ -37,6 +37,8 @@ flake:
     };
   };
 
+  programs.firejail.enable = true;
+
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [
     gnome3.dconf-editor

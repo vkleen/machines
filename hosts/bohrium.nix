@@ -2,7 +2,6 @@ flake:
 { modulesPath, pkgSources, pkgset, ... }: {
   imports = [
     ../users/root ../users/vkleen
-    ./bohrium/audio.nix
     ./bohrium/bitlbee.nix
     ./bohrium/cups.nix
     ./bohrium/dconf.nix
@@ -13,11 +12,11 @@ flake:
     ./bohrium/udev.nix
     ./bohrium/zfs.nix
   ] ++ (with flake.nixosModules.profiles; [
-    ssh
+    desktop
     latest-linux
-    uucp-email
     no-coredump
-    graphical
+    ssh
+    uucp-email
   ]);
 
   nixpkgs = rec {

@@ -1,6 +1,6 @@
 [
   ./core
-  ./graphical
+  ./desktop
   ./latest-linux
   ./no-coredump
   ./ssh

@@ -18,6 +18,10 @@ let
     esac
   '';
 in {
+  imports = [
+    ./udev-hacks.nix
+  ];
+
   powerManagement.cpuFreqGovernor = "powersave";
 
   boot.kernel.sysctl = {

@@ -5,7 +5,6 @@ flake:
     ./bohrium/hardware.nix
     ./bohrium/networking.nix
     ./bohrium/persist.nix
-    ./bohrium/udev.nix
     ./bohrium/zfs.nix
   ] ++ (with flake.nixosModules.profiles; [
     desktop

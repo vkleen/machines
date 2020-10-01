@@ -1,18 +1,12 @@
-{ config, pkgs, lib, ... }:
+flake:
+{ pkgs, ... }:
 {
-  programs.sway = {
-    enable = true;
-    wrapperFeatures = {
-      gtk = true;
-    };
-    extraPackages = with pkgs; [
-      swaylock swayidle
-      xwayland
-    ];
-  };
-
+  imports = [
+    ./sway
+  ];
   hardware.opengl = {
     enable = true;
+    driSupport = true;
     extraPackages = with pkgs; [
       vaapiIntel
       intel-media-driver
@@ -35,7 +29,9 @@
       pragmatapro
       libertine #xits-math
     ];
+    fontconfig.defaultFonts = {
+      monospace = [ "PragmataPro Mono Liga Regular" ];
+      sansSerif = [ "PragmataPro Mono Liga Regular" ];
+    };
   };
-
-  programs.firejail.enable = true;
 }

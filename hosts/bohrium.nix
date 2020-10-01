@@ -11,13 +11,13 @@ flake:
     ./bohrium/persist.nix
     ./bohrium/power.nix
     ./bohrium/udev.nix
-    ./bohrium/wayland.nix
     ./bohrium/zfs.nix
   ] ++ (with flake.nixosModules.profiles; [
     ssh
     latest-linux
     uucp-email
     no-coredump
+    graphical
   ]);
 
   nixpkgs = rec {

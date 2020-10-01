@@ -1,5 +1,12 @@
 { ... }:
 {
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs = {
+    enableUnstable = true;
+    forceImportRoot = false;
+    forceImportAll = false;
+  };
+
   services.zfs.autoSnapshot = {
     enable = true;
     flags = "-p --utc";

@@ -6,4 +6,5 @@
   ./no-coredump
   ./ssh
   ./uucp-email
+  ./zfs
 ]

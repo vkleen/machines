@@ -3,6 +3,10 @@ flake:
 let inherit (lib) fileContents;
 in
 {
+  imports = [
+    flake.nixosModules.wipe-root
+  ];
+
   nix.package = pkgs.nixFlakes;
   environment = {
     systemPackages = with pkgs; [

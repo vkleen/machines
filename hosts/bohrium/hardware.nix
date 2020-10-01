@@ -1,17 +1,12 @@
 { pkgs, lib, ... }:
 {
+  boot.wipeRoot = true;
+
   hardware.enableRedistributableFirmware = true;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ "kvm-intel" "dm_snapshot" "dm_integrity" ];
   boot.extraModulePackages = [ ];
-
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs = {
-    enableUnstable = true;
-    forceImportRoot = false;
-    forceImportAll = false;
-  };
 
   boot.initrd.secrets = {
     "/persist/private/keyfiles/swap" = null;
@@ -33,10 +28,6 @@
     enableCryptodisk = true;
     copyKernels = true;
   };
-
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    ${pkgs.zfs}/bin/zfs rollback -r bohrium/local/root@blank
-  '';
 
 # cryptsetup:
 #   cryptsetup luksFormat /dev/nvme0n1p2 --cipher='aes-xts-plain64' --key-size=512 --keyslot-key-size=512 --keyslot-cipher=aes-xts-plain64 --hash=sha256 --type luks

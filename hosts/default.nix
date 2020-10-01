@@ -10,6 +10,7 @@ args@
 let
   home = home-manager;
   inherit (utils) recImport;
+  inherit (builtins) attrValues removeAttrs;
 
   config = hostName:
     lib.nixosSystem {

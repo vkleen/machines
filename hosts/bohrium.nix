@@ -4,8 +4,6 @@ flake:
     ../users/root ../users/vkleen
     ./bohrium/hardware.nix
     ./bohrium/networking.nix
-    ./bohrium/persist.nix
-    ./bohrium/zfs.nix
   ] ++ (with flake.nixosModules.profiles; [
     desktop
     laptop
@@ -13,6 +11,7 @@ flake:
     no-coredump
     ssh
     uucp-email
+    zfs
   ]);
 
   nixpkgs = rec {

@@ -1,6 +1,8 @@
 flake:
 { pkgs, ... }:
 {
+  system.configuration-type = "desktop";
+
   imports = [
     ./sway ./audio ./bitlbee ./cups
   ];

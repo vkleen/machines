@@ -34,25 +34,25 @@
             _module.args.pkgsPath = lib.mkForce pkgSources.local;
             _module.args.pkgs = lib.mkForce pkgs;
           }] ++ (profiles [
-            ../profiles/alacritty
-            ../profiles/bluetooth
-            ../profiles/browser
             ../profiles/direnv
-            ../profiles/emacs
             ../profiles/git
-            ../profiles/gpg
             ../profiles/kak
-            ../profiles/kitty
-            ../profiles/mpv
-            ../profiles/redshift
             ../profiles/tmux
-            ../profiles/wayland
-            ../profiles/weechat
             ../profiles/zsh
           ])
-          ++ [ (lib.mkIf (config.system.configuration-type == "desktop")
-                         (import ../profiles/desktop-packages args)
-               ) ]
+          ++ [ (lib.mkIf (config.system.configuration-type == "desktop") (lib.mkMerge (profiles [
+                 ../profiles/alacritty
+                 ../profiles/bluetooth
+                 ../profiles/browser
+                 ../profiles/desktop-packages
+                 ../profiles/emacs
+                 ../profiles/gpg-agent
+                 ../profiles/kitty
+                 ../profiles/mpv
+                 ../profiles/redshift
+                 ../profiles/wayland
+                 ../profiles/weechat
+               ])))]
         );
     }
     ];

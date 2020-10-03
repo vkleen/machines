@@ -51,6 +51,8 @@ let
     exec ${nixos.security.wrapperDir}/firejail --whitelist=${config.home.homeDirectory}/.config/Riot ${pkgs.element-desktop}/bin/element-desktop
   '';
 in {
+  imports = [ ./scripts.nix ];
+
   home.packages = with pkgs; [
     a2ps
     aspell

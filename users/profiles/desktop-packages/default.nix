@@ -181,7 +181,6 @@ in {
     openscad
     freecad-realthunder
     solvespace
-    spacenavd
 
     dhall
 

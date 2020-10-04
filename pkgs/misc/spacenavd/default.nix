@@ -6,8 +6,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     repo = "spacenavd";
     owner = "vkleen";
-    rev = "00205d31a73eded1971955762c905b9b87a082ef";
-    hash = "sha256-dL+HNCWAvQfK+y8SEbgPwPTDdDNWRZL8/xfSVVVCMrU=";
+    rev = "99aa1dbf8d73680e04cfd7f6af7b4ad57ae44b8f";
+    hash = "sha256-oDbNGUx9bPjlX09rQAu0KX//9N1u2xslPgrpqAheufs=";
   };
   buildInputs = [ xorg.libX11 ];
 }

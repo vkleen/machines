@@ -50,6 +50,7 @@
                  ../profiles/kitty
                  ../profiles/mpv
                  ../profiles/redshift
+                 ../profiles/spacenav
                  ../profiles/wayland
                  ../profiles/weechat
                ])))]

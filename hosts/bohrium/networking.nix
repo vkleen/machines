@@ -132,4 +132,9 @@
       ExecStart = "${pkgs.udp2raw}/bin/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
     };
   };
+
+  fileSystems."/var/lib/iwd" = {
+    device = "/persist/iwd";
+    options = [ "bind" ];
+  };
 }

@@ -8,11 +8,6 @@
       ${pkgs.zfs}/bin/zfs rollback -r bohrium/local/root@blank
     '';
 
-    fileSystems."/var/lib/iwd" = {
-      device = "/persist/iwd";
-      options = [ "bind" ];
-    };
-
     fileSystems."/root/.aws" = {
       device = "/persist/aws";
       options = [ "bind" ];

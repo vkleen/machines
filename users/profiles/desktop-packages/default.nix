@@ -135,7 +135,6 @@ in {
     qutebrowser
     radare2
     renderdoc
-    rfkill
     rsync
     sanoid
     skim

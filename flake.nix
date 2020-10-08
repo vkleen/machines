@@ -32,7 +32,8 @@
           config = { allowUnfree = true; };
         };
 
-      pkgset = { inherit pkgsImport; } // (forAllSystems (s: pkgsImport s nixpkgs));
+      pkgset = { inherit pkgsImport; } // (forAllSystems (s: pkgsImport s nixpkgs))
+                                       // { "powerpc64le-linux" = pkgsImport "powerpc64le-linux" nixpkgs-power9; };
 
       pkgSources = {
         local = nixpkgs;

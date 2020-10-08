@@ -42,7 +42,7 @@ in
 
     security = {
       hideProcessInformation = false;
-      protectKernelImage = true;
+      protectKernelImage = false;
     };
 
     users.mutableUsers = false;

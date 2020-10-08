@@ -52,6 +52,22 @@
         "type": "github"
       }
     },
+    "nixos-rocm-power9": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1602162669,
+        "narHash": "sha256-32G/nWPvvC1gCT5UVPOtv+SvjeDXNEE9hOjQ1wsgUh8=",
+        "owner": "vkleen",
+        "repo": "nixos-rocm",
+        "rev": "6c73b144cd4807ab02e5f19c5be9a78dedd52ad2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "repo": "nixos-rocm",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1601398466,
@@ -109,6 +125,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "nixos-rocm-power9": "nixos-rocm-power9",
         "nixpkgs": "nixpkgs",
         "nixpkgs-power9": "nixpkgs-power9",
         "nixpkgs-wayland": "nixpkgs-wayland"

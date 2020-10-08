@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:vkleen/nixpkgs/local";
     nixpkgs-power9.url = "github:vkleen/nixpkgs/local-power9";
+    nixos-rocm-power9 = {
+      url = "github:vkleen/nixos-rocm";
+      flake = false;
+    };
     nixpkgs-wayland = {
       url = "github:colemickens/nixpkgs-wayland";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,7 +18,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-power9, home-manager, nixpkgs-wayland, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-power9, nixos-rocm-power9, home-manager, nixpkgs-wayland, ... }:
     let
       inherit (builtins) attrValues attrNames readDir;
       inherit (nixpkgs) lib;
@@ -32,8 +36,9 @@
           config = { allowUnfree = true; };
         };
 
-      pkgset = { inherit pkgsImport; } // (forAllSystems (s: pkgsImport s nixpkgs))
-                                       // { "powerpc64le-linux" = pkgsImport "powerpc64le-linux" nixpkgs-power9; };
+      pkgset = { inherit pkgsImport; }
+        // (forAllSystems (s: pkgsImport s nixpkgs))
+        // { "powerpc64le-linux" = (pkgsImport "powerpc64le-linux" nixpkgs-power9).extend (import nixos-rocm-power9); };
 
       pkgSources = {
         local = nixpkgs;
@@ -48,7 +53,9 @@
           fullPath = name: overlayDir + "/${name}";
           filteredPaths = filterAttrs (n: v: hasSuffix ".nix" n) (readDir overlayDir);
           overlayPaths = map fullPath (attrNames filteredPaths);
-        in pathsToImportedAttrs overlayPaths // { nixpkgs-wayland = nixpkgs-wayland.overlay; };
+        in pathsToImportedAttrs overlayPaths // {
+             nixpkgs-wayland = nixpkgs-wayland.overlay;
+           };
 
       packages = forAllSystems (s:
         let

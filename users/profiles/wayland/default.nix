@@ -129,6 +129,12 @@ let
     (builtins.readFile ./fzf/fzf-run)
   );
 
+  fzf-pdf = pkgs.writeScript "fzf-pdf" (builtins.replaceStrings
+    [ "@zsh@" "@tmux@" "@rg@" "@fzf@" "@tr@" "@pdftotext@" "@grep@" "@zathura@" ]
+    [ "${pkgs.zsh}/bin/zsh" "${pkgs.tmux}/bin/tmux" "${pkgs.ripgrep}/bin/rg" "${pkgs.fzf}/bin/fzf" "${pkgs.coreutils}/bin/tr" "${pkgs.poppler_utils}/bin/pdftotext" "${pkgs.gnugrep}/bin/grep" "${pkgs.zathura}/bin/zathura" ]
+    (builtins.readFile ./fzf/fzf-pdf)
+  );
+
   fzf-ff-url-candidates = pkgs.writeScript "fzf-ff-url-candidates" (builtins.replaceStrings
     [ "@zsh@" "@sqlite3@" "@cat@" ]
     [ "${pkgs.zsh}/bin/zsh" "${pkgs.sqlite}/bin/sqlite3" "${pkgs.coreutils}/bin/cat" ]
@@ -341,6 +347,7 @@ in {
         # "${mod}+i" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url} search";
         "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url}";
         # "${mod}+w" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url} search";
+        "${mod}+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pdf}";
 
         "XF86AudioMute" = "exec ${vol}/bin/vol mute";
         "XF86AudioLowerVolume" = "exec ${vol}/bin/vol down";

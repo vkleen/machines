@@ -53,6 +53,7 @@
                  ../profiles/spacenav
                  ../profiles/wayland
                  ../profiles/weechat
+                 ../profiles/zathura
                ])))]
         );
     }

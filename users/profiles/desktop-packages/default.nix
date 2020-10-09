@@ -99,7 +99,6 @@ in {
     ldns
     libbladeRF
     linode-cli
-    llpp
     lrzsz
     lshw
     lsof
@@ -108,7 +107,6 @@ in {
     man-pages
     mercurial
     mkpasswd
-    # mosh
     neovim
     nix-index nix-prefetch-scripts
     nix-prefetch-github
@@ -116,7 +114,6 @@ in {
     notmuch
     nox
     pandoc
-    # papis
     parallel
     pass
     pavucontrol
@@ -139,7 +136,6 @@ in {
     sanoid
     skim
     socat
-    # socat2pre
     sqlite
     streamlink
     s-tui

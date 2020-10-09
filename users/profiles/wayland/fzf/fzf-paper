@@ -3,7 +3,7 @@
 DIR="${HOME}/.local/cache/pdftotext"
 
 function _do_fzf() {
-    FZF_DEFAULT_COMMAND="${HOME}/.software/bin/.fzf-paper-candidates \"${DIR}\"" @fzf@ --read0 -e -d '\t' \
+    FZF_DEFAULT_COMMAND="@fzf-paper-candidates@ \"${DIR}\"" @fzf@ --read0 -e -d '\t' \
             --prompt='zathura> ' \
             --reverse \
             --preview-window right:75% \

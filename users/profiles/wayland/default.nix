@@ -135,6 +135,22 @@ let
     (builtins.readFile ./fzf/fzf-pdf)
   );
 
+  fzf-paper-candidates = pkgs.writeScript "fzf-paper-candidates" (builtins.replaceStrings
+    [ "@b2sum@" "@cut@" "@exiftool@" "@jq@" "@mkdir@" "@pdftotext@" "@rg@" "@rm@" "@sort@" "@stat@" "@tee@" "@tr@" "@xargs@" "@zsh@" ]
+    [ "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.exiftool}/bin/exiftool" "${pkgs.jq}/bin/jq" "${pkgs.coreutils}/bin/mkdir" "${pkgs.poppler_utils}/bin/pdftotext" "${pkgs.ripgrep}/bin/rg" "${pkgs.coreutils}/bin/rm" "${pkgs.coreutils}/bin/sort" "${pkgs.coreutils}/bin/stat" "${pkgs.coreutils}/bin/tee" "${pkgs.coreutils}/bin/tr" "${pkgs.findutils}/bin/xargs" "${pkgs.zsh}/bin/zsh" ]
+    (builtins.readFile ./fzf/fzf-paper-candidates)
+  );
+
+  fzf-paper = pkgs.writeScript "fzf-paper" (builtins.replaceStrings
+    [ "@awk@" "@b2sum@" "@cut@" "@fzf@" "@fzf-paper-candidates@" "@grep@" "@stat@" "@tmux@" "@tr@" "@zathura@"  "@zsh@" ]
+    [ "${pkgs.gawk}/bin/awk" "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.fzf}/bin/fzf" "${fzf-paper-candidates}" "${pkgs.gnugrep}/bin/grep" "${pkgs.coreutils}/bin/stat" "${pkgs.tmux}/bin/tmux" "${pkgs.coreutils}/bin/tr" "${pkgs.zathura}/bin/zathura" "${pkgs.zsh}/bin/zsh" ]
+    (builtins.readFile ./fzf/fzf-paper)
+  );
+
+  update-fzf-paper = pkgs.writeShellScriptBin "update-fzf-paper" ''
+    ${fzf-paper-candidates} $HOME/.local/cache/pdftotext
+  '';
+
   fzf-ff-url-candidates = pkgs.writeScript "fzf-ff-url-candidates" (builtins.replaceStrings
     [ "@zsh@" "@sqlite3@" "@cat@" ]
     [ "${pkgs.zsh}/bin/zsh" "${pkgs.sqlite}/bin/sqlite3" "${pkgs.coreutils}/bin/cat" ]
@@ -200,6 +216,7 @@ in {
     start-sway
     get-random-bg-file sway-dpms
     vol
+    update-fzf-paper
   ];
 
   home.sessionVariables = {
@@ -348,6 +365,7 @@ in {
         "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url}";
         # "${mod}+w" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url} search";
         "${mod}+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pdf}";
+        "${mod}+Shift+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-paper}";
 
         "XF86AudioMute" = "exec ${vol}/bin/vol mute";
         "XF86AudioLowerVolume" = "exec ${vol}/bin/vol down";

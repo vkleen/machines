@@ -36,10 +36,14 @@
           }] ++ (profiles [
             ../profiles/direnv
             ../profiles/git
+            ../profiles/gnupg
             ../profiles/kak
             ../profiles/tmux
             ../profiles/zsh
           ])
+          ++ [ (lib.mkIf (config.system.configuration-type != "server") (lib.mkMerge (profiles [
+                 ../profiles/std-packages
+               ])))]
           ++ [ (lib.mkIf (config.system.configuration-type == "desktop") (lib.mkMerge (profiles [
                  ../profiles/alacritty
                  ../profiles/bluetooth

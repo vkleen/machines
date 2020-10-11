@@ -41,114 +41,27 @@ let
     ];
   };
 
-  cached-nix-shell = import (pkgs.fetchgit {
-    url = "https://github.com/xzfc/cached-nix-shell";
-    rev = "f34407cec7141971f55d453805935b47066f3eb8";
-    sha256 = "0qhwylacrnw2k3g9ndi0s7y6ymvrf74yhmq2jkd8xvqg5vk833h2";
-  }) { inherit pkgs; };
-
   firejail-element = pkgs.writeShellScriptBin "element-desktop" ''
     exec ${nixos.security.wrapperDir}/firejail --whitelist=${config.home.homeDirectory}/.config/Riot ${pkgs.element-desktop}/bin/element-desktop
   '';
 in {
-  imports = [ ./scripts.nix ];
+  imports = [ ./scripts.nix ../std-packages ];
 
   home.packages = with pkgs; [
-    a2ps
-    aspell
-    aspellDicts.de
-    aspellDicts.en
-    aspellDicts.en
-    aspellDicts.en-computers
-    aspellDicts.en-science
-    autossh
-    awscli
-    batctl
-    bc
-    blackbox
-    borgbackup
-    cached-nix-shell
-    calc
     calibre
     djvulibre
-    dnsutils
-    docker-machine
-    dos2unix
-    dpt-rp1-py
-    entr
-    et
     evince
-    exiftool
-    expect
-    fd
-    file
     firejail-element
-    gdrive
-    gitAndTools.git-crypt
-    gitAndTools.gitRemoteGcrypt
-    gitAndTools.hub
-    gitRepo
     gnome3.gsettings_desktop_schemas
-    gnupg
-    htop
     i3status
     imagemagick
     imv
-    iperf
-    iw
-    ldns
-    libbladeRF
-    linode-cli
-    lrzsz
-    lshw
-    lsof
-    lsscsi
-    magic-wormhole
-    man-pages
-    mercurial
-    mkpasswd
-    neovim
-    nix-index nix-prefetch-scripts
-    nix-prefetch-github
     noti
-    notmuch
-    nox
-    pandoc
-    parallel
-    pass
     pavucontrol
-    pciutils
-    picocom
     pidgin-with-plugins
     pinentry
-    pmtools
-    poppler_utils
-    proot
-    psmisc
-    pv
-    pwgen
-    python3Packages.alot
-    qpdf
-    qutebrowser
-    radare2
     renderdoc
-    rsync
-    sanoid
-    skim
-    socat
-    sqlite
     streamlink
-    s-tui
-    tealdeer
-    telnet
-    tmux
-    tree
-    tsocks
-    unzip
-    usb-modeswitch
-    usbutils
-    w3m
-    wavemon
     xorg.xbacklight
     xorg.xinit
     xorg.xkill

@@ -73,4 +73,8 @@
   '';
 
   home.file.".terminfo/t/tmux-256color".source = ./tmux-256color;
+
+  home.packages = with pkgs; [
+    tmux
+  ];
 }

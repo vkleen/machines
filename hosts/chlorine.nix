@@ -4,11 +4,12 @@ flake:
     ../users/root ../users/vkleen
     ./chlorine/hardware.nix
     ./chlorine/networking.nix
+    ./chlorine/extra-scripts.nix
   ] ++ (with flake.nixosModules.profiles; [
     latest-linux
     no-coredump
     ssh
-    # zfs
+    zfs
   ]);
 
   nixpkgs = rec {

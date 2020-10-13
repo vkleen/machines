@@ -1,4 +1,5 @@
 final: prev: {
+  dpt-rp1-py = final.callPackage ./tools/misc/dpt-rp1-py {};
   fast-p = final.callPackage ./tools/text/fast-p {};
   libspnav = final.callPackage ./development/libraries/libspnav {};
   pragmatapro = final.callPackage ./data/fonts/pragmatapro {};

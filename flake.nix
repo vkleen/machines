@@ -57,6 +57,12 @@
              nixpkgs-wayland = nixpkgs-wayland.overlay;
            };
 
+      overlays-path = pkgset."x86_64-linux".writeText "overlays.nix" ''
+        [ (import ${builtins.toString ./pkgs})
+          (import ${builtins.toString nixpkgs-wayland})
+        ]
+      '';
+
       packages = forAllSystems (s:
         let
           pkgs = pkgset."${s}";

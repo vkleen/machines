@@ -1,6 +1,6 @@
 #!@zsh@
 
-prefix=(~/dl ~/books ~/papers ~/work ~/dptrp1 ~/hw/xilinx/documentation)
+prefix=(~/dl ~/books ~/papers ~/work ~/dptrp1.bak ~/hw/xilinx/documentation)
 
 files=(${(0)"$(@rg@ -0 --files --iglob '*.{pdf,djvu}' "${(@)prefix}")"})
 

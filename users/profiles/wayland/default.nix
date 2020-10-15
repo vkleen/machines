@@ -484,22 +484,22 @@ in {
     default-timeout=8000
   '';
 
-  # systemd.user.services.clipman = {
-  #   Unit = {
-  #     Description = "Clipman clipboard manager";
-  #     PartOf = [ "graphical-session.target" ];
-  #   };
-  #   Install = {
-  #     WantedBy = [ "graphical-session.target" ];
-  #   };
-  #   Service = {
-  #     Type = "simple";
-  #     ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p ${config.home.homeDirectory}/.local/share";
-  #     ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch ${pkgs.clipman}/bin/clipman store --max-items=1";
-  #     RestartSec = 5;
-  #     Restart = "always";
-  #   };
-  # };
+  systemd.user.services.clipman = {
+    Unit = {
+      Description = "Clipman clipboard manager";
+      PartOf = [ "graphical-session.target" ];
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p ${config.home.homeDirectory}/.local/share";
+      ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch ${pkgs.clipman}/bin/clipman store --max-items=1";
+      RestartSec = 5;
+      Restart = "always";
+    };
+  };
 
   systemd.user.services.swayidle = let
     swayidle-cmd = "${pkgs.swayidle}/bin/swayidle -w"

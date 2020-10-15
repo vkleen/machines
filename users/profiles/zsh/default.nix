@@ -8,23 +8,6 @@ let
     sha256 = "1k83lrcd8w699gfg060qahp8x2g5g20m0ikmpihgv5hkwdmc1df9";
   };
 
-  pure-theme = pkgs.stdenv.mkDerivation {
-    name = "zsh-pure-theme";
-    src = pkgs.fetchFromGitHub {
-      owner = "intelfx";
-      repo = "pure";
-      rev = "e9f8ad4e639f3a43133d6a0dc7a21d4f1e7878a1";
-      sha256 = "0chbwrvhyc6asa49k1s43jha5c5lhjdhrlf0nl8la4an3j78mdh5";
-    };
-    preferLocalBuild = true;
-    allowSubstitutes = false;
-    buildCommand = ''
-      mkdir -p $out
-      install -m644 $src/async.zsh $out/async
-      install -m644 $src/pure.zsh $out/prompt_pure_setup
-    '';
-  };
-
   git-subrepo = pkgs.fetchFromGitHub {
     owner = "vkleen";
     repo = "git-subrepo";
@@ -83,17 +66,16 @@ in {
 
       tmux = "${root-direnv} tmux";
     };
+    plugins = [{
+      name = "powerlevel10k";
+      file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      src = pkgs.zsh-powerlevel10k;
+    }];
+    initExtraBeforeCompInit = ''
+      source "${config.home.homeDirectory}/${dotDir}/.p10k.zsh"
+    '';
     initExtra = ''
-      path=("${config.home.homeDirectory}/.software/bin" $path)
-
-      fpath+=( "${config.home.homeDirectory}/${pluginsDir}/pure" )
-      PURE_PROMPT_SYMBOL='%(!.$.❯)'
-      PURE_GIT_FETCH=0
-      PURE_GIT_UNTRACKED=0
-      autoload -Uz promptinit; promptinit
-      prompt pure
-
-      export LS_COLORS="$LS_COLORS:ow=1;7;34:st=30;44:su=30;41"
+      # export LS_COLORS="$LS_COLORS:ow=1;7;34:st=30;44:su=30;41"
 
       source "${git-subrepo}/.rc"
       source "${zsh-syntax-highlighting}/zsh-syntax-highlighting.zsh"
@@ -107,5 +89,5 @@ in {
     '';
   };
 
-  home.file."${pluginsDir}/pure".source = pure-theme;
+  home.file."${dotDir}/.p10k.zsh".source = ./p10k.zsh;
 }

@@ -11,9 +11,8 @@ in {
     aspell
     aspellDicts.de
     aspellDicts.en
-    aspellDicts.en
-    aspellDicts.en-computers
-    aspellDicts.en-science
+    # aspellDicts.en-computers
+    # aspellDicts.en-science
     awscli
     batctl
     bc

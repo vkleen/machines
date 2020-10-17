@@ -16,6 +16,10 @@
       url = "github:rycee/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    freecad-src = {
+      url = "github:realthunder/FreeCAD";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-power9, nixos-rocm-power9, home-manager, nixpkgs-wayland, ... }:
@@ -55,6 +59,9 @@
           overlayPaths = map fullPath (attrNames filteredPaths);
         in pathsToImportedAttrs overlayPaths // {
              nixpkgs-wayland = nixpkgs-wayland.overlay;
+             sources = _: _: {
+               inherit (inputs) freecad-src;
+             };
            };
 
       overlays-path = pkgset."x86_64-linux".writeText "overlays.nix" ''

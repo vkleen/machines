@@ -32,6 +32,22 @@
         "type": "github"
       }
     },
+    "freecad-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1602819954,
+        "narHash": "sha256-DzzX5YrkFW4tdm8m4tCDD6ITUuSiPRKHIURvW/Fnu90=",
+        "owner": "realthunder",
+        "repo": "FreeCAD",
+        "rev": "fb5dded7964d7c95eddbfe50f9687afc3781eaac",
+        "type": "github"
+      },
+      "original": {
+        "owner": "realthunder",
+        "repo": "FreeCAD",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -70,11 +86,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1601398466,
-        "narHash": "sha256-T84MVmdnTp/6Te4VLNCzwNPLGEZN9wxq43tbAeHPXww=",
+        "lastModified": 1602782600,
+        "narHash": "sha256-Yg41lLa/gatkXBzukgxkX7Ss98fL+x1roPCrzV6AKU4=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "f14347ef91af7c682818d1769664d8e68449d033",
+        "rev": "912162a0de61bde38ac81e5dd392c3cbbe986ad3",
         "type": "github"
       },
       "original": {
@@ -124,6 +140,7 @@
     },
     "root": {
       "inputs": {
+        "freecad-src": "freecad-src",
         "home-manager": "home-manager",
         "nixos-rocm-power9": "nixos-rocm-power9",
         "nixpkgs": "nixpkgs",

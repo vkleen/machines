@@ -16,7 +16,7 @@ flake:
   };
 
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     enableGhostscriptFonts = true;
     fonts = with pkgs; [
       inconsolata terminus_font ubuntu_font_family lmodern dejavu_fonts

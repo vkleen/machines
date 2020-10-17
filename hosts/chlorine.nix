@@ -30,7 +30,7 @@ flake:
 
     binaryCachePublicKeys = [
       "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
-      (import ../secrets/aws/aws-vkleen-nix-cache-1.public)
+      (builtins.readFile ../secrets/aws/aws-vkleen-nix-cache-1.public)
     ];
     maxJobs = 72;
     buildCores = 72;

@@ -65,7 +65,8 @@
            };
 
       overlays-path = pkgset."x86_64-linux".writeText "overlays.nix" ''
-        [ (import ${builtins.toString ./pkgs})
+        [
+          (import ${./pkgs})
           (import ${builtins.toString nixpkgs-wayland})
         ]
       '';

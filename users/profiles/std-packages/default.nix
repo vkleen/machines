@@ -11,8 +11,6 @@ in {
     aspell
     aspellDicts.de
     aspellDicts.en
-    # aspellDicts.en-computers
-    # aspellDicts.en-science
     awscli
     batctl
     bc
@@ -45,6 +43,7 @@ in {
     lsscsi
     magic-wormhole
     man-pages
+    mbuffer
     mercurial
     mkpasswd
     nix-index nix-prefetch-scripts

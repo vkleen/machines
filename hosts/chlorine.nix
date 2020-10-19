@@ -1,5 +1,5 @@
 flake:
-{ modulesPath, pkgSources, pkgset, ... }: {
+{ modulesPath, pkgSources, pkgset, config, ... }: {
   imports = [
     ../users/root ../users/vkleen
     ./chlorine/hardware.nix
@@ -20,7 +20,7 @@ flake:
   nix = {
     nixPath = [
       "nixpkgs=${pkgSources.local-power9}"
-      "nixpkgs-overlays=${flake.overlays-path}"
+      "nixpkgs-overlays=${flake.overlays-path."${config.nixpkgs.system}"}"
     ];
     registry = {
       nixpkgs.flake = pkgSources.local-power9;

@@ -1,5 +1,5 @@
 flake:
-{ modulesPath, pkgSources, pkgset, ... }: {
+{ modulesPath, pkgSources, pkgset, config, ... }: {
   imports = [
     ../users/root ../users/vkleen
     ./bohrium/hardware.nix
@@ -22,7 +22,7 @@ flake:
   nix = {
     nixPath = [
       "nixpkgs=${pkgSources.local}"
-      "nixpkgs-overlays=${flake.overlays-path}"
+      "nixpkgs-overlays=${flake.overlays-path."${config.nixpkgs.system}"}"
     ];
     registry = {
       nixpkgs.flake = pkgSources.local;

@@ -31,7 +31,8 @@
       utils = import ./lib/utils.nix { inherit lib; };
       inherit (utils) pathsToImportedAttrs pathsToImportedAttrs';
 
-      forAllSystems = genAttrs [ "x86_64-linux" "aarch64-linux" ];
+      forAllSystems' = genAttrs [ "x86_64-linux" "aarch64-linux" ];
+      forAllSystems = genAttrs [ "x86_64-linux" "aarch64-linux" "powerpc64le-linux" ];
 
       pkgsImport = system: pkgs:
         import pkgs {
@@ -41,7 +42,7 @@
         };
 
       pkgset = { inherit pkgsImport; }
-        // (forAllSystems (s: pkgsImport s nixpkgs))
+        // (forAllSystems' (s: pkgsImport s nixpkgs))
         // { "powerpc64le-linux" = (pkgsImport "powerpc64le-linux" nixpkgs-power9).extend (import nixos-rocm-power9); };
 
       pkgSources = {
@@ -64,12 +65,13 @@
              };
            };
 
-      overlays-path = pkgset."x86_64-linux".writeText "overlays.nix" ''
-        [
-          (import ${./pkgs})
-          (import ${builtins.toString nixpkgs-wayland})
-        ]
-      '';
+      overlays-path = forAllSystems (s:
+        pkgset."${s}".writeText "overlays.nix" ''
+          [
+            (import ${./pkgs})
+            (import ${builtins.toString nixpkgs-wayland})
+          ]
+        '');
 
       packages = forAllSystems (s:
         let

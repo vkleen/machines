@@ -1,4 +1,4 @@
-{pkgs, config, ...}:
+{pkgs, config, nixos, ...}:
 {
   programs.alot = {
     enable = true;
@@ -17,6 +17,7 @@
     maildirBasePath = "";
     accounts = {
       "vkleen" = {
+        alot.sendMailCommand = "${nixos.security.wrapperDir}/sendmail -t";
         notmuch.enable = true;
         primary = true;
         address = "viktor@kleen.org";

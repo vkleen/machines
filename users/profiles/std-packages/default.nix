@@ -59,7 +59,6 @@ in {
     psmisc
     pv
     pwgen
-    python3Packages.alot
     qpdf
     radare2
     rsync

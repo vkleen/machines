@@ -46,14 +46,13 @@
                ])))]
           ++ [ (lib.mkIf (config.system.configuration-type == "desktop") (lib.mkMerge (profiles [
                  ../profiles/alacritty
-                 ../profiles/alot
                  ../profiles/bluetooth
                  ../profiles/browser
                  ../profiles/desktop-packages
-                 ../profiles/emacs
                  ../profiles/gpg-agent
                  ../profiles/kitty
                  ../profiles/mpv
+                 ../profiles/neomutt
                  ../profiles/redshift
                  ../profiles/spacenav
                  ../profiles/wayland

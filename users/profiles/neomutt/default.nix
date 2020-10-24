@@ -12,7 +12,10 @@ in {
     set header_cache = "${config.xdg.cacheHome}/neomutt/headers/"
     set message_cachedir = "${config.xdg.cacheHome}/neomutt/messages/"
     set editor = "/etc/profiles/per-user/vkleen/bin/kak";
+    set tmpdir = "/run/user/${builtins.toString nixos.users.users.vkleen.uid}"
     set implicit_autoview = yes
+
+    set attach_save_dir = "~/dl/"
 
     set charset = "utf-8"
     set send_charset = "utf-8"
@@ -98,6 +101,13 @@ in {
 
     ignore *
     unignore from date subject to cc bcc tags
+  '';
+
+  home.file.".mailcap".text = ''
+    text/html;${pkgs.w3m}/bin/w3m -dump -o document_charset=%{charset} '%s'; nametemplate=%s.html; copiousoutput
+    image/*;${pkgs.imv}/bin/imv %s &>/dev/null &;
+    application/pdf;${pkgs.zathura}/bin/zathura %s &>/dev/null &;
+    image/pdf;${pkgs.zathura}/bin/zathura %s &>/dev/null &;
   '';
 
   accounts.email = {

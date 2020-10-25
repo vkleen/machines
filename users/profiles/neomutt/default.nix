@@ -7,11 +7,13 @@ let
     tee >(${pkgs.notmuch}/bin/notmuch insert --folder=sent --create-folder +sent -inbox -unread) | ${nixos.security.wrapperDir}/sendmail -t "$@"
   '';
 in {
-  home.packages = [ pkgs.neomutt-slang ];
+  imports = [ ./colors.nix ];
+
+  home.packages = [ pkgs.neomutt ];
   xdg.configFile."neomutt/neomuttrc".text = ''
     set header_cache = "${config.xdg.cacheHome}/neomutt/headers/"
     set message_cachedir = "${config.xdg.cacheHome}/neomutt/messages/"
-    set editor = "/etc/profiles/per-user/vkleen/bin/kak";
+    set editor = "/etc/profiles/per-user/vkleen/bin/kak"
     set tmpdir = "/run/user/${builtins.toString nixos.users.users.vkleen.uid}"
     set implicit_autoview = yes
 
@@ -32,6 +34,7 @@ in {
     folder-hook ${account.maildir.absPath}/ " \
       source ${config.xdg.configHome}/neomutt/${account.name}"
     source ${config.xdg.configHome}/neomutt/${account.name}
+    source ${config.xdg.configHome}/neomutt/colors-selenized
   '';
 
   home.file."${config.xdg.configHome}/neomutt/${account.name}".text = ''

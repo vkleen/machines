@@ -6,6 +6,10 @@ let
   sendMailCommand = pkgs.writeShellScriptBin "sendmail" ''
     tee >(${pkgs.notmuch}/bin/notmuch insert --folder=sent --create-folder +sent -inbox -unread) | ${nixos.security.wrapperDir}/sendmail -t "$@"
   '';
+
+  new-mail = pkgs.writeShellScriptBin "new-mail" ''
+    ${pkgs.coreutils}/bin/tail -n+2 | ${pkgs.notmuch}/bin/notmuch insert
+  '';
 in {
   imports = [ ./colors.nix ];
 
@@ -140,4 +144,31 @@ in {
       };
     };
   };
+
+  home.file.".notmuch-config".text = ''
+    [database]
+    path=${config.home.homeDirectory}/mail
+
+    [user]
+    name=${account.realName}
+    primary_email=${account.address}
+    other_email=${builtins.concatStringsSep ";" account.aliases}
+
+    [new]
+    tags=unread;inbox;
+    ignore=
+
+    [search]
+    exclude_tags=deleted;spam;
+
+    [maildir]
+    synchronize_flags=true
+
+    [crypto]
+    gpg_path=${pkgs.gnupg}/bin/gpg2
+  '';
+
+  home.file.".forward".text = ''
+    | ${new-mail}/bin/new-mail
+  '';
 }

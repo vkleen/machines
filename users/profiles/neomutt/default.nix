@@ -1,4 +1,4 @@
-{pkgs, config, nixos, ...}:
+{pkgs, config, nixos, lib, ...}:
 let
   account = config.accounts.email.accounts."vkleen";
   yesno = x: if x then "yes" else "no";
@@ -13,7 +13,7 @@ in {
   xdg.configFile."neomutt/neomuttrc".text = ''
     set header_cache = "${config.xdg.cacheHome}/neomutt/headers/"
     set message_cachedir = "${config.xdg.cacheHome}/neomutt/messages/"
-    set editor = "/etc/profiles/per-user/vkleen/bin/kak"
+    set editor = "${config.kakoune.package}/bin/kak"
     set tmpdir = "/run/user/${builtins.toString nixos.users.users.vkleen.uid}"
     set implicit_autoview = yes
 

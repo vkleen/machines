@@ -94,6 +94,8 @@ in {
                 "encrypted"  "GE" \
                 "signed"     "GS"
 
+    set index_format = '%4C %S (%D) %-18.18L %?GA?%GA& ?%?GE?%GE& ?%?GS?%GS& ? %s'
+
     bind index,pager \CJ sidebar-next
     bind index,pager \CK sidebar-prev
     bind index,pager \CL sidebar-open

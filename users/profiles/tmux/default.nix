@@ -68,8 +68,10 @@
     bind-key c new-window -c "#{pane_current_path}"
 
     bind-key -T copy-mode-vi v send-keys -X begin-selection
-    # bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "${pkgs.wl-clipboard}/bin/wl-copy"
-    # bind-key p run "${pkgs.wl-clipboard}/bin/wl-paste -n | tmux load-buffer - ; tmux paste-buffer -d"
+    bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+    bind-key p paste-buffer -d
+    bind-key P run "${pkgs.wl-clipboard}/bin/wl-paste -n | tmux load-buffer -"
+    bind-key Y run "tmux show-buffer | ${pkgs.wl-clipboard}/bin/wl-copy -n"
   '';
 
   home.file.".terminfo/t/tmux-256color".source = ./tmux-256color;

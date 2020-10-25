@@ -70,11 +70,10 @@ in {
       "${weechat-scripts}/python/colorize_nicks.py";
     home.file.".weechat/perl/autoload/multiline.pl".source =
       "${weechat-scripts}/perl/multiline.pl";
-    # home.file.".weechat/perl/autoload/rssagg.pl".source =
-    #   "${weechat-scripts}/perl/rssagg.pl";
 
     home.packages = [
       weechat
+      pkgs.weechatScripts.weechat-matrix
     ];
   };
 }

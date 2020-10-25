@@ -29,6 +29,8 @@ in {
 
     set edit_headers = yes
 
+    set abort_noattach = ask-yes
+
     alternative_order text/enriched text/plain text
 
     source ${pkgs.neomutt}/share/doc/neomutt/vim-keys/vim-keys.rc

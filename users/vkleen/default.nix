@@ -20,12 +20,7 @@
       };
 
       home-manager.users.vkleen =
-        let args = {
-                     inherit pkgs lib;
-                     config = config.home-manager.users.vkleen;
-                     nixos = config;
-                   };
-            profiles = builtins.map (x: import x args);
+        let profiles = builtins.map (x: import x);
         in lib.mkMerge (
           [{ programs.home-manager = {
               enable = true;
@@ -33,6 +28,7 @@
             manual.manpages.enable = true;
             _module.args.pkgsPath = lib.mkForce pkgSources.local;
             _module.args.pkgs = lib.mkForce pkgs;
+            _module.args.nixos = config;
           }] ++ (profiles [
             ../profiles/direnv
             ../profiles/git

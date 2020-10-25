@@ -173,7 +173,11 @@ in {
     gpg_path=${pkgs.gnupg}/bin/gpg2
   '';
 
-  home.file.".forward".text = ''
-    | ${new-mail}/bin/new-mail
-  '';
+  home.activation = {
+    writeDotForward = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      cat >${config.home.homeDirectory}/.forward <<EOF
+      | ${new-mail}/bin/new-mail
+      EOF
+    '';
+  };
 }

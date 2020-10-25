@@ -6,7 +6,7 @@
       services.blueman.enable = true;
       hardware.pulseaudio = {
         enable = true;
-        extraModules = [ pkgs.pulseaudio-modules-bt ];
+        extraModules = [ pkgs.pulseaudio-modules-bt pkgs.roc-toolkit ];
         package = pkgs.pulseaudioFull;
         extraConfig = ''
           load-module module-switch-on-connect

@@ -54,7 +54,8 @@ in {
 
     virtual-mailboxes "inbox" "notmuch://?query=tag:inbox" \
                       "topo1" "notmuch://?query=tag:topo1" \
-                      "sent"  "notmuch://?query=tag:sent"
+                      "sent"  "notmuch://?query=tag:sent" \
+                      "flagged" "notmuch://?query=tag:flagged"
 
     set from = '${account.address}'
     set realname = '${account.realName}'

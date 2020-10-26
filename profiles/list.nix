@@ -3,6 +3,7 @@
   ./desktop
   ./laptop
   ./latest-linux
+  ./matrix-go-neb
   ./no-coredump
   ./ssh
   ./uucp-email

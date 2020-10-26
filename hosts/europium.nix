@@ -19,6 +19,7 @@ flake:
   nix = {
     nixPath = [
       "nixpkgs=${pkgSources.local}"
+      "nixpkgs-overlays=${flake.overlays-path."${config.nixpkgs.system}"}"
     ];
     registry = {
       nixpkgs.flake = pkgSources.local;

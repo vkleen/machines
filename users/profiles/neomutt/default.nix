@@ -57,6 +57,7 @@ in {
     set sort_aux = 'last-date-received'
 
     set sendmail = '${account.neomutt.sendMailCommand}'
+    set use_envelope_from = yes
 
     virtual-mailboxes "inbox" "notmuch://?query=tag:inbox" \
                       "topo1" "notmuch://?query=tag:topo1" \

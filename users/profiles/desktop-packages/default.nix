@@ -60,6 +60,7 @@ in {
     pavucontrol
     pidgin-with-plugins
     pinentry
+    pyspread-app.app
     renderdoc
     streamlink
     xorg.xbacklight

@@ -28,16 +28,6 @@ let update-chlorine-boot = pkgs.writeScriptBin "update-chlorine-boot" ''
       nix-shell "$(readlink "$PWD"/.gcroots/shell.drv)" --run 'unset ''${!SSH_@} ''${!DIRENV_@} shellHook TEMP TEMPDIR TMP TMPDIR SSL_CERT_FILE NIX_SSL_CERT_FILE ''${!DBUS@} ''${!DESKTOP@} ''${!XDG@} ''${!TMUX@} I3SOCK TERM && '"$DIRENV"' dump bash > '"''${2:-.envrc.cache}"' '
     '';
 
-    update-flake-cache = pkgs.writeScriptBin "update-flake-cache" ''
-      #!${pkgs.stdenv.shell}
-      : ''${XDG_CACHE_HOME:=$HOME/.cache}
-      pwd_hash=$(basename $PWD)-$(echo -n $PWD | b2sum | cut -d ' ' -f 1)
-      direnv_layout_dir=$XDG_CACHE_HOME/direnv/layouts/$pwd_hash
-      mkdir -p $direnv_layout_dir
-
-      nix print-dev-env > "$direnv_layout_dir/flake-cache"
-    '';
-
     power-cycle = pkgs.writeScriptBin "power-cycle" ''
       #!${pkgs.expect}/bin/expect -f
 
@@ -107,7 +97,7 @@ in {
   home.packages = [
     update-chlorine-boot
     wx
-    update-envrc update-flake-cache
+    update-envrc
     power-cycle
   ];
 }

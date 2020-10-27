@@ -3,10 +3,13 @@ let
   update-flake-cache = pkgs.writeScriptBin "update-flake-cache" ''
     #!${pkgs.stdenv.shell}
     : ''${XDG_CACHE_HOME:=$HOME/.cache}
-    pwd_hash=$(basename $PWD)-$(echo -n $PWD | b2sum | cut -d ' ' -f 1)
+    eval "$(${pkgs.direnv}/bin/direnv stdlib)"
+    envrc_dir=$(dirname $(find_up .envrc))
+    pwd_hash=$(basename $envrc_dir)-$(echo -n $envrc_dir | b2sum | cut -d ' ' -f 1)
     direnv_layout_dir=$XDG_CACHE_HOME/direnv/layouts/$pwd_hash
     mkdir -p $direnv_layout_dir
 
+    cd $envrc_dir
     nix print-dev-env > "$direnv_layout_dir/flake-cache"
   '';
 in
@@ -20,7 +23,8 @@ in
     };
     stdlib = ''
       : ''${XDG_CACHE_HOME:=$HOME/.cache}
-      pwd_hash=$(basename $PWD)-$(echo -n $PWD | b2sum | cut -d ' ' -f 1)
+      envrc_dir=$(dirname $(find_up .envrc))
+      pwd_hash=$(basename $envrc_dir)-$(echo -n $envrc_dir | b2sum | cut -d ' ' -f 1)
       direnv_layout_dir=$XDG_CACHE_HOME/direnv/layouts/$pwd_hash
       mkdir -p $direnv_layout_dir
 

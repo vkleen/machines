@@ -7,7 +7,6 @@
     };
     extraPackages = with pkgs; [
       swaylock swayidle
-      xwayland
     ];
   };
 }

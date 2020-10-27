@@ -19,11 +19,11 @@ map global normal -- )     ':delete-surround<ret>'
 map global normal -- *     ':change-surround<ret>'
 
 # use system clipboard
-hook global NormalKey y|d|c %{ nop %sh{
- printf %s "$kak_main_reg_dquote" | xsel --input --clipboard
-}}
-map global normal P '!xsel --output --clipboard<ret>'
-map global normal p '<a-!>xsel --output --clipboard<ret>'
+# hook global NormalKey y|d|c %{ nop %sh{
+#  printf %s "$kak_main_reg_dquote" | xsel --input --clipboard
+# }}
+# map global normal P '!xsel --output --clipboard<ret>'
+# map global normal p '<a-!>xsel --output --clipboard<ret>'
 
 # case insensitive search
 map global normal / /(?i)
@@ -83,6 +83,8 @@ alias global bo! buffer-only-force
 
 # auto-pairs.kak
 hook global WinCreate .* %{ auto-pairs-enable }
+hook global WinSetOption filetype=(latex) %{
+}
 
 # fzf.kak
 require-module fzf

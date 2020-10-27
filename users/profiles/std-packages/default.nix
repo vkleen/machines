@@ -63,6 +63,7 @@ in {
     radare2
     rsync
     sanoid
+    scim
     skim
     socat
     sqlite

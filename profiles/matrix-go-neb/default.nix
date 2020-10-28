@@ -1,5 +1,4 @@
-flake:
-{config, pkgs, ...}:
+{ flake, config, pkgs, ... }:
 let
   go-neb-token = import ../../secrets/go-neb-token.nix;
 in {

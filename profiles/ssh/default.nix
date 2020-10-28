@@ -1,5 +1,4 @@
-flake:
-{ lib, config, ... }:
+{ flake, lib, config, ... }:
 {
   config = lib.mkMerge ([
     {

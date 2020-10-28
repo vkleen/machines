@@ -1,5 +1,4 @@
-flake:
-{ modulesPath, pkgSources, pkgset, config, ... }: {
+{ flake, modulesPath, pkgSources, pkgset, config, ... }: {
   imports = [
     ../users/root ../users/vkleen
     ./chlorine/hardware.nix

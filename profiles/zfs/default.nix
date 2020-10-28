@@ -1,5 +1,4 @@
-flake:
-{ pkgs, ... }:
+{ flake, pkgs, ... }:
 {
   services.zfs.zed.settings = {
     ZED_EMAIL_PROG = "${pkgs.coreutils}/bin/true";

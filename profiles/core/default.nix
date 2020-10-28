@@ -1,5 +1,4 @@
-flake:
-{ config, lib, pkgs, ... }:
+{ flake, config, lib, pkgs, ... }:
 let inherit (lib) fileContents;
 in
 {

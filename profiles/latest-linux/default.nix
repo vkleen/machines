@@ -1,5 +1,4 @@
-flake:
-{ pkgs, lib, pkgSources, ... }:
+{ flake, pkgs, lib, pkgSources, ... }:
 {
   boot.kernelPackages = pkgs.linuxPackages_testing.extend (self: super: {
     kernel = with (import "${pkgSources.local}/lib/kernel.nix" { inherit lib; });

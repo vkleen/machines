@@ -93,10 +93,7 @@
 
           profilesList = import ./profiles/list.nix;
           profilesAttrs = {
-            profiles = pathsToImportedAttrs' {
-              paths = profilesList;
-              _import = p: import p self;
-            };
+            profiles = pathsToImportedAttrs profilesList;
           };
         in
           recursiveUpdate modulesAttrs profilesAttrs;

@@ -1,5 +1,4 @@
-flake:
-{ modulesPath, pkgSources, pkgset, ... }: {
+{ flake, modulesPath, pkgSources, pkgset, config, ... }: {
   imports = [
     ../users/root ../users/vkleen
     ./linode-hardware.nix

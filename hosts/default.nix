@@ -14,6 +14,7 @@ let
 
   config = hostName:
     lib.nixosSystem {
+      specialArgs = { flake = self; };
       modules =
         let
           inherit (home.nixosModules) home-manager;
@@ -29,7 +30,7 @@ let
             _module.args.pkgSources = pkgSources;
           };
 
-          local = import "${toString ./.}/${hostName}.nix" self;
+          local = import "${toString ./.}/${hostName}.nix";
         in
           [ core global local home-manager ];
     };

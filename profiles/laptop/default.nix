@@ -1,5 +1,4 @@
-flake:
-{config, pkgs, ...}:
+{ flake, config, pkgs, ... }:
 let
   powerscript = pkgs.writeShellScriptBin "powerscript.sh" ''
     case "$1" in

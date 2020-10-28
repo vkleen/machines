@@ -1,5 +1,4 @@
-flake:
-{ pkgs, ... }:
+{ flake, pkgs, ... }:
 {
   system.configuration-type = "desktop";
 

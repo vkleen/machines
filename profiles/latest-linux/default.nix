@@ -1,6 +1,6 @@
 { flake, pkgs, lib, pkgSources, ... }:
 {
-  boot.kernelPackages = pkgs.linuxPackages_testing.extend (self: super: {
+  boot.kernelPackages = pkgs.linuxPackages_latest.extend (self: super: {
     kernel = with (import "${pkgSources.local}/lib/kernel.nix" { inherit lib; });
       super.kernel.override {
         structuredExtraConfig = {

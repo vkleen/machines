@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, config, lib, ... }:
 {
   boot.wipeRoot = true;
 
@@ -6,7 +6,8 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
   boot.initrd.secrets = {
     "/persist/private/keyfiles/swap" = null;

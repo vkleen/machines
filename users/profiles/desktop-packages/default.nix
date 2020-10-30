@@ -44,6 +44,22 @@ let
   firejail-element = pkgs.writeShellScriptBin "element-desktop" ''
     exec ${nixos.security.wrapperDir}/firejail --whitelist=${config.home.homeDirectory}/.config/Riot ${pkgs.element-desktop}/bin/element-desktop
   '';
+
+  nixos-zoom = pkgs.writeShellScript "nixos-zoom" ''
+    NIXPKGS_ALLOW_UNFREE=1 exec nix run --impure nixpkgs#zoom-us -- "$@"
+  '';
+
+  nixos-zoom-desktop-item = pkgs.makeDesktopItem {
+    name = "nixos-zoom";
+    desktopName = "nix run zoom";
+    genericName = "zoom";
+    comment = "You know what this is";
+    mimeType = "x-scheme-handler/zoommtg";
+    exec = "${nixos-zoom} %u";
+    type = "Application";
+    terminal = "false";
+    categories = "Utility";
+  };
 in {
   imports = [ ./scripts.nix ../std-packages ];
 
@@ -97,5 +113,14 @@ in {
     hledger-interest
     hledger-ui
     # ledger-autosync
+
+    nixos-zoom-desktop-item
   ];
+
+  xdg.mimeApps = {
+    enable = true;
+    associations.added = {
+      "x-scheme-handler/zoommtg" = "nixos-zoom.desktop";
+    };
+  };
 }

@@ -49,6 +49,7 @@
                  ../profiles/kitty
                  ../profiles/mpv
                  ../profiles/neomutt
+                 ../profiles/obs
                  ../profiles/redshift
                  ../profiles/spacenav
                  ../profiles/wayland

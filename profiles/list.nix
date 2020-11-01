@@ -1,4 +1,5 @@
 [
+  ./airplay-server
   ./core
   ./desktop
   ./laptop
@@ -7,5 +8,7 @@
   ./no-coredump
   ./ssh
   ./uucp-email
+  ./virtual-camera
+  ./wireshark
   ./zfs
 ]

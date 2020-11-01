@@ -4,12 +4,15 @@
     ./bohrium/hardware.nix
     ./bohrium/networking.nix
   ] ++ (with flake.nixosModules.profiles; [
+    # airplay-server
     desktop
     laptop
     latest-linux
     no-coredump
     ssh
     uucp-email
+    virtual-camera
+    wireshark
     zfs
   ]);
 

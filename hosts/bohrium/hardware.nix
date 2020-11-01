@@ -7,10 +7,6 @@
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ "kvm-intel" ];
 
-  boot.extraModulePackages = with config.boot.kernelPackages; [
-    v4l2loopback akvcam
-  ];
-
   boot.initrd.secrets = {
     "/persist/private/keyfiles/swap" = null;
     "/persist/private/keyfiles/data" = null;

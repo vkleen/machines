@@ -2,6 +2,9 @@ final: prev: {
   dpt-rp1-py = final.callPackage ./tools/misc/dpt-rp1-py {};
   fast-p = final.callPackage ./tools/text/fast-p {};
   libspnav = final.callPackage ./development/libraries/libspnav {};
+  obs-cli = final.callPackage ./tools/misc/obs-cli {};
+  obs-gstreamer = final.callPackage ./applications/video/obs-studio/obs-gstreamer.nix {};
+  obs-websocket = final.libsForQt514.callPackage ./applications/video/obs-studio/obs-websocket.nix {};
   openfec = final.callPackage ./development/libraries/openfec {};
   pragmatapro = final.callPackage ./data/fonts/pragmatapro {};
   purple-plugins-prpl = final.callPackage ./applications/networking/instant-messengers/pidgin-plugins/purple-plugins-prpl {};

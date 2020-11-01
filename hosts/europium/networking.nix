@@ -95,6 +95,9 @@
           { publicKey = builtins.readFile ../../secrets/wireguard/chlorine.pub;
             allowedIPs = [ "10.172.40.135/32" "2a01:7e01:e002:aa00:5319:9d00::/96" ];
           }
+          { publicKey = builtins.readFile ../../secrets/wireguard/boron.pub;
+            allowedIPs = [ "10.172.40.136/32" "2a01:7e01:e002:aa00:cc6b:36a1::/96" "2a01:7e01:e002:aa02::/64" ];
+          }
         ];
       };
     };

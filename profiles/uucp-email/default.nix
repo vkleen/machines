@@ -13,7 +13,7 @@ in {
       remoteNodes = [ "samarium" ];
       sshConfig = ''
         Host samarium
-          Hostname samarium.kleen.org
+          Hostname 10.172.20.1
           IdentityFile /persist/uucp_ed25519
       '';
       sshHosts = ''

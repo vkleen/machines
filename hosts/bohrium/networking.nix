@@ -28,6 +28,10 @@
       "wlan0" = {
         device = "wlp1s0";
       };
+      "wlan-ap" = {
+        device = "wlp1s0";
+        mac = "60:f2:62:17:59:7c";
+      };
     };
 
     interfaces = {
@@ -36,6 +40,10 @@
       };
       "eth-dock" = {
         useDHCP = true;
+      };
+      "auenheim2" = {
+        useDHCP = true;
+        mtu = 1200;
       };
     };
 
@@ -53,10 +61,13 @@
         peers = [
           { publicKey = builtins.readFile ../../secrets/wireguard/samarium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
-            endpoint = "127.0.0.2:51820";
+            endpoint = "samarium.kleen.org:51820";
             persistentKeepalive = 5;
           }
         ];
+        postSetup = ''
+          ${pkgs.iproute}/bin/ip link set dev wg0 mtu 1300
+        '';
       };
       wg1 = {
         ips = [ "10.172.30.132/24" "2600:3c01:e002:8b9d:2469:eead::1/64" ];
@@ -120,18 +131,18 @@
     ];
   };
 
-  systemd.services.udp2rawtunnel = {
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    description = "Wireguard over udp2raw";
-    serviceConfig = {
-      User = "nobody";
-      Group = "nogroup";
-      AmbientCapabilities = "CAP_NET_RAW";
-      NoNewPrivileges = true;
-      ExecStart = "${pkgs.udp2raw}/bin/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
-    };
-  };
+  # systemd.services.udp2rawtunnel = {
+  #   wantedBy = [ "multi-user.target" ];
+  #   after = [ "network.target" ];
+  #   description = "Wireguard over udp2raw";
+  #   serviceConfig = {
+  #     User = "nobody";
+  #     Group = "nogroup";
+  #     AmbientCapabilities = "CAP_NET_RAW";
+  #     NoNewPrivileges = true;
+  #     ExecStart = "${pkgs.udp2raw}/bin/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
+  #   };
+  # };
 
   fileSystems."/var/lib/iwd" = {
     device = "/persist/iwd";

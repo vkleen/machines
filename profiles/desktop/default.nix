@@ -1,4 +1,4 @@
-{ flake, pkgs, ... }:
+{ flake, pkgs, lib, ... }:
 {
   system.configuration-type = "desktop";
 
@@ -39,6 +39,7 @@
   programs.firejail.enable = true;
 
   programs.dconf.enable = true;
+  environment.noXlibs = lib.mkForce false;
   environment.systemPackages = with pkgs; [
     gnome3.dconf-editor
   ];

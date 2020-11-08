@@ -2,6 +2,7 @@
   ./airplay-server
   ./core
   ./desktop
+  ./jack
   ./laptop
   ./latest-linux
   ./matrix-go-neb

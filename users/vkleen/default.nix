@@ -8,7 +8,8 @@
     {
       users.users.vkleen = {
         group = "users";
-        extraGroups = [ "wheel" "network" "dialout" "audio" "video" "input" "wireshark" "adbusers" "bladerf" "kvm" "lp" ];
+        extraGroups = [ "wheel" "network" "dialout" "audio" "video" "input" "wireshark" "adbusers" "bladerf" "kvm" "lp" ] ++
+          lib.optional (lib.any (x: x == "jack") config.system.extra-profiles) "jackaudio";
         createHome = true;
         home = "/home/vkleen";
         isNormalUser = true;

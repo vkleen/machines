@@ -61,7 +61,7 @@ in {
 
     virtual-mailboxes "inbox" "notmuch://?query=tag:inbox" \
                       "topo1" "notmuch://?query=tag:topo1" \
-                      "seminar" "notmuch://?query=tag:seminar" \
+                      "seminar" "notmuch://?query=tag:seminar and not tag:past" \
                       "sent"  "notmuch://?query=tag:sent" \
                       "flagged" "notmuch://?query=tag:flagged"
 

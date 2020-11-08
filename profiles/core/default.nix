@@ -10,10 +10,15 @@ in
       type = lib.types.str;
       default = "core";
     };
+    system.extra-profiles = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+    };
   };
   config = {
     nix.package = pkgs.nixFlakes;
     environment = {
+      noXlibs = true;
       systemPackages = with pkgs; [
         binutils
         coreutils

@@ -48,7 +48,6 @@ in {
     mkpasswd
     nix-index nix-prefetch-scripts
     nix-prefetch-github
-    notmuch
     nox
     parallel
     pass

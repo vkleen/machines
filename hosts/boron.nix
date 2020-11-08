@@ -1,4 +1,4 @@
-{ flake, modulesPath, pkgSources, pkgset, ... }: {
+{ flake, config, modulesPath, pkgSources, pkgset, ... }: {
   imports = [
     ../users/root ../users/vkleen
     ./boron/hardware.nix

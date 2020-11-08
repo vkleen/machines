@@ -378,8 +378,8 @@ in {
 
         "XF86Sleep" = "exec ${pkgs.systemd}/bin/loginctl lock-session";
 
-        "${mod}+Shift+less" = "move workspace to output left";
-        "${mod}+Shift+greater" = "move workspace to output right";
+        "${mod}+Ctrl+j" = "move workspace to output down";
+        "${mod}+Ctrl+k" = "move workspace to output up";
 
         "${mod}+Shift+w" = "mode \"resize\"";
 
@@ -544,8 +544,8 @@ in {
     profile nomad {
       output eDP-1 enable mode 1920x1080 position 0,0
     }
-    profile single-dock {
-      output eDP-1 disable
+    profile multi-dock {
+      output eDP-1 enable mode 1920x1080 position 0,1440
       output "Unknown ASUS PB27U 0x0000388B" enable mode 2560x1440 position 0,0
     }
   '';

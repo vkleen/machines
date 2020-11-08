@@ -4,8 +4,9 @@
     ./bohrium/hardware.nix
     ./bohrium/networking.nix
   ] ++ (with flake.nixosModules.profiles; [
-    # airplay-server
+    airplay-server
     desktop
+    # jack
     laptop
     latest-linux
     no-coredump

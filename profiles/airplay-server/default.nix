@@ -1,11 +1,15 @@
 { pkgs, ... }:
 {
-  services.avahi = {
+  # services.avahi = {
+  #   enable = true;
+  #   wideArea = false;
+  #   publish = {
+  #     enable = true;
+  #     userServices = true;
+  #   };
+  # };
+
+  services.usbmuxd = {
     enable = true;
-    wideArea = false;
-    publish = {
-      enable = true;
-      userServices = true;
-    };
   };
 }

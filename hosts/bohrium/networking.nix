@@ -102,6 +102,14 @@
 
   systemd.services.supplicant-wlan0.partOf = lib.mkForce [];
 
+  systemd.network = {
+    networks."40-eth-dock" = {
+      dhcpV4Config = {
+        RouteMetric = 512;
+      };
+    };
+  };
+
   services.resolved = {
     llmnr = "false";
   };

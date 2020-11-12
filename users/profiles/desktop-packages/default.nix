@@ -80,6 +80,7 @@ in {
     pyspread-app.app
     renderdoc
     streamlink
+    uhubctl
     xorg.xbacklight
     xorg.xinit
     xorg.xkill

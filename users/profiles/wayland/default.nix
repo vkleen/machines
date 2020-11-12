@@ -270,6 +270,7 @@ in {
         "t" = "chat";
         "m" = "mail";
         "e" = "tex";
+        "z" = "zoom";
       };
       switch-ws-keys = lib.mapAttrs' (k: n: lib.nameValuePair "${mod}+${k}" "workspace ${n}") ws;
       move-ws-keys = lib.mapAttrs' (k: n: lib.nameValuePair "${mod}+Shift+${k}" "move container to workspace ${n}") ws;
@@ -377,6 +378,8 @@ in {
         "XF86AudioPrev" = "exec ${mpv-prev}";
 
         "XF86Sleep" = "exec ${pkgs.systemd}/bin/loginctl lock-session";
+
+        "Print" = "exec ${pkgs.obs-cli}/bin/obs-cli toggle-mute Mic/Aux";
 
         "${mod}+Ctrl+j" = "move workspace to output down";
         "${mod}+Ctrl+k" = "move workspace to output up";

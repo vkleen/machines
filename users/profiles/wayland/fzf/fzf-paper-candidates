@@ -2,7 +2,7 @@
 
 prefix=(~/dl ~/books ~/papers ~/work ~/dptrp1.bak ~/hw/xilinx/documentation)
 
-files=(${(0)"$(@rg@ -0 --files --iglob '*.{pdf,djvu}' "${(@)prefix}")"})
+files=(${(0)"$(@rg@ -0 --no-ignore --files --iglob '*.{pdf,djvu}' "${(@)prefix}")"})
 
 DIR="$1"
 @mkdir@ -p "${DIR}/global"

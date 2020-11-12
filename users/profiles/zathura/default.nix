@@ -3,7 +3,7 @@
  home.packages = [ pkgs.zathura ];
  xdg.configFile."zathura/zathurarc".text = ''
     set selection-clipboard clipboard
-    set sandbox strict
+    set sandbox normal
     set continuous-hist-save true
 
     set default-bg "#103c48"

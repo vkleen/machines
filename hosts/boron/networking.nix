@@ -6,6 +6,11 @@ in {
     flake.nixosModules.netns
     flake.nixosModules.upstream-container
   ];
+  environment.etc."resolv.conf".text = ''
+    nameserver 127.0.0.1
+    nameserver ::1
+    search auenheim.kleen.org
+  '';
   networking = {
     useDHCP = false;
     useNetworkd = true;
@@ -47,10 +52,6 @@ in {
       };
     };
 
-    nameservers = [
-      "8.8.8.8"
-    ];
-
     nat = {
       enable = true;
       externalInterface = "wg-europium";
@@ -61,6 +62,8 @@ in {
     firewall = {
       enable = true;
       allowPing = true;
+      allowedUDPPorts = [ 53 ];
+      allowedTCPPorts = [ 53 ];
       extraCommands = ''
         ip46tables -D FORWARD -j nixos-fw-forward 2>/dev/null || true
         ip46tables -F nixos-fw-forward 2> /dev/null || true
@@ -265,14 +268,37 @@ in {
       option domain-name "auenheim.kleen.org";
       subnet 10.172.100.0 netmask 255.255.255.0 {
         range 10.172.100.100 10.172.100.200;
-        option domain-name-servers 8.8.8.8, 8.8.4.4;
+        option domain-name-servers 10.172.100.1;
+      }
+
+      include "/persist/dhcpd4/dhcp-tsig";
+
+      ddns-update-style standard;
+      ddns-updates on;
+      ddns-domainname "auenheim.kleen.org.";
+      ddns-rev-domainname "in-addr.arpa";
+      use-host-decl-names on;
+      update-static-leases on;
+
+      allow client-updates;
+      allow unknown-clients;
+
+      zone auenheim.kleen.org. {
+        primary 127.0.0.2;
+        key dhcp-tsig;
+      }
+      zone 100.172.10.in-addr.arpa. {
+        primary 127.0.0.2;
+        key dhcp-tsig;
+      }
+
+      host dptrp1 {
+        hardware ethernet ac:89:95:f8:15:a3;
+        fixed-address 10.172.100.20;
+        ddns-hostname dptrp1;
       }
     '';
     machines = [
-      { hostName = "dptrp1";
-        ethernetAddress = "ac:89:95:f8:15:a3";
-        ipAddress = "10.172.100.20";
-      }
     ];
   };
 
@@ -329,6 +355,91 @@ in {
   };
 
   services.resolved = {
-    llmnr = "false";
+    enable = false;
+  };
+
+  services.unbound = {
+    enable = true;
+    interfaces = [ "127.0.0.1" "10.172.100.1" "::1" "2a01:7e01:e002:aa02::1" ];
+    allowedAccess = [ "10.172.100.0/24" "127.0.0.0/24" ];
+    extraConfig = ''
+      server:
+        local-zone: "10.in-addr.arpa." nodefault
+        domain-insecure: "10.in-addr.arpa."
+        do-not-query-localhost: no
+
+      remote-control:
+        control-enable: yes
+        control-interface: /var/lib/unbound/control.socket
+
+      stub-zone:
+        name: auenheim.kleen.org
+        stub-addr: 127.0.0.1@5353
+        stub-first: yes
+        stub-no-cache: yes
+
+      stub-zone:
+        name: 10.in-addr.arpa.
+        stub-addr: 127.0.0.1@5353
+        stub-first: no
+        stub-no-cache: yes
+    '';
+  };
+
+  services.knot = {
+    enable = true;
+    keyFiles = [
+      "/persist/knot/keys/dhcp-tsig"
+    ];
+    extraConfig = ''
+      server:
+        listen: 127.0.0.1@5353
+        listen: 127.0.0.2@53
+        listen: ::1@5353
+      acl:
+        - id: update_acl
+          key: dhcp-tsig
+          action: update
+      policy:
+        - id: manual
+          manual: on
+      mod-onlinesign:
+        - id: manual
+          policy: manual
+      mod-synthrecord:
+        - id: ip6-forward
+          type: forward
+          prefix: ip6-
+          ttl: 400
+          network: ::/0
+        - id: ip4-forward
+          type: forward
+          prefix: ip4-
+          ttl: 400
+          network: 0.0.0.0/0
+      zone:
+        - domain: auenheim.kleen.org
+          storage: /var/lib/knot/zones
+          module: [mod-synthrecord/ip4-forward, mod-synthrecord/ip6-forward, mod-onlinesign/manual]
+          zonefile-sync: -1
+          zonefile-load: none
+          journal-content: all
+          acl: update_acl
+        - domain: 100.172.10.in-addr.arpa
+          storage: /var/lib/knot/zones
+          dnssec-signing: off
+          zonefile-sync: -1
+          zonefile-load: none
+          journal-content: all
+          acl: update_acl
+      log:
+        - target: syslog
+          any: info
+    '';
+  };
+
+  fileSystems."/var/lib/knot" = {
+    device = "/persist/knot";
+    options = [ "bind" ];
   };
 }

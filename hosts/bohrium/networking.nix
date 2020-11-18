@@ -14,8 +14,8 @@
       trustedInterfaces = [ "wg0" "wg1" ];
       allowPing = true;
       extraCommands = ''
-        ip6tables -A nixos-fw -p udp --dport 5353 -m pkttype --pkt-type multicast -j nixos-fw-accept
-        iptables -A nixos-fw -p udp --dport 5353 -m pkttype --pkt-type multicast -j nixos-fw-accept
+        ip6tables -A nixos-fw -p udp --dport 5353 -j nixos-fw-accept
+        iptables -A nixos-fw -p udp --dport 5353 -j nixos-fw-accept
 
         iptables -I nixos-fw -s 94.16.123.211 -p tcp -m tcp --sport 8443 -j DROP
       '';

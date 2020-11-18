@@ -13,6 +13,7 @@ final: prev: {
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)
   {
     roc-toolkit = final.callPackage ./applications/audio/misc/roc-toolkit {};
+    uhk-agent = final.callPackage ./misc/uhk-agent {};
   }
   // prev.lib.optionalAttrs prev.stdenv.targetPlatform.isLinux
   {

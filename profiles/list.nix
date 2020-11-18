@@ -2,6 +2,7 @@
   ./airplay-server
   ./core
   ./desktop
+  ./docker
   ./jack
   ./laptop
   ./latest-linux

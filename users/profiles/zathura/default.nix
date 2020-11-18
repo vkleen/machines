@@ -1,17 +1,25 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
- home.packages = [ pkgs.zathura ];
- xdg.configFile."zathura/zathurarc".text = ''
-    set selection-clipboard clipboard
-    set sandbox normal
-    set continuous-hist-save true
+  options = {
+    zathura.pkg = lib.mkOption {
+      default = pkgs.zathura.override { useMupdf = false; };
+      type = lib.types.package;
+    };
+  };
+  config = {
+    home.packages = [ config.zathura.pkg ];
+    xdg.configFile."zathura/zathurarc".text = ''
+       set selection-clipboard clipboard
+       set sandbox normal
+       set continuous-hist-save true
 
-    set default-bg "#103c48"
-    set recolor-lightcolor "#103c48"
-    set recolor-darkcolor "#adbcbc"
-  '';
+       set default-bg "#103c48"
+       set recolor-lightcolor "#103c48"
+       set recolor-darkcolor "#adbcbc"
+     '';
 
-  programs.zsh.shellAliases = {
-    llpp = "zathura";
+     programs.zsh.shellAliases = {
+       llpp = "zathura";
+     };
   };
 }

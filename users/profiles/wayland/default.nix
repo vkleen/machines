@@ -131,7 +131,7 @@ let
 
   fzf-pdf = pkgs.writeScript "fzf-pdf" (builtins.replaceStrings
     [ "@zsh@" "@tmux@" "@rg@" "@fzf@" "@tr@" "@pdftotext@" "@grep@" "@zathura@" ]
-    [ "${pkgs.zsh}/bin/zsh" "${pkgs.tmux}/bin/tmux" "${pkgs.ripgrep}/bin/rg" "${pkgs.fzf}/bin/fzf" "${pkgs.coreutils}/bin/tr" "${pkgs.poppler_utils}/bin/pdftotext" "${pkgs.gnugrep}/bin/grep" "${pkgs.zathura}/bin/zathura" ]
+    [ "${pkgs.zsh}/bin/zsh" "${pkgs.tmux}/bin/tmux" "${pkgs.ripgrep}/bin/rg" "${pkgs.fzf}/bin/fzf" "${pkgs.coreutils}/bin/tr" "${pkgs.poppler_utils}/bin/pdftotext" "${pkgs.gnugrep}/bin/grep" "${config.zathura.pkg}/bin/zathura" ]
     (builtins.readFile ./fzf/fzf-pdf)
   );
 
@@ -143,7 +143,7 @@ let
 
   fzf-paper = pkgs.writeScript "fzf-paper" (builtins.replaceStrings
     [ "@awk@" "@b2sum@" "@cut@" "@fzf@" "@fzf-paper-candidates@" "@grep@" "@stat@" "@tmux@" "@tr@" "@zathura@"  "@zsh@" ]
-    [ "${pkgs.gawk}/bin/awk" "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.fzf}/bin/fzf" "${fzf-paper-candidates}" "${pkgs.gnugrep}/bin/grep" "${pkgs.coreutils}/bin/stat" "${pkgs.tmux}/bin/tmux" "${pkgs.coreutils}/bin/tr" "${pkgs.zathura}/bin/zathura" "${pkgs.zsh}/bin/zsh" ]
+    [ "${pkgs.gawk}/bin/awk" "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.fzf}/bin/fzf" "${fzf-paper-candidates}" "${pkgs.gnugrep}/bin/grep" "${pkgs.coreutils}/bin/stat" "${pkgs.tmux}/bin/tmux" "${pkgs.coreutils}/bin/tr" "${config.zathura.pkg}/bin/zathura" "${pkgs.zsh}/bin/zsh" ]
     (builtins.readFile ./fzf/fzf-paper)
   );
 

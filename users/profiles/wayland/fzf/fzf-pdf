@@ -1,6 +1,6 @@
 #!@zsh@
 
-prefix=(~/dl)
+prefix=(~/dl ~/books)
 
 function laststatus() {
     return $?

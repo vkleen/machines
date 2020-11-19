@@ -6,7 +6,7 @@
   ] ++ (with flake.nixosModules.profiles; [
     airplay-server
     desktop
-    # jack
+    flatpak
     laptop
     latest-linux
     no-coredump

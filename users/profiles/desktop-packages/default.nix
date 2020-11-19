@@ -46,7 +46,11 @@ let
   '';
 
   nixos-zoom = pkgs.writeShellScript "nixos-zoom" ''
-    NIXPKGS_ALLOW_UNFREE=1 QT_QPA_PLATFORM=xcb exec nix run --impure nixpkgs#zoom-us -- "$@"
+    ${pkgs.flatpak}/bin/flatpak --user run us.zoom.Zoom "$@"
+  '';
+
+  zoomy = pkgs.writeShellScriptBin "zoomy" ''
+    ${nixos-zoom} "$(printf '%s\n' "$*" | ${pkgs.gnused}/bin/sed -e 's,^https://[^.]*\.zoom\.us/j/\([0-9]*\)?pwd=\(.*\)$,zoommtg://zoom.us/join?action=join\&confno=\1\&pwd=\2,')"
   '';
 
   nixos-zoom-desktop-item = pkgs.makeDesktopItem {
@@ -90,6 +94,7 @@ in {
     xterm
     youtube-dl
     yq
+    zoomy
 
     adms
     caneda

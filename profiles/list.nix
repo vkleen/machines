@@ -3,6 +3,7 @@
   ./core
   ./desktop
   ./docker
+  ./flatpak
   ./jack
   ./laptop
   ./latest-linux

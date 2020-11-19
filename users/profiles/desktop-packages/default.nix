@@ -46,7 +46,7 @@ let
   '';
 
   nixos-zoom = pkgs.writeShellScript "nixos-zoom" ''
-    NIXPKGS_ALLOW_UNFREE=1 exec nix run --impure nixpkgs#zoom-us -- "$@"
+    NIXPKGS_ALLOW_UNFREE=1 QT_QPA_PLATFORM=xcb exec nix run --impure nixpkgs#zoom-us -- "$@"
   '';
 
   nixos-zoom-desktop-item = pkgs.makeDesktopItem {

@@ -5,6 +5,7 @@
     ./bohrium/networking.nix
   ] ++ (with flake.nixosModules.profiles; [
     airplay-server
+    binfmt
     desktop
     flatpak
     interception-tools

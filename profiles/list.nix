@@ -1,5 +1,6 @@
 [
   ./airplay-server
+  ./binfmt
   ./core
   ./desktop
   ./docker

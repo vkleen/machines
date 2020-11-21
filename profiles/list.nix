@@ -9,6 +9,7 @@
   ./jack
   ./laptop
   ./latest-linux
+  ./librem5-devtools
   ./matrix-go-neb
   ./no-coredump
   ./ssh

@@ -4,6 +4,7 @@
   ./desktop
   ./docker
   ./flatpak
+  ./interception-tools
   ./jack
   ./laptop
   ./latest-linux

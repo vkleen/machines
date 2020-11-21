@@ -7,6 +7,7 @@
     airplay-server
     desktop
     flatpak
+    interception-tools
     laptop
     latest-linux
     no-coredump

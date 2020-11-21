@@ -411,7 +411,7 @@ in {
           natural_scroll = "enabled";
         };
         "*" = {
-          xkb_options = "ctrl:nocaps,compose:ralt";
+          xkb_options = "compose:ralt";
         };
       };
       bars = [ ];

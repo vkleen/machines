@@ -79,7 +79,7 @@ in {
     set sidebar_width = 22
     set sidebar_format = '%D%* %?N?%N/?%S'
 
-    set query_command = "notmuch address --sort=newest-first --output=sender --output=recipients --deduplicate=address 'from:%s'"
+    set query_command = "${pkgs.notmuch}/bin/notmuch address --sort=newest-first --output=sender --output=recipients --deduplicate=address 'from:%s'"
     set query_format = "%5c %t %a %n %?e?(%e)?"
 
     set nm_default_uri = "notmuch://${account.maildir.absPath}"

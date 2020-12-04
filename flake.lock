@@ -35,11 +35,11 @@
     "freecad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1605151885,
-        "narHash": "sha256-HGPg/UvnIPajSq6GD3c8LbDOPYzKQ+pDg41kY/kzqBg=",
+        "lastModified": 1606477159,
+        "narHash": "sha256-RxtAVOQsU5ZJoTqCBKBPotbvJo0H0uKcQCfmLJ5iwhw=",
         "owner": "realthunder",
         "repo": "FreeCAD",
-        "rev": "b8e17ac7497f70d39e551bccc66e4c37f855fd32",
+        "rev": "550a1f4894e08fa6dae9bcd12cf29b02346655fa",
         "type": "github"
       },
       "original": {

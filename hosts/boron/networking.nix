@@ -62,8 +62,12 @@ in {
     firewall = {
       enable = true;
       allowPing = true;
-      allowedUDPPorts = [ 53 ];
-      allowedTCPPorts = [ 53 ];
+      interfaces = {
+        "auenheim" = {
+          allowedUDPPorts = [ 53 ];
+          allowedTCPPorts = [ 53 ];
+        };
+      };
       extraCommands = ''
         ip46tables -D FORWARD -j nixos-fw-forward 2>/dev/null || true
         ip46tables -F nixos-fw-forward 2> /dev/null || true

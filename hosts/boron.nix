@@ -5,6 +5,7 @@
     ./boron/networking.nix
   ] ++ (with flake.nixosModules.profiles; [
     latest-linux
+    mosquitto
     no-coredump
     ssh
     zfs

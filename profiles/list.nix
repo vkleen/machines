@@ -11,6 +11,7 @@
   ./latest-linux
   ./librem5-devtools
   ./matrix-go-neb
+  ./mosquitto
   ./no-coredump
   ./ssh
   ./uucp-email

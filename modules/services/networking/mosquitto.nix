@@ -32,26 +32,28 @@ let
     "user ${n}\n" + (concatStringsSep "\n" c.acl)) cfg.users
   ));
 
+  aclFile = pkgs.writeText "mosquitto.acl" ''
+    ${cfg.aclExtraConf}
+    ${userAcl}
+  '';
+
   listenerModule = types.submodule {
     options = {
       ssl = {
         enable = mkEnableOption "SSL listener";
 
         cafile = mkOption {
-          type = types.nullOr types.path;
-          default = null;
+          type = types.path;
           description = "Path to PEM encoded CA certificates.";
         };
 
         certfile = mkOption {
-          type = types.nullOr types.path;
-          default = null;
+          type = types.path;
           description = "Path to PEM encoded server certificate.";
         };
 
         keyfile = mkOption {
-          type = types.nullOr types.path;
-          default = null;
+          type = types.path;
           description = "Path to PEM encoded server key.";
         };
       };
@@ -80,8 +82,8 @@ let
           Extra config to append to this listener.
         '';
       };
-    }:
-  }:
+    };
+  };
 in {
   disabledModules = [ "services/networking/mosquitto.nix" ];
   options = {

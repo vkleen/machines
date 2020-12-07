@@ -15,8 +15,8 @@
         ssl = {
           enable = true;
           cafile = "/persist/mosquitto/ca.pem";
-          certfile = "/persist/mosquitto/cert.pem";
-          keyfile = "/persist/mosquitto/key.pem";
+          certfile = "/persist/mosquitto/mqtt.pem";
+          keyfile = "/persist/mosquitto/mqtt.key";
         };
       }
     ];

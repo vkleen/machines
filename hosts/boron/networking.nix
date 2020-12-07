@@ -147,6 +147,9 @@ in {
           "lte" = {
             useDHCP = true;
           };
+          "ifb0" = {
+            useDHCP = false;
+          };
           "mgmt-veth" = {
             useDHCP = false;
             ipv4.addresses = [
@@ -236,12 +239,11 @@ in {
       ip link add name telekom link eth0 type vlan id 7
       ip link add dev upstream-mgmt type veth peer name mgmt-veth
 
-      ip link set dev ifb0 up
-
       ip link set telekom netns wg_upstream
       ip link set upstream-mgmt master mgmt
       ip link set mgmt-veth netns wg_upstream
       ip link set ifb0 netns wg_upstream
+      ip link set lte netns wg_upstream
 
       ip link set upstream-mgmt up
     '';
@@ -320,6 +322,10 @@ in {
       }
     '';
     machines = [
+      { hostName = "bohrium";
+        ethernetAddress = "60:f2:62:17:59:7b";
+        ipAddress = "10.172.100.101";
+      }
     ];
   };
 

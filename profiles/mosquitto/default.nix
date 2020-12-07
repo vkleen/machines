@@ -1,6 +1,9 @@
 { flake, config, lib, pkgs, ... }:
 {
-  imports = [ flake.nixosModules.mosquitto ];
+  imports = [
+    flake.nixosModules.mosquitto
+    ../../secrets/mosquitto.nix
+  ];
   services.mosquitto = {
     enable = true;
     listeners = [
@@ -19,7 +22,6 @@
     ];
     users = {
       "relayd" = {
-        hashedPassword = "";
         acl = [
           "topic readwrite relays/+/status"
           "topic readwrite relays/+/+/diagnostic"

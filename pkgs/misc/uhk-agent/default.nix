@@ -1,12 +1,12 @@
 { runCommand, stdenv, fetchurl, appimage-run }:
 let
-  version = "1.5.5";
+  version = "1.5.8";
 
   image = stdenv.mkDerivation {
     name = "uhk-agent-image";
     src = fetchurl {
       url = "https://github.com/UltimateHackingKeyboard/agent/releases/download/v${version}/UHK.Agent-${version}-linux-x86_64.AppImage";
-      hash = "sha256-6/lcm+lXGtsyynFxHjwAdqrwIVqnR1t76NYQ8nu++/s=";
+      hash = "sha256-8VPTw/gNlsl+QneKxlotsYH3wGSPPpepEkRVbitrJI0=";
     };
     buildCommand = ''
       mkdir -p $out

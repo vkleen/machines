@@ -21,7 +21,6 @@ let
 
   mosquittoConf = pkgs.writeText "mosquitto.conf" ''
     acl_file ${aclFile}
-    persistence true
     allow_anonymous ${boolToString cfg.allowAnonymous}
     ${passwordConf}
     ${listenersConf}

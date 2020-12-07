@@ -33,5 +33,9 @@
     checkPasswords = true;
   } // (if config.boot.wipeRoot then {
     dataDir = "/persist/mosquitto";
+    extraConf = ''
+      persistence true
+      persistence_location /persist/mosquitto/data/
+    '';
   } else {});
 }

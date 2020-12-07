@@ -127,6 +127,11 @@ in {
     namespaces.enable = true;
   };
 
+  boot.kernelModules = [ "ifb" ];
+  boot.extraModprobeConfig = ''
+    options ifb numifbs=1
+  '';
+
   virtualisation.upstream-container = {
     enable = true;
     config = {
@@ -160,6 +165,15 @@ in {
 
             iptables -t mangle -F POSTROUTING
             iptables -t mangle -A POSTROUTING -o lte -j TTL --ttl-set 65
+
+            ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 4000kbit burst 5kb latency 100ms
+            ${pkgs.iproute}/bin/tc qdisc add dev lte handle ffff: ingress
+            ${pkgs.iproute}/bin/tc filter add dev lte parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
+          '';
+          extraStopCommands = ''
+            ${pkgs.iproute}/bin/tc filter del dev lte root
+            ${pkgs.iproute}/bin/tc qdisc del dev lte ingress
+            ${pkgs.iproute}/bin/tc qdisc del dev ifb0 root
           '';
         };
         nat = {
@@ -222,9 +236,12 @@ in {
       ip link add name telekom link eth0 type vlan id 7
       ip link add dev upstream-mgmt type veth peer name mgmt-veth
 
+      ip link set dev ifb0 up
+
       ip link set telekom netns wg_upstream
       ip link set upstream-mgmt master mgmt
       ip link set mgmt-veth netns wg_upstream
+      ip link set ifb0 netns wg_upstream
 
       ip link set upstream-mgmt up
     '';

@@ -28,6 +28,11 @@
           "topic read relays/+/+/state"
         ];
       };
+      "root" = {
+        acl = [
+          "topic readwrite #"
+        ];
+      };
     };
     allowAnonymous = false;
     checkPasswords = true;

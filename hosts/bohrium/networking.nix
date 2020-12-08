@@ -28,22 +28,25 @@
       "wlan0" = {
         device = "wlp1s0";
       };
-      "wlan-ap" = {
-        device = "wlp1s0";
-        mac = "60:f2:62:17:59:7c";
+    };
+
+    bonds = {
+      "lan" = {
+        interfaces = [ "wlan0" "eth-dock" ];
+        driverOptions = {
+          miimon = "1000";
+          mode = "active-backup";
+          primary_reselect = "always";
+        };
       };
     };
 
     interfaces = {
       "wlan0" = {
-        useDHCP = true;
+        useDHCP = false;
       };
       "eth-dock" = {
-        useDHCP = true;
-      };
-      "auenheim2" = {
-        useDHCP = true;
-        mtu = 1200;
+        useDHCP = false;
       };
     };
 
@@ -104,9 +107,10 @@
 
   systemd.network = {
     networks."40-eth-dock" = {
-      dhcpV4Config = {
-        RouteMetric = 512;
-      };
+      networkConfig.PrimarySlave = true;
+    };
+    networks."40-lan" = {
+      DHCP = lib.mkForce "yes";
     };
   };
 

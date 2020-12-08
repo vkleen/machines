@@ -4,9 +4,8 @@ let
 
   chromium-pkg = (pkgs.chromium.override {
     commandLineArgs = "--disk-cache-dir=/tmp/cache";
-    useOzone = true;
     enableWideVine = true;
-    enableVaapi = false;
+    enableVaapi = true;
   });
 
   firejail-chromium = pkgs.writeShellScriptBin "chromium" ''

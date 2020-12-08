@@ -48,6 +48,9 @@
       "eth-dock" = {
         useDHCP = false;
       };
+      "lan" = {
+        useDHCP = true;
+      };
     };
 
     hosts = {
@@ -108,9 +111,6 @@
   systemd.network = {
     networks."40-eth-dock" = {
       networkConfig.PrimarySlave = true;
-    };
-    networks."40-lan" = {
-      DHCP = lib.mkForce "yes";
     };
   };
 

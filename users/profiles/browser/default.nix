@@ -3,9 +3,9 @@ let
   cfg = config.browser;
 
   chromium-pkg = (pkgs.chromium.override {
-    commandLineArgs = "--disk-cache-dir=/tmp/cache";
+    commandLineArgs = "--disk-cache-dir=/tmp/cache --enable-feature=UseOzonePlatform --ozone-platform=wayland --use-cmd-decoder=validating --use-gl=desktop";
     enableWideVine = true;
-    enableVaapi = true;
+    enableVaapi = false;
   });
 
   firejail-chromium = pkgs.writeShellScriptBin "chromium" ''

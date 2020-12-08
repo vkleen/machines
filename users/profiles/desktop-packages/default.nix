@@ -101,7 +101,7 @@ in {
     geda
     gerbv
     gtkwave
-    kicad-unstable
+    kicad-master
     librepcb
     ngspice
     qucs

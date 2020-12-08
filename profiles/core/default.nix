@@ -16,7 +16,7 @@ in
     };
   };
   config = {
-    nix.package = pkgs.nixFlakes;
+    nix.package = pkgs.nixUnstable;
     environment = {
       noXlibs = true;
       systemPackages = with pkgs; [

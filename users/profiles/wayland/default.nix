@@ -363,7 +363,7 @@ in {
         "${mod}+Shift+p" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pass}";
         # "${mod}+u" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
         # "${mod}+i" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url} search";
-        "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url}";
+        "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
         # "${mod}+w" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url} search";
         "${mod}+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pdf}";
         "${mod}+Shift+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-paper}";

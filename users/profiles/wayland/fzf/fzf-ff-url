@@ -7,7 +7,7 @@ else
 fi
 
 setopt EXTENDED_GLOB
-_profile_=( ~/.mozilla/firefox/*.default-([0-9])## )
+_profile_=( ~/.mozilla/firefox/*.default )
 _profile="${_profile_[1]}"
 
 function _do_fzf() {
@@ -57,6 +57,12 @@ case "${output[2]}" in
         ;;
     enter)
         cmd="${output[3]}"
+        ;;
+esac
+
+case "${cmd}" in
+    \!*)
+        _url_mod=_duckduckgo
         ;;
 esac
 

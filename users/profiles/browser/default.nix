@@ -2,14 +2,21 @@
 let
   cfg = config.browser;
 
-  chromium-pkg = (pkgs.chromium.override {
-    commandLineArgs = "--disk-cache-dir=/tmp/cache --enable-feature=UseOzonePlatform --ozone-platform=wayland --use-cmd-decoder=validating --use-gl=desktop";
-    enableWideVine = true;
-    enableVaapi = false;
+  firefox-pkg = pkgs.firefox-bin;
+  firejail-firefox = pkgs.writeShellScriptBin "firefox" ''
+    exec ${nixos.security.wrapperDir}/firejail --ignore=nodbus --whitelist="${config.home.homeDirectory}/dl" ${cfg.firefox-unwrapped}/bin/firefox
+  '';
+
+  chromium-pkg = (pkgs.google-chrome-beta.override {
+    commandLineArgs = "--disk-cache-dir=/tmp/cache";
+    # commandLineArgs = "--disk-cache-dir=/tmp/cache --enable-features=UseOzonePlatform --ozone-platform=wayland";
+    # enableWideVine = true;
+    # enableVaapi = true;
   });
 
   firejail-chromium = pkgs.writeShellScriptBin "chromium" ''
-    exec ${nixos.security.wrapperDir}/firejail --ignore=nodbus --whitelist="${config.home.homeDirectory}/dl" ${cfg.chromium-unwrapped}/bin/chromium-browser "$@"
+    # exec ${nixos.security.wrapperDir}/firejail --ignore=nodbus --whitelist="${config.home.homeDirectory}/dl" ${cfg.chromium-unwrapped}/bin/chromium-browser "$@"
+    exec ${cfg.chromium-unwrapped}/bin/google-chrome-beta "$@"
   '';
 
   foreflight-chromium = pkgs.writeShellScriptBin "foreflight" ''
@@ -17,6 +24,14 @@ let
   '';
 in {
   options = {
+    browser.firefox = lib.mkOption {
+      default = firejail-firefox;
+      type = lib.types.package;
+    };
+    browser.firefox-unwrapped = lib.mkOption {
+      default = firefox-pkg;
+      type = lib.types.package;
+    };
     browser.chromium-unwrapped = lib.mkOption {
       default = chromium-pkg;
       type = lib.types.package;
@@ -36,6 +51,7 @@ in {
     };
 
     home.packages = [
+      cfg.firefox
       foreflight-chromium
     ];
   };

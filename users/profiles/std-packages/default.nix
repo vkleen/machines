@@ -59,6 +59,7 @@ in {
     pv
     pwgen
     qpdf
+    qrcp
     radare2
     rsync
     sanoid

@@ -8,6 +8,7 @@ final: prev: {
   openfec = final.callPackage ./development/libraries/openfec {};
   pragmatapro = final.callPackage ./data/fonts/pragmatapro {};
   purple-plugins-prpl = final.callPackage ./applications/networking/instant-messengers/pidgin-plugins/purple-plugins-prpl {};
+  qrcp = final.callPackage ./tools/misc/qrcp {};
   spacenavd = final.callPackage ./misc/spacenavd {};
   udp2raw = final.callPackage ./applications/networking/udp2raw {};
   uuu = final.callPackage ./tools/misc/uuu {};

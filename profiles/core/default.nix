@@ -29,9 +29,11 @@ in
         gptfdisk
         iputils
         jq
+        lzop
+        mbuffer
         ripgrep
-        utillinux
         sudo
+        utillinux
       ];
     };
 

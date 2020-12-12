@@ -34,7 +34,6 @@
             ../profiles/direnv
             ../profiles/git
             ../profiles/gnupg
-            ../profiles/kak
             ../profiles/tmux
             ../profiles/zsh
           ])
@@ -47,6 +46,7 @@
                  ../profiles/browser
                  ../profiles/desktop-packages
                  ../profiles/gpg-agent
+                 ../profiles/kak
                  ../profiles/kitty
                  ../profiles/mpv
                  ../profiles/neomutt

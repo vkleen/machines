@@ -290,7 +290,7 @@ in {
       option routers 10.172.100.1;
       option domain-name "auenheim.kleen.org";
       subnet 10.172.100.0 netmask 255.255.255.0 {
-        range 10.172.100.100 10.172.100.200;
+        range 10.172.100.102 10.172.100.200;
         option domain-name-servers 10.172.100.1;
       }
 

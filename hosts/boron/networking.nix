@@ -190,7 +190,7 @@ in {
       systemd.network = {
         networks."40-lte" = {
           dhcpV4Config = {
-            RouteMetric = 1024;
+            RouteMetric = 2048;
           };
           networkConfig = {
             DHCP = lib.mkForce "ipv4";
@@ -218,8 +218,49 @@ in {
             name telekom
             user 0024489473715511349841040001@t-online.de
             telekom
+            debug
           '';
         };
+      };
+      systemd.services."pppd-telekom".serviceConfig = lib.mkForce {
+        ExecStart = "${lib.getBin pkgs.ppp}/sbin/pppd call telekom nodetach nolog";
+        Restart = "always";
+        RestartSec = 5;
+
+        # AmbientCapabilities = "CAP_SYS_TTY_CONFIG CAP_NET_ADMIN CAP_NET_RAW CAP_SYS_ADMIN";
+        # CapabilityBoundingSet = "CAP_SYS_TTY_CONFIG CAP_NET_ADMIN CAP_NET_RAW CAP_SYS_ADMIN";
+        # KeyringMode = "private";
+        # LockPersonality = true;
+        # MemoryDenyWriteExecute = true;
+        # NoNewPrivileges = true;
+        # PrivateMounts = true;
+        # PrivateTmp = true;
+        # ProtectControlGroups = true;
+        # ProtectHome = true;
+        # ProtectHostname = true;
+        # ProtectKernelModules = true;
+        # # pppd can be configured to tweak kernel settings.
+        # ProtectKernelTunables = false;
+        # ProtectSystem = "strict";
+        # RemoveIPC = true;
+        # RestrictAddressFamilies = "AF_PACKET AF_UNIX AF_PPPOX AF_ATMPVC AF_ATMSVC AF_INET AF_INET6 AF_IPX";
+        # RestrictNamespaces = true;
+        # RestrictRealtime = true;
+        # RestrictSUIDSGID = true;
+        # SecureBits = "no-setuid-fixup-locked noroot-locked";
+        # SystemCallFilter = "@system-service";
+        # SystemCallArchitectures = "native";
+
+        # All pppd instances on a system must share a runtime
+        # directory in order for PPP multilink to work correctly. So
+        # we give all instances the same /run/pppd directory to store
+        # things in.
+        #
+        # For the same reason, we can't set PrivateUsers=true, because
+        # all instances need to run as the same user to access the
+        # multilink database.
+        RuntimeDirectory = "pppd";
+        RuntimeDirectoryPreserve = true;
       };
       environment.etc = {
         "ppp/ip-up" = {

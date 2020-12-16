@@ -422,14 +422,15 @@ in {
         smartGaps = true;
         smartBorders = "on";
         inner = 5;
-        outer = 3;
+        outer = 0;
       };
     };
     extraConfig = ''
       hide_edge_borders --i3 none
       no_focus [tiling]
       seat * hide_cursor 5000
-      # output * adaptive_sync on
+
+      focus_wrapping workspace
     '';
   };
 

@@ -383,6 +383,8 @@ in {
 
         "${mod}+Ctrl+j" = "move workspace to output down";
         "${mod}+Ctrl+k" = "move workspace to output up";
+        "${mod}+Ctrl+l" = "move workspace to output right";
+        "${mod}+Ctrl+h" = "move workspace to output left";
 
         "${mod}+Shift+w" = "mode \"resize\"";
 
@@ -548,8 +550,9 @@ in {
       output eDP-1 enable mode 1920x1080 position 0,0
     }
     profile multi-dock {
-      output eDP-1 enable mode 1920x1080 position 0,1440
       output "Unknown ASUS PB27U 0x0000388B" enable mode 2560x1440 position 0,0
+      output "Samsung Electric Company S24E650 0x00005F51" enable mode 1920x1080 position 0,1440
+      output eDP-1 enable mode 1920x1080 position 0,2520
     }
   '';
 

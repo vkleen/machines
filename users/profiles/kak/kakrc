@@ -53,7 +53,7 @@ map global user a ':lsp-code-actions<ret>' -docstring 'LSP code actions'
 map global user c ':comment-line<ret>' -docstring '(Un)comment lines'
 map global user C ':comment-block<ret>' -docstring '(Un)comment as block'
 
-set-option global grepcmd 'rg --column'
+# set-option global grepcmd 'rg --column'
 
 # formatting
 #hook global WinSetOption filetype=(rust,terraform) %{

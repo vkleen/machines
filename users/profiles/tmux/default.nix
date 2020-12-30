@@ -44,6 +44,8 @@
 
     set -g history-limit 100000
 
+    set -g renumber-windows on
+
 
     unbind C-b
     set -g prefix C-Space

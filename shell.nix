@@ -12,5 +12,6 @@ in pkgs.mkShell {
   name = "nixos";
   nativeBuildInputs = with pkgs; [
     nixWithFlakes
+    sops
   ];
 }

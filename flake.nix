@@ -15,9 +15,16 @@
       ref = "master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      type = "github";
+      owner = "Mic92";
+      repo = "sops-nix";
+      ref = "master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager }@inputs:
+  outputs = { self, nixpkgs, home-manager, sops-nix }@inputs:
     let
       inherit (builtins) attrNames attrValues elemAt;
       inherit (nixpkgs) lib;
@@ -33,6 +40,10 @@
         };
         modules =
           let
+            extraModules = [
+              sops-nix.nixosModules.sops
+              home-manager.nixosModules.home-manager
+            ];
             defaultProfiles = with self.nixosModules.systemProfiles; [core];
             local = "${toString dir}/${path}";
             global._module.args = {
@@ -45,7 +56,7 @@
                 accountName' = splitString "@" n;
                 hostName' = elemAt accountName' 1;
               in hostName' == hostName;
-          in [ home-manager.nixosModules.home-manager global ] ++ defaultProfiles ++ [ local ] ++ accountModules;
+          in extraModules ++ [ global ] ++ defaultProfiles ++ [ local ] ++ accountModules;
       };
 
       mkSystemProfile = dir: path: profileName: {

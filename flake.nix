@@ -101,5 +101,10 @@
         apps = recursiveUpdate activateNixosConfigurations activateHomeManagerConfigurations;
 
         devShell = forAllSystems (system: systemPkgs: import ./shell.nix { pkgs = self.legacyPackages.${system}; });
+
+        defaultTemplate = {
+          path = ./.;
+          description = "A flakey nixos configuration.";
+        };
       };
 }

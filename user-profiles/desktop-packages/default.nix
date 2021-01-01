@@ -111,7 +111,7 @@ in {
 
     cura
     openscad
-    freecad-realthunder
+    # freecad-realthunder
     solvespace
 
     dhall

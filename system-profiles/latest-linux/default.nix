@@ -1,7 +1,7 @@
-{ flake, pkgs, lib, pkgSources, ... }:
+{ flake, flakeInputs, pkgs, lib, ... }:
 {
   boot.kernelPackages = pkgs.linuxPackages_latest.extend (self: super: {
-    kernel = with (import "${pkgSources.local}/lib/kernel.nix" { inherit lib; });
+    kernel = with (import "${flakeInputs.nixpkgs}/lib/kernel.nix" { inherit lib; });
       super.kernel.override {
         structuredExtraConfig = {
           PKCS8_PRIVATE_KEY_PARSER = yes;

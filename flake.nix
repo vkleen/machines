@@ -1,101 +1,229 @@
 {
-  description = "vkleen's machines";
+  description = "VKleen's flakey nixos configuration";
 
   inputs = {
-    nixpkgs.url = "github:vkleen/nixpkgs/local";
-    nixpkgs-power9.url = "github:vkleen/nixpkgs/local-power9";
+    nixpkgs = {
+      type = "github";
+      owner = "vkleen";
+      repo = "nixpkgs";
+      ref = "local";
+    };
+    nixpkgs-power9 = {
+      type = "github";
+      owner = "vkleen";
+      repo = "nixpkgs";
+      ref = "local-power9";
+    };
     nixos-rocm-power9 = {
-      url = "github:vkleen/nixos-rocm";
+      type = "github";
+      owner = "vkleen";
+      repo = "nixos-rocm";
+      ref = "master";
       flake = false;
     };
     nixpkgs-wayland = {
-      url = "github:colemickens/nixpkgs-wayland";
+      type = "github";
+      owner = "colemickens";
+      repo = "nixpkgs-wayland";
+      ref = "master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:rycee/home-manager";
+      type = "github";
+      owner = "nix-community";
+      repo = "home-manager";
+      ref = "master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    sops-nix = {
+      type = "github";
+      owner = "Mic92";
+      repo = "sops-nix";
+      ref = "master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    deploy-rs = {
+      type = "github";
+      owner = "serokell";
+      repo = "deploy-rs";
+      ref = "master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     freecad-src = {
-      url = "github:realthunder/FreeCAD";
+      type = "github";
+      owner = "realthunder";
+      repo = "FreeCAD";
+      ref = "master";
       flake = false;
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-power9, nixos-rocm-power9, home-manager, nixpkgs-wayland, ... }:
+  outputs = { self, ...}@inputs:
     let
-      inherit (builtins) attrValues attrNames readDir;
-      inherit (nixpkgs) lib;
-      inherit (lib) removeSuffix hasSuffix recursiveUpdate genAttrs filterAttrs;
+      inherit (builtins) attrNames attrValues elemAt;
+      inherit (inputs.nixpkgs) lib;
+      utils = import ./utils { inherit lib; };
+      inherit (utils) recImport overrideModule;
+      inherit (lib) nixosSystem mkIf splitString filterAttrs listToAttrs mapAttrsToList nameValuePair concatMap composeManyExtensions mapAttrs mapAttrs' recursiveUpdate concatLists concatStrings hasPrefix;
 
-      utils = import ./lib/utils.nix { inherit lib; };
-      inherit (utils) pathsToImportedAttrs pathsToImportedAttrs';
+      systemIsPower9 = hasPrefix "powerpc64le";
 
-      forAllSystems' = genAttrs [ "x86_64-linux" "aarch64-linux" ];
-      forAllSystems = genAttrs [ "x86_64-linux" "aarch64-linux" "powerpc64le-linux" ];
+      legacyPackages = recursiveUpdate inputs.nixpkgs.legacyPackages
+                         (filterAttrs (n: _: systemIsPower9 n) inputs.nixpkgs-power9.legacyPackages);
 
-      pkgsImport = system: pkgs:
-        import pkgs {
-          inherit system;
-          overlays = attrValues self.overlays;
-          config = { allowUnfree = true; };
+      mkNixosConfiguration = dir: path: hostName: nixosSystem rec {
+        specialArgs = {
+          flake = self;
+          flakeInputs = inputs;
         };
+        modules =
+          let
+            defaultProfiles = with self.nixosModules.systemProfiles;
+              [ core
+              ];
 
-      pkgset = { inherit pkgsImport; }
-        // (forAllSystems' (s: pkgsImport s nixpkgs))
-        // { "powerpc64le-linux" = (pkgsImport "powerpc64le-linux" nixpkgs-power9).extend (import nixos-rocm-power9); };
-
-      pkgSources = {
-        local = nixpkgs;
-        local-power9 = nixpkgs-power9;
+            local = "${toString dir}/${path}";
+            argsModule = { config, ...}: {
+              _module.args = {
+                customUtils = utils;
+                inherit hostName;
+                input-pkgs =
+                  if hasPrefix "powerpc64le" config.nixpkgs.system
+                  then inputs.nixpkgs-power9
+                  else inputs.nixpkgs;
+              };
+            };
+            addHomeManagerDefaults = accountName: v:
+              let
+                accountName' = splitString "@" accountName;
+                userName = elemAt accountName' 0;
+              in [
+                ({pkgs, config, ...}: {
+                  home-manager.users.${userName} =
+                    { programs.home-manager = {
+                        enable = true;
+                      };
+                      manual.manpages.enable = true;
+                      _module.args.pkgs = lib.mkForce pkgs;
+                      _module.args.nixos = config;
+                    };
+                })
+                v
+              ];
+            accountModules = concatLists (mapAttrsToList addHomeManagerDefaults
+                                           (filterAttrs accountMatchesHost self.nixosModules.accounts));
+            accountMatchesHost = n: _v:
+              let
+                accountName' = splitString "@" n;
+                hostName' = elemAt accountName' 1;
+              in hostName' == hostName;
+          in [ argsModule ] ++ defaultProfiles ++ [ local ] ++ accountModules ++ [ self.nixosModules.users.root ];
       };
-    in {
-      overlay = import ./pkgs;
 
-      overlays =
+      mkSystemProfile = dir: path: profileName: {
+        imports = [ "${toString dir}/${path}" ];
+        config = {
+          system.profiles = [profileName];
+        };
+      };
+
+      mkUserModule = dir: path: userName:
+        overrideModule (import "${toString dir}/${path}")
+                       (inputs: inputs // { inherit userName; })
+                       (outputs: { _file = "${toString dir}/${path}"; } // outputs);
+
+      mkAccountModule = dir: path: accountName:
         let
-          overlayDir = ./overlays;
-          fullPath = name: overlayDir + "/${name}";
-          filteredPaths = filterAttrs (n: v: hasSuffix ".nix" n) (readDir overlayDir);
-          overlayPaths = map fullPath (attrNames filteredPaths);
-        in pathsToImportedAttrs overlayPaths // {
-             nixpkgs-wayland = nixpkgs-wayland.overlay;
-             sources = _: _: {
-               inherit (inputs) freecad-src;
-             };
-           };
+          accountName' = splitString "@" accountName;
+          userName = elemAt accountName' 0;
+        in overrideModule
+             (import "${toString dir}/${path}")
+             (inputs: inputs // { inherit userName; })
+             (outputs: { _file = "${toString dir}/${path}"; }
+                       // outputs
+                       // { imports = [self.nixosModules.users.${userName}] ++ (outputs.imports or []); });
 
-      overlays-path = forAllSystems (s:
-        pkgset."${s}".writeText "overlays.nix" ''
-          [
-            (import ${./pkgs})
-            (import ${builtins.toString nixpkgs-wayland})
-          ]
-        '');
+      forAllSystems = f: mapAttrs f legacyPackages;
 
-      packages = forAllSystems (s:
-        let
-          pkgs = pkgset."${s}";
-        in self.overlay pkgs pkgs
-      );
+      activateHomeManagerConfigurations = forAllSystems (system: _pkgs:
+        mapAttrs' (configName: hmConfig:
+                    nameValuePair "${configName}-activate"
+                                  { type = "app"; program = "${hmConfig.activationPackage}/bin/activate"; })
+                  self.homeManagerConfigurations);
+      activateNixosConfigurations = forAllSystems (system: _pkgs:
+        mapAttrs' (hostName: nixosConfig:
+                    nameValuePair "${hostName}-activate"
+                                  { type = "app"; program = "${nixosConfig.config.system.build.toplevel}/bin/switch-to-configuration"; })
+                  self.nixosConfigurations);
+    in
+      {
+        nixosModules =
+          let modulesAttrs = recImport { dir = ./modules; };
+              systemProfiles = recImport rec { dir = ./system-profiles; _import = mkSystemProfile dir; };
+              users = recImport rec { dir = ./users; _import = mkUserModule dir; };
+              accounts = recImport rec { dir = ./accounts; _import = mkAccountModule dir; };
+          in modulesAttrs // { inherit systemProfiles users accounts; };
 
-      devShell = forAllSystems (s: import ./shell.nix { pkgs = pkgset."${s}"; });
+        nixosConfigurations = recImport rec { dir = ./hosts; _import = mkNixosConfiguration dir; };
 
-      nixosConfigurations =
-        import ./hosts (recursiveUpdate inputs {
-          inherit lib pkgset pkgSources utils;
-        });
+        homeManagerConfigurations =
+          listToAttrs (concatMap ({hostName, users}:
+                                   mapAttrsToList (userName: homeConfig:
+                                                    nameValuePair "${userName}@${hostName}" homeConfig)
+                                                  users)
+                                 (mapAttrsToList (hostName: nixosConfig:
+                                                   { inherit hostName;
+                                                     users = nixosConfig.config.home-manager.users;
+                                                   })
+                                                 self.nixosConfigurations));
 
-      nixosModules =
-        let
-          moduleList = import ./modules/list.nix;
-          modulesAttrs = pathsToImportedAttrs moduleList;
+        userProfiles = recImport rec { dir = ./user-profiles; };
 
-          profilesList = import ./profiles/list.nix;
-          profilesAttrs = {
-            profiles = pathsToImportedAttrs profilesList;
+        overlay = import ./pkgs;
+        overlays = recImport { dir = ./overlays; } //
+          { pkgs = self.overlay;
+
+            nixos-rocm-power9 = import inputs.nixos-rocm-power9;
+            nixpkgs-wayland = inputs.nixpkgs-wayland.overlay;
+            sources = _: _: {
+              inherit (inputs) freecad-src;
+            };
           };
-        in
-          recursiveUpdate modulesAttrs profilesAttrs;
-    };
+        overlays-path = forAllSystems (system: _:
+          self.legacyPackages."${system}".writeText "overlays.nix" ''
+            [
+              ${concatStrings
+                (attrValues
+                  (recImport rec {
+                    dir = ./overlays;
+                    _import = n: _: "(import ${"${./overlays}/${n}"})";
+                  }))
+              }
+              (import ${./pkgs})
+              (import ${builtins.toString inputs.nixpkgs-wayland})
+              (import ${builtins.toString inputs.nixos-rocm-power9})
+            ]
+          '');
+
+        legacyPackages = forAllSystems (system: systemPkgs:
+          import systemPkgs.path {
+            inherit system;
+            overlays = attrValues self.overlays;
+            config = {
+              allowUnfree = true;
+            };
+          });
+
+        apps = recursiveUpdate activateNixosConfigurations activateHomeManagerConfigurations;
+
+        devShell = forAllSystems (system: _:
+          import ./shell.nix { pkgs = self.legacyPackages.${system};
+                               extra-inputs = [ inputs.deploy-rs.packages.${system}.deploy-rs ];
+                             });
+
+        defaultTemplate = {
+          path = ./.;
+          description = "A flakey nixos configuration";
+        };
+      };
 }

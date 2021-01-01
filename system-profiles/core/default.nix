@@ -1,22 +1,29 @@
-{ flake, config, lib, pkgs, ... }:
-let inherit (lib) fileContents;
+{ flake, flakeInputs, input-pkgs, hostName, customUtils, config, lib, pkgs, ... }:
+let
+  inherit (lib) fileContents;
+  profileSet = customUtils.types.attrNameSet flake.nixosModules.systemProfiles;
 in
 {
-  imports = [
-    flake.nixosModules.wipe-root
-  ];
+  imports = with flakeInputs;
+    [ sops-nix.nixosModules.sops
+      home-manager.nixosModules.home-manager
+
+      flake.nixosModules.wipe-root
+    ];
   options = {
-    system.configuration-type = lib.mkOption {
-      type = lib.types.str;
-      default = "core";
-    };
-    system.extra-profiles = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+    # See mkSystemProfile in ../flake.nix
+    system.profiles = lib.mkOption {
+      type = profileSet;
       default = [];
+      description = ''
+        Set (list without duplicates) of ‘systemProfiles’ enabled for this host
+      '';
     };
   };
   config = {
-    nix.package = pkgs.nixUnstable;
+    networking.hostName = hostName;
+    system.configurationRevision = lib.mkIf (flake ? rev) flake.rev;
+
     environment = {
       noXlibs = true;
       systemPackages = with pkgs; [
@@ -37,19 +44,36 @@ in
       ];
     };
 
+    nixpkgs = {
+      pkgs = flake.legacyPackages.${config.nixpkgs.system};
+    };
+
     nix = {
+      package = pkgs.nixUnstable;
       useSandbox = true;
       allowedUsers = [ "@wheel" ];
       trustedUsers = [ "root" "@wheel" ];
       extraOptions = ''
         experimental-features = nix-command flakes ca-references
       '';
+      nixPath = [
+        "nixpkgs=${config.nixpkgs.pkgs.path}"
+        "nixpkgs-overlays=${flake.overlays-path."${config.nixpkgs.system}"}"
+      ];
+      registry = {
+        nixpkgs.flake = input-pkgs;
+        home-manager.flake = flakeInputs.home-manager;
+        machines.flake = flake;
+      };
     };
 
     security = {
       hideProcessInformation = false;
       protectKernelImage = false;
     };
+
+    home-manager.useUserPackages = true;
+    home-manager.useGlobalPkgs = true; # Otherwise home-manager would only work impurely
 
     users.mutableUsers = false;
 

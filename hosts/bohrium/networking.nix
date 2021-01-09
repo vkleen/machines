@@ -128,20 +128,20 @@
   '';
 
   programs.mtr.enable = true;
-  programs.captive-browser = {
-    enable = true;
-    interface = "wlan0";
-    browser = lib.concatStringsSep " " [
-      ''${pkgs.chromium}/bin/chromium''
-      ''--user-data-dir=$XDG_RUNTIME_DIR/.chromium-captive''
-      ''--proxy-server="socks5://$PROXY"''
-      ''--host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE localhost"''
-      ''--no-first-run''
-      ''--new-window''
-      ''--incognito''
-      ''http://plutonium.kleen.org''
-    ];
-  };
+  # programs.captive-browser = {
+  #   enable = true;
+  #   interface = "wlan0";
+  #   browser = lib.concatStringsSep " " [
+  #     ''${pkgs.chromium}/bin/chromium''
+  #     ''--user-data-dir=$XDG_RUNTIME_DIR/.chromium-captive''
+  #     ''--proxy-server="socks5://$PROXY"''
+  #     ''--host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE localhost"''
+  #     ''--no-first-run''
+  #     ''--new-window''
+  #     ''--incognito''
+  #     ''http://plutonium.kleen.org''
+  #   ];
+  # };
 
   # systemd.services.udp2rawtunnel = {
   #   wantedBy = [ "multi-user.target" ];

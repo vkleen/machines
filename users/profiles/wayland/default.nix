@@ -551,9 +551,9 @@ in {
       output eDP-1 enable mode 1920x1080 position 0,0
     }
     profile multi-dock {
-      output "Unknown ASUS PB27U 0x0000388B" enable mode 2560x1440 position 5760,0
-      output "Samsung Electric Company S24E650 0x00005F51" enable mode 1920x1080 position 0,1440
-      output eDP-1 enable mode 1920x1080 position 5760,2520
+      output "Unknown ASUS PB27U 0x0000388B" enable mode 2560x1440 position 3640,0
+      output "Samsung Electric Company S24E650 0x00005F51" enable mode 1920x1080 position 0,3640
+      output eDP-1 enable mode 1920x1080 position 3640,5560
     }
   '';
 

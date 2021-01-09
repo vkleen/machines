@@ -59,7 +59,7 @@ let
     genericName = "zoom";
     comment = "You know what this is";
     mimeType = "x-scheme-handler/zoommtg";
-    exec = "${nixos-zoom} %u";
+    exec = "${zoomy}/bin/zoomy %u";
     type = "Application";
     terminal = "false";
     categories = "Utility";

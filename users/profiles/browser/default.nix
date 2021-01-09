@@ -21,6 +21,10 @@ let
   foreflight-chromium = pkgs.writeShellScriptBin "foreflight" ''
     exec ${nixos.security.wrapperDir}/firejail --blacklist="${config.home.homeDirectory}/.config/chromium" --whitelist="${config.home.homeDirectory}/.foreflight" --ignore=nodbus ${cfg.chromium-unwrapped}/bin/chromium-browser --new-window --user-data-dir="${config.home.homeDirectory}/.foreflight" "https://plan.foreflight.com"
   '';
+
+  zoomy-chromium = pkgs.writeShellScriptBin "zoomy-chromium" ''
+    ${cfg.chromium-unwrapped}/bin/chromium-browser --new-window --user-data-dir="${config.home.homeDirectory}/.zoomy" "https://uni-due.zoom.us"
+  '';
 in {
   options = {
     browser.firefox = lib.mkOption {
@@ -52,6 +56,7 @@ in {
     home.packages = [
       cfg.firefox
       foreflight-chromium
+      zoomy-chromium
     ];
   };
 }

@@ -20,6 +20,10 @@
       url = "github:realthunder/FreeCAD";
       flake = false;
     };
+    kicad-src = {
+      url = "git+https://gitlab.com/kicad/code/kicad.git";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-power9, nixos-rocm-power9, home-manager, nixpkgs-wayland, ... }:
@@ -61,7 +65,7 @@
         in pathsToImportedAttrs overlayPaths // {
              nixpkgs-wayland = nixpkgs-wayland.overlay;
              sources = _: _: {
-               inherit (inputs) freecad-src;
+               inherit (inputs) freecad-src kicad-src;
              };
            };
 

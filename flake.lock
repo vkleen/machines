@@ -52,6 +52,22 @@
         "type": "github"
       }
     },
+    "kicad-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1610839090,
+        "narHash": "sha256-9/v1BCr93FnPLTjC41PyFIw3h6to2xDSQjOjcPVMDP8=",
+        "ref": "master",
+        "rev": "68efdb2fffed31fa536e719ecbc0df2d7207a6f3",
+        "revCount": 25172,
+        "type": "git",
+        "url": "https://gitlab.com/kicad/code/kicad.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://gitlab.com/kicad/code/kicad.git"
+      }
+    },
     "nixos-rocm-power9": {
       "flake": false,
       "locked": {
@@ -70,11 +86,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1607797693,
-        "narHash": "sha256-WxFxRLhGMQoNREjYGzekr29cRONS9/VXkYySG6NuT+Y=",
+        "lastModified": 1610897809,
+        "narHash": "sha256-sPDfR9PMcHzMsfNOZ1qZzvYvBLcb6Vvjh3drAvAANTc=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "d614d998763b9af577588273a36f1c74997dea3a",
+        "rev": "99e8e214e96823c580eba18b77e5addaa3602a95",
         "type": "github"
       },
       "original": {
@@ -126,6 +142,7 @@
       "inputs": {
         "freecad-src": "freecad-src",
         "home-manager": "home-manager",
+        "kicad-src": "kicad-src",
         "nixos-rocm-power9": "nixos-rocm-power9",
         "nixpkgs": "nixpkgs",
         "nixpkgs-power9": "nixpkgs-power9",

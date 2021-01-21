@@ -11,7 +11,6 @@
     interception-tools
     laptop
     latest-linux
-    librem5-devtools
     no-coredump
     ssh
     uucp-email

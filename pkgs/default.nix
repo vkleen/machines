@@ -11,7 +11,7 @@ final: prev: {
   qrcp = final.callPackage ./tools/misc/qrcp {};
   spacenavd = final.callPackage ./misc/spacenavd {};
   udp2raw = final.callPackage ./applications/networking/udp2raw {};
-  uuu = final.callPackage ./tools/misc/uuu {};
+  # uuu = final.callPackage ./tools/misc/uuu {};
 
   interception-tools-plugins = prev.interception-tools-plugins // {
     dual-function-keys = final.callPackage ./tools/inputmethods/interception-tools/dual-function-keys.nix {};

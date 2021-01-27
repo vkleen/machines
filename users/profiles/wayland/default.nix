@@ -70,36 +70,6 @@ let
     esac
   '';
 
-  mpv-pause-toggle = pkgs.writeScript "mpv-pause-toggle" ''
-    #!${pkgs.stdenv.shell}
-    [[ -S "${config.mpv.ipc-socket}" ]] || exit 1
-
-    STATE=$(echo '{ "command": ["get_property", "pause"] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}" | ${pkgs.jq}/bin/jq -r '.data')
-    case "$STATE" in
-      false) echo '{ "command": ["set_property", "pause", true] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}" ;;
-      true) echo '{ "command": ["set_property", "pause", false] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}" ;;
-      *) exit 1;;
-    esac
-  '';
-
-  mpv-pause = pkgs.writeScript "mpv-pause" ''
-    #!${pkgs.stdenv.shell}
-    [[ -S "${config.mpv.ipc-socket}" ]] || exit 1
-
-    echo '{ "command": ["set_property", "pause", true] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}"
-  '';
-
-  mpv-next = pkgs.writeScript "mpv-next" ''
-    #!${pkgs.stdenv.shell}
-    [[ -S "${config.mpv.ipc-socket}" ]] || exit 1
-    echo '{ "command": ["playlist-next", "force"] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}"
-  '';
-  mpv-prev = pkgs.writeScript "mpv-prev" ''
-    #!${pkgs.stdenv.shell}
-    [[ -S "${config.mpv.ipc-socket}" ]] || exit 1
-    echo '{ "command": ["playlist-prev"] }' | ${pkgs.socat}/bin/socat - "${config.mpv.ipc-socket}"
-  '';
-
   open-tmux = session: pkgs.writeShellScript "open-tmux" ''
     if ${pkgs.tmux}/bin/tmux has-session -t ${session}; then
       if [ "$1" == "-e" ]; then
@@ -180,6 +150,8 @@ let
     [ "${pkgs.zsh}/bin/zsh" "${pkgs.tmux}/bin/tmux" "${pkgs.pass}/bin/pass" "${pkgs.coreutils}/bin/head" "${pkgs.wl-clipboard}/bin/wl-copy" "${pkgs.fzf}/bin/fzf" ]
     (builtins.readFile ./fzf/fzf-pass)
   );
+
+  mpv-scripts = config.mpv.scripts;
 
   colors = {
     bg = "#103c48";
@@ -372,10 +344,10 @@ in {
         "XF86AudioLowerVolume" = "exec ${vol}/bin/vol down";
         "XF86AudioRaiseVolume" = "exec ${vol}/bin/vol up";
 
-        "XF86AudioPause" = "exec ${mpv-pause}";
-        "XF86AudioPlay" = "exec ${mpv-pause-toggle}";
-        "XF86AudioNext" = "exec ${mpv-next}";
-        "XF86AudioPrev" = "exec ${mpv-prev}";
+        "XF86AudioPause" = "exec ${mpv-scripts}/bin/mpv-pause";
+        "XF86AudioPlay" = "exec ${mpv-scripts}/bin/mpv-pause-toggle";
+        "XF86AudioNext" = "exec ${mpv-scripts}/bin/mpv-next";
+        "XF86AudioPrev" = "exec ${mpv-scripts}/bin/mpv-prev";
 
         "XF86Sleep" = "exec ${pkgs.systemd}/bin/loginctl lock-session";
 

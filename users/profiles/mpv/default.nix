@@ -22,7 +22,7 @@ let
     [[ -S "${mpv-socket}" ]] || exit 1
 
     mapfile jq_command <<eof
-    .data | .[] | (if has("current") then "> " else "  " end) + .filename
+    .data | .[] | .filename + (if has("current") then " <" else "" end)
     eof
 
     echo '{ "command": ["get_property", "playlist"] }' \
@@ -35,20 +35,63 @@ let
 
     echo '{ "command": ["playlist-clear"] }' | ${pkgs.socat}/bin/socat - "${mpv-socket}"
   '';
+
+  mpv-pause-toggle = pkgs.writeScriptBin "mpv-pause-toggle" ''
+    #!${pkgs.stdenv.shell}
+    [[ -S "${mpv-socket}" ]] || exit 1
+
+    STATE=$(echo '{ "command": ["get_property", "pause"] }' | ${pkgs.socat}/bin/socat - "${mpv-socket}" | ${pkgs.jq}/bin/jq -r '.data')
+    case "$STATE" in
+      false) echo '{ "command": ["set_property", "pause", true] }' | ${pkgs.socat}/bin/socat - "${mpv-socket}" ;;
+      true) echo '{ "command": ["set_property", "pause", false] }' | ${pkgs.socat}/bin/socat - "${mpv-socket}" ;;
+      *) exit 1;;
+    esac
+  '';
+
+  mpv-pause = pkgs.writeScriptBin "mpv-pause" ''
+    #!${pkgs.stdenv.shell}
+    [[ -S "${mpv-socket}" ]] || exit 1
+
+    echo '{ "command": ["set_property", "pause", true] }' | ${pkgs.socat}/bin/socat - "${mpv-socket}"
+  '';
+
+  mpv-next = pkgs.writeScriptBin "mpv-next" ''
+    #!${pkgs.stdenv.shell}
+    [[ -S "${mpv-socket}" ]] || exit 1
+    echo '{ "command": ["playlist-next", "force"] }' | ${pkgs.socat}/bin/socat - "${mpv-socket}"
+  '';
+  mpv-prev = pkgs.writeScriptBin "mpv-prev" ''
+    #!${pkgs.stdenv.shell}
+    [[ -S "${mpv-socket}" ]] || exit 1
+    echo '{ "command": ["playlist-prev"] }' | ${pkgs.socat}/bin/socat - "${mpv-socket}"
+  '';
+
+  mpv-scripts = pkgs.buildEnv {
+    name = "mpv-scripts";
+    paths = [
+      start-mpv play play-clip mpv-playlist mpv-clear
+      mpv-pause-toggle mpv-pause mpv-next mpv-prev
+    ];
+  };
 in {
   options = {
     mpv.ipc-socket = lib.mkOption {
       default = "/run/user/${builtins.toString nixos.users.users.vkleen.uid}/mpv";
     };
+    mpv.scripts = lib.mkOption {
+      type = lib.types.package;
+      default = mpv-scripts;
+    };
   };
   config = {
     home.packages = with pkgs; [
       mpv
-      start-mpv play play-clip mpv-playlist
-      mpv-clear
+      mpv-scripts
     ];
     xdg.configFile."mpv/mpv.conf".text = ''
-      gpu-context=waylandvk
+      gpu-context=wayland
+      gpu-api=opengl
+      profile=gpu-hq
       vo=gpu
       hwdec=vaapi
       hwdec-codecs=all

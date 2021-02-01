@@ -32,7 +32,6 @@ in
         lzop
         mbuffer
         ripgrep
-        sudo
         utillinux
       ];
     };
@@ -58,15 +57,14 @@ in
     time.timeZone = "UTC";
     i18n.defaultLocale = "en_US.UTF-8";
 
-    security.sudo.configFile = ''
-      Defaults:root,%wheel env_keep+=TERMINFO_DIRS
-      Defaults:root,%wheel env_keep+=TERMINFO
-      Defaults env_keep+=SSH_AUTH_SOCK
-      Defaults !lecture,insults,rootpw
+    security.doas = {
+      enable = true;
+      extraRules = lib.mkForce [
+        { groups = [ "wheel" ]; keepEnv = true; noPass = false; }
+      ];
+    };
 
-      root        ALL=(ALL) SETENV: ALL
-      %wheel      ALL=(ALL:ALL) SETENV: ALL
-    '';
+    security.sudo.enable = false;
 
     services.ntp.enable = false;
     services.chrony = {

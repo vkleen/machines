@@ -60,7 +60,7 @@ in
     security.doas = {
       enable = true;
       extraRules = lib.mkForce [
-        { groups = [ "wheel" ]; keepEnv = true; noPass = false; }
+        { groups = [ "wheel" ]; keepEnv = true; noPass = false; persist = true; }
       ];
     };
 

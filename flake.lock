@@ -2,11 +2,11 @@
   "nodes": {
     "cachix": {
       "locked": {
-        "lastModified": 1607543509,
-        "narHash": "sha256-jofrEbhSfROEt6UXyjpdXrRWieqjQoOfJVptlEClHXI=",
+        "lastModified": 1612199420,
+        "narHash": "sha256-2uGAh8PEN0CdCfTedzErkEH/bUGx/IqUTID5TMIM+yo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "65c9cc79f1d179713c227bf447fb0dac384cdcda",
+        "rev": "8230a316357f8f87cc4c361510453dc5d99e5fbc",
         "type": "github"
       },
       "original": {
@@ -19,11 +19,11 @@
     "freecad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1606477159,
-        "narHash": "sha256-RxtAVOQsU5ZJoTqCBKBPotbvJo0H0uKcQCfmLJ5iwhw=",
+        "lastModified": 1612261153,
+        "narHash": "sha256-AYa8yHSkNNzY7CW0x6DBcFVz3dYGJOxu+AgPN0cTAEg=",
         "owner": "realthunder",
         "repo": "FreeCAD",
-        "rev": "550a1f4894e08fa6dae9bcd12cf29b02346655fa",
+        "rev": "a3a549589c8e6d2e888ac004a7fc534f72852b18",
         "type": "github"
       },
       "original": {
@@ -39,11 +39,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1604628022,
-        "narHash": "sha256-zCbTh91NBQdGRtO+GZxfKnmRjp+4rOQ2B8wtNpVcxgs=",
+        "lastModified": 1612191125,
+        "narHash": "sha256-sqeVW5mIpxcbGL5od8kGxH5gAkimOEJjss2ZvsW9mLQ=",
         "owner": "rycee",
         "repo": "home-manager",
-        "rev": "4cc1b77c3fc4f4b3bc61921dda72663eea962fa3",
+        "rev": "0fa2b16a0714e35f472d17dc707ee130a269123f",
         "type": "github"
       },
       "original": {
@@ -55,11 +55,11 @@
     "kicad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1610839090,
-        "narHash": "sha256-9/v1BCr93FnPLTjC41PyFIw3h6to2xDSQjOjcPVMDP8=",
+        "lastModified": 1612256479,
+        "narHash": "sha256-TrKOuGynLcsi5/YBjZEDRGqbb0IPVszqOrkivDcX3mI=",
         "ref": "master",
-        "rev": "68efdb2fffed31fa536e719ecbc0df2d7207a6f3",
-        "revCount": 25172,
+        "rev": "c98c7cf200f7eaffcb3a27d3ffd94e0fea883a07",
+        "revCount": 25514,
         "type": "git",
         "url": "https://gitlab.com/kicad/code/kicad.git"
       },
@@ -86,11 +86,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1611187546,
-        "narHash": "sha256-Eg8Bb0Kw6uraZ524yovO/msRE6hp6iMohssDmQcFs08=",
+        "lastModified": 1612131283,
+        "narHash": "sha256-msYEcVXorFz/h563Csfsvc0QOlRNPfjqp+vkPTMhq2M=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "4cc5d74354a05948124b213e3deae8163b690097",
+        "rev": "a86971c8872580f1e4f462b40c7ff94af94b29ae",
         "type": "github"
       },
       "original": {
@@ -102,11 +102,11 @@
     },
     "nixpkgs-power9": {
       "locked": {
-        "lastModified": 1611187163,
-        "narHash": "sha256-iNJC+DyCzqMy17eKtkhnda1SnGBesQLbrSYwoHtU2x4=",
+        "lastModified": 1612267897,
+        "narHash": "sha256-pHoUhxtPRhtODJm2tjpU2QfeE5CAp9g2e49cWELXZ+M=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "7d92308231fc442d1fbc4a4708605b2ed675c953",
+        "rev": "a184aa343f008f2c77b462da5b19909746bb0694",
         "type": "github"
       },
       "original": {
@@ -125,11 +125,11 @@
         "unstableSmall": "unstableSmall"
       },
       "locked": {
-        "lastModified": 1607756900,
-        "narHash": "sha256-Jw9y3nMfv4L5DvH2xl+lqGQabclXWooOQA9fNNaRZaM=",
+        "lastModified": 1612256671,
+        "narHash": "sha256-afpxfDMNl9n1bruJgqbrHTL35RknG2+cTZC2uh5kq6o=",
         "owner": "colemickens",
         "repo": "nixpkgs-wayland",
-        "rev": "3538945d725aac75016947275180de37bcd00d99",
+        "rev": "3ed30dcd178b5479f68807ab709b7c63dd92ca65",
         "type": "github"
       },
       "original": {
@@ -151,11 +151,11 @@
     },
     "unstableSmall": {
       "locked": {
-        "lastModified": 1607735741,
-        "narHash": "sha256-nhiaB8CIWZ3NAWqn+whDs1y6SD+dlR7nRHyh8hJ/Pew=",
+        "lastModified": 1612237803,
+        "narHash": "sha256-bJzj0w2quVdgTSRMwAETbDCZr1W04fp77Ax4k4ANcJ8=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "41c8f3c356ea8af2c3db3c83bc8a64416f641b58",
+        "rev": "eca54e37ae57f589baa45a9bf9260e3d8042b8e4",
         "type": "github"
       },
       "original": {

@@ -63,7 +63,23 @@
     };
 
     cryptoModules = [
-      "serpent_generic" "algif_rng" "authencesn" "crct10dif_generic" "blowfish_generic" "aegis128" "crc32c_generic" "md4" "lz4hc" "cbc" "adiantum" "authenc" "seqiv" "ecdh_generic" "842" "pcbc" "curve25519-generic" "sha256_generic" "cmac" "async_tx" "async_raid6_recov" "async_memcpy" "async_xor" "gcm" "ccm" "async_pq" "sha512_generic" "echainiv" "anubis" "blowfish_common" "algif_hash" "tgr192" "ghash-generic" "crypto_simd" "michael_mic" "ansi_cprng" "cast_common" "rmd128" "sm4_generic" "twofish_common" "wp512" "zstd" "cast5_generic" "algif_skcipher" "crc32_generic" "sm3_generic" "nhpoly1305" "cryptd" "twofish_generic" "crypto_user" "af_alg" "des_generic" "rmd320" "salsa20_generic" "xts" "xxhash_generic" "ecrdsa_generic" "deflate" "rmd256" "camellia_generic" "lrw" "xor" "gf128mul" "ecc" "arc4" "crypto_engine" "ecb" "lz4" "xcbc" "aes_ti" "khazad" "streebog_generic" "cast6_generic" "blake2b_generic" "keywrap" "chacha_generic" "tea" "aes_generic" "fcrypt" "cts" "chacha20poly1305" "essiv" "hmac" "vmac" "poly1305_generic" "sha3_generic" "rmd160" "algif_aead" "ctr" "crct10dif_common" "jitterentropy_rng" "pcrypt" "serpent-avx-x86_64" "cast5-avx-x86_64" "twofish-x86_64-3way" "sha1-ssse3" "seed" "cfb" "blake2s_generic" "ofb" "cast6-avx-x86_64" "twofish-x86_64" "drbg" "serpent-sse2-x86_64" "camellia-aesni-avx2" "crct10dif-pclmul" "sha256-ssse3" "sha512-ssse3" "crc32-pclmul" "camellia-x86_64" "curve25519-x86_64" "nhpoly1305-avx2" "ghash-clmulni-intel" "poly1305-x86_64" "aegis128-aesni" "camellia-aesni-avx-x86_64" "blowfish-x86_64" "nhpoly1305-sse2" "crc32c-intel" "aesni-intel" "blake2s-x86_64" "twofish-avx-x86_64" "glue_helper" "chacha-x86_64" "serpent-avx2" "des3_ede-x86_64" "asym_tpm" "pkcs7_test_key" "tpm_key_parser"
+      "echainiv" "cast_common" "twofish_common" "michael_mic" "crypto_simd"
+      "sm4_generic" "ghash-generic" "blake2s_generic" "ecdh_generic" "cast5_generic"
+      "serpent_generic" "aes_ti" "camellia_generic" "khazad" "ccm" "gcm"
+      "essiv" "authencesn" "sha512_generic" "ecrdsa_generic" "xts" "rmd160"
+      "xxhash_generic" "blake2b_generic" "algif_aead" "tpm_key_parser" "asym_tpm"
+      "pkcs7_test_key" "zstd" "pcrypt" "deflate" "cmac" "fcrypt" "crc32_generic"
+      "sm3_generic" "sha3_generic" "crypto_user" "algif_skcipher" "des_generic"
+      "curve25519-generic" "lz4hc" "seqiv" "lz4" "async_tx" "async_memcpy"
+      "async_xor" "async_raid6_recov" "async_pq" "tgr192" "seed" "drbg"
+      "ansi_cprng" "842" "gf128mul" "crct10dif_common" "rmd128" "jitterentropy_rng"
+      "ecb" "adiantum" "cast6_generic" "keywrap" "salsa20_generic" "aegis128"
+      "sm2_generic" "algif_rng" "twofish_generic" "lrw" "xor" "crc32c_generic"
+      "crypto_engine" "ecc" "vmac" "hmac" "anubis" "algif_hash" "chacha20poly1305"
+      "poly1305_generic" "md4" "cbc" "sha256_generic" "authenc" "ctr" "rmd320"
+      "xcbc" "cfb" "wp512" "ofb" "nhpoly1305" "streebog_generic" "tea" "cts"
+      "rmd256" "pcbc" "aes_generic" "blowfish_common" "cryptd" "blowfish_generic"
+      "arc4" "crct10dif_generic" "chacha_generic" "af_alg"
       "encrypted_keys"
     ];
   };

@@ -1,4 +1,4 @@
-{pkgs, lib, ...}:
+{pkgs, lib, config, ...}:
 {
   boot.wipeRoot = false;
 
@@ -15,7 +15,10 @@
   boot.kernelModules = [ "dm_snapshot" "dm_integrity" "powernv-cpufreq" ];
   powerManagement.cpuFreqGovernor = "schedutil";
 
-  boot.initrd.availableKernelModules = [ "nvme" "aacraid" "xhci_pci" "sd_mod" ];
+  boot.initrd.availableKernelModules = lib.mkForce (
+     [ "nvme" "aacraid" "xhci_pci" "sd_mod" ]
+  ++ config.boot.initrd.luks.cryptoModules
+  );
   boot.extraModulePackages = [ ];
 
   boot.initrd.luks = {
@@ -25,8 +28,8 @@
       };
     };
     cryptoModules = [
-      "aegis256" "aegis256_aesni" "dm_integrity" "aes"
-      "aes_generic" "aes_x86_64" "xts" "sha256" "sha512"
+      "dm_integrity" "aes" "aes_ti" "adiantum"
+      "aes_generic" "xts" "sha256" "sha512"
       "dm_bufio" "algif_aead" "algif_skcipher" "md4"
       "algif_hash" "arc4" "ctr" "cbc" "authenc" "cmac" "ccm"
     ];

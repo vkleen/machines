@@ -16,7 +16,7 @@
   powerManagement.cpuFreqGovernor = "schedutil";
 
   boot.initrd.availableKernelModules = lib.mkForce (
-     [ "nvme" "aacraid" "xhci_pci" "sd_mod" ]
+     [ "nvme" "aacraid" "xhci_pci" "sd_mod" "raid0" "raid1" "raid10" "raid456" "ext2" "ext4" ]
   ++ config.boot.initrd.luks.cryptoModules
   );
   boot.extraModulePackages = [ ];
@@ -28,6 +28,8 @@
       };
     };
     cryptoModules = [
+      "dm_mod" "dm_crypt" "cryptd" "input_leds"
+
       "sm2_generic" "essiv" "ofb" "sha1_generic" "khazad" "hmac" "ansi_cprng"
       "echainiv" "crypto_engine" "sm3_generic" "ghash-generic" "xxhash_generic"
       "seed" "aegis128" "drbg" "michael_mic" "blowfish_generic" "blake2b_generic"

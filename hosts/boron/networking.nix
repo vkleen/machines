@@ -65,7 +65,7 @@ in {
       interfaces = {
         "auenheim" = {
           allowedUDPPorts = [ 53 ];
-          allowedTCPPorts = [ 53 ];
+          allowedTCPPorts = [ 53 8883 ];
         };
       };
       extraCommands = ''

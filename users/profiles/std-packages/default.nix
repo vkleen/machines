@@ -19,7 +19,6 @@ in {
     cached-nix-shell
     calc
     dnsutils
-    docker-machine
     dos2unix
     entr
     exiftool

@@ -7,6 +7,7 @@
     airplay-server
     binfmt
     desktop
+    docker
     flatpak
     interception-tools
     laptop

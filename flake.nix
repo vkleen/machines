@@ -20,6 +20,10 @@
       url = "github:realthunder/FreeCAD";
       flake = false;
     };
+    freecad-assembly3-src = {
+      url = "github:realthunder/FreeCAD_assembly3";
+      flake = false;
+    };
     kicad-src = {
       url = "git+https://gitlab.com/kicad/code/kicad.git";
       flake = false;
@@ -65,7 +69,7 @@
         in pathsToImportedAttrs overlayPaths // {
              nixpkgs-wayland = nixpkgs-wayland.overlay;
              sources = _: _: {
-               inherit (inputs) freecad-src kicad-src;
+               inherit (inputs) freecad-src freecad-assembly3-src kicad-src;
              };
            };
 

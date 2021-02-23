@@ -91,7 +91,6 @@ in {
     xdg.configFile."mpv/mpv.conf".text = ''
       gpu-context=wayland
       gpu-api=opengl
-      profile=gpu-hq
       vo=gpu
       hwdec=vaapi
       hwdec-codecs=all

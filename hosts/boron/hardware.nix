@@ -22,11 +22,11 @@
   boot.initrd.luks = {
     devices = {
       "boron-swap" = {
-        device = "/dev/disk/by-uuid/431b7f82-1be5-4c5b-a0de-cad531f186cb";
+        device = "/dev/disk/by-uuid/26bbe54d-7c19-4cd9-9448-609d77d1814e";
         keyFile = "/persist/private/keyfiles/swap";
       };
       "boron-data" = {
-        device = "/dev/disk/by-uuid/acbf65f7-1fd7-466c-84e5-93f3a9b2da01";
+        device = "/dev/disk/by-uuid/ad7123e8-445b-4354-8294-6fbd45bec37d";
         keyFile = "/persist/private/keyfiles/data";
       };
     };

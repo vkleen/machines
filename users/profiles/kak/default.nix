@@ -1,7 +1,7 @@
 {pkgs, lib, ...}:
 let plugins = with pkgs.kakounePlugins; [
       kak-prelude
-      kak-auto-pairs
+      # kak-auto-pairs
       kak-fzf
       kak-buffers
       (pkgs.callPackage ./kakoune-surround.nix {})

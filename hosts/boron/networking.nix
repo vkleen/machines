@@ -290,6 +290,8 @@ in {
     '';
     postStopScript = ''
       ip netns exec wg_upstream ip link del telekom || true
+      ip netns exec wg_upstream ip link set ifb0 netns 1 || true
+      ip netns exec wg_upstream ip link set lte netns 1 || true
       ip link del upstream-mgmt || true
     '';
 

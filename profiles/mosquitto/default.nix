@@ -19,6 +19,9 @@
             certfile = "/persist/mosquitto/mqtt.pem";
             keyfile = "/persist/mosquitto/mqtt.key";
           };
+          extraConf = ''
+            tls_version tlsv1.3
+          '';
         }
       ];
       users = {

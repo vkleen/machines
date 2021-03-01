@@ -169,7 +169,7 @@ in {
             iptables -t mangle -F POSTROUTING
             iptables -t mangle -A POSTROUTING -o lte -j TTL --ttl-set 65
 
-            ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 4000kbit burst 5kb latency 100ms
+            ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 5000kbit burst 5kb latency 100ms
             ${pkgs.iproute}/bin/tc qdisc add dev lte handle ffff: ingress
             ${pkgs.iproute}/bin/tc filter add dev lte parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
           '';

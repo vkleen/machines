@@ -74,7 +74,7 @@
         fi
         return 0
     }
-    wait_target "device" /dev/disk/by-uuid/acbf65f7-1fd7-466c-84e5-93f3a9b2da01 30
+    wait_target "device" /dev/disk/by-uuid/ad7123e8-445b-4354-8294-6fbd45bec37d 30
   '';
 
   boot.initrd.secrets = {

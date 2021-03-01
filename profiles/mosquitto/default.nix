@@ -11,7 +11,7 @@
         { host = "localhost";
           port = 1883;
         }
-        { host = "localhost";
+        { host = "0.0.0.0";
           port = 8883;
           ssl = {
             enable = true;

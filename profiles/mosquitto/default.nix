@@ -27,9 +27,7 @@
       users = {
         "relayd" = {
           acl = [
-            "topic readwrite relays/+/status"
-            "topic readwrite relays/+/+/diagnostic"
-            "topic read relays/+/+/state"
+            "topic readwrite relays/#"
           ];
         };
         "root" = {

@@ -46,7 +46,6 @@ in
     };
 
     security = {
-      hideProcessInformation = false;
       protectKernelImage = false;
     };
 

@@ -114,6 +114,11 @@
     fsType = "vfat";
   };
 
+  fileSystems."/var/lib/docker" = {
+    device = "bohrium/local/docker";
+    fsType = "zfs";
+  };
+
   swapDevices = [
     { device = "/dev/mapper/bohrium-swap"; }
   ];

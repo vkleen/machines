@@ -15,7 +15,7 @@
           port = 8883;
           ssl = {
             enable = true;
-            cafile = "/persist/mosquitto/ca.pem";
+            cafile = "/persist/mosquitto/mqtt.pem";
             certfile = "/persist/mosquitto/mqtt.pem";
             keyfile = "/persist/mosquitto/mqtt.key";
           };

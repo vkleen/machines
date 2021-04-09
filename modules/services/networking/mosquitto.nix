@@ -6,7 +6,7 @@ let
   listenerConf = l: ''
     listener ${toString l.port} ${l.host}
   '' + optionalString l.ssl.enable ''
-    cafile ${l.ssl.cafile}
+    ${optionalString (l.ssl.cafile != null) "cafile ${l.ssl.cafile}"}
     certfile ${l.ssl.certfile}
     keyfile ${l.ssl.keyfile}
   '' + ''
@@ -42,7 +42,8 @@ let
         enable = mkEnableOption "SSL listener";
 
         cafile = mkOption {
-          type = types.path;
+          type = types.nullOr types.path;
+          default = null;
           description = "Path to PEM encoded CA certificates.";
         };
 

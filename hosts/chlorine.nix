@@ -5,7 +5,7 @@
     ./chlorine/networking.nix
     ./chlorine/extra-scripts.nix
   ] ++ (with flake.nixosModules.profiles; [
-    latest-linux
+    # latest-linux
     no-coredump
     ssh
     zfs

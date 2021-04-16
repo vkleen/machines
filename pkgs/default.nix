@@ -3,7 +3,6 @@ final: prev: {
   fast-p = final.callPackage ./tools/text/fast-p {};
   libspnav = final.callPackage ./development/libraries/libspnav {};
   obs-cli = final.callPackage ./tools/misc/obs-cli {};
-  obs-gstreamer = final.callPackage ./applications/video/obs-studio/obs-gstreamer.nix {};
   obs-websocket = final.libsForQt514.callPackage ./applications/video/obs-studio/obs-websocket.nix {};
   openfec = final.callPackage ./development/libraries/openfec {};
   pragmatapro = final.callPackage ./data/fonts/pragmatapro {};

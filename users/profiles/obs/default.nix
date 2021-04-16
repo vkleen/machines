@@ -16,6 +16,6 @@ in {
   ];
   # xdg.configFile."obs-studio/plugins/v4l2sink".source = "${pkgs.obs-v4l2sink}/share/obs/obs-plugins/v4l2sink";
   xdg.configFile."obs-studio/plugins/wlrobs".source = "${pkgs.obs-wlrobs}/share/obs/obs-plugins/wlrobs";
-  xdg.configFile."obs-studio/plugins/obs-gstreamer".source = "${pkgs.obs-gstreamer}/share/obs/obs-plugins/obs-gstreamer";
+  # xdg.configFile."obs-studio/plugins/obs-gstreamer".source = "${pkgs.obs-gstreamer}/share/obs/obs-plugins/obs-gstreamer";
   xdg.configFile."obs-studio/plugins/obs-websocket".source = "${pkgs.obs-websocket}/share/obs/obs-plugins/obs-websocket";
 }

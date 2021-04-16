@@ -17,7 +17,6 @@ in {
     blackbox
     borgbackup
     cached-nix-shell
-    calc
     dnsutils
     dos2unix
     entr

@@ -16,7 +16,9 @@ in
     };
   };
   config = {
-    nix.package = pkgs.nixUnstable;
+    nix.package = pkgs.nixUnstable.overrideAttrs (_: {
+      doInstallCheck = false;
+    });
     environment = {
       noXlibs = true;
       systemPackages = with pkgs; [

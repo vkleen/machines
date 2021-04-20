@@ -120,6 +120,8 @@ in {
     hledger-ui
     # ledger-autosync
 
+    seamly2d
+
     nixos-zoom-desktop-item
   ];
 

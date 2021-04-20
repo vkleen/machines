@@ -11,10 +11,12 @@ final: prev: {
   spacenavd = final.callPackage ./misc/spacenavd {};
   udp2raw = final.callPackage ./applications/networking/udp2raw {};
   # uuu = final.callPackage ./tools/misc/uuu {};
+  seamly2d = final.libsForQt5.callPackage ./misc/seamly2d {};
 
   interception-tools-plugins = prev.interception-tools-plugins // {
     dual-function-keys = final.callPackage ./tools/inputmethods/interception-tools/dual-function-keys.nix {};
   };
+
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)
   {
     roc-toolkit = final.callPackage ./applications/audio/misc/roc-toolkit {};

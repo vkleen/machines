@@ -1,0 +1,69 @@
+From 4fa7486352fcf486082db8e04c850e97520b4515 Mon Sep 17 00:00:00 2001
+From: Viktor Kleen <viktor@kleen.org>
+Date: Tue, 20 Apr 2021 15:11:18 +0000
+Subject: [PATCH] Remove hardcoded cases of /usr
+
+---
+ src/app/seamly2d/seamly2d.pro | 12 ++++++------
+ src/app/seamlyme/seamlyme.pro |  2 +-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/src/app/seamly2d/seamly2d.pro b/src/app/seamly2d/seamly2d.pro
+index 71598f2ba..8609f9cb8 100644
+--- a/src/app/seamly2d/seamly2d.pro
++++ b/src/app/seamly2d/seamly2d.pro
+@@ -164,12 +164,12 @@ unix{
+         seamlyme.files += $${OUT_PWD}/../seamlyme/$${DESTDIR}/seamlyme
+ 
+         # .desktop file
+-        desktop.path = /usr/share/applications/
++        desktop.path = $$PREFIX/share/applications/
+         desktop.files += ../../../dist/$${TARGET}.desktop \
+         desktop.files += ../../../dist/seamlyme.desktop
+ 
+         # logo
+-        pixmaps.path = /usr/share/pixmaps/
++        pixmaps.path = $$PREFIX/share/pixmaps/
+         pixmaps.files += \
+             ../../../dist/$${TARGET}.png \
+             ../../../dist/seamlyme.png \
+@@ -178,19 +178,19 @@ unix{
+             ../../../dist/application-x-seamly2d-s-measurements.png \
+ 
+         # Path to translation files after installation
+-        translations.path = /usr/share/$${TARGET}/translations/
++        translations.path = $$PREFIX/share/$${TARGET}/translations/
+         translations.files = $$INSTALL_TRANSLATIONS
+ 
+         # Path to multisize measurement after installation
+-        multisize.path = /usr/share/$${TARGET}/tables/multisize/
++        multisize.path = $$PREFIX/share/$${TARGET}/tables/multisize/
+         multisize.files = $$INSTALL_MULTISIZE_MEASUREMENTS
+ 
+         # Path to templates after installation
+-        templates.path = /usr/share/$${TARGET}/tables/templates/
++        templates.path = $$PREFIX/share/$${TARGET}/tables/templates/
+         templates.files = $$INSTALL_STANDARD_TEMPLATES
+ 
+         # Path to label templates after installation
+-        label.path = /usr/share/$${TARGET}/labels/
++        label.path = $$PREFIX/share/$${TARGET}/labels/
+         label.files = $$INSTALL_LABEL_TEMPLATES
+ 
+         INSTALLS += \
+diff --git a/src/app/seamlyme/seamlyme.pro b/src/app/seamlyme/seamlyme.pro
+index ca567aca9..e9df3d9a7 100644
+--- a/src/app/seamlyme/seamlyme.pro
++++ b/src/app/seamlyme/seamlyme.pro
+@@ -214,7 +214,7 @@ unix{
+         # Path to bin file after installation
+         target.path = $$PREFIX/bin
+ 
+-        rcc_diagrams.path = /usr/share/seamly2d/
++        rcc_diagrams.path = $$PREFIX/share/seamly2d/
+         rcc_diagrams.files = $${OUT_PWD}/$${DESTDIR}/diagrams.rcc
+         rcc_diagrams.CONFIG = no_check_exist
+ 
+-- 
+2.31.1
+

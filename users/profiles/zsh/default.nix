@@ -44,7 +44,7 @@ in {
   programs.bat = {
     enable = true;
     config = {
-      theme = "ansi-dark";
+      theme = "ansi";
       pager = "less -FR";
     };
   };

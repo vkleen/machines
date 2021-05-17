@@ -16,6 +16,7 @@ final: prev: {
   udp2raw = final.callPackage ./applications/networking/udp2raw {};
   # uuu = final.callPackage ./tools/misc/uuu {};
   seamly2d = final.libsForQt5.callPackage ./misc/seamly2d {};
+  kakoune-cr = final.callPackage ./applications/editors/kakoune.cr {};
 
   interception-tools-plugins = prev.interception-tools-plugins // {
     dual-function-keys = final.callPackage ./tools/inputmethods/interception-tools/dual-function-keys.nix {};

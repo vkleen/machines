@@ -1,20 +1,21 @@
 {pkgs, lib, ...}:
 let plugins = with pkgs.kakounePlugins; [
-      kak-prelude
-      # kak-auto-pairs
-      kak-fzf
-      kak-buffers
+      prelude-kak
+      auto-pairs-kak
+      fzf-kak
+      kakoune-buffers
+      fixed-easymotion
       (pkgs.callPackage ./kakoune-surround.nix {})
       (pkgs.callPackage ./kakoune-change-directory.nix {})
       (pkgs.callPackage ./kakoune-wiki.nix {})
       (pkgs.callPackage ./kakoune-idris.nix {})
-
-      (pkgs.writeTextFile {
-        name = "kak-config";
-        text = builtins.readFile ./kakrc;
-        destination = "/share/kak/autoload/config.kak";
-      })
     ];
+
+    fixed-easymotion = pkgs.kakounePlugins.kakoune-easymotion.overrideAttrs (o: {
+      patchPhase = ''
+        sed -i 's,(python $file),(${pkgs.python3}/bin/python3 $file),' easymotion.kak
+      '';
+    });
 
     kak = pkgs.kakoune.override {
       configure = {
@@ -40,6 +41,8 @@ in {
       command = "haskell-language-server"
       args = ["--lsp"]
     '';
+
+    xdg.configFile."kak/kakrc".source = ./kakrc;
 
     xdg.configFile."kak/colors/selenized-dark.kak".text = ''
     ##################
@@ -130,6 +133,7 @@ in {
     home.packages = with pkgs; [
       kak
       kak-lsp
+      kakoune-cr
     ];
   };
 }

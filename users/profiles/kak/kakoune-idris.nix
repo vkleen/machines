@@ -6,8 +6,8 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "vkleen";
     repo = "kakoune-idris";
-    rev = "a78832768a495919221f17e78d529e84c7c830c1";
-    hash = "sha256:0mhc0vhivk6rmad3nah38ljijfg565s77qahxviscz13x0wj6bdv";
+    rev = "1acdfb5d89e3951ae4bdf4a5fa2377b36448083d";
+    hash = "sha256-OUmzP9B98VUHIlFrROWs0LDdw+HeXaDlPi1JkA7yFhs=";
   };
   installPhase = ''
     mkdir -p $out/share/kak/autoload

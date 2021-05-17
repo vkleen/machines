@@ -247,7 +247,11 @@ in {
       switch-ws-keys = lib.mapAttrs' (k: n: lib.nameValuePair "${mod}+${k}" "workspace ${n}") ws;
       move-ws-keys = lib.mapAttrs' (k: n: lib.nameValuePair "${mod}+Shift+${k}" "move container to workspace ${n}") ws;
     in {
-      fonts = [ "PragmataPro 11" ];
+      fonts = {
+        names = [ "PragmataPro" ];
+        style = "Liga";
+        size = 11.0;
+      };
       focus = {
         newWindow = "none";
         followMouse = false;

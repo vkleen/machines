@@ -73,6 +73,31 @@ let
       mpv-pause-toggle mpv-pause mpv-next mpv-prev
     ];
   };
+
+  mpv-autosave = pkgs.fetchzip {
+    url = "https://gist.github.com/CyberShadow/2f71a97fb85ed42146f6d9f522bc34ef/archive/744c3ee61d2f0a8e9bb4e308dec6897215ae4704.zip";
+    hash = "sha256-yxA8wgzdS7SyKLoNTWN87ShsBfPKUflbOu4Y0jS2G3I=";
+  };
+
+  mpv-youtube-quality = pkgs.runCommand "youtube-quality" {
+      src = pkgs.fetchzip {
+        url = "https://github.com/jgreco/mpv-youtube-quality/archive/1f8c31457459ffc28cd1c3f3c2235a53efad7148.zip";
+        hash = "sha256-voNP8tCwCv8QnAZOPC9gqHRV/7jgCAE63VKBd/1s5ic=";
+      };
+    } ''
+      mkdir -p $out
+      cp $src/youtube-quality.lua $out/
+    '';
+
+  mpv-reload = pkgs.runCommand "youtube-quality" {
+      src = pkgs.fetchzip {
+        url = "https://github.com/4e6/mpv-reload/archive/2b8a719fe166d6d42b5f1dd64761f97997b54a86.zip";
+        hash = "sha256-b8HLvBj8sOg+RPQlHUVq2VFoKA2TtGEe2G8j97ndzKc=";
+      };
+    } ''
+      mkdir -p $out
+      cp $src/reload.lua $out/
+    '';
 in {
   options = {
     mpv.ipc-socket = lib.mkOption {
@@ -97,7 +122,58 @@ in {
       ytdl-format=bestvideo[height<=?720][vcodec*=h264][fps=60]+bestaudio[acodec=opus]/bestvideo[height<=?720][fps=60]+bestaudio/best[height<=?720]
       ytdl-raw-options=sub-format=en,write-srt=
     '';
-    xdg.configFile."mpv/scripts".source = ./scripts;
-    xdg.configFile."mpv/script-opts".source = ./script-opts;
+    xdg.configFile = {
+      "mpv/scripts".source = pkgs.symlinkJoin {
+        name = "mpv-scripts";
+        paths = [
+          mpv-autosave
+          mpv-youtube-quality
+          mpv-reload
+        ];
+      };
+      "mpv/script-opts/youtube-quality.conf".text = ''
+        # KEY BINDINGS
+
+        # invoke or dismiss the quality menu
+        toggle_menu_binding=ctrl+f
+        # move the menu cursor up
+        up_binding=UP
+        # move the menu cursor down
+        down_binding=DOWN
+        # select menu entry
+        select_binding=ENTER
+
+        # formatting / cursors
+        selected_and_active=▶ -
+        selected_and_inactive=● -
+        unselected_and_active=▷ -
+        unselected_and_inactive=○ -
+
+        # font size scales by window, if false requires larger font and padding sizes
+        scale_playlist_by_window=no
+
+        # playlist ass style overrides inside curly brackets, \keyvalue is one field, extra \ for escape in lua
+        # example {\\fnUbuntu\\fs10\\b0\\bord1} equals: font=Ubuntu, size=10, bold=no, border=1
+        # read http://docs.aegisub.org/3.2/ASS_Tags/ for reference of tags
+        # undeclared tags will use default osd settings
+        # these styles will be used for the whole playlist. More specific styling will need to be hacked in
+        #
+        # (a monospaced font is recommended but not required)
+        style_ass_tags={\\fnmonospace}
+
+        # paddings for top left corner
+        text_padding_x=5
+        text_padding_y=5
+
+        # how many seconds until the quality menu times out
+        menu_timeout=10
+
+        #use youtube-dl to fetch a list of available formats (overrides quality_strings)
+        fetch_formats=yes
+
+        # list of ytdl-format strings to choose from
+        quality_strings=[ {"4320p" : "bestvideo[height<=?4320p]+bestaudio/best"}, {"2160p" : "bestvideo[height<=?2160]+bestaudio/best"}, {"1440p" : "bestvideo[height<=?1440]+bestaudio/best"}, {"1080p" : "bestvideo[height<=?1080]+bestaudio/best"}, {"720p" : "bestvideo[height<=?720]+bestaudio/best"}, {"480p" : "bestvideo[height<=?480]+bestaudio/best"}, {"360p" : "bestvideo[height<=?360]+bestaudio/best"}, {"240p" : "bestvideo[height<=?240]+bestaudio/best"}, {"144p" : "bestvideo[height<=?144]+bestaudio/best"} ]
+      '';
+    };
   };
 }

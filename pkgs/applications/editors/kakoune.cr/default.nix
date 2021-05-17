@@ -6,19 +6,17 @@ crystal.buildCrystalPackage {
   src = fetchFromGitHub {
     owner = "alexherbo2";
     repo = "kakoune.cr";
-    leaveDotGit = true;
+    # leaveDotGit = true;
     rev = "a0aa242f0e77e139859569fde77e09557e02a0e0";
-    sha256 = "sha256-yxsANcq1XZzesG6B07M2wyRyB2IIoqB23aU1CucT2mU=";
+    sha256 = "sha256-Vsn5UYSBiDL1Ij4UkMN8gSkgrgd36uSrf12LEt5wj2Y=";
+    # sha256 = "sha256-yxsANcq1XZzesG6B07M2wyRyB2IIoqB23aU1CucT2mU=";
   };
   crystalBinaries.kcr.src = "src/cli.cr";
-
-  patches = [
-    # ./0001-adjust-runtime-path.patch
-  ];
 
   shardsFile = ./shards.nix;
   postPatch = ''
     cp ${./shard.lock} ./shard.lock
+    sed -i -e 's;`git describe --tags --always`.chomp.stringify;"GIT HEAD";' src/version.cr
   '';
 
   installPhase = ''

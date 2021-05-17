@@ -122,4 +122,9 @@
   swapDevices = [
     { device = "/dev/mapper/bohrium-swap"; }
   ];
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0f0f", ATTR{idProduct}=="8006", MODE="0660", GROUP="users"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0f0f", ATTR{idProduct}=="0006", MODE="0660", GROUP="users"
+  '';
 }

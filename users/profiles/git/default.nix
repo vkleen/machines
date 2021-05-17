@@ -10,6 +10,9 @@
       signByDefault = true;
     };
     extraConfig = {
+      init = {
+        defaultBranch = "main";
+      };
       color = {
         ui = true;
       };

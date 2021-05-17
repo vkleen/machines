@@ -108,7 +108,7 @@ in {
     pulseview
     sigrok-cli
 
-    cura
+    cura-x11
     openscad
     freecad-realthunder-x11
     solvespace

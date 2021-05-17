@@ -366,7 +366,7 @@ in {
     '';
     machines = [
       { hostName = "bohrium";
-        ethernetAddress = "60:f2:62:17:59:7b";
+        ethernetAddress = "de:a8:54:03:65:9a";
         ipAddress = "10.172.100.101";
       }
     ];

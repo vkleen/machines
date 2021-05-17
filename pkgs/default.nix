@@ -1,4 +1,8 @@
 final: prev: {
+  alacritty-ligatures = final.callPackage ./applications/terminal-emulators/alacritty-ligatures {
+    inherit (final.xorg) libXcursor libXxf86vm libXi;
+    inherit (final.darwin.apple_sdk.frameworks) AppKit CoreGraphics CoreServices CoreText Foundation OpenGL;
+  };
   dpt-rp1-py = final.callPackage ./tools/misc/dpt-rp1-py {};
   fast-p = final.callPackage ./tools/text/fast-p {};
   libspnav = final.callPackage ./development/libraries/libspnav {};

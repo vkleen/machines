@@ -2,11 +2,11 @@
   "nodes": {
     "cachix": {
       "locked": {
-        "lastModified": 1621718065,
-        "narHash": "sha256-2xw+iyUzV3blVq0EQjL2Qhzpp3r9uCLzYQns4nW7m7Y=",
+        "lastModified": 1624271064,
+        "narHash": "sha256-qns/uRW7MR2EfVf6VEeLgCsCp7pIOjDeR44JzTF09MA=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ac60476ed94fd5424d9f3410c438825f793a8cbb",
+        "rev": "46d1c3f28ca991601a53e9a14fdd53fcd3dd8416",
         "type": "github"
       },
       "original": {
@@ -19,11 +19,11 @@
     "freecad-assembly3-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1620449014,
-        "narHash": "sha256-57Yic/hS8DmMLK1TzZG8xZqDT4t1gH0ZkrRrK3NUpBM=",
+        "lastModified": 1623898802,
+        "narHash": "sha256-/wPYUbGck6RLGgrqNyvRqudWJT3Bj/G5/EcKkjaeJ+8=",
         "owner": "realthunder",
         "repo": "FreeCAD_assembly3",
-        "rev": "ebd57a487617c845d2e1f615e155030812c5cfa1",
+        "rev": "6d28e8b2fbecc6c8c7280a3bd8563a154697a0dd",
         "type": "github"
       },
       "original": {
@@ -35,11 +35,11 @@
     "freecad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1621639488,
-        "narHash": "sha256-OpUHip5ake2QpRJ8aQomW9OeL9lukPjxXCwBiJMcX8g=",
+        "lastModified": 1623746723,
+        "narHash": "sha256-3lXy5u21HvN/82gNvidFPW9P9wUo9X2xtA4mvIXKs/k=",
         "owner": "realthunder",
         "repo": "FreeCAD",
-        "rev": "cc170b19cfd0f5586d6ecd835899f47d57133c2f",
+        "rev": "7437caf7c3e4c6fdcb9f29b6c05596d1268c5248",
         "type": "github"
       },
       "original": {
@@ -55,11 +55,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1621794721,
-        "narHash": "sha256-JXfTSZUu9EVbT9D/MFsx0cXfa8bw1NFCzIxZ7gO73Uo=",
+        "lastModified": 1624371613,
+        "narHash": "sha256-i/ty0tmd9Pz0GkhflqWGcaBpyAxuWCI0eTNrN94r0mc=",
         "owner": "rycee",
         "repo": "home-manager",
-        "rev": "90493027e33ba9eb3f50dc1da365d0e4ca31bf14",
+        "rev": "04955ca970b65c1a5d6f04a888139f30b0a18e38",
         "type": "github"
       },
       "original": {
@@ -71,11 +71,11 @@
     "kicad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1621882492,
-        "narHash": "sha256-cGB43FfKcPjSyZB1B9XZRHuF4nLtLtg6tlZA81Uic7Y=",
+        "lastModified": 1624382686,
+        "narHash": "sha256-Hmfz87DRnpAunYPEe3M30s1Q8GLZYWEUlAZaHEGmsw8=",
         "ref": "master",
-        "rev": "5f22025611fe5882dbaaa322c5cafb0f27745bb5",
-        "revCount": 27361,
+        "rev": "ae612a454e9309471f8aa51aac135ad18cbebc6e",
+        "revCount": 27845,
         "type": "git",
         "url": "https://gitlab.com/kicad/code/kicad.git"
       },
@@ -102,11 +102,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1623443509,
-        "narHash": "sha256-CfmpsFQhOsBHWOxPYI7p8NhBj7wDlTi/tPIPWr1w6L8=",
+        "lastModified": 1624390984,
+        "narHash": "sha256-wr1c7BTrkkiQzPsXoyqkM5L4vV9dHrYczyHS1W4y4uA=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "926af70ecb3208c15002f180805e1f884ada58f6",
+        "rev": "25314990bebfb76103ec08743f908e53ad1df0cf",
         "type": "github"
       },
       "original": {
@@ -156,11 +156,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1621932488,
-        "narHash": "sha256-rtVK/+XTvTYYgI8ciaMXCO2cuY6ZvWaWxd8R+xZfl04=",
+        "lastModified": 1624390284,
+        "narHash": "sha256-Xqxy4KJyOeEiinQyE5ZlxyVbSlLu9nqFdYXPVd+C3XU=",
         "owner": "colemickens",
         "repo": "nixpkgs-wayland",
-        "rev": "bc4bb082b3b1e47552b317d8c54a0f6e5d0b8a52",
+        "rev": "caaa960469838298d44961032967f575e64b381b",
         "type": "github"
       },
       "original": {

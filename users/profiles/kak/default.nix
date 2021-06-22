@@ -7,7 +7,6 @@ let plugins = with pkgs.kakounePlugins; [
       kakoune-buffers
       fixed-easymotion
       (pkgs.callPackage ./kakoune-surround.nix {})
-      (pkgs.callPackage ./kakoune-change-directory.nix {})
       (pkgs.callPackage ./kakoune-wiki.nix {})
       (pkgs.callPackage ./kakoune-idris.nix {})
     ];

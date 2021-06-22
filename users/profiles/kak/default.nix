@@ -1,5 +1,6 @@
 {pkgs, lib, ...}:
 let plugins = with pkgs.kakounePlugins; [
+      kak-lsp
       prelude-kak
       auto-pairs-kak
       fzf-kak
@@ -132,7 +133,6 @@ in {
 
     home.packages = with pkgs; [
       kak
-      kak-lsp
       kakoune-cr
     ];
   };

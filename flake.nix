@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:vkleen/nixpkgs/local";
     nixpkgs-power9.url = "github:vkleen/nixpkgs/local-power9";
+    nixpkgs-riscv.url = "github:vkleen/nixpkgs/local-riscv";
     nixos-rocm-power9 = {
       url = "github:vkleen/nixos-rocm";
       flake = false;
@@ -30,7 +31,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-power9, nixos-rocm-power9, home-manager, nixpkgs-wayland, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-power9, nixpkgs-riscv, nixos-rocm-power9, home-manager, nixpkgs-wayland, ... }:
     let
       inherit (builtins) attrValues attrNames readDir;
       inherit (nixpkgs) lib;
@@ -40,18 +41,26 @@
       inherit (utils) pathsToImportedAttrs pathsToImportedAttrs';
 
       forAllSystems' = genAttrs [ "x86_64-linux" "aarch64-linux" ];
-      forAllSystems = genAttrs [ "x86_64-linux" "aarch64-linux" "powerpc64le-linux" ];
+      forAllSystems = genAttrs [ "x86_64-linux" "aarch64-linux" "powerpc64le-linux" "riscv64-linux" ];
 
       pkgsImport = system: pkgs:
         import pkgs {
           inherit system;
           overlays = attrValues self.overlays;
-          config = { allowUnfree = true; };
+          config = { allowUnfree = true; allowUnsupportedSystem = true; };
+        };
+
+      pkgsImportCross = localSystem: crossSystem: pkgs:
+        import pkgs {
+          inherit localSystem crossSystem;
+          overlays = attrValues self.overlays;
+          config = { allowUnfree = true; allowUnsupportedSystem = true; };
         };
 
       pkgset = { inherit pkgsImport; }
         // (forAllSystems' (s: pkgsImport s nixpkgs))
-        // { "powerpc64le-linux" = (pkgsImport "powerpc64le-linux" nixpkgs-power9).extend (import nixos-rocm-power9); };
+        // { "powerpc64le-linux" = (pkgsImport "powerpc64le-linux" nixpkgs-power9).extend (import nixos-rocm-power9); }
+        // { "riscv64-linux" = pkgsImport "riscv64-linux" nixpkgs-riscv; };
 
       pkgSources = {
         local = nixpkgs;

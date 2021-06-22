@@ -2,7 +2,7 @@
 {
   programs.git = {
     enable = true;
-    package = pkgs.gitAndTools.gitFull;
+    package = pkgs.gitAndTools.git;
     userName = "Viktor Kleen";
     userEmail = "viktor@kleen.org";
     signing = {

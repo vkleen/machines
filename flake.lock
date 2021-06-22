@@ -102,11 +102,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1621944132,
-        "narHash": "sha256-UJukvm7vSdGZv3yCY+eVzzNFt13/U2r3hJriE9QOICg=",
+        "lastModified": 1623443509,
+        "narHash": "sha256-CfmpsFQhOsBHWOxPYI7p8NhBj7wDlTi/tPIPWr1w6L8=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "92063174f7ec354d30155340705a6edf1b8e61c8",
+        "rev": "926af70ecb3208c15002f180805e1f884ada58f6",
         "type": "github"
       },
       "original": {
@@ -128,6 +128,22 @@
       "original": {
         "owner": "vkleen",
         "ref": "local-power9",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-riscv": {
+      "locked": {
+        "lastModified": 1624210200,
+        "narHash": "sha256-UYnqJruJDhKoE+9vyi7WiPXnvDQUvASL5uBXEvrxz+M=",
+        "owner": "vkleen",
+        "repo": "nixpkgs",
+        "rev": "41c0dda43a07e045cb9154c7f31d9a8e498a9007",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "ref": "local-riscv",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -162,6 +178,7 @@
         "nixos-rocm-power9": "nixos-rocm-power9",
         "nixpkgs": "nixpkgs",
         "nixpkgs-power9": "nixpkgs-power9",
+        "nixpkgs-riscv": "nixpkgs-riscv",
         "nixpkgs-wayland": "nixpkgs-wayland"
       }
     }

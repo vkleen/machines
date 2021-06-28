@@ -14,7 +14,7 @@ in {
     enable = true;
     plugins = with pkgs.interception-tools-plugins; [ dual-function-keys caps2esc ];
     udevmonConfig = ''
-      - JOB: "intercept -g $DEVNODE | dual-function-keys -c ${dual-function-yaml} | uinput -d $DEVNODE"
+      - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c ${dual-function-yaml} | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
         DEVICE:
           EVENTS:
             EV_KEY: [KEY_LEFTCTRL, KEY_CAPSLOCK]

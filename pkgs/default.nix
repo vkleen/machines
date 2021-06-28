@@ -18,10 +18,6 @@ final: prev: {
   seamly2d = final.libsForQt5.callPackage ./misc/seamly2d {};
   kakoune-cr = final.callPackage ./applications/editors/kakoune.cr {};
 
-  interception-tools-plugins = prev.interception-tools-plugins // {
-    dual-function-keys = final.callPackage ./tools/inputmethods/interception-tools/dual-function-keys.nix {};
-  };
-
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)
   {
     roc-toolkit = final.callPackage ./applications/audio/misc/roc-toolkit {};

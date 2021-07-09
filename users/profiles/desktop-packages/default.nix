@@ -106,6 +106,7 @@ in {
     qucs
 
     pulseview
+    dsview
     sigrok-cli
 
     cura-x11

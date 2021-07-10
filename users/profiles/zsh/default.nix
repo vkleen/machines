@@ -8,11 +8,11 @@ let
     sha256 = "1k83lrcd8w699gfg060qahp8x2g5g20m0ikmpihgv5hkwdmc1df9";
   };
 
-  git-subrepo = pkgs.fetchFromGitHub {
-    owner = "vkleen";
-    repo = "git-subrepo";
-    rev = "a04d8c2e55c31931d66b5c92ef6d4fe4c59e3226";
-    sha256 = "0n10qnc8kyms6cv65k1n5xa9nnwpwbjn9h2cq47llxplawzqgrvp";
+  zsh-fzf-tab-completion = pkgs.fetchFromGitHub {
+    owner = "lincheney";
+    repo = "fzf-tab-completion";
+    rev = "53eb325f573265a6105c9bd0aa56cd865c4e14b7";
+    sha256 = "sha256-hvlz8/mdg9spKy2RLhqPukqdawd9+MEvW31smCsuUhA=";
   };
 
   dotDir = ".config/zsh";
@@ -77,8 +77,8 @@ in {
     initExtra = ''
       # export LS_COLORS="$LS_COLORS:ow=1;7;34:st=30;44:su=30;41"
 
-      source "${git-subrepo}/.rc"
       source "${zsh-syntax-highlighting}/zsh-syntax-highlighting.zsh"
+      source "${zsh-fzf-tab-completion}/zsh/fzf-zsh-completion.sh"
 
       bindkey "^B" backward-delete-char
       bindkey "^H" backward-char

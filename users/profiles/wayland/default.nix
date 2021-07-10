@@ -233,7 +233,7 @@ in {
     systemdIntegration = false;
     config = let
       mod = "Mod4";
-      terminal = "${pkgs.alacritty}/bin/alacritty";
+      terminal = "${pkgs.kitty}/bin/kitty";
       scratch-terminal = "${pkgs.alacritty}/bin/alacritty";
       ws = lib.genAttrs (map (i: "${builtins.toString i}") (lib.range 1 9)) (n: n) // {
         "0" = "10";

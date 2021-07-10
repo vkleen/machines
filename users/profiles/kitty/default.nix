@@ -18,7 +18,7 @@
     adjust_column_width 0
 
     disable_ligatures cursor
-    font_features PragmataProMonoLiga-Regular +calt
+    font_features PragmataProMonoLiga-Regular +calt -frac -ss12 -ss13
 
     box_drawing_scale 0.001, 1, 1.5, 2
 

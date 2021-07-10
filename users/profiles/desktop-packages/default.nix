@@ -121,6 +121,9 @@ in {
     hledger-ui
     # ledger-autosync
 
+    beancount
+    bean-add
+
     seamly2d
 
     nixos-zoom-desktop-item

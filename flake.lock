@@ -48,6 +48,22 @@
         "type": "github"
       }
     },
+    "hledger-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1626038664,
+        "narHash": "sha256-8hz/P52DsBU+W9YojpF4NG7o+iQ3KO7+3oK0bvNr8kk=",
+        "owner": "vkleen",
+        "repo": "hledger",
+        "rev": "fb5b43dfb8ae8cf82b85291177f34a99e7a46edb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "repo": "hledger",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -173,6 +189,7 @@
       "inputs": {
         "freecad-assembly3-src": "freecad-assembly3-src",
         "freecad-src": "freecad-src",
+        "hledger-src": "hledger-src",
         "home-manager": "home-manager",
         "kicad-src": "kicad-src",
         "nixos-rocm-power9": "nixos-rocm-power9",

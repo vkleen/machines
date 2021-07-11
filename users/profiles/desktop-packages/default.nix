@@ -117,9 +117,6 @@ in {
     dhall
 
     hledger
-    hledger-interest
-    hledger-ui
-    # ledger-autosync
 
     beancount
     bean-add

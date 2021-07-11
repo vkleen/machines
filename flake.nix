@@ -29,6 +29,10 @@
       url = "git+https://gitlab.com/kicad/code/kicad.git";
       flake = false;
     };
+    hledger-src = {
+      url = "github:vkleen/hledger";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-power9, nixpkgs-riscv, nixos-rocm-power9, home-manager, nixpkgs-wayland, ... }:
@@ -78,7 +82,7 @@
         in pathsToImportedAttrs overlayPaths // {
              nixpkgs-wayland = nixpkgs-wayland.overlay;
              sources = _: _: {
-               inherit (inputs) freecad-src freecad-assembly3-src kicad-src;
+               inherit (inputs) freecad-src freecad-assembly3-src kicad-src hledger-src;
              };
            };
 

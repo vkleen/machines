@@ -13,7 +13,7 @@ let
 in {
   imports = [ ./colors.nix ];
 
-  home.packages = [ pkgs.neomutt ];
+  home.packages = [ pkgs.neomutt pkgs.notmuch ];
   xdg.configFile."neomutt/neomuttrc".text = ''
     set header_cache = "${config.xdg.cacheHome}/neomutt/headers/"
     set message_cachedir = "${config.xdg.cacheHome}/neomutt/messages/"

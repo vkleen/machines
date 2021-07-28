@@ -77,6 +77,7 @@ in {
     i3status
     imagemagick
     imv
+    iwgtk
     noti
     pavucontrol
     pidgin-with-plugins

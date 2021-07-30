@@ -37,7 +37,7 @@ in {
     xdg.configFile."kak-lsp/kak-lsp.toml".text = ''
       [language.haskell]
       filetypes = ["haskell"]
-      roots = ["Setup.hs", "stack.yaml", "*.cabal"]
+      roots = ["Setup.hs", "stack.yaml", "package.yaml", "*.cabal", "WORKSPACE"]
       command = "haskell-language-server"
       args = ["--lsp"]
     '';

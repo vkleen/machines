@@ -49,9 +49,18 @@
         useDHCP = false;
       };
       "lan" = {
+        # ipv4.addresses = [
+        #   { address = "10.172.100.101"; prefixLength = 24; }
+        # ];
         useDHCP = true;
       };
     };
+
+    # defaultGateway = {
+    #   address = "10.172.100.1";
+    # };
+
+    # nameservers = [ "10.172.100.1" ];
 
     hosts = {
       "45.33.37.163"   = [ "plutonium.kleen.org" ];

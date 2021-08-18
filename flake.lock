@@ -103,11 +103,11 @@
     "nixos-rocm-power9": {
       "flake": false,
       "locked": {
-        "lastModified": 1602162669,
-        "narHash": "sha256-32G/nWPvvC1gCT5UVPOtv+SvjeDXNEE9hOjQ1wsgUh8=",
+        "lastModified": 1628889976,
+        "narHash": "sha256-gI6cKQzUxerV5XZLcLUsfz9ipZsnfSLQ52c1cZnyHss=",
         "owner": "vkleen",
         "repo": "nixos-rocm",
-        "rev": "6c73b144cd4807ab02e5f19c5be9a78dedd52ad2",
+        "rev": "513e16acba4e3e1695761ce902f4487fcf4278cf",
         "type": "github"
       },
       "original": {
@@ -134,11 +134,11 @@
     },
     "nixpkgs-power9": {
       "locked": {
-        "lastModified": 1618591109,
-        "narHash": "sha256-xSzlrlNgQhZ3DEjY5whad8l/szNZzSlqa1w3L258ZCY=",
+        "lastModified": 1628905401,
+        "narHash": "sha256-Em/bkBdGaE6OdxHf/Jjue+1xAji8+RAPBuJabMY9BsE=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "8648fdf377936309317d6f06625796210720e1b6",
+        "rev": "96ebe0b9cfd9f4909219b064c92f8af075e55da0",
         "type": "github"
       },
       "original": {

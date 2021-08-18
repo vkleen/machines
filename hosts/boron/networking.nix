@@ -196,6 +196,13 @@ in {
             DHCP = lib.mkForce "ipv4";
             LinkLocalAddressing = "no";
           };
+          routes = [
+            { routeConfig = {
+                Destination = "94.16.123.211/32";
+                Gateway = "192.168.1.1";
+              };
+            }
+          ];
         };
         networks."40-telekom" = {
           networkConfig.LinkLocalAddressing = "no";
@@ -262,6 +269,11 @@ in {
         RuntimeDirectory = "pppd";
         RuntimeDirectoryPreserve = true;
       };
+      systemd.services."lte-keepalive" = {
+        requires = [ "systemd-networkd-wait-online.service" ];
+        wantedBy = [ "systemd-networkd-wait-online.device" ];
+        script = "${config.security.wrapperDir}/ping -i10 94.16.123.211";
+      };
       environment.etc = {
         "ppp/ip-up" = {
           text = ''
@@ -277,22 +289,22 @@ in {
     };
     netns = "wg_upstream";
     preStartScript = ''
-      ip link add name telekom link eth0 type vlan id 7
-      ip link add dev upstream-mgmt type veth peer name mgmt-veth
+      ${pkgs.iproute}/bin/ip link add name telekom link eth0 type vlan id 7
+      ${pkgs.iproute}/bin/ip link add dev upstream-mgmt type veth peer name mgmt-veth
 
-      ip link set telekom netns wg_upstream
-      ip link set upstream-mgmt master mgmt
-      ip link set mgmt-veth netns wg_upstream
-      ip link set ifb0 netns wg_upstream
-      ip link set lte netns wg_upstream
+      ${pkgs.iproute}/bin/ip link set telekom netns wg_upstream
+      ${pkgs.iproute}/bin/ip link set mgmt-veth netns wg_upstream
+      ${pkgs.iproute}/bin/ip link set ifb0 netns wg_upstream
+      ${pkgs.iproute}/bin/ip link set lte netns wg_upstream
 
-      ip link set upstream-mgmt up
+      ${pkgs.iproute}/bin/ip link set upstream-mgmt up
+      ${pkgs.iproute}/bin/ip link set upstream-mgmt master mgmt
     '';
     postStopScript = ''
-      ip netns exec wg_upstream ip link del telekom || true
-      ip netns exec wg_upstream ip link set ifb0 netns 1 || true
-      ip netns exec wg_upstream ip link set lte netns 1 || true
-      ip link del upstream-mgmt || true
+      ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link del telekom || true
+      ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set ifb0 netns 1 || true
+      ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set lte netns 1 || true
+      ${pkgs.iproute}/bin/ip link del upstream-mgmt || true
     '';
 
     bindMounts = {
@@ -321,6 +333,9 @@ in {
       script =''
         ${pkgs.iproute}/bin/ip link set dev "$(${pkgs.coreutils}/bin/basename "$DEVPATH")" netns wg_upstream
       '';
+    };
+    "upstream-container" = {
+      after = [ "sys-subsystem-net-devices-mgmt.device" ];
     };
   };
 
@@ -430,30 +445,32 @@ in {
 
   services.unbound = {
     enable = true;
-    interfaces = [ "127.0.0.1" "10.172.100.1" "::1" "2a01:7e01:e002:aa02::1" ];
-    allowedAccess = [ "10.172.100.0/24" "127.0.0.0/24" ];
-    extraConfig = ''
-      server:
-        local-zone: "10.in-addr.arpa." nodefault
-        domain-insecure: "10.in-addr.arpa."
-        do-not-query-localhost: no
-
-      remote-control:
-        control-enable: yes
-        control-interface: /var/lib/unbound/control.socket
-
-      stub-zone:
-        name: auenheim.kleen.org
-        stub-addr: 127.0.0.1@5353
-        stub-first: yes
-        stub-no-cache: yes
-
-      stub-zone:
-        name: 10.in-addr.arpa.
-        stub-addr: 127.0.0.1@5353
-        stub-first: no
-        stub-no-cache: yes
-    '';
+    localControlSocketPath = "/var/lib/unbound/control.socket";
+    settings = {
+      server = {
+        interface = [ "127.0.0.1" "10.172.100.1" "::1" "2a01:7e01:e002:aa02::1" ];
+        access-control = [ "10.172.100.0/24 allow" "127.0.0.0/24 allow" "::1/128 allow" ];
+        local-zone = ["100.172.10.in-addr.arpa. transparent"];
+        domain-insecure = "100.172.10.in-addr.arpa.";
+        do-not-query-localhost = "no";
+      };
+      stub-zone = [
+        {
+          name = "auenheim.kleen.org.";
+          stub-addr = "127.0.0.2";
+          stub-first = true;
+          stub-no-cache = true;
+          stub-prime = false;
+        }
+        {
+          name = "100.172.10.in-addr.arpa.";
+          stub-addr = "127.0.0.2";
+          stub-first = true;
+          stub-no-cache = true;
+          stub-prime = false;
+        }
+      ];
+    };
   };
 
   services.knot = {
@@ -473,9 +490,13 @@ in {
       policy:
         - id: manual
           manual: on
+        - id: ed25519
+          algorithm: ed25519
+          rrsig-lifetime: 25h
+          rrsig-refresh: 20h
       mod-onlinesign:
-        - id: manual
-          policy: manual
+        - id: explicit
+          policy: ed25519
       mod-synthrecord:
         - id: ip6-forward
           type: forward
@@ -490,7 +511,7 @@ in {
       zone:
         - domain: auenheim.kleen.org
           storage: /var/lib/knot/zones
-          module: [mod-synthrecord/ip4-forward, mod-synthrecord/ip6-forward, mod-onlinesign/manual]
+          module: [mod-synthrecord/ip4-forward, mod-synthrecord/ip6-forward, mod-onlinesign/explicit]
           zonefile-sync: -1
           zonefile-load: none
           journal-content: all

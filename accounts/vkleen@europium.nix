@@ -1,10 +1,10 @@
-{ flake, lib, config, ...}: {
-  users.users.vkleen = {
+{ userName, flake, lib, config, ...}: {
+  users.users.${userName} = {
     extraGroups =
       [ "network" ];
   };
-  home-manager.users.vkleen = lib.mkMerge (
-    (with flake.userProfiles; [
+  home-manager.users.${userName} = lib.mkMerge (
+    (with flake.homeManagerModules; [
       direnv git gnupg tmux zsh
       std-packages
     ])

@@ -11,22 +11,23 @@
         { host = "localhost";
           port = 1883;
         }
-        { host = "localhost";
+        { host = "";
           port = 8883;
           ssl = {
             enable = true;
-            cafile = "/persist/mosquitto/ca.pem";
+            cafile = "/persist/mosquitto/mqtt.pem";
             certfile = "/persist/mosquitto/mqtt.pem";
             keyfile = "/persist/mosquitto/mqtt.key";
           };
+          extraConf = ''
+            tls_version tlsv1.3
+          '';
         }
       ];
       users = {
         "relayd" = {
           acl = [
-            "topic readwrite relays/+/status"
-            "topic readwrite relays/+/+/diagnostic"
-            "topic read relays/+/+/state"
+            "topic readwrite relays/#"
           ];
         };
         "root" = {

@@ -1,0 +1,10 @@
+version: 2.0
+shards:
+  fifo:
+    git: https://github.com/alexherbo2/fifo.cr.git
+    version: 0.1.0+git.commit.ad2be4385ff1684dc10083210b0a377a6f81e42d
+
+  rsub:
+    git: https://github.com/alexherbo2/rsub.cr.git
+    version: 0.1.0+git.commit.43c6b9836ee281328bccfdf8c669bab26448e3b3
+

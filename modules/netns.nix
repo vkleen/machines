@@ -6,7 +6,7 @@ in {
       enable = lib.mkEnableOption "Enable netns@ service template";
     };
   };
-  config = {
+  config = lib.mkIf cfg.enable {
     systemd.services."netns@" = {
       description = "%I network namspace";
       before = [ "network-pre.target" ];

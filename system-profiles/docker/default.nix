@@ -2,6 +2,7 @@
 {
   virtualisation.docker = {
     enable = true;
-    extraOptions = "--storage-driver=vfs";
+    storageDriver = "zfs";
+    enableOnBoot = false;
   };
 }

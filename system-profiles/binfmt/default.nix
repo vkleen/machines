@@ -9,7 +9,4 @@
       "aarch64-linux"
     ];
   };
-  nix.extraOptions = ''
-    sandbox-paths = ${toString config.nix.sandboxPaths}
-  '';
 }

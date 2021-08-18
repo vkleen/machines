@@ -1,6 +1,6 @@
 { runCommand, requireFile, unzip }:
 let name = "pragmatapro-${version}";
-    version = "0.828-2";
+    version = "0.829";
 in
 runCommand name rec {
   # outputHashMode = "recursive";
@@ -10,7 +10,8 @@ runCommand name rec {
   src = requireFile rec {
     name = "PragmataPro${version}.zip";
     url = "file://path/to/${name}";
-    sha256 = "19q6d0dxgd9k2mhr31944wpprks1qbqs1h5f400dyl5qzis2dji3";
+    sha256 = "sha256-Qbt7m6JRau5FgYwuh89davGwELHUSIbu0d/RvdoLF/Q=";
+    # sha256 = "19q6d0dxgd9k2mhr31944wpprks1qbqs1h5f400dyl5qzis2dji3";
   };
 
   buildInputs = [ unzip ];

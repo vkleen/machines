@@ -1,4 +1,4 @@
-{ flake, flakeInputs, pkgs, lib, ... }:
+{ flake, flakeInputs, config, pkgs, lib, ... }:
 {
   boot.kernelPackages = pkgs.linuxPackages_latest.extend (self: super: {
     kernel = with (import "${flakeInputs.nixpkgs}/lib/kernel.nix" { inherit lib; });

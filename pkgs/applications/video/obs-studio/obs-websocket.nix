@@ -27,6 +27,8 @@ stdenv.mkDerivation rec {
     "-DLIBOBS_INCLUDE_DIR=${obs-studio.src}/libobs"
   ];
 
+  dontWrapQtApps = true;
+
   # obs-studio expects the shared object to be located in bin/32bit or bin/64bit
   # https://github.com/obsproject/obs-studio/blob/d60c736cb0ec0491013293c8a483d3a6573165cb/libobs/obs-nix.c#L48
   postInstall = let

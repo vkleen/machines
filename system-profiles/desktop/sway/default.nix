@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  xdg.portal.enable = true;
   programs.sway = {
     enable = true;
     wrapperFeatures = {

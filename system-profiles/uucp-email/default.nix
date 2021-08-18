@@ -2,10 +2,6 @@
 
 let cfg = config;
 in {
-  imports =
-    [ flake.nixosModules.uucp
-    ];
-
   services = {
     uucp = {
       enable = true;
@@ -13,7 +9,7 @@ in {
       remoteNodes = [ "samarium" ];
       sshConfig = ''
         Host samarium
-          Hostname 10.172.20.1
+          Hostname samarium.kleen.org
           IdentityFile /persist/uucp_ed25519
       '';
       sshHosts = ''

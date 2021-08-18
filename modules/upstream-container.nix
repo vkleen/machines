@@ -184,9 +184,6 @@ in {
       };
     };
   };
-  imports = [
-    flake.nixosModules.netns
-  ];
   config = lib.mkIf cfg.enable {
     networking.namespaces.enable = true;
 

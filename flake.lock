@@ -2,11 +2,11 @@
   "nodes": {
     "cachix": {
       "locked": {
-        "lastModified": 1609187327,
-        "narHash": "sha256-6lCwWpGpZxbSYclryv4ixsxxbISe7HuLyyQnGWCC8ZQ=",
+        "lastModified": 1625876282,
+        "narHash": "sha256-z/Gv+11Uzdv3HcQCY+xGi1+iuc3rmCaPzxxDSMnuRAI=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e065200fc90175a8f6e50e76ef10a48786126e1c",
+        "rev": "068984c00e0d4e54b6684d98f6ac47c92dcb642e",
         "type": "github"
       },
       "original": {
@@ -16,60 +16,51 @@
         "type": "github"
       }
     },
-    "deploy-rs": {
-      "inputs": {
-        "flake-compat": "flake-compat",
-        "naersk": "naersk",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "utils": "utils"
-      },
-      "locked": {
-        "lastModified": 1609096534,
-        "narHash": "sha256-jTmkR1EbgqoyqT/6era2lyUq2QpyDwjxBpdDLFaCmZY=",
-        "owner": "serokell",
-        "repo": "deploy-rs",
-        "rev": "4ba83f14ceb7136794e7676b71688b903d2c60ab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "serokell",
-        "ref": "master",
-        "repo": "deploy-rs",
-        "type": "github"
-      }
-    },
-    "flake-compat": {
+    "freecad-assembly3-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1600853454,
-        "narHash": "sha256-EgsgbcJNZ9AQLVhjhfiegGjLbO+StBY9hfKsCwc8Hw8=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "94cf59784c73ecec461eaa291918eff0bfb538ac",
+        "lastModified": 1626532240,
+        "narHash": "sha256-nCa82lmp+C3SychvbDwV04Aibhilb8yN66LnMj7qwMw=",
+        "owner": "realthunder",
+        "repo": "FreeCAD_assembly3",
+        "rev": "ba88bc833e02989e42e77b22ff99a253a59e5529",
         "type": "github"
       },
       "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
+        "owner": "realthunder",
+        "repo": "FreeCAD_assembly3",
         "type": "github"
       }
     },
     "freecad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1581453627,
-        "narHash": "sha256-oxr6K+BWv22Zr1Ktwo27Y2SuMKy5KvXz8uzFnRjpxrw=",
+        "lastModified": 1626477971,
+        "narHash": "sha256-AIsi6r3aOISkhfIzQH3yL4Ruhkt8WByHt2SeFu+51pA=",
         "owner": "realthunder",
         "repo": "FreeCAD",
-        "rev": "1024344bb68ce038bf02bd6ff941a1fbc44866f0",
+        "rev": "f63a5ea7b459872a3798027df0ff25e776524859",
         "type": "github"
       },
       "original": {
         "owner": "realthunder",
-        "ref": "master",
         "repo": "FreeCAD",
+        "type": "github"
+      }
+    },
+    "hledger-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1626038664,
+        "narHash": "sha256-8hz/P52DsBU+W9YojpF4NG7o+iQ3KO7+3oK0bvNr8kk=",
+        "owner": "vkleen",
+        "repo": "hledger",
+        "rev": "fb5b43dfb8ae8cf82b85291177f34a99e7a46edb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "repo": "hledger",
         "type": "github"
       }
     },
@@ -80,65 +71,58 @@
         ]
       },
       "locked": {
-        "lastModified": 1609426169,
-        "narHash": "sha256-JK3P0uxgzuNr0AnrL4KRsR76h5T2TPIs0MpLuOyG0TQ=",
-        "owner": "nix-community",
+        "lastModified": 1627422633,
+        "narHash": "sha256-9UvA3wn0xap6WLjhE7+90JwCD+PNj630qt721XRC3TQ=",
+        "owner": "rycee",
         "repo": "home-manager",
-        "rev": "f6fd7e3fa4fac876f02309b780492f9f2d58093a",
+        "rev": "ae8cb242f2e450c525274732af58b3050399f5bd",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
-        "ref": "master",
+        "owner": "rycee",
         "repo": "home-manager",
         "type": "github"
       }
     },
-    "naersk": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
+    "kicad-src": {
+      "flake": false,
       "locked": {
-        "lastModified": 1602173141,
-        "narHash": "sha256-m6wU6lP0wf2OMw3KtJqn27ITtg29+ftciGHicLiVSGE=",
-        "owner": "nmattia",
-        "repo": "naersk",
-        "rev": "22b96210b2433228d42bce460f3befbdcfde7520",
-        "type": "github"
+        "lastModified": 1627468676,
+        "narHash": "sha256-881WIOOU3DO+5db6aE0KQZI6xq4em0Ptute2YC+CISk=",
+        "ref": "master",
+        "rev": "c0f12cf8b076cb0938e43d63af6b79fcfcce8c93",
+        "revCount": 28286,
+        "type": "git",
+        "url": "https://gitlab.com/kicad/code/kicad.git"
       },
       "original": {
-        "owner": "nmattia",
-        "ref": "master",
-        "repo": "naersk",
-        "type": "github"
+        "type": "git",
+        "url": "https://gitlab.com/kicad/code/kicad.git"
       }
     },
     "nixos-rocm-power9": {
       "flake": false,
       "locked": {
-        "lastModified": 1602162669,
-        "narHash": "sha256-32G/nWPvvC1gCT5UVPOtv+SvjeDXNEE9hOjQ1wsgUh8=",
+        "lastModified": 1628889976,
+        "narHash": "sha256-gI6cKQzUxerV5XZLcLUsfz9ipZsnfSLQ52c1cZnyHss=",
         "owner": "vkleen",
         "repo": "nixos-rocm",
-        "rev": "6c73b144cd4807ab02e5f19c5be9a78dedd52ad2",
+        "rev": "513e16acba4e3e1695761ce902f4487fcf4278cf",
         "type": "github"
       },
       "original": {
         "owner": "vkleen",
-        "ref": "master",
         "repo": "nixos-rocm",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1609360449,
-        "narHash": "sha256-rnHcliZ2pAOfhhaBySI6p177QUoO2i6e0ZtFXPcUI64=",
+        "lastModified": 1627470938,
+        "narHash": "sha256-H7SmNCR2pHqBx748cwGThaFoF42vATFhQBsdva8Cwtk=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "6ffa964a595acd7c95a6153fb5c22aef37a772b0",
+        "rev": "230698687304faf0c891d9c9755a272d08af42cc",
         "type": "github"
       },
       "original": {
@@ -150,11 +134,11 @@
     },
     "nixpkgs-power9": {
       "locked": {
-        "lastModified": 1609507900,
-        "narHash": "sha256-RsjMV/g8cxuhrWHbl+DW1hEQXWYcpVcZxfUNWAovYjU=",
+        "lastModified": 1628905401,
+        "narHash": "sha256-Em/bkBdGaE6OdxHf/Jjue+1xAji8+RAPBuJabMY9BsE=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "deabc99c7772dbbaa992e13be76cbbeb525f5be1",
+        "rev": "96ebe0b9cfd9f4909219b064c92f8af075e55da0",
         "type": "github"
       },
       "original": {
@@ -164,91 +148,55 @@
         "type": "github"
       }
     },
+    "nixpkgs-riscv": {
+      "locked": {
+        "lastModified": 1624210200,
+        "narHash": "sha256-UYnqJruJDhKoE+9vyi7WiPXnvDQUvASL5uBXEvrxz+M=",
+        "owner": "vkleen",
+        "repo": "nixpkgs",
+        "rev": "41c0dda43a07e045cb9154c7f31d9a8e498a9007",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "ref": "local-riscv",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-wayland": {
       "inputs": {
         "cachix": "cachix",
         "nixpkgs": [
           "nixpkgs"
-        ],
-        "unstableSmall": "unstableSmall"
+        ]
       },
       "locked": {
-        "lastModified": 1609445194,
-        "narHash": "sha256-tCv/J8exMFnGwSOascHjlw8d+RI0vJ4QvnNUYYSww3I=",
+        "lastModified": 1627456929,
+        "narHash": "sha256-N6h5a1k0Z2+d/BW+rsCs5BWU28Lh+Vhew2S2EO9AH8c=",
         "owner": "colemickens",
         "repo": "nixpkgs-wayland",
-        "rev": "ef238a3ca1aa8de6b7efa3a10056a379ba1e5dbd",
+        "rev": "a54cc105b439ab2355957cdbf951a3a2ba362a6f",
         "type": "github"
       },
       "original": {
         "owner": "colemickens",
-        "ref": "master",
         "repo": "nixpkgs-wayland",
         "type": "github"
       }
     },
     "root": {
       "inputs": {
-        "deploy-rs": "deploy-rs",
+        "freecad-assembly3-src": "freecad-assembly3-src",
         "freecad-src": "freecad-src",
+        "hledger-src": "hledger-src",
         "home-manager": "home-manager",
+        "kicad-src": "kicad-src",
         "nixos-rocm-power9": "nixos-rocm-power9",
         "nixpkgs": "nixpkgs",
         "nixpkgs-power9": "nixpkgs-power9",
-        "nixpkgs-wayland": "nixpkgs-wayland",
-        "sops-nix": "sops-nix"
-      }
-    },
-    "sops-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1609306567,
-        "narHash": "sha256-CPVjO4tdmhHW7sOTbo8i9JN7HlNhakwpUi3u3+V6gnY=",
-        "owner": "Mic92",
-        "repo": "sops-nix",
-        "rev": "da343afab9aace88875f24bfb2d90e3d9afaafc4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Mic92",
-        "ref": "master",
-        "repo": "sops-nix",
-        "type": "github"
-      }
-    },
-    "unstableSmall": {
-      "locked": {
-        "lastModified": 1609337051,
-        "narHash": "sha256-Rzo2IFMZKuMJ6waaGgIRMpbt2eHUjx3iByFdjG23buA=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "ac02f26980ffc6a84844943cb2c303662225543a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable-small",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "utils": {
-      "locked": {
-        "lastModified": 1601282935,
-        "narHash": "sha256-WQAFV6sGGQxrRs3a+/Yj9xUYvhTpukQJIcMbIi7LCJ4=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "588973065fce51f4763287f0fda87a174d78bf48",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
+        "nixpkgs-riscv": "nixpkgs-riscv",
+        "nixpkgs-wayland": "nixpkgs-wayland"
       }
     }
   },

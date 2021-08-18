@@ -1,9 +1,12 @@
 final: prev: {
+  alacritty-ligatures = final.callPackage ./applications/terminal-emulators/alacritty-ligatures {
+    inherit (final.xorg) libXcursor libXxf86vm libXi;
+    inherit (final.darwin.apple_sdk.frameworks) AppKit CoreGraphics CoreServices CoreText Foundation OpenGL;
+  };
   dpt-rp1-py = final.callPackage ./tools/misc/dpt-rp1-py {};
   fast-p = final.callPackage ./tools/text/fast-p {};
   libspnav = final.callPackage ./development/libraries/libspnav {};
   obs-cli = final.callPackage ./tools/misc/obs-cli {};
-  obs-gstreamer = final.callPackage ./applications/video/obs-studio/obs-gstreamer.nix {};
   obs-websocket = final.libsForQt514.callPackage ./applications/video/obs-studio/obs-websocket.nix {};
   openfec = final.callPackage ./development/libraries/openfec {};
   pragmatapro = final.callPackage ./data/fonts/pragmatapro {};
@@ -11,11 +14,10 @@ final: prev: {
   qrcp = final.callPackage ./tools/misc/qrcp {};
   spacenavd = final.callPackage ./misc/spacenavd {};
   udp2raw = final.callPackage ./applications/networking/udp2raw {};
-  uuu = final.callPackage ./tools/misc/uuu {};
+  # uuu = final.callPackage ./tools/misc/uuu {};
+  seamly2d = final.libsForQt5.callPackage ./misc/seamly2d {};
+  kakoune-cr = final.callPackage ./applications/editors/kakoune.cr {};
 
-  interception-tools-plugins = prev.interception-tools-plugins // {
-    dual-function-keys = final.callPackage ./tools/inputmethods/interception-tools/dual-function-keys.nix {};
-  };
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)
   {
     roc-toolkit = final.callPackage ./applications/audio/misc/roc-toolkit {};

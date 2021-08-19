@@ -1,16 +1,16 @@
 { flake, config, pkgs, ... }:
-let
-  go-neb-token = import ../../secrets/go-neb-token.nix;
-in {
+{
+  age.secrets.go-neb-token.file = ../../secrets/go-neb-token.age;
   services.go-neb = {
     enable = true;
     bindAddress = "localhost:4050";
     baseUrl = "http://localhost:4050";
+    secretFile = "/run/secrets/go-neb-token";
     config = {
       clients = [
         {
           "UserID" = "@go-neb-rss:kleen.org";
-          "AccessToken" = go-neb-token;
+          "AccessToken" = "$ACCESS_TOKEN";
           "HomeserverURL" = "https://matrix.kleen.org";
           "Sync" = true;
           "AutoJoinRooms" = true;

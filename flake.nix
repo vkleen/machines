@@ -5,10 +5,6 @@
     nixpkgs.url = "github:vkleen/nixpkgs/local";
     nixpkgs-power9.url = "github:vkleen/nixpkgs/local-power9";
     nixpkgs-riscv.url = "github:vkleen/nixpkgs/local-riscv";
-    nixos-rocm-power9 = {
-      url = "github:vkleen/nixos-rocm";
-      flake = false;
-    };
     nixpkgs-wayland = {
       url = "github:colemickens/nixpkgs-wayland";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,6 +12,14 @@
     home-manager = {
       url = "github:rycee/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-rocm-power9 = {
+      url = "github:vkleen/nixos-rocm";
+      flake = false;
     };
     freecad-src = {
       url = "github:realthunder/FreeCAD";
@@ -105,7 +109,11 @@
           in attrValues (filterAttrs (n: _v: !(elem n ["systemProfiles" "users" "userProfiles" "accounts"]))
                                      self.nixosModules
                         )
-             ++ [ argsModule ] ++ defaultProfiles ++ addProfiles ++ [ local ] ++ accountModules;
+             ++ [ inputs.agenix.nixosModules.age argsModule ]
+             ++ defaultProfiles
+             ++ addProfiles
+             ++ [ local ]
+             ++ accountModules;
       };
 
       mkSystemProfile = dir: path: profileName: {
@@ -286,7 +294,11 @@
         legacyPackages = pkgset;
 
         apps = activateNixosConfigurations;
-        # apps = recursiveUpdate activateNixosConfigurations activateHomeManagerConfigurations;
+
+        devShell = forAllSystems (system: import ./shell.nix {
+          pkgs = self.legacyPackages.${system};
+          inherit (inputs.agenix.packages.${system}) agenix;
+        });
 
         defaultTemplate = {
           path = ./.;

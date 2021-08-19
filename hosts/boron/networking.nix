@@ -101,7 +101,7 @@ in {
         privateKeyFile = "/persist/private/boron";
         allowedIPsAsRoutes = false;
         peers = [
-          { publicKey = builtins.readFile ../../secrets/wireguard/europium.pub;
+          { publicKey = builtins.readFile ../../wireguard/europium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
             endpoint = "europium.kleen.org:51820";
             persistentKeepalive = 1;

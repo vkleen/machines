@@ -268,7 +268,7 @@ in {
       };
       systemd.services."lte-keepalive" = {
         requires = [ "systemd-networkd-wait-online.service" ];
-        wantedBy = [ "systemd-networkd-wait-online.device" ];
+        wantedBy = [ "network-online.target" ];
         script = "${config.security.wrapperDir}/ping -i10 94.16.123.211";
       };
       environment.etc = {

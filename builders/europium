@@ -1,1 +1,1 @@
-ssh-ng://root@europium.kleen.org - /home/vkleen/.ssh/id_nix_build 2 - - - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU9Ea3FvWDNrUlBmdGlPZFJkcEh1dGNJYmJSR3JNZGtLbE9wSU5hOEFVUWEgcm9vdEBwbHV0b25pdW0K
+ssh://root@europium.kleen.org - /home/vkleen/.ssh/id_nix_build 2 - - - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSU9Ea3FvWDNrUlBmdGlPZFJkcEh1dGNJYmJSR3JNZGtLbE9wSU5hOEFVUWEK

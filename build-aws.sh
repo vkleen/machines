@@ -1,6 +1,6 @@
 #!/usr/bin/env cached-nix-shell
 #!nix-shell -i zsh
-#!nix-shell -p jq awscli openssh mosh zsh
+#!nix-shell -p jq awscli zsh
 
 # This might break in future revision of cached-nix-shell
 # Too lazy to report the bug
@@ -40,20 +40,15 @@ terminate-instance() {
     "$AWS[@]" ec2 terminate-instances --instance-ids "$1"
 }
 
-DRV=
-if [[ -z "${1}" ]]; then
-  echo "Missing derivation"
-  exit 1
-else
-  DRV=${1}
-fi
-echo "Building ${DRV}"
+build_cmdline=( "${@}" )
 
-INSTANCE=$(launch-spot-request)
+nix -L build -j0 "${build_cmdline[@]}" && exit
+
 cleanup() {
     terminate-instance "$INSTANCE"
 }
 trap cleanup EXIT INT TERM ERR
+INSTANCE=$(launch-spot-request)
 
 echo "Waiting for instance $INSTANCE to come up..."
 SERVER=$(wait-for-public-dns "$INSTANCE")
@@ -71,39 +66,11 @@ get_ssh_host_key() {
 
 SSH_HOST_KEY=$(get_ssh_host_key)
 
-do_ssh() {
-    local cmd="$1"
-    shift 1
-    local cmdline=( "${@}" )
-    () {
-        trap "rm $1" ERR
-        "$cmd" -o UserKnownHostsFile="$1" -o HostKeyAlias=aws-ec2 "${cmdline[@]}"
-    } =(echo aws-ec2 $SSH_HOST_KEY)
+do_nix() {
+  local cmdline=( "${@}" )
+  nix --option builders-use-substitutes true --builders "ssh://$SERVER x86_64-linux $HOME/.ssh/id_rsa 18 16 benchmark,kvm,recursive-nix,big-parallel - $(base64 -w0 <<<"$SSH_HOST_KEY")" "${cmdline[@]}"
 }
 
-do_ssh ssh root@"$SERVER" <<EOF
-  mkdir /private
-EOF
-do_ssh scp secrets/cache-keys/aws-vkleen-nix-cache-1.private root@"$SERVER":/private/
-do_ssh scp -r secrets/cache-keys/aws root@"$SERVER":/root/.aws
-do_ssh scp ~/PragmataPro0.829.zip root@"$SERVER":~
-nix copy -s --derivation "$DRV" --to ssh://root@"$SERVER"
-#nix-store --export $(nix-store -qR "$DRV") | pv | do_ssh ssh root@"$SERVER" "nix-store --import"
-
-do_ssh ssh root@"$SERVER" <<EOF
-  systemd-run --user --scope tmux new-session -d -s persistent
-  tmux send-keys -t persistent "nixos-rebuild switch && nix-store --add-fixed sha256 ~/PragmataPro0.829.zip && nix -L build \"$DRV\" && nix sign-paths --all -k /private/aws-vkleen-nix-cache-1.private && nix copy --all --to 's3://vkleen-nix-cache?region=eu-central-1' && exit" ENTER
-EOF
-if [[ -n "$MOSH" ]]; then
-    () {
-      trap "rm $1" ERR
-      mosh --ssh="ssh -o UserKnownHostsFile=$1 -o HostKeyAlias=aws-ec2" root@"$SERVER" -- tmux attach -d -t persistent || true
-    } =(echo aws-ec2 $SSH_HOST_KEY)
-else
-    do_ssh ssh -t root@"$SERVER" -- tmux attach -d -t persistent || true
-fi
+do_nix -v -L build -j0 "${build_cmdline[@]}"
 terminate-instance "$INSTANCE"
 trap - EXIT INT TERM ERR
-DRVOUT=$(nix show-derivation "$DRV" | jq -r ' . | keys[] as $k | .[$k].outputs.out.path')
-nix copy --from 's3://vkleen-nix-cache?region=eu-central-1' "$DRVOUT"
-nix build -j0 "$DRVOUT"

@@ -2,10 +2,6 @@
 let
   ppp_interface = "wan";
 in {
-  imports = [
-    flake.nixosModules.netns
-    flake.nixosModules.upstream-container
-  ];
   environment.etc."resolv.conf".text = ''
     nameserver 127.0.0.1
     nameserver ::1

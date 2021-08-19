@@ -1,9 +1,6 @@
 { flake, config, pkgs, ... }:
 {
-  age.secrets.go-neb-token = {
-    owner = "go-neb";
-    file = ../../secrets/go-neb-token.age;
-  };
+  age.secrets.go-neb-token.file = ../../secrets/go-neb-token.age;
   services.go-neb = {
     enable = true;
     bindAddress = "localhost:4050";

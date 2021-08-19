@@ -5,7 +5,11 @@
   };
   home-manager.users.${userName} = lib.mkMerge (
     (with flake.homeManagerModules; [
-      direnv git gnupg tmux zsh
+      direnv
+      git
+      gnupg
+      tmux
+      zsh
     ])
   );
 }

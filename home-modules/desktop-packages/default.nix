@@ -65,7 +65,7 @@ let
     categories = "Utility";
   };
 in {
-  imports = [ ./scripts.nix ../std-packages ];
+  imports = [ ./scripts.nix ];
 
   home.packages = with pkgs; [
     calibre

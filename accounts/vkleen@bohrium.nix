@@ -7,11 +7,13 @@
   };
   home-manager.users.${userName} = lib.mkMerge (
     (with flake.homeManagerModules; [
-      direnv git gnupg tmux zsh
       alacritty
       bluetooth
       browser
       desktop-packages
+      direnv
+      git
+      gnupg
       gpg-agent
       kak
       kitty
@@ -20,9 +22,12 @@
       obs
       redshift
       spacenav
+      std-packages
+      tmux
       wayland
       weechat
       zathura
+      zsh
     ])
   );
 }

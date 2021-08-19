@@ -12,7 +12,6 @@ in
 {
   "aws/credentials.age".publicKeys = [vkleen bohrium];
   "aws/aws-vkleen-nix-cache-1.private.age".publicKeys = [vkleen];
-  "dnssec/Kauenheim.kleen.org.+015+33222.private.age".publicKeys = [vkleen];
 
   "go-neb-token.age".publicKeys = [vkleen europium];
 

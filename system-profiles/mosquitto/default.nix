@@ -1,7 +1,13 @@
 { flake, config, lib, pkgs, ... }:
 {
-  age.secrets."mqtt.pem".file = ../../secrets/mosquitto/mqtt.pem.age;
-  age.secrets."mqtt.key".file = ../../secrets/mosquitto/mqtt.key.age;
+  age.secrets."mqtt.pem" = {
+    file = ../../secrets/mosquitto/mqtt.pem.age;
+    owner = "mosquitto";
+  };
+  age.secrets."mqtt.key" = {
+    file = ../../secrets/mosquitto/mqtt.key.age;
+    owner = "mosquitto";
+  };
   services.mosquitto = lib.mkMerge [
     {
       enable = true;

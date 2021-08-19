@@ -1,9 +1,10 @@
 { flake, config, lib, pkgs, ... }:
 {
   imports = [
-    flake.nixosModules.mosquitto
     ../../secrets/mosquitto.nix
   ];
+  age.secrets."mqtt.pem".file = ../../secrets/mosquitto/mqtt.pem.age;
+  age.secrets."mqtt.key".file = ../../secrets/mosquitto/mqtt.key.age;
   services.mosquitto = lib.mkMerge [
     {
       enable = true;
@@ -15,9 +16,9 @@
           port = 8883;
           ssl = {
             enable = true;
-            cafile = "/persist/mosquitto/mqtt.pem";
-            certfile = "/persist/mosquitto/mqtt.pem";
-            keyfile = "/persist/mosquitto/mqtt.key";
+            cafile = "/run/secrets/mqtt.pem";
+            certfile = "/run/secrets/mqtt.pem";
+            keyfile = "/run/secrets/mqtt.key";
           };
           extraConf = ''
             tls_version tlsv1.3

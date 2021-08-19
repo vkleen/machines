@@ -1,8 +1,5 @@
 { flake, config, lib, pkgs, ... }:
 {
-  imports = [
-    ../../secrets/mosquitto.nix
-  ];
   age.secrets."mqtt.pem".file = ../../secrets/mosquitto/mqtt.pem.age;
   age.secrets."mqtt.key".file = ../../secrets/mosquitto/mqtt.key.age;
   services.mosquitto = lib.mkMerge [
@@ -30,12 +27,14 @@
           acl = [
             "topic readwrite relays/#"
           ];
+          hashedPassword = "$6$tBx2f2kTMyLX8uLn$XA/IaMvz0SX8FYSrbRHgZMMEJJcBiES+RPIOU+oGe+z741UpD2RiiIdd8XqDvoJqv2u1yGsz41K78ZyGEOA0gA==";
         };
         "root" = {
           acl = [
             "topic readwrite #"
             "topic readwrite $SYS/#"
           ];
+          hashedPassword = "$6$kOOa8HUBqEigUfT6$Ht5UOQ/vJrO3pj5bMOxl0qWO1LV+n+Ux2mhQjZWzkCyavWmqhlHdW58M77lr96LTXMnh21vv+jFsoQX5E5Cdpg==";
         };
       };
       allowAnonymous = false;

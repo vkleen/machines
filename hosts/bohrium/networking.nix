@@ -69,10 +69,10 @@
     wireguard.interfaces = {
       wg0 = {
         ips = [ "10.172.20.132/24" "2a03:4000:21:6c9:ba9c:2469:eead:1/80"];
-        privateKeyFile = "/persist/private/bohrium";
+        privateKeyFile = "/run/secrets/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
-          { publicKey = builtins.readFile ../../secrets/wireguard/samarium.pub;
+          { publicKey = builtins.readFile ../../wireguard/samarium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
             endpoint = "samarium.kleen.org:51820";
             persistentKeepalive = 5;
@@ -87,7 +87,7 @@
         privateKeyFile = "/persist/private/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
-          { publicKey = builtins.readFile ../../secrets/wireguard/plutonium.pub;
+          { publicKey = builtins.readFile ../../wireguard/plutonium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
             endpoint = "plutonium.kleen.org:51820";
             persistentKeepalive = 5;
@@ -99,7 +99,7 @@
         privateKeyFile = "/persist/private/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
-          { publicKey = builtins.readFile ../../secrets/wireguard/europium.pub;
+          { publicKey = builtins.readFile ../../wireguard/europium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
             endpoint = "europium.kleen.org:51820";
             persistentKeepalive = 5;
@@ -112,6 +112,7 @@
       iwd.enable = true;
     };
   };
+  age.secrets.bohrium.file = ../../secrets/wireguard/bohrium.age;
 
   systemd.services.supplicant-wlan0.partOf = lib.mkForce [];
 

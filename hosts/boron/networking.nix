@@ -98,7 +98,7 @@ in {
     wireguard.interfaces = {
       wg-europium = {
         ips = [ "10.172.40.136/24" "2a01:7e01:e002:aa00:cc6b:36a1:0:1/64" ];
-        privateKeyFile = "/persist/private/boron";
+        privateKeyFile = "/run/secrets/boron";
         allowedIPsAsRoutes = false;
         peers = [
           { publicKey = builtins.readFile ../../wireguard/europium.pub;
@@ -122,6 +122,7 @@ in {
 
     namespaces.enable = true;
   };
+  age.secrets.boron.file = ../../secrets/wireguard/boron.age;
 
   boot.kernelModules = [ "ifb" ];
   boot.extraModprobeConfig = ''

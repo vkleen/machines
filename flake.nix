@@ -184,12 +184,12 @@
           };
         };
 
-      overlayPaths =
+      overlayPaths = system:
         recImport rec { dir = ./overlays; _import = (path: _name: "${toString dir}/${path}"); }
         // { pkgs = ./pkgs;
              nixpkgs-wayland = inputs.nixpkgs-wayland;
 
-             sources = pkgset."x86_64-linux".writeText "sources.nix" ''
+             sources = pkgset.${system}.writeText "sources.nix" ''
                _: _: {
                  freecad-src = ${toString inputs.freecad-src};
                  freecad-assembly3-src = ${toString inputs.freecad-assembly3-src};
@@ -280,13 +280,12 @@
 
         homeManagerModules = recImport rec { dir = ./home-modules; };
 
-        overlay = import overlayPaths.pkgs;
-        overlays = mapAttrs (_: path: import path) overlayPaths;
+        overlay = import (overlayPaths "x86_64-linux").pkgs; # Dummy system
 
         overlays-path = forAllSystems (system:
           let
             pkgs = self.legacyPackages.${system};
-            overlaysJSON = pkgs.writeText "overlays.json" (toJSON overlayPaths);
+            overlaysJSON = pkgs.writeText "overlays.json" (toJSON (overlayPaths system));
           in pkgs.writeText "overlays.nix" ''
             map (p: import p) (builtins.attrValues (builtins.fromJSON (builtins.readFile ${overlaysJSON})))
           '');

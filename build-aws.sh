@@ -72,5 +72,3 @@ do_nix() {
 }
 
 do_nix -v -L build -j0 "${build_cmdline[@]}"
-terminate-instance "$INSTANCE"
-trap - EXIT INT TERM ERR

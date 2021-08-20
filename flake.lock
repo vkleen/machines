@@ -55,11 +55,11 @@
     "freecad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1626477971,
-        "narHash": "sha256-AIsi6r3aOISkhfIzQH3yL4Ruhkt8WByHt2SeFu+51pA=",
+        "lastModified": 1628599478,
+        "narHash": "sha256-TXIHDuovxdd40FHlGUiNUp3T5FifnfhDNzAsN8Of/Hg=",
         "owner": "realthunder",
         "repo": "FreeCAD",
-        "rev": "f63a5ea7b459872a3798027df0ff25e776524859",
+        "rev": "a17b495c3e2be62679d2e526f067ea70c7a8556b",
         "type": "github"
       },
       "original": {
@@ -91,11 +91,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1627422633,
-        "narHash": "sha256-9UvA3wn0xap6WLjhE7+90JwCD+PNj630qt721XRC3TQ=",
+        "lastModified": 1629347633,
+        "narHash": "sha256-FGZJ7lmTAMIkjdrh6dIPck5HuB4KMT2GgDV5ZjiCWoc=",
         "owner": "rycee",
         "repo": "home-manager",
-        "rev": "ae8cb242f2e450c525274732af58b3050399f5bd",
+        "rev": "bf6b85136b47ab1a76df4a90ea4850871147494a",
         "type": "github"
       },
       "original": {
@@ -107,11 +107,11 @@
     "kicad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1627468676,
-        "narHash": "sha256-881WIOOU3DO+5db6aE0KQZI6xq4em0Ptute2YC+CISk=",
+        "lastModified": 1629474583,
+        "narHash": "sha256-VgXueoKKqT1MYxGdHIIHrQpr3mR0wT/fpO8on2XHp+E=",
         "ref": "master",
-        "rev": "c0f12cf8b076cb0938e43d63af6b79fcfcce8c93",
-        "revCount": 28286,
+        "rev": "6470be11c3b7abafb50e7f3e86037afa1ccdb3ff",
+        "revCount": 28494,
         "type": "git",
         "url": "https://gitlab.com/kicad/code/kicad.git"
       },
@@ -138,11 +138,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1627470938,
-        "narHash": "sha256-H7SmNCR2pHqBx748cwGThaFoF42vATFhQBsdva8Cwtk=",
+        "lastModified": 1629460189,
+        "narHash": "sha256-EnzigSDpNWNvei4ceIsWGVkG+ibW3N5dUrzu+wBDVsE=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "230698687304faf0c891d9c9755a272d08af42cc",
+        "rev": "f24e7ccd5ba5518a84465fc62a224d5b8737e4bb",
         "type": "github"
       },
       "original": {
@@ -192,11 +192,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1627456929,
-        "narHash": "sha256-N6h5a1k0Z2+d/BW+rsCs5BWU28Lh+Vhew2S2EO9AH8c=",
+        "lastModified": 1629473386,
+        "narHash": "sha256-rARxvC0DvMvkhSKYqfBoftu2O7HE2T1aKlQJU/emx28=",
         "owner": "colemickens",
         "repo": "nixpkgs-wayland",
-        "rev": "a54cc105b439ab2355957cdbf951a3a2ba362a6f",
+        "rev": "5fa48601cc6198ccb3d5b893d71867773cff1dd1",
         "type": "github"
       },
       "original": {

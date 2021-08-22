@@ -14,7 +14,6 @@ in {
     awscli
     batctl
     bc
-    blackbox
     borgbackup
     cached-nix-shell
     dnsutils

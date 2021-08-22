@@ -1,1 +1,1 @@
-ssh://root@boron.auenheim.kleen.org aarch64-linux /home/vkleen/.ssh/id_nix_build 2 - - - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUJrUnRTamU1ckRlTU1kNndaRmJRMWQ5WGxGOW5xZVJmNDB2Wjh5K3gxL0ogcm9vdEBib3Jvbgo=
+ssh://root@boron.auenheim.kleen.org aarch64-linux /home/vkleen/.ssh/id_nix_build 2 - benchmark,kvm,recursive-nix,big-parallel - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUJrUnRTamU1ckRlTU1kNndaRmJRMWQ5WGxGOW5xZVJmNDB2Wjh5K3gxL0ogcm9vdEBib3Jvbgo=

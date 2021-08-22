@@ -8,7 +8,6 @@
       direnv
       git
       gnupg
-      std-packages
       tmux
       zsh
     ])

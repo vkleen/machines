@@ -84,7 +84,7 @@
       };
       wg1 = {
         ips = [ "10.172.30.132/24" "2600:3c01:e002:8b9d:2469:eead::1/64" ];
-        privateKeyFile = "/persist/private/bohrium";
+        privateKeyFile = "/run/secrets/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
           { publicKey = builtins.readFile ../../wireguard/plutonium.pub;
@@ -96,7 +96,7 @@
       };
       wg2 = {
         ips = [ "10.172.40.132/24" "2a01:7e01:e002:aa00:2469:eead::1/64" ];
-        privateKeyFile = "/persist/private/bohrium";
+        privateKeyFile = "/run/secrets/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
           { publicKey = builtins.readFile ../../wireguard/europium.pub;

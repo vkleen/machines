@@ -24,4 +24,4 @@ jobs:
       with:
         name: eng4aech5ieng4m
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - run: nix build .#nixosConfigurations.bohrium.config.system.build.toplevel
+    - run: nix -L build .#nixosConfigurations.bohrium.config.system.build.toplevel

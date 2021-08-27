@@ -20,6 +20,10 @@ in {
         id = 30;
         interface = "eth0";
       };
+      "new-lte" = {
+        id = 8;
+        interface = "eth0";
+      };
     };
 
     interfaces = {
@@ -40,6 +44,9 @@ in {
         ];
       };
       "upstream-mgmt" = {};
+      "new-lte" = {
+        useDHCP = true;
+      };
     };
 
     bridges = {

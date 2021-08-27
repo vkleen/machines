@@ -8,8 +8,8 @@ jobs:
   bohrium:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2.3.4
-    - uses: cachix/install-nix-action@v13
+    - uses: vkleen/checkout@v2.3.4
+    - uses: vkleen/install-nix-action@v13
       with:
         nix_path: nixpkgs=channel:nixos-unstable
         install_url: https://nixos-nix-install-tests.cachix.org/serve/i6laym9jw3wg9mw6ncyrk6gjx4l34vvx/install
@@ -20,7 +20,7 @@ jobs:
           system-features = nixos-test benchmark big-parallel kvm
           experimental-features = nix-command flakes
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-    - uses: cachix/cachix-action@v10
+    - uses: vkleen/cachix-action@v10
       with:
         name: eng4aech5ieng4m
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'

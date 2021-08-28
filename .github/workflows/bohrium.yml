@@ -30,4 +30,4 @@ jobs:
         GPG_KEY_GRIP: '${{ secrets.GPG_KEY_GRIP }}'
         GPG_KEY_PASS: '${{ secrets.GPG_KEY_PASS }}'
     - run: nix-store --add-fixed sha256 secrets/github/PragmataPro0.829.zip
-    - run: cachix watch-exec eng4aech5ieng4m nix -- -L build .#nixosConfigurations.bohrium.config.system.build.toplevel
+    - run: cachix watch-exec eng4aech5ieng4m nix -j1 -- --log-format raw build .#nixosConfigurations.bohrium.config.system.build.toplevel

@@ -21,7 +21,7 @@ jobs:
           experimental-features = nix-command flakes
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
           post-build-hook = /tmp/post-build-hook.sh
-    - uses: vkleen/cachix-action@df3d00ee52ca10dc213df5b9a6691e2ab7ef7658
+    - uses: vkleen/cachix-action@b82a2d300027897d238c2dd11543c717792ae23b
       with:
         name: eng4aech5ieng4m
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'

@@ -59,7 +59,7 @@ in {
       enable = true;
       externalInterface = "wg-europium";
       internalInterfaces = [ "auenheim" ];
-      internalIPs = [ "10.172.100.0/24" ];
+      # internalIPs = [ "10.172.100.0/24" ];
     };
 
     firewall = {

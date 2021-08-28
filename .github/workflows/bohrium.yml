@@ -15,8 +15,8 @@ jobs:
         install_url: https://nixos-nix-install-tests.cachix.org/serve/i6laym9jw3wg9mw6ncyrk6gjx4l34vvx/install
         install_options: '--tarball-url-prefix https://nixos-nix-install-tests.cachix.org/serve'
         extra_nix_config: |
-          trusted-public-keys = hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
-          substituters = https://hydra.iohk.io https://cache.nixos.org/
+          trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+          substituters = https://cache.nixos.org/
           system-features = nixos-test benchmark big-parallel kvm
           experimental-features = nix-command flakes
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
@@ -24,4 +24,10 @@ jobs:
       with:
         name: eng4aech5ieng4m
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+    - uses: vkleen/git-crypt-unlock@6d91c730540001ed7a43783d74fd30d827d8c67b
+      env:
+        GPG_PRIVATE_KEY: '${{ secrets.GPG_PRIVATE_KEY }}'
+        GPG_KEY_GRIP: '${{ secrets.GPG_KEY_GRIP }}'
+        GPG_KEY_PASS: '${{ secrets.GPG_KEY_PASS }}'
+    - run: nix-store --add-fixed sha256 secrets/github/PragmataPro0.829.zip
     - run: cachix watch-exec eng4aech5ieng4m nix -- -L build .#nixosConfigurations.bohrium.config.system.build.toplevel

@@ -1,1 +1,2 @@
+secrets/github/** filter=git-crypt-github diff=git-crypt-github
 secrets/git-crypt/** filter=git-crypt diff=git-crypt

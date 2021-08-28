@@ -20,8 +20,12 @@ in {
         id = 30;
         interface = "eth0";
       };
-      "new-lte" = {
+      "lte" = {
         id = 8;
+        interface = "eth0";
+      };
+      "telekom" = {
+        id = 7;
         interface = "eth0";
       };
     };
@@ -44,9 +48,6 @@ in {
         ];
       };
       "upstream-mgmt" = {};
-      "new-lte" = {
-        useDHCP = true;
-      };
     };
 
     bridges = {
@@ -167,11 +168,8 @@ in {
           extraCommands = ''
             ip46tables -F FORWARD
             ip46tables -A FORWARD -j DROP
-            iptables -I FORWARD 1 -o lte -d 192.168.1.1 -j ACCEPT
+            iptables -I FORWARD 1 -o lte -d 192.168.88.1 -j ACCEPT
             iptables -I FORWARD 2 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-
-            iptables -t mangle -F POSTROUTING
-            iptables -t mangle -A POSTROUTING -o lte -j TTL --ttl-set 65
 
             ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 5000kbit burst 5kb latency 100ms
             ${pkgs.iproute}/bin/tc qdisc add dev lte handle ffff: ingress
@@ -203,7 +201,7 @@ in {
           routes = [
             { routeConfig = {
                 Destination = "94.16.123.211/32";
-                Gateway = "192.168.1.1";
+                Gateway = "192.168.88.1";
               };
             }
           ];
@@ -297,7 +295,6 @@ in {
     };
     netns = "wg_upstream";
     preStartScript = ''
-      ${pkgs.iproute}/bin/ip link add name telekom link eth0 type vlan id 7
       ${pkgs.iproute}/bin/ip link add dev upstream-mgmt type veth peer name mgmt-veth
 
       ${pkgs.iproute}/bin/ip link set telekom netns wg_upstream
@@ -309,7 +306,7 @@ in {
       ${pkgs.iproute}/bin/ip link set upstream-mgmt master mgmt
     '';
     postStopScript = ''
-      ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link del telekom || true
+      ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set telekom netns 1 || true
       ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set ifb0 netns 1 || true
       ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set lte netns 1 || true
       ${pkgs.iproute}/bin/ip link del upstream-mgmt || true

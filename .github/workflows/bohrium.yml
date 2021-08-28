@@ -24,7 +24,7 @@ jobs:
       with:
         name: eng4aech5ieng4m
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - uses: vkleen/git-crypt-unlock@6d91c730540001ed7a43783d74fd30d827d8c67b
+    - uses: vkleen/git-crypt-unlock@bdbd4c9ed443b619c3349b53e6752340fcfb6b2e
       env:
         GPG_PRIVATE_KEY: '${{ secrets.GPG_PRIVATE_KEY }}'
         GPG_KEY_GRIP: '${{ secrets.GPG_KEY_GRIP }}'

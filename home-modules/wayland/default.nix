@@ -133,17 +133,17 @@ let
     (builtins.readFile ./fzf/fzf-ff-url)
   );
 
-  fzf-chrome-url-candidates = pkgs.writeScript "fzf-chrome-url-candidates" (builtins.replaceStrings
-    [ "@zsh@" "@sqlite3@" "@cat@" "@jq@" ]
-    [ "${pkgs.zsh}/bin/zsh" "${pkgs.sqlite}/bin/sqlite3" "${pkgs.coreutils}/bin/cat" "${pkgs.jq}/bin/jq" ]
-    (builtins.readFile ./fzf/fzf-chrome-url-candidates)
-  );
+  # fzf-chrome-url-candidates = pkgs.writeScript "fzf-chrome-url-candidates" (builtins.replaceStrings
+  #   [ "@zsh@" "@sqlite3@" "@cat@" "@jq@" ]
+  #   [ "${pkgs.zsh}/bin/zsh" "${pkgs.sqlite}/bin/sqlite3" "${pkgs.coreutils}/bin/cat" "${pkgs.jq}/bin/jq" ]
+  #   (builtins.readFile ./fzf/fzf-chrome-url-candidates)
+  # );
 
-  fzf-chrome-url = pkgs.writeScript "fzf-chrome-url" (builtins.replaceStrings
-    [ "@zsh@" "@fzf-chrome-url-candidates@" "@awk@" "@fzf@" "@grep@" "@pgrep@" "@tmux@" "@chromium-unwrapped@" "@chromium-browser@" ]
-    [ "${pkgs.zsh}/bin/zsh" "${fzf-chrome-url-candidates}" "${pkgs.gawk}/bin/awk" "${pkgs.fzf}/bin/fzf" "${pkgs.gnugrep}/bin/grep"  "${pkgs.procps}/bin/pgrep" "${pkgs.tmux}/bin/tmux" "${config.browser.chromium-unwrapped}/bin/chromium-browser"  "${config.browser.chromium}/bin/chromium" ]
-    (builtins.readFile ./fzf/fzf-chrome-url)
-  );
+  # fzf-chrome-url = pkgs.writeScript "fzf-chrome-url" (builtins.replaceStrings
+  #   [ "@zsh@" "@fzf-chrome-url-candidates@" "@awk@" "@fzf@" "@grep@" "@pgrep@" "@tmux@" "@chromium-unwrapped@" "@chromium-browser@" ]
+  #   [ "${pkgs.zsh}/bin/zsh" "${fzf-chrome-url-candidates}" "${pkgs.gawk}/bin/awk" "${pkgs.fzf}/bin/fzf" "${pkgs.gnugrep}/bin/grep"  "${pkgs.procps}/bin/pgrep" "${pkgs.tmux}/bin/tmux" "${config.browser.chromium-unwrapped}/bin/chromium-browser"  "${config.browser.chromium}/bin/chromium" ]
+  #   (builtins.readFile ./fzf/fzf-chrome-url)
+  # );
 
   fzf-pass = pkgs.writeScript "fzf-pass" (builtins.replaceStrings
     [ "@zsh@" "@tmux@" "@pass@" "@head@" "@wl-copy@" "@fzf@" ]

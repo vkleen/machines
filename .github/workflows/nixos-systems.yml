@@ -4,6 +4,9 @@ on:
     branches:
       - flake
   workflow_dispatch:
+concurrency:
+  group: nixos-builds
+  cancel-in-progress: true
 jobs:
   nixos:
     runs-on: ubuntu-latest

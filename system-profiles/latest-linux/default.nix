@@ -38,6 +38,9 @@
           USB_MASS_STORAGE = module;
 
           USB_U_SERIAL = module;
+
+          USBIP_CORE = module;
+          USBIP_VHCI_HCD = module;
         };
       };
   });

@@ -1,0 +1,38 @@
+name: "Build machines"
+on:
+  push:
+    branches:
+      - flake
+  workflow_dispatch:
+jobs:
+  nixos:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        host: [ bohrium, europium ]
+    steps:
+      - uses: vkleen/checkout@v2.3.4
+      - run: .github/workflows/free_disk_space.sh
+      - uses: vkleen/install-nix-action@v13
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          install_url: https://nixos-nix-install-tests.cachix.org/serve/i6laym9jw3wg9mw6ncyrk6gjx4l34vvx/install
+          install_options: '--tarball-url-prefix https://nixos-nix-install-tests.cachix.org/serve'
+          extra_nix_config: |
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+            substituters = https://cache.nixos.org/
+            system-features = nixos-test benchmark big-parallel kvm
+            experimental-features = nix-command flakes
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - run: sudo .github/workflows/adjust-nix-daemon-tmp.sh
+      - uses: vkleen/cachix-action@v10
+        with:
+          name: eng4aech5ieng4m
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - uses: vkleen/git-crypt-unlock@bdbd4c9ed443b619c3349b53e6752340fcfb6b2e
+        env:
+          GPG_PRIVATE_KEY: '${{ secrets.GPG_PRIVATE_KEY }}'
+          GPG_KEY_GRIP: '${{ secrets.GPG_KEY_GRIP }}'
+          GPG_KEY_PASS: '${{ secrets.GPG_KEY_PASS }}'
+      - run: nix-store --add-fixed sha256 secrets/github/PragmataPro0.829.zip
+      - run: cachix watch-exec eng4aech5ieng4m nix -- -j1 --keep-going -L build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel

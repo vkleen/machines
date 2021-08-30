@@ -24,7 +24,7 @@ jobs:
           extra_nix_config: |
             trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
             substituters = https://cache.nixos.org/
-            system-features = nixos-test benchmark big-parallel kvm
+            system-features = nixos-test benchmark big-parallel
             experimental-features = nix-command flakes
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - run: sudo .github/workflows/adjust-nix-daemon-tmp.sh

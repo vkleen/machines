@@ -47,12 +47,11 @@ in {
           { address = "10.172.0.3"; prefixLength = 24; }
         ];
       };
-      "upstream-mgmt" = {};
     };
 
     bridges = {
       "mgmt" = {
-        interfaces = [ "auenheim-mgmt" ];
+        interfaces = [ "auenheim-mgmt" "upstream-mgmt" ];
       };
     };
 
@@ -301,9 +300,6 @@ in {
       ${pkgs.iproute}/bin/ip link set mgmt-veth netns wg_upstream
       ${pkgs.iproute}/bin/ip link set ifb0 netns wg_upstream
       ${pkgs.iproute}/bin/ip link set lte netns wg_upstream
-
-      ${pkgs.iproute}/bin/ip link set upstream-mgmt up
-      ${pkgs.iproute}/bin/ip link set upstream-mgmt master mgmt
     '';
     postStopScript = ''
       ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set telekom netns 1 || true
@@ -432,15 +428,6 @@ in {
       networkConfig = {
         LinkLocalAddressing = "no";
       };
-    };
-    networks."40-mgmt" = {
-      routes = [
-        { routeConfig = {
-            Destination = "192.168.1.1/32";
-            Gateway = "10.172.0.4";
-          };
-        }
-      ];
     };
   };
 

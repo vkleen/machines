@@ -25,11 +25,9 @@
 
   nix = {
     binaryCaches = [
-      "s3://vkleen-nix-cache?region=eu-central-1"
     ];
 
     binaryCachePublicKeys = [
-      (builtins.readFile ../../secrets/aws/aws-vkleen-nix-cache-1.public)
     ];
     maxJobs = 4;
     buildCores = 4;

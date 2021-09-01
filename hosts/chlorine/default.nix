@@ -16,7 +16,6 @@
 
   nix = {
     binaryCaches = [
-      "s3://vkleen-nix-cache?region=eu-central-1"
     ];
 
     binaryCachePublicKeys = [

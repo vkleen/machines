@@ -12,8 +12,6 @@ in
     ];
 
     binaryCachePublicKeys = [
-      "seaborgium.1:0cDg6+fSZ4Z4L7T24SPPal5VN4m51P5o2NDfUycbKmo="
-      "aws-vkleen-nix-cache-1:0mQ08qXrc6QAAXrQZic3R4plUs96tObJsiTwIOKYldU="
     ];
 
     buildCores = 18;

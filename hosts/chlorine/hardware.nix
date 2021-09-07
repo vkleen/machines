@@ -15,7 +15,11 @@
   boot.kernelModules = [ "dm_snapshot" "dm_integrity" "powernv-cpufreq" ];
   powerManagement.cpuFreqGovernor = "schedutil";
 
-  boot.initrd.availableKernelModules = [ "nvme" "aacraid" "xhci_pci" "sd_mod" ];
+  boot.initrd.includeDefaultModules = false;
+  boot.initrd.availableKernelModules = [
+    "nvme" "aacraid" "xhci_pci" "sd_mod"
+    "dm_mod"
+  ];
   boot.extraModulePackages = [ ];
 
   boot.initrd.luks = {

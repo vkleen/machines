@@ -23,9 +23,6 @@
     ];
     maxJobs = 72;
     buildCores = 72;
-    extraOptions = ''
-      secret-key-files = /run/keys/chlorine.1.sec
-    '';
   };
 
   networking.hostId = "53199d00";

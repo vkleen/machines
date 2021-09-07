@@ -4,6 +4,7 @@
     ./networking.nix
     ./extra-scripts.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
+    initrd-all-crypto-modules
     latest-linux
     no-coredump
     ssh

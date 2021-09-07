@@ -24,12 +24,6 @@
         device = "/dev/disk/by-uuid/6939b21d-b466-4b00-b79f-cee0ad92efd1";
       };
     };
-    cryptoModules = [
-      "aegis256" "aegis256_aesni" "dm_integrity" "aes"
-      "aes_generic" "aes_x86_64" "xts" "sha256" "sha512"
-      "dm_bufio" "algif_aead" "algif_skcipher" "md4"
-      "algif_hash" "arc4" "ctr" "cbc" "authenc" "cmac" "ccm"
-    ];
   };
 
   fileSystems."/" =

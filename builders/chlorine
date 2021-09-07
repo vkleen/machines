@@ -1,0 +1,1 @@
+ssh://root@chlorine.auenheim.kleen.org powerpc64le-linux /home/vkleen/.ssh/id_nix_build 72 - benchmark,kvm,recursive-nix,big-parallel - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUdtY1JuR1NmeDIzVThkL09Hc0JCOXgwcmFPbFJlOUJoekt5Zk9XcElTOW4K

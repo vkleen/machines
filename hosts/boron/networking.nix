@@ -43,9 +43,8 @@ in {
         ];
       };
       "mgmt" = {
-        ipv4.addresses = [
-          { address = "10.172.0.3"; prefixLength = 24; }
-        ];
+        useDHCP = true;
+        macAddress = "5a:1d:49:77:c9:26";
       };
     };
 
@@ -155,10 +154,8 @@ in {
             useDHCP = false;
           };
           "mgmt-veth" = {
-            useDHCP = false;
-            ipv4.addresses = [
-              { address = "10.172.0.4"; prefixLength = 24; }
-            ];
+            useDHCP = true;
+            macAddress = "5a:1d:49:77:c9:27";
           };
         };
         firewall = {

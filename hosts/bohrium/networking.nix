@@ -52,6 +52,9 @@
         # ];
         useDHCP = true;
       };
+      "mgmt" = {
+        useDHCP = true;
+      };
     };
 
     # defaultGateway = {
@@ -119,6 +122,21 @@
   systemd.network = {
     networks."40-eth-dock" = {
       networkConfig.PrimarySlave = true;
+    };
+
+    networks."40-mgmt" = {
+      dhcpV4Config.UseRoutes = false;
+      networkConfig = {
+        DHCP = lib.mkForce "ipv4";
+        LinkLocalAddressing = "no";
+      };
+      routes = [
+        { routeConfig = {
+            Destination = "192.168.88.1/32";
+            Gateway = "10.172.0.3";
+          };
+        }
+      ];
     };
   };
 

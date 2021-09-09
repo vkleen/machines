@@ -147,10 +147,7 @@
   services.udev.packages = [ pkgs.crda ];
 
   services.udev.extraRules = ''
-    SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="00:50:b6:ec:74:02", NAME:="eth-dock"
-    ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1f01", RUN+="${pkgs.usb_modeswitch}/bin/usb_modeswitch -J -v %s{idVendor} -p %s{idProduct}"
-    KERNEL=="eth*", ATTR{address}=="58:2c:80:13:92:63", NAME="wwan"
-    SUBSYSTEM=="net", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee3", ATTRS{serial}=="FA6CN0301735", NAME:="einsteinium"
+    SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="d0:c0:bf:48:d8:e7", NAME:="eth-dock"
   '';
 
   programs.mtr.enable = true;

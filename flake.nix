@@ -37,6 +37,28 @@
       url = "github:vkleen/hledger";
       flake = false;
     };
+    neovim-nightly = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Vim Plugins
+    nvim-lspconfig = { url = "github:neovim/nvim-lspconfig"; flake = false; };
+    nvim-ts-rainbow = { url = "github:p00f/nvim-ts-rainbow"; flake = false; };
+    nvim-treesitter-context = { url = "github:romgrk/nvim-treesitter-context"; flake = false; };
+    nvim-selenized = { url = "github:jan-warchol/selenized"; flake = false; };
+    clever-f = { url = "github:rhysd/clever-f.vim"; flake = false; };
+    nvim-cmp = { url = "github:hrsh7th/nvim-cmp"; flake = false; };
+    cmp-buffer = { url = "github:hrsh7th/cmp-buffer"; flake = false; };
+    nvim-colorizer = { url = "github:norcalli/nvim-colorizer.lua"; flake = false; };
+    gitsigns = { url = "github:lewis6991/gitsigns.nvim"; flake = false; };
+    bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
+    lualine = { url = "github:hoob3rt/lualine.nvim"; flake = false; };
+    fterm = { url = "github:numtostr/FTerm.nvim"; flake = false; };
+    vim-vsnip = { url = "github:hrsh7th/vim-vsnip"; flake = false; };
+    vim-vsnip-integ = { url = "github:hrsh7th/vim-vsnip-integ"; flake = false; };
+    telescope-ghq = { url = "github:nvim-telescope/telescope-ghq.nvim"; flake = false; };
+    rust-tools = { url = "github:simrat39/rust-tools.nvim"; flake = false; };
   };
 
   outputs = { self, ...}@inputs:
@@ -179,6 +201,7 @@
         { pkgs = self.overlay;
 
           nixpkgs-wayland = inputs.nixpkgs-wayland.overlay;
+          neovim-nightly = inputs.neovim-nightly.overlay;
           sources = _: _: {
             inherit (inputs) freecad-src freecad-assembly3-src kicad-src hledger-src;
           };
@@ -188,6 +211,7 @@
         recImport rec { dir = ./overlays; _import = (path: _name: "${toString dir}/${path}"); }
         // { pkgs = ./pkgs;
              nixpkgs-wayland = inputs.nixpkgs-wayland;
+             neovim-nightly = inputs.neovim-nightly;
 
              sources = pkgset.${system}.writeText "sources.nix" ''
                _: _: {
@@ -256,6 +280,27 @@
         in if !(isNull installerConfig)
            then { installers = forAllSystems (system: mkInstallers system); }
            else {};
+
+
+        rtpPath = "share/vim-plugins";
+
+        addRtp = path: derivation:
+          derivation // { rtp = "${derivation}/${path}"; };
+
+        vimPlugin = pkgs: ref: vimPluginSubdir pkgs ref "";
+        vimPluginSubdir = pkgs: ref: d: addRtp "${rtpPath}/${ref}" (pkgs.stdenv.mkDerivation {
+          name = "vimplugin-${lib.strings.sanitizeDerivationName ref}";
+          unpackPhase = ":";
+          buildPhase = ":";
+          configurePhase = ":";
+          installPhase = ''
+            runHook preInstall
+            target="$out/${rtpPath}"
+            mkdir -p "$target"
+            cp -r "${inputs."${ref}".outPath}/${d}" "$target/${ref}"
+            runHook postInstall
+          '';
+        });
     in
       {
         nixosModules =
@@ -293,6 +338,32 @@
         legacyPackages = pkgset;
 
         apps = activateNixosConfigurations;
+
+        vimPlugins = forAllSystems (system:
+        let
+          pkgs = self.legacyPackages.${system};
+          subdir = n: d: {
+            outPath = "${builtins.toString inputs."${n}".outPath}/${d}";
+          };
+        in genAttrs [
+            "nvim-lspconfig"
+            "nvim-ts-rainbow"
+            "nvim-treesitter-context"
+            "clever-f"
+            "nvim-cmp"
+            "cmp-buffer"
+            "nvim-colorizer"
+            "gitsigns"
+            "bufferline"
+            "lualine"
+            "fterm"
+            "vim-vsnip"
+            "vim-vsnip-integ"
+            "telescope-ghq"
+            "rust-tools"
+          ] (vimPlugin pkgs) // {
+            nvim-selenized = vimPluginSubdir pkgs "nvim-selenized" "editors/vim";
+          });
 
         devShell = forAllSystems (system: import ./shell.nix {
           pkgs = self.legacyPackages.${system};

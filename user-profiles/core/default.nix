@@ -25,6 +25,7 @@ in {
         manual.manpages.enable = true;
         _module.args.pkgs = lib.mkForce pkgs;
         _module.args.nixos = config;
+        _module.args.flake = flake;
       };
     };
   };

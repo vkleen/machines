@@ -19,6 +19,7 @@
       kitty
       mpv
       neomutt
+      neovim
       obs
       redshift
       spacenav

@@ -1,5 +1,8 @@
 { pkgs, nixos, ... }:
 {
+  home.packages = [
+    pkgs.ghq
+  ];
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.git;
@@ -34,6 +37,9 @@
       };
       pull = {
         ff = "only";
+      };
+      ghq = {
+        root = "~/src";
       };
     };
     delta = {

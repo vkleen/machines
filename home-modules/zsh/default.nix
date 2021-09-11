@@ -65,9 +65,7 @@ in {
       la = "ls -la";
       ls = "${pkgs.exa}/bin/exa -F";
       lg = "l --git";
-      e = "e-in-current-ws";
       ".." = "cd ..";
-      scratch = "editor-scratch";
       p = "${pkgs.parallel}/bin/parallel";
       cat = "${pkgs.bat}/bin/bat -p";
 

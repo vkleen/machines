@@ -1,4 +1,4 @@
-{pkgs, lib, flake, nixos, ...}:
+{pkgs, config, lib, flake, nixos, ...}:
 let
   neovide-wrapped = pkgs.writeShellScriptBin "neovide" ''
     exec ${pkgs.neovide}/bin/neovide "$@"
@@ -11,6 +11,10 @@ in {
     };
   };
   config = {
+    home.sessionVariables = {
+      EDITOR = "${config.programs.neovim.finalPackage}/bin/nvim";
+    };
+
     home.packages = [
       neovide-wrapped
     ];

@@ -30,10 +30,6 @@ in {
     };
   };
   config = {
-    home.sessionVariables = {
-      EDITOR = "${kak}/bin/kak";
-    };
-
     xdg.configFile."kak-lsp/kak-lsp.toml".text = ''
       [language.haskell]
       filetypes = ["haskell"]

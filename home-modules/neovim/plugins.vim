@@ -29,6 +29,12 @@ nnoremap <silent> q b
 nnoremap <silent> Q B
 nnoremap <silent> <a-q> <a-b>
 nnoremap <silent> <a-Q> <a-B>
+vnoremap <silent> ^ q
+vnoremap <silent> <a-^> Q
+vnoremap <silent> q b
+vnoremap <silent> Q B
+vnoremap <silent> <a-q> <a-b>
+vnoremap <silent> <a-Q> <a-B>
 
 let g:which_key_map['f'] = { 'name': 'Telescope' }
 nnoremap <silent> ; <cmd>lua require'telescope.builtin'.find_files()<cr>
@@ -38,3 +44,5 @@ nnoremap <silent> <leader>fg <cmd>lua require'telescope.builtin'.live_grep()<cr>
 nnoremap <silent> <leader>fG <cmd>lua require'telescope'.extensions.ghq.list()<cr>
 nnoremap <silent> <leader>fb <cmd>lua require'telescope.builtin'.buffers()<cr>
 nnoremap <silent> <leader>fh <cmd>lua require'telescope.builtin'.help_tags()<cr>
+
+let g:which_key_map['h'] = { 'name': 'Git' }

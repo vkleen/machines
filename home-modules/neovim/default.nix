@@ -33,6 +33,7 @@ in {
           lua <<EOF
           ${lib.strings.fileContents ./config.lua}
           ${lib.strings.fileContents ./lsp.lua}
+          ${lib.strings.fileContents ./haskell.lua}
           EOF
         ''
       ];

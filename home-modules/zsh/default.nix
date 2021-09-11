@@ -15,6 +15,13 @@ let
     sha256 = "sha256-hvlz8/mdg9spKy2RLhqPukqdawd9+MEvW31smCsuUhA=";
   };
 
+  fzf-z = pkgs.fetchFromGitHub {
+    owner = "vkleen";
+    repo = "fzf-z";
+    rev = "37ca9fbedafb8c29d889f2a331ec37d7100b9254";
+    sha256 = "sha256-AsD/pDh7YyQ/qI9tproUhXYlApxqoiHCPQjOrSBhD80=";
+  };
+
   dotDir = ".config/zsh";
   pluginsDir = "${dotDir}/plugins";
 
@@ -70,6 +77,14 @@ in {
       name = "powerlevel10k";
       file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       src = pkgs.zsh-powerlevel10k;
+    } {
+      name = "zsh-z";
+      file = "share/zsh-z/zsh-z.plugin.zsh";
+      src = pkgs.zsh-z;
+    } {
+      name = "fzf-z";
+      file = "fzf-z.plugin.zsh";
+      src = fzf-z;
     }];
     initExtraBeforeCompInit = ''
       source "${config.home.homeDirectory}/${dotDir}/.p10k.zsh"
@@ -86,6 +101,11 @@ in {
       bindkey "^K" up-line-or-search
       bindkey "^J" down-line-or-search
       bindkey "^O" clear-screen
+
+      bindkey "^P" fzfz-dir-widget
+
+      export ZSHZ_PLUGIN_PATH="${config.home.homeDirectory}/${pluginsDir}/zsh-z/share/zsh-z/zsh-z.plugin.zsh"
+      setopt autocd
     '';
   };
 

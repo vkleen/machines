@@ -84,6 +84,22 @@
         "type": "github"
       }
     },
+    "cmp-nvim-lsp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1630692411,
+        "narHash": "sha256-D1JRt0lEyMN4UewWvrQeV06i8cpcJvwevigYXLgYWas=",
+        "owner": "hrsh7th",
+        "repo": "cmp-nvim-lsp",
+        "rev": "f6f471898bc4b45eacd36eef9887847b73130e0e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hrsh7th",
+        "repo": "cmp-nvim-lsp",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -479,6 +495,7 @@
         "bufferline": "bufferline",
         "clever-f": "clever-f",
         "cmp-buffer": "cmp-buffer",
+        "cmp-nvim-lsp": "cmp-nvim-lsp",
         "freecad-assembly3-src": "freecad-assembly3-src",
         "freecad-src": "freecad-src",
         "fterm": "fterm",

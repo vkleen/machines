@@ -64,8 +64,12 @@ in {
         plenary-nvim
         telescope-nvim
         telescope-frecency-nvim
-        telescope-fzf-writer-nvim
+        telescope-fzf-native-nvim
         telescope-z-nvim
+
+        lightspeed-nvim
+        limelight-vim
+        goyo-vim
 
         nerdcommenter
       ] ++ (with flake.vimPlugins.${nixos.nixpkgs.system}; [
@@ -81,6 +85,7 @@ in {
         vim-vsnip
         vim-vsnip-integ
         cmp-buffer
+        cmp-nvim-lsp
 
         nvim-colorizer
         gitsigns

@@ -7,8 +7,6 @@ imap <C-k> <C-p>
 noremap <S-j> 3jzz
 noremap <S-k> 3kzz
 
-nmap ; :Files<CR>
-
 "splits
 function! WinMove(key)
   let t:curwin = winnr()
@@ -29,7 +27,6 @@ noremap <silent> <C-k> :call WinMove('k')<CR>
 noremap <silent> <C-l> :call WinMove('l')<CR>
 
 "terminal
-tnoremap jk <C-\><C-n>
 tnoremap <C-u> <C-\><C-n>:q<CR>
 
 "true colors

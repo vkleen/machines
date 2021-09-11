@@ -50,6 +50,7 @@
     clever-f = { url = "github:rhysd/clever-f.vim"; flake = false; };
     nvim-cmp = { url = "github:hrsh7th/nvim-cmp"; flake = false; };
     cmp-buffer = { url = "github:hrsh7th/cmp-buffer"; flake = false; };
+    cmp-nvim-lsp = { url = "github:hrsh7th/cmp-nvim-lsp"; flake = false; };
     nvim-colorizer = { url = "github:norcalli/nvim-colorizer.lua"; flake = false; };
     gitsigns = { url = "github:lewis6991/gitsigns.nvim"; flake = false; };
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -352,6 +353,7 @@
             "clever-f"
             "nvim-cmp"
             "cmp-buffer"
+            "cmp-nvim-lsp"
             "nvim-colorizer"
             "gitsigns"
             "bufferline"

@@ -4,6 +4,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
+
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -52,6 +55,7 @@ local servers = {
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
+    capabilities = capabilities,
     flags = {
       debounce_text_changes = 150
     }
@@ -59,5 +63,6 @@ for _, lsp in ipairs(servers) do
 end
 nvim_lsp["hls"].setup {
   on_attach = on_attach,
+  capabilities = capabilities,
   cmd = { "haskell-language-server", "--lsp" },
 }

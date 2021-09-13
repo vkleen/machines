@@ -144,8 +144,18 @@ cmp.setup({
   }
 })
 
-require'notify'.setup({
-  stages = "static",
-  timeout = 5000,
-})
-vim.notify = require'notify'
+if vim.fn.executable('notify-send') then
+  vim.notify = function(message, _, _)
+    if type(message) ~= "string" then
+      print(type(message))
+      return
+    end
+    vim.fn.jobstart({"notify-send", "Neovim", message})
+  end
+else
+  require'notify'.setup({
+    stages = "static",
+    timeout = 5000,
+  })
+  vim.notify = require'notify'
+end

@@ -78,6 +78,7 @@ in {
     imagemagick
     imv
     iwgtk
+    libnotify
     noti
     pavucontrol
     pidgin-with-plugins

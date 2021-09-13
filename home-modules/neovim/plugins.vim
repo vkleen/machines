@@ -46,3 +46,5 @@ nnoremap <silent> <leader>fb <cmd>lua require'telescope.builtin'.buffers()<cr>
 nnoremap <silent> <leader>fh <cmd>lua require'telescope.builtin'.help_tags()<cr>
 
 let g:which_key_map['h'] = { 'name': 'Git' }
+let g:which_key_map['b'] = { 'name': 'Buffers' }
+nnoremap <silent> <leader>bd <cmd>bdelete<cr>

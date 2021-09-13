@@ -32,7 +32,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>rl', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
   buf_set_keymap('n', '<leader>rr', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
-  
+
   buf_set_keymap('n', '<leader>rq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
   -- Set some keybinds conditional on server capabilities
@@ -52,15 +52,34 @@ end
 require'rust-tools'.setup({})
 
 local servers = {
-  "texlab",
-  "rust_analyzer",
+  texlab = {},
+  rust_analyzer = {},
+  hls = {
+    cmd = { "haskell-language-server", "--lsp" },
+  }
 }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
+
+local function merge(t1, t2)
+  for k,v in pairs(t2) do
+    if (type(v) == "table") and (type(t1[k] or false) == "tables") then
+      merge(t1[k], t2[k])
+    else
+      t1[k] = v
+    end
+  end
+  return t1
+end
+local function prepare_opts(extra_opts)
+  local def_opts = {
     on_attach = on_attach,
     capabilities = capabilities,
     flags = {
       debounce_text_changes = 150
     }
   }
+  return merge(def_opts, extra_opts)
+end
+
+for lsp,extra_opts in pairs(servers) do
+  nvim_lsp[lsp].setup(prepare_opts(extra_opts))
 end

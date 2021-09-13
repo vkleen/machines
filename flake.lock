@@ -263,6 +263,22 @@
         "type": "github"
       }
     },
+    "neovide-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1631426030,
+        "narHash": "sha256-EYmhhF/k7Xm1FzoNUkUMBZ7UqLSTZd2qU5vF8UBVwck=",
+        "owner": "Kethku",
+        "repo": "neovide",
+        "rev": "69187642e4f97b12d99b7597d0576b7b968e80a0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Kethku",
+        "repo": "neovide",
+        "type": "github"
+      }
+    },
     "neovim-flake": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -504,6 +520,7 @@
         "home-manager": "home-manager",
         "kicad-src": "kicad-src",
         "lualine": "lualine",
+        "neovide-src": "neovide-src",
         "neovim-nightly": "neovim-nightly",
         "nixos-rocm-power9": "nixos-rocm-power9",
         "nixpkgs": "nixpkgs",

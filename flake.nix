@@ -41,6 +41,10 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    neovide-src = {
+      url = "github:Kethku/neovide";
+      flake = false;
+    };
 
     # Vim Plugins
     nvim-lspconfig = { url = "github:neovim/nvim-lspconfig"; flake = false; };
@@ -204,7 +208,7 @@
           nixpkgs-wayland = inputs.nixpkgs-wayland.overlay;
           neovim-nightly = inputs.neovim-nightly.overlay;
           sources = _: _: {
-            inherit (inputs) freecad-src freecad-assembly3-src kicad-src hledger-src;
+            inherit (inputs) freecad-src freecad-assembly3-src kicad-src hledger-src neovide-src;
           };
         };
 
@@ -220,6 +224,7 @@
                  freecad-assembly3-src = ${toString inputs.freecad-assembly3-src};
                  kicad-src = ${toString inputs.kicad-src};
                  hledger-src = ${toString inputs.hledger-src};
+                 neovide-src = ${toString inputs.neovide-src};
                }
              '';
            };

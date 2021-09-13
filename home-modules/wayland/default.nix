@@ -89,7 +89,7 @@ let
       ${pkgs.tmux}/bin/tmux new-session -d -s $SESSION_NAME
     fi
 
-    ${pkgs.tmux}/bin/tmux send-keys -t $SESSION_NAME "$*" ENTER
+    ${pkgs.tmux}/bin/tmux send-keys -t $SESSION_NAME " $*" ENTER
     exec ${pkgs.tmux}/bin/tmux attach-session -t $SESSION_NAME
   '';
 

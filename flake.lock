@@ -288,11 +288,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1631256507,
-        "narHash": "sha256-2GohIwZF8ZFV0rmKFDy7Tk7UYaxfuqXvWX4rM9wrlMQ=",
+        "lastModified": 1631543621,
+        "narHash": "sha256-i4y8k7yWrIcCL2YuiTz/H98FNnuoCyfJnwsaKXNGqHA=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "8f0c843c130a2117610e7892a8c1ca0887a54a6f",
+        "rev": "5fd21b8d3e9dcb2b3dc3bdab4b58218ac908e3e8",
         "type": "github"
       },
       "original": {
@@ -305,7 +305,9 @@
     "neovim-nightly": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "neovim-flake": "neovim-flake",
+        "neovim-flake": [
+          "neovim-flake"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -521,6 +523,7 @@
         "kicad-src": "kicad-src",
         "lualine": "lualine",
         "neovide-src": "neovide-src",
+        "neovim-flake": "neovim-flake",
         "neovim-nightly": "neovim-nightly",
         "nixos-rocm-power9": "nixos-rocm-power9",
         "nixpkgs": "nixpkgs",

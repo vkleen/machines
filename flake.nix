@@ -37,9 +37,16 @@
       url = "github:vkleen/hledger";
       flake = false;
     };
+    neovim-flake = {
+      url = "github:neovim/neovim?dir=contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     neovim-nightly = {
       url = "github:nix-community/neovim-nightly-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        neovim-flake.follows = "neovim-flake";
+      };
     };
     neovide-src = {
       url = "github:Kethku/neovide";

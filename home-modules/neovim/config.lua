@@ -143,3 +143,9 @@ cmp.setup({
     { name = 'buffer' },
   }
 })
+
+require'notify'.setup({
+  stages = "static",
+  timeout = 5000,
+})
+vim.notify = require'notify'

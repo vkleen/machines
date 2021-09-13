@@ -79,6 +79,8 @@ in {
         nerdcommenter
 
         direnv-vim
+
+        nvim-notify
       ] ++ (with flake.vimPlugins.${nixos.nixpkgs.system}; [
         nvim-lspconfig
         nvim-ts-rainbow

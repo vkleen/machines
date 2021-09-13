@@ -1,0 +1,36 @@
+#!/usr/bin/env zsh
+
+prog_name=$0
+
+usage_exit() {
+  printf "Usage: %s [on|off]\n" "$prog_name"
+  exit 1
+}
+
+do_mount() {
+  pass helium-usb | ssh helium.mgmt -- "cryptsetup open /dev/sda1 usb && mount /dev/mapper/usb /mnt/usb"
+}
+
+do_umount() {
+  ssh helium.mgmt -- "umount /mnt/usb; cryptsetup close usb"
+}
+
+if (( ${#} > 1 )); then
+  usage_exit
+fi
+
+mount=0
+
+if (( ${#} == 1 )); then
+  arg=${1}; shift;
+  case "${arg}" in
+    on) mount=1 ;;
+    off) mount=0 ;;
+    *) usage_exit ;;
+  esac
+fi
+
+case "${mount}" in
+  1) do_mount ;;
+  0) do_umount ;;
+esac

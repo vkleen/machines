@@ -54,23 +54,25 @@
     };
 
     # Vim Plugins
-    nvim-lspconfig = { url = "github:neovim/nvim-lspconfig"; flake = false; };
-    nvim-ts-rainbow = { url = "github:p00f/nvim-ts-rainbow"; flake = false; };
-    nvim-treesitter-context = { url = "github:romgrk/nvim-treesitter-context"; flake = false; };
-    nvim-selenized = { url = "github:jan-warchol/selenized"; flake = false; };
+    bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
     clever-f = { url = "github:rhysd/clever-f.vim"; flake = false; };
-    nvim-cmp = { url = "github:hrsh7th/nvim-cmp"; flake = false; };
     cmp-buffer = { url = "github:hrsh7th/cmp-buffer"; flake = false; };
     cmp-nvim-lsp = { url = "github:hrsh7th/cmp-nvim-lsp"; flake = false; };
-    nvim-colorizer = { url = "github:norcalli/nvim-colorizer.lua"; flake = false; };
-    gitsigns = { url = "github:lewis6991/gitsigns.nvim"; flake = false; };
-    bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
-    lualine = { url = "github:hoob3rt/lualine.nvim"; flake = false; };
     fterm = { url = "github:numtostr/FTerm.nvim"; flake = false; };
-    vim-vsnip = { url = "github:hrsh7th/vim-vsnip"; flake = false; };
-    vim-vsnip-integ = { url = "github:hrsh7th/vim-vsnip-integ"; flake = false; };
-    telescope-ghq = { url = "github:nvim-telescope/telescope-ghq.nvim"; flake = false; };
+    gitsigns = { url = "github:lewis6991/gitsigns.nvim"; flake = false; };
+    lualine = { url = "github:hoob3rt/lualine.nvim"; flake = false; };
+    nvim-cmp = { url = "github:hrsh7th/nvim-cmp"; flake = false; };
+    nvim-colorizer = { url = "github:norcalli/nvim-colorizer.lua"; flake = false; };
+    nvim-lspconfig = { url = "github:neovim/nvim-lspconfig"; flake = false; };
+    nvim-selenized = { url = "github:jan-warchol/selenized"; flake = false; };
+    nvim-treesitter-context = { url = "github:romgrk/nvim-treesitter-context"; flake = false; };
+    nvim-ts-rainbow = { url = "github:p00f/nvim-ts-rainbow"; flake = false; };
+    plenary-nvim = { url = "github:vkleen/plenary.nvim"; flake = false; };
     rust-tools = { url = "github:simrat39/rust-tools.nvim"; flake = false; };
+    telescope-ghq = { url = "github:nvim-telescope/telescope-ghq.nvim"; flake = false; };
+    telescope-zoxide = { url = "github:jvgrootveld/telescope-zoxide"; flake = false; };
+    vim-vsnip-integ = { url = "github:hrsh7th/vim-vsnip-integ"; flake = false; };
+    vim-vsnip = { url = "github:hrsh7th/vim-vsnip"; flake = false; };
   };
 
   outputs = { self, ...}@inputs:
@@ -359,22 +361,24 @@
             outPath = "${builtins.toString inputs."${n}".outPath}/${d}";
           };
         in genAttrs [
-            "nvim-lspconfig"
-            "nvim-ts-rainbow"
-            "nvim-treesitter-context"
+            "bufferline"
             "clever-f"
-            "nvim-cmp"
             "cmp-buffer"
             "cmp-nvim-lsp"
-            "nvim-colorizer"
-            "gitsigns"
-            "bufferline"
-            "lualine"
             "fterm"
+            "gitsigns"
+            "lualine"
+            "nvim-cmp"
+            "nvim-colorizer"
+            "nvim-lspconfig"
+            "nvim-treesitter-context"
+            "nvim-ts-rainbow"
+            "plenary-nvim"
+            "rust-tools"
+            "telescope-ghq"
+            "telescope-zoxide"
             "vim-vsnip"
             "vim-vsnip-integ"
-            "telescope-ghq"
-            "rust-tools"
           ] (vimPlugin pkgs) // {
             nvim-selenized = vimPluginSubdir pkgs "nvim-selenized" "editors/vim";
           });

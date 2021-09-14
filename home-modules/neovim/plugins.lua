@@ -103,7 +103,21 @@ require'telescope'.setup {
   }
 }
 require'telescope'.load_extension('fzf')
-vim.api.nvim_set_keymap('n', '<leader>fz', [[<cmd>lua require'telescope'.extensions.z.list{ cmd = {'zsh', '-c', 'source ~/.config/zsh/plugins/zsh-z/share/zsh-z/zsh-z.plugin.zsh && zshz -l'} }<CR>]], { noremap = true, silent = true })
+
+require'telescope._extensions.zoxide.config'.setup{
+  mappings = {
+    default = {
+      action = function(selection)
+        vim.cmd('cd ' .. selection.path)
+      end
+    },
+    ["<C-e>"] = {
+      action = function(selection)
+        require'telescope.builtin'.find_files({cwd = selection.path, initial_mode = 'insert'})
+      end
+    },
+  }
+}
 
 require('FTerm').setup({
   cmd = "zsh",

@@ -18,8 +18,8 @@ let
   fzf-z = pkgs.fetchFromGitHub {
     owner = "vkleen";
     repo = "fzf-z";
-    rev = "37ca9fbedafb8c29d889f2a331ec37d7100b9254";
-    sha256 = "sha256-AsD/pDh7YyQ/qI9tproUhXYlApxqoiHCPQjOrSBhD80=";
+    rev = "571257730970c1f56d446a6680afd8b21815d266";
+    sha256 = "sha256-piyD+PGil20ZVglEduKlWeQypUkyJFpGVcW5Mnx59PM=";
   };
 
   dotDir = ".config/zsh";
@@ -27,6 +27,7 @@ let
 
   root-direnv = "${pkgs.direnv}/bin/direnv exec /";
 in {
+  home.packages = [ pkgs.zoxide ];
   programs.jq.enable = true;
   programs.fzf = {
     enable = true;
@@ -76,10 +77,6 @@ in {
       file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       src = pkgs.zsh-powerlevel10k;
     } {
-      name = "zsh-z";
-      file = "share/zsh-z/zsh-z.plugin.zsh";
-      src = pkgs.zsh-z;
-    } {
       name = "fzf-z";
       file = "fzf-z.plugin.zsh";
       src = fzf-z;
@@ -92,6 +89,7 @@ in {
 
       source "${zsh-syntax-highlighting}/zsh-syntax-highlighting.zsh"
       source "${zsh-fzf-tab-completion}/zsh/fzf-zsh-completion.sh"
+      eval "$(zoxide init zsh)"
 
       bindkey "^B" backward-delete-char
       bindkey "^H" backward-char
@@ -102,7 +100,6 @@ in {
 
       bindkey "^P" fzfz-dir-widget
 
-      export ZSHZ_PLUGIN_PATH="${config.home.homeDirectory}/${pluginsDir}/zsh-z/share/zsh-z/zsh-z.plugin.zsh"
       setopt autocd
     '';
   };

@@ -1,8 +1,11 @@
 {pkgs, config, lib, flake, nixos, ...}:
 let
   neovide-wrapped = pkgs.writeShellScriptBin "neovide" ''
-    exec ${pkgs.neovide}/bin/neovide "$@"
+    exec ${pkgs.neovide}/bin/neovide --multigrid "$@"
   '';
+
+  flakePlugins = flake.vimPlugins.${nixos.nixpkgs.system};
+  vimPlugins = pkgs.vimPlugins.extend (vfinal: vprev: flakePlugins);
 in {
   options = {
     neovim.package = lib.mkOption {
@@ -41,7 +44,7 @@ in {
         ''
       ];
 
-      plugins = with pkgs.vimPlugins; [
+      plugins = with vimPlugins; [
         vim-which-key
         fzf-vim
 
@@ -69,7 +72,7 @@ in {
         telescope-nvim
         telescope-frecency-nvim
         telescope-fzf-native-nvim
-        telescope-z-nvim
+        telescope-zoxide
 
         lightspeed-nvim
         limelight-vim
@@ -80,7 +83,7 @@ in {
         direnv-vim
 
         nvim-notify
-      ] ++ (with flake.vimPlugins.${nixos.nixpkgs.system}; [
+
         nvim-lspconfig
         nvim-ts-rainbow
         nvim-treesitter-context
@@ -105,8 +108,10 @@ in {
 
         telescope-ghq
 
+        lens-vim
+
         nvim-selenized
-      ]);
+      ];
     };
   };
 }

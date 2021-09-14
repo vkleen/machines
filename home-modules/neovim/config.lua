@@ -53,3 +53,6 @@ cmd[[au BufRead,BufNewFile *.nix set filetype=nix]]
 
 vim.env.GIT_EDITOR = 'nvr -cc split --remote-wait'
 cmd[[autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete]]
+
+g.neovide_floating_blur = false
+g.neovide_floating_opacity = 0.9

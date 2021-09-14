@@ -24,6 +24,7 @@ local bindings = {
   bind{'n', '<leader>fG', "<cmd>lua require'telescope'.extensions.ghq.list()<cr>"},
   bind{'n', '<leader>fb', "<cmd>lua require'telescope.builtin'.buffers()<cr>"},
   bind{'n', '<leader>fh', "<cmd>lua require'telescope.builtin'.help_tags()<cr>"},
+  bind{'n', '<leader>fz', "<cmd>lua require'telescope'.extensions.zoxide.list()<cr>"},
 
   bind{'n', '<leader>bd', "<cmd>bdelete<cr>"},
 
@@ -50,9 +51,9 @@ function WinMove(key)
   cmd(string.format("wincmd %s", key))
   if curwin == vim.api.nvim_win_get_number(0) then
     if key:find('[jk]') then
-      cmd[[wincmd v]]
-    else
       cmd[[wincmd s]]
+    else
+      cmd[[wincmd v]]
     end
     cmd(string.format("wincmd %s", key))
   end

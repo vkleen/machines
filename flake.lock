@@ -507,6 +507,22 @@
         "type": "github"
       }
     },
+    "plenary-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1631619876,
+        "narHash": "sha256-ghIA/vGmwrZNCL0c0S1wscpwEb/IpvrBPls+y+XFc4Y=",
+        "owner": "vkleen",
+        "repo": "plenary.nvim",
+        "rev": "66ec0e482abff02a6b57c8e345048de8c5a0b1c0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "repo": "plenary.nvim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -536,8 +552,10 @@
         "nvim-selenized": "nvim-selenized",
         "nvim-treesitter-context": "nvim-treesitter-context",
         "nvim-ts-rainbow": "nvim-ts-rainbow",
+        "plenary-nvim": "plenary-nvim",
         "rust-tools": "rust-tools",
         "telescope-ghq": "telescope-ghq",
+        "telescope-zoxide": "telescope-zoxide",
         "vim-vsnip": "vim-vsnip",
         "vim-vsnip-integ": "vim-vsnip-integ"
       }
@@ -571,6 +589,22 @@
       "original": {
         "owner": "nvim-telescope",
         "repo": "telescope-ghq.nvim",
+        "type": "github"
+      }
+    },
+    "telescope-zoxide": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1626433235,
+        "narHash": "sha256-0VMoOc3Crzga/4ogeimDv2wPvvybLV1Z9MD0B3+YPk8=",
+        "owner": "jvgrootveld",
+        "repo": "telescope-zoxide",
+        "rev": "3af40dfd2d01d2bcb7fdc68364b7d67716c6c99c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jvgrootveld",
+        "repo": "telescope-zoxide",
         "type": "github"
       }
     },

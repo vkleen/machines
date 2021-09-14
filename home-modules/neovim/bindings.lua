@@ -85,26 +85,48 @@ require'which-key'.register({
 
   b = {
     name = 'Buffers',
-    d = {"<cmd>bdelete<cr>", "Delete Buffer"},
-    c = {"<cmd>cd %:p:h<cr>", "Cd to buffer parent"},
+    d = {[[<cmd>bdelete<cr>]], "Delete Buffer"},
+    c = {[[<cmd>cd %:p:h<cr>]], "Cd to buffer parent"},
   },
 
   f = {
     name = "Telescope",
-    ["<leader>"] = {"<cmd>lua require'telescope'.extensions.frecency.frecency()<cr>", "Frecency"},
-    f = {"<cmd>lua require'telescope.builtin'.find_files()<cr>", "Find Files"},
-    g = {"<cmd>lua require'telescope.builtin'.live_grep()<cr>", "Live Grep"},
-    G = {"<cmd>lua require'telescope'.extensions.ghq.list()<cr>", "GHQ"},
-    b = {"<cmd>lua require'telescope.builtin'.buffers()<cr>", "Buffers"},
-    h = {"<cmd>lua require'telescope.builtin'.help_tags()<cr>", "Help"},
-    z = {"<cmd>lua require'telescope'.extensions.zoxide.list()<cr>", "Z"},
+    ["<leader>"] = {[[<cmd>lua require'telescope'.extensions.frecency.frecency()<cr>]], "Frecency"},
+    f = {[[<cmd>lua require'telescope.builtin'.find_files()<cr>]], "Find Files"},
+    g = {[[<cmd>lua require'telescope.builtin'.live_grep()<cr>]], "Live Grep"},
+    G = {[[<cmd>lua require'telescope'.extensions.ghq.list()<cr>]], "GHQ"},
+    b = {[[<cmd>lua require'telescope.builtin'.buffers()<cr>]], "Buffers"},
+    h = {[[<cmd>lua require'telescope.builtin'.help_tags()<cr>]], "Help"},
+    z = {[[<cmd>lua require'telescope'.extensions.zoxide.list()<cr>]], "Z"},
   },
 
   l = {
     name = 'linting / syntax',
-    n = {"<cmd>noh<cr>", "Delete search highlights"},
+    n = {[[<cmd>noh<cr>]], "Delete search highlights"},
   },
+
+  [';'] = { [[<cmd>luad require'FTerm'.toggle()<cr>]], "Toggle terminal" },
 }, { prefix = "<leader>" })
 
+require'which-key'.register({
+  s = { [[<cmd>lua require'gitsigns'.stage_hunk()<cr>]], 'Stage hunk' },
+  u = { [[<cmd>lua require'gitsigns'.undo_stage_hunk()<cr>]], 'Unstage hunk' },
+  r = { [[<cmd>lua require'gitsigns'.reset_hunk()<cr>]], 'Reset hunk' },
+  R = { [[<cmd>lua require'gitsigns'.reset_buffer()<cr>]], 'Reset buffer' },
+  p = { [[<cmd>lua require'gitsigns'.preview_hunk()<cr>]], 'Preview hunk' },
+  b = { [[<cmd>lua require'gitsigns'.blame_line(true)<cr>]], 'Blame line' },
+  S = { [[<cmd>lua require'gitsigns'.stage_buffer()<cr>]], 'Stage buffer' },
+  U = { [[<cmd>lua require'gitsigns'.reset_buffer_index()<cr>]], 'Reset buffer index' },
+}, { prefix = "<leader>h" })
+require'which-key'.register({
+  s = { [[<cmd>lua require'gitsigns'.stage_hunk({vim.fn.line('.'), vim.fn.line('v')}<cr>]], 'Stage hunk' },
+  r = { [[<cmd>lua require'gitsigns'.reset_hunk({vim.fn.line('.'), vim.fn.line('v')})<cr>]], 'Reset hunk' },
+}, { prefix = "<leader>h", mode = 'v' })
+require'which-key'.register({
+  h = { [[<cmd>lua require'gitsigns.actions'.select_hunk()<cr>]], 'Select hunk' },
+}, { prefix = "i", mode = 'o' })
+require'which-key'.register({
+  h = { [[<cmd>lua require'gitsigns.actions'.select_hunk()<cr>]], 'Select hunk' },
+}, { prefix = "i", mode = 'x' })
 
 do_bindings()

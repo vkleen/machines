@@ -26,26 +26,6 @@ require'gitsigns'.setup {
     ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns.actions\".prev_hunk()<CR>'"},
   },
 }
-require'which-key'.register({
-  s = { [[<cmd>lua require'gitsigns'.stage_hunk()<cr>]], 'Stage hunk' },
-  u = { [[<cmd>lua require'gitsigns'.undo_stage_hunk()<cr>]], 'Unstage hunk' },
-  r = { [[<cmd>lua require'gitsigns'.reset_hunk()<cr>]], 'Reset hunk' },
-  R = { [[<cmd>lua require'gitsigns'.reset_buffer()<cr>]], 'Reset buffer' },
-  p = { [[<cmd>lua require'gitsigns'.preview_hunk()<cr>]], 'Preview hunk' },
-  b = { [[<cmd>lua require'gitsigns'.blame_line(true)<cr>]], 'Blame line' },
-  S = { [[<cmd>lua require'gitsigns'.stage_buffer()<cr>]], 'Stage buffer' },
-  U = { [[<cmd>lua require'gitsigns'.reset_buffer_index()<cr>]], 'Reset buffer index' },
-}, { prefix = "<leader>h" })
-require'which-key'.register({
-  s = { [[<cmd>lua require'gitsigns'.stage_hunk({vim.fn.line('.'), vim.fn.line('v')}<cr>]], 'Stage hunk' },
-  r = { [[<cmd>lua require'gitsigns'.reset_hunk({vim.fn.line('.'), vim.fn.line('v')})<cr>]], 'Reset hunk' },
-}, { prefix = "<leader>h", mode = 'v' })
-require'which-key'.register({
-  h = { [[<cmd>lua require'gitsigns.actions'.select_hunk()<cr>]], 'Select hunk' },
-}, { prefix = "i", mode = 'o' })
-require'which-key'.register({
-  h = { [[<cmd>lua require'gitsigns.actions'.select_hunk()<cr>]], 'Select hunk' },
-}, { prefix = "i", mode = 'x' })
 
 require'nvim-treesitter.configs'.setup {
   -- "all", "maintained" or a list
@@ -86,9 +66,6 @@ require'lualine'.setup {
     component_separators = '',
   },
 }
-
-vim.o.guifont = "PragmataPro Mono Liga:h12"
-vim.g["neovide_remember_window_size"] = false
 
 require'telescope'.setup {
   defaults = {
@@ -155,9 +132,6 @@ require('FTerm').setup({
   },
   auto_close = true
 })
-require'which-key'.register({
-  [';'] = { [[<cmd>luad require'FTerm'.toggle()<cr>]], "Toggle terminal" },
-}, { prefix = "<leader>" })
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))

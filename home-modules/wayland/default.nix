@@ -180,7 +180,7 @@ let
     br_orange = "#fd9456";
     br_violet = "#bd96fa";
   };
-in {
+in lib.mkMerge [{
   home.packages = with pkgs; [
     grim wl-clipboard slurp brightnessctl
     libappindicator
@@ -233,7 +233,7 @@ in {
     systemdIntegration = false;
     config = let
       mod = "Mod4";
-      terminal = "${pkgs.kitty}/bin/kitty";
+      terminal = "${pkgs.alacritty}/bin/alacritty";
       scratch-terminal = "${pkgs.alacritty}/bin/alacritty";
       ws = lib.genAttrs (map (i: "${builtins.toString i}") (lib.range 1 9)) (n: n) // {
         "0" = "10";
@@ -337,10 +337,7 @@ in {
 
         "${mod}+d" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-run}";
         "${mod}+Shift+p" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pass}";
-        # "${mod}+u" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
-        # "${mod}+i" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url} search";
         "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
-        # "${mod}+w" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url} search";
         "${mod}+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pdf}";
         "${mod}+Shift+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-paper}";
 
@@ -769,4 +766,5 @@ in {
       name = "PragmataPro 12";
     };
   };
-}
+} (lib.mkIf (builtins.elem "ibus" nixos.system.profiles) {
+})]

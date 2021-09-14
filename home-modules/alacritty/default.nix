@@ -22,11 +22,11 @@
 
     font:
       normal:
-        family: PragmataPro Mono Liga
+        family: PragmataPro Mono
       bold:
-        family: PragmataPro Mono Liga
+        family: PragmataPro Mono
       italic:
-        family: PragmataPro Mono Liga
+        family: PragmataPro Mono
       size: 12
 
       offset:

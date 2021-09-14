@@ -52,6 +52,10 @@
       url = "github:Kethku/neovide";
       flake = false;
     };
+    tuimoji-src = {
+      url = "github:vkleen/tuimoji";
+      flake = false;
+    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -218,7 +222,14 @@
           nixpkgs-wayland = inputs.nixpkgs-wayland.overlay;
           neovim-nightly = inputs.neovim-nightly.overlay;
           sources = _: _: {
-            inherit (inputs) freecad-src freecad-assembly3-src kicad-src hledger-src neovide-src;
+            inherit (inputs)
+              freecad-assembly3-src
+              freecad-src
+              hledger-src
+              kicad-src
+              neovide-src
+              tuimoji-src
+            ;
           };
         };
 
@@ -230,11 +241,12 @@
 
              sources = pkgset.${system}.writeText "sources.nix" ''
                _: _: {
-                 freecad-src = ${toString inputs.freecad-src};
                  freecad-assembly3-src = ${toString inputs.freecad-assembly3-src};
-                 kicad-src = ${toString inputs.kicad-src};
+                 freecad-src = ${toString inputs.freecad-src};
                  hledger-src = ${toString inputs.hledger-src};
+                 kicad-src = ${toString inputs.kicad-src};
                  neovide-src = ${toString inputs.neovide-src};
+                 tuimoji-src = ${toString inputs.tuimoji-src};
                }
              '';
            };

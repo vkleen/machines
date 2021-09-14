@@ -8,25 +8,10 @@ local function bind(t)
 end
 
 local bindings = {
-  bind{'n', '<leader>', ":WhichKey '<Space>'<CR>"},
-  bind{'v', '<leader>', ":WhichKeyVisual '<Space>'<CR>"},
-
-  bind{'n', '<leader>ln', ':noh<cr>'},
-
   bind{{'n', 'v'}, '^', 'q'},
   bind{{'n', 'v'}, 'q', 'b'},
   bind{{'n', 'v'}, 'Q', 'B'},
 
-  bind{'n', ';', "<cmd>lua require'telescope.builtin'.find_files()<cr>"},
-  bind{'n', '<leader>ff', "<cmd>lua require'telescope.builtin'.find_files()<cr>"},
-  bind{'n', '<leader><leader>', "<cmd>lua require'telescope'.extensions.frecency.frecency()<cr>"},
-  bind{'n', '<leader>fg', "<cmd>lua require'telescope.builtin'.live_grep()<cr>"},
-  bind{'n', '<leader>fG', "<cmd>lua require'telescope'.extensions.ghq.list()<cr>"},
-  bind{'n', '<leader>fb', "<cmd>lua require'telescope.builtin'.buffers()<cr>"},
-  bind{'n', '<leader>fh', "<cmd>lua require'telescope.builtin'.help_tags()<cr>"},
-  bind{'n', '<leader>fz', "<cmd>lua require'telescope'.extensions.zoxide.list()<cr>"},
-
-  bind{'n', '<leader>bd', "<cmd>bdelete<cr>"},
 
   bind{'i', 'jk', '<ESC>'},
   bind{'i', '<C-j>', '<C-n>', {}},
@@ -44,6 +29,11 @@ local bindings = {
 
   bind{'n', '<leader>o', '<C-o>zz'},
   bind{'n', '<leader>i', '<C-i>zz'},
+
+  bind{'n', 'gh', '0'},
+  bind{'n', 'gl', '$'},
+  bind{'n', 'gj', 'G'},
+  bind{'n', 'gk', 'gg'},
 }
 
 function WinMove(key)
@@ -72,13 +62,49 @@ local function do_bindings()
   end
 end
 
-g.which_key_map = {
-  c = { name = 'commenter' },
-  l = { name = 'linting / syntax' },
-  f = { name = 'Telescope' },
-  h = { name = 'Git' },
-  b = { name = 'Buffers' },
+require'which-key'.setup{
+  plugins = {
+    marks = true,
+    registers = true,
+    spelling = { enabled = false },
+    presets = {
+      operators = true,
+      motions = true,
+      text_objects = true,
+      windows = true,
+      nav = true,
+      z = true,
+      g = true,
+    }
+  }
 }
-fn['which_key#register']('<Space>', 'g:which_key_map')
+
+require'which-key'.register({
+  c = { name = 'commenter' },
+  h = { name = 'Git' },
+
+  b = {
+    name = 'Buffers',
+    d = {"<cmd>bdelete<cr>", "Delete Buffer"},
+    c = {"<cmd>cd %:p:h<cr>", "Cd to buffer parent"},
+  },
+
+  f = {
+    name = "Telescope",
+    ["<leader>"] = {"<cmd>lua require'telescope'.extensions.frecency.frecency()<cr>", "Frecency"},
+    f = {"<cmd>lua require'telescope.builtin'.find_files()<cr>", "Find Files"},
+    g = {"<cmd>lua require'telescope.builtin'.live_grep()<cr>", "Live Grep"},
+    G = {"<cmd>lua require'telescope'.extensions.ghq.list()<cr>", "GHQ"},
+    b = {"<cmd>lua require'telescope.builtin'.buffers()<cr>", "Buffers"},
+    h = {"<cmd>lua require'telescope.builtin'.help_tags()<cr>", "Help"},
+    z = {"<cmd>lua require'telescope'.extensions.zoxide.list()<cr>", "Z"},
+  },
+
+  l = {
+    name = 'linting / syntax',
+    n = {"<cmd>noh<cr>", "Delete search highlights"},
+  },
+}, { prefix = "<leader>" })
+
 
 do_bindings()

@@ -555,6 +555,7 @@
         "plenary-nvim": "plenary-nvim",
         "rust-tools": "rust-tools",
         "telescope-ghq": "telescope-ghq",
+        "telescope-lsp-handlers": "telescope-lsp-handlers",
         "telescope-zoxide": "telescope-zoxide",
         "vim-vsnip": "vim-vsnip",
         "vim-vsnip-integ": "vim-vsnip-integ"
@@ -589,6 +590,22 @@
       "original": {
         "owner": "nvim-telescope",
         "repo": "telescope-ghq.nvim",
+        "type": "github"
+      }
+    },
+    "telescope-lsp-handlers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1631051048,
+        "narHash": "sha256-y3Sx/kiEs1uERjuP2uUQJCScCEgIao0lq5wNFiStofQ=",
+        "owner": "gbrlsnchs",
+        "repo": "telescope-lsp-handlers.nvim",
+        "rev": "d6d5983b0131ee2c386ca9e349f6621e12d971cb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gbrlsnchs",
+        "repo": "telescope-lsp-handlers.nvim",
         "type": "github"
       }
     },

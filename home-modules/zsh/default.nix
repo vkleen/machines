@@ -91,6 +91,8 @@ in {
       source "${zsh-fzf-tab-completion}/zsh/fzf-zsh-completion.sh"
       eval "$(zoxide init zsh)"
 
+      bindkey "^A" beginning-of-line
+      bindkey "^E" end-of-line
       bindkey "^B" backward-delete-char
       bindkey "^H" backward-char
       bindkey "^L" forward-char

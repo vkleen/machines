@@ -45,7 +45,7 @@ in {
       ];
 
       plugins = with vimPlugins; [
-        vim-which-key
+        which-key-nvim
         fzf-vim
 
         (nvim-treesitter.withPlugins (p: with p; [
@@ -73,6 +73,7 @@ in {
         telescope-frecency-nvim
         telescope-fzf-native-nvim
         telescope-zoxide
+        telescope-lsp-handlers
 
         lightspeed-nvim
         limelight-vim

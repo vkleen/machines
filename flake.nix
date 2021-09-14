@@ -70,6 +70,7 @@
     plenary-nvim = { url = "github:vkleen/plenary.nvim"; flake = false; };
     rust-tools = { url = "github:simrat39/rust-tools.nvim"; flake = false; };
     telescope-ghq = { url = "github:nvim-telescope/telescope-ghq.nvim"; flake = false; };
+    telescope-lsp-handlers = { url = "github:gbrlsnchs/telescope-lsp-handlers.nvim"; flake = false; };
     telescope-zoxide = { url = "github:jvgrootveld/telescope-zoxide"; flake = false; };
     vim-vsnip-integ = { url = "github:hrsh7th/vim-vsnip-integ"; flake = false; };
     vim-vsnip = { url = "github:hrsh7th/vim-vsnip"; flake = false; };
@@ -376,6 +377,7 @@
             "plenary-nvim"
             "rust-tools"
             "telescope-ghq"
+            "telescope-lsp-handlers"
             "telescope-zoxide"
             "vim-vsnip"
             "vim-vsnip-integ"

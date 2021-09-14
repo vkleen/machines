@@ -9,38 +9,36 @@ capabilities = require'cmp_nvim_lsp'.update_capabilities(capabilities)
 
 local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap = true, silent = true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-
-  buf_set_keymap('n', '<leader>ra', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<leader>rd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '<leader>rh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<leader>rs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<leader>rk', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', '<leader>rj', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>rl', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
-  buf_set_keymap('n', '<leader>rr', '<cmd>lua vim.lsp.codelens.run()<CR>', opts)
-
-  buf_set_keymap('n', '<leader>rq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  require'which-key'.register({
+    D = {"<cmd>lua vim.lsp.buf.declaration()<cr>", "Go to declaration"},
+    d = {"<cmd>lua vim.lsp.buf.definition()<cr>", "Go to definition"},
+    t = {"<cmd>lua vim.lsp.buf.type_definition()<cr>", "Go to type definition"},
+    r = {"<cmd>lua vim.lsp.buf.references()<cr>", "References"},
+    i = {"<cmd>lua vim.lsp.buf.implementation()<cr>", "Go to implementation"},
+  }, { prefix = "g", buffer = bufnr })
 
   -- Set some keybinds conditional on server capabilities
+  local fmap = {}
   if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<leader>rf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    fmap = {"<cmd>lua vim.lsp.buf.formatting()<cr>", "Format buffer"}
   elseif client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("n", "<leader>rf", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+    fmap = {"<cmd>lua vim.lsp.buf.range_formatting()<cr>", "Format range"}
   end
+
+  require'which-key'.register({
+    a = {"<cmd>lua vim.lsp.buf.code_action()<cr>", "Code actions"},
+    n = {"<cmd>lua vim.lsp.buf.rename()<cr>", "Rename identifier"},
+    d = {"<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>", "Show diagnostics"},
+    h = {"<cmd>lua vim.lsp.buf.hover()<cr>", "Show hover info"},
+    s = {"<cmd>lua vim.lsp.buf.signature_help()<cr>", "Show signature help"},
+    k = {"<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>", "Go to previous diagnostic"},
+    j = {"<cmd>lua vim.lsp.diagnostic.goto_next()<cr>", "Go to next diagnostic"},
+    l = {"<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>", "Populate location list with diagnostics"},
+    r = {"<cmd>lua vim.lsp.codelens.run()<cr>", "Run code lens"},
+    f = fmap
+  }, { prefix = "<leader>r", buffer = bufnr })
 
   vim.api.nvim_exec(
   [[

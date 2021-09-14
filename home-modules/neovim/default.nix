@@ -31,12 +31,11 @@ in {
       ];
 
       extraConfig = builtins.concatStringsSep "\n" [
-        (lib.strings.fileContents ./base.vim)
-        (lib.strings.fileContents ./plugins.vim)
-
         ''
           lua <<EOF
           ${lib.strings.fileContents ./config.lua}
+          ${lib.strings.fileContents ./bindings.lua}
+          ${lib.strings.fileContents ./plugins.lua}
           ${lib.strings.fileContents ./lsp.lua}
           EOF
         ''

@@ -108,8 +108,6 @@ in {
 
         telescope-ghq
 
-        lens-vim
-
         nvim-selenized
       ];
     };

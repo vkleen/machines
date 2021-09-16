@@ -241,7 +241,7 @@ in lib.mkMerge [{
         "grave" = "video";
         "t" = "chat";
         "m" = "mail";
-        "e" = "tex";
+        "e" = "edit";
         "z" = "zoom";
       };
       switch-ws-keys = lib.mapAttrs' (k: n: lib.nameValuePair "${mod}+${k}" "workspace ${n}") ws;

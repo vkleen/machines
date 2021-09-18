@@ -28,9 +28,27 @@
       pragmatapro
       libertine #xits-math
     ];
-    fontconfig.defaultFonts = {
-      monospace = [ "PragmataPro Mono Liga Regular" ];
-      sansSerif = [ "PragmataPro Mono Liga Regular" ];
+    fontconfig = {
+      defaultFonts = {
+        monospace = [ "PragmataPro Mono" ];
+        sansSerif = [ "PragmataPro Mono" ];
+      };
+      localConf = ''
+        <?xml version="1.0"?>
+        <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+        <fontconfig>
+          <match>
+            <test name="family">
+              <string>alacritty</string>
+            </test>
+            <edit name="family" mode="assign_replace">
+              <string>Noto Color Emoji</string>
+              <string>Noto Emoji</string>
+              <string>PragmataPro Mono</string>
+            </edit>
+          </match>
+        </fontconfig>
+      '';
     };
   };
 

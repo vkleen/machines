@@ -52,6 +52,10 @@
       url = "github:Kethku/neovide";
       flake = false;
     };
+    alacritty-src = {
+      url = "github:alacritty/alacritty";
+      flake = false;
+    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -219,6 +223,7 @@
           neovim-nightly = inputs.neovim-nightly.overlay;
           sources = _: _: {
             inherit (inputs)
+              alacritty-src
               freecad-assembly3-src
               freecad-src
               hledger-src
@@ -236,6 +241,7 @@
 
              sources = pkgset.${system}.writeText "sources.nix" ''
                _: _: {
+                 alacritty-src = ${toString inputs.alacritty-src};
                  freecad-assembly3-src = ${toString inputs.freecad-assembly3-src};
                  freecad-src = ${toString inputs.freecad-src};
                  hledger-src = ${toString inputs.hledger-src};

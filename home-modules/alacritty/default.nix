@@ -17,16 +17,17 @@
         y: 2
       decorations: none
       dynamic_title: true
+      opacity: 1.0
 
     draw_bold_text_with_bright_colors: false
 
     font:
       normal:
-        family: PragmataPro Mono
+        family: alacritty
       bold:
-        family: PragmataPro Mono
+        family: alacritty
       italic:
-        family: PragmataPro Mono
+        family: alacritty
       size: 12
 
       offset:
@@ -70,8 +71,6 @@
     bell:
       animation: EaseOutExpo
       duration: 0
-
-    background_opacity: 1.0
 
     mouse_bindings:
       - { mouse: Middle, action: PasteSelection }

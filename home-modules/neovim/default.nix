@@ -110,6 +110,8 @@ in {
         telescope-ghq
 
         nvim-selenized
+
+        nvim-lightbulb
       ];
     };
   };

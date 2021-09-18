@@ -71,7 +71,7 @@
 
     bind-key -T copy-mode-vi v send-keys -X begin-selection
     bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
-    bind-key p paste-buffer -d
+    bind-key p paste-buffer
     bind-key P run "${pkgs.wl-clipboard}/bin/wl-paste -n | tmux load-buffer -"
     bind-key Y run "tmux show-buffer | ${pkgs.wl-clipboard}/bin/wl-copy -n"
   '';

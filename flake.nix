@@ -52,10 +52,6 @@
       url = "github:Kethku/neovide";
       flake = false;
     };
-    tuimoji-src = {
-      url = "github:vkleen/tuimoji";
-      flake = false;
-    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -228,7 +224,6 @@
               hledger-src
               kicad-src
               neovide-src
-              tuimoji-src
             ;
           };
         };
@@ -246,7 +241,6 @@
                  hledger-src = ${toString inputs.hledger-src};
                  kicad-src = ${toString inputs.kicad-src};
                  neovide-src = ${toString inputs.neovide-src};
-                 tuimoji-src = ${toString inputs.tuimoji-src};
                }
              '';
            };

@@ -13,13 +13,14 @@ esac
 
 set -e
 
+DIR=${0:a:h}
 AWS=(aws --region eu-central-1)
 
 launch-spot-request() {
     "$AWS[@]" ec2 run-instances \
         --launch-template LaunchTemplateName=nixos-build \
         --instance-market-options MarketType=spot,"SpotOptions={SpotInstanceType=one-time,InstanceInterruptionBehavior=terminate}" \
-        --user-data file://<(cat amazon.nix) | \
+        --user-data file://<(cat "$DIR"/amazon.nix) | \
         jq -r '.Instances[0].InstanceId'
 }
 
@@ -42,7 +43,7 @@ terminate-instance() {
 
 build_cmdline=( "${@}" )
 
-nix -L build -j0 "${build_cmdline[@]}" && exit
+nix "${build_cmdline[@]}" && exit
 
 cleanup() {
     terminate-instance "$INSTANCE"
@@ -71,4 +72,4 @@ do_nix() {
   nix --option builders-use-substitutes true --builders "ssh://$SERVER x86_64-linux $HOME/.ssh/id_rsa 18 - benchmark,kvm,recursive-nix,big-parallel - $(base64 -w0 <<<"$SSH_HOST_KEY")" "${cmdline[@]}"
 }
 
-do_nix -v -L build -j0 "${build_cmdline[@]}"
+do_nix "${build_cmdline[@]}"

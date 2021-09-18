@@ -151,6 +151,22 @@ let
     (builtins.readFile ./fzf/fzf-pass)
   );
 
+  fzf-emoji = pkgs.writeScript "fzf-emoji" ''
+    function die() {
+      ${pkgs.tmux}/bin/tmux detach
+      exit $1
+    }
+
+    emoji=$(${pkgs.emoji-fzf}/bin/emoji-fzf preview \
+      | ${pkgs.fzf}/bin/fzf -e --reverse --preview-window right:75% \
+        --preview '${pkgs.emoji-fzf}/bin/emoji-fzf get {1}' \
+      | ${pkgs.coreutils}/bin/cut -d ' ' -f 1)
+
+    [[ -n "''${emoji}" ]] || die 1
+    ${pkgs.emoji-fzf}/bin/emoji-fzf get <<<"''${emoji}" | ${pkgs.wl-clipboard}/bin/wl-copy -n
+    die 0
+  '';
+
   mpv-scripts = config.mpv.scripts;
 
   colors = {
@@ -340,6 +356,7 @@ in lib.mkMerge [{
         "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
         "${mod}+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pdf}";
         "${mod}+Shift+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-paper}";
+        "${mod}+u" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-emoji}";
 
         "XF86AudioMute" = "exec ${vol}/bin/vol mute";
         "XF86AudioLowerVolume" = "exec ${vol}/bin/vol down";

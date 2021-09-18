@@ -557,7 +557,6 @@
         "telescope-ghq": "telescope-ghq",
         "telescope-lsp-handlers": "telescope-lsp-handlers",
         "telescope-zoxide": "telescope-zoxide",
-        "tuimoji-src": "tuimoji-src",
         "vim-vsnip": "vim-vsnip",
         "vim-vsnip-integ": "vim-vsnip-integ"
       }
@@ -623,22 +622,6 @@
       "original": {
         "owner": "jvgrootveld",
         "repo": "telescope-zoxide",
-        "type": "github"
-      }
-    },
-    "tuimoji-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1631637392,
-        "narHash": "sha256-VtXmJIi7X8Bst0zdwAk0UIlWvO9akNu+ckxR8jcZxW4=",
-        "owner": "vkleen",
-        "repo": "tuimoji",
-        "rev": "fe224ace0e8bf0fdb6ae75872a3d6d44f1e311c1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vkleen",
-        "repo": "tuimoji",
         "type": "github"
       }
     },

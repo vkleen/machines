@@ -18,6 +18,8 @@ final: prev: {
   seamly2d = final.libsForQt5.callPackage ./misc/seamly2d {};
   kakoune-cr = final.callPackage ./applications/editors/kakoune.cr {};
 
+  emoji-fzf = final.callPackage ./tools/misc/emoji-fzf {};
+
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)
   {
     roc-toolkit = final.callPackage ./applications/audio/misc/roc-toolkit {};

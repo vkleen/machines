@@ -159,7 +159,7 @@ let
 
     emoji=$(${pkgs.emoji-fzf}/bin/emoji-fzf preview \
       | ${pkgs.fzf}/bin/fzf -e --reverse --preview-window right:75% \
-        --preview '${pkgs.emoji-fzf}/bin/emoji-fzf get {1}' \
+        --preview '${pkgs.emoji-fzf}/bin/emoji-fzf get < {f}' \
       | ${pkgs.coreutils}/bin/cut -d ' ' -f 1)
 
     [[ -n "''${emoji}" ]] || die 1

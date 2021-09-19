@@ -10,7 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:rycee/home-manager";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     agenix = {
@@ -408,6 +408,7 @@
 
         devShell = forAllSystems (system: import ./shell.nix ({
           pkgs = self.legacyPackages.${system};
+          inherit (inputs.home-manager.packages.${system}) home-manager;
         } // (if inputs.agenix.packages ? ${system} then {
           inherit (inputs.agenix.packages.${system}) agenix;
         } else {})));

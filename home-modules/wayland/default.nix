@@ -1,4 +1,4 @@
-{ config, pkgs, nixos, lib, ... }:
+{ config, pkgs, nixos, lib, flake, ... }:
 let
   start-sway = pkgs.writeShellScriptBin "start-sway" ''
     # first import environment variables from the login manager
@@ -151,19 +151,21 @@ let
     (builtins.readFile ./fzf/fzf-pass)
   );
 
-  fzf-emoji = pkgs.writeScript "fzf-emoji" ''
+  fzf-emoji = let
+    inherit (flake.inputs.emoji-fzf.packages.${pkgs.stdenv.system}) emoji-fzf;
+  in pkgs.writeScript "fzf-emoji" ''
     function die() {
       ${pkgs.tmux}/bin/tmux detach
       exit $1
     }
 
-    emoji=$(${pkgs.emoji-fzf}/bin/emoji-fzf preview \
+    emoji=$(${emoji-fzf}/bin/emoji-fzf preview \
       | ${pkgs.fzf}/bin/fzf -e -d $'\t' --reverse --preview-window right:75% \
-        --preview '${pkgs.emoji-fzf}/bin/emoji-fzf get < {f1}' \
+        --preview '${emoji-fzf}/bin/emoji-fzf get < {f1}' \
       | ${pkgs.coreutils}/bin/cut -d $'\t' -f 1)
 
     [[ -n "''${emoji}" ]] || die 1
-    ${pkgs.emoji-fzf}/bin/emoji-fzf get <<<"''${emoji}" | ${pkgs.wl-clipboard}/bin/wl-copy -n
+    ${emoji-fzf}/bin/emoji-fzf get <<<"''${emoji}" | ${pkgs.wl-clipboard}/bin/wl-copy -n
     die 0
   '';
 

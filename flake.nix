@@ -56,6 +56,10 @@
       url = "github:alacritty/alacritty";
       flake = false;
     };
+    emoji-fzf = {
+      url = "github:vkleen/emoji-fzf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };

@@ -8,12 +8,11 @@ rustPlatform.buildRustPackage rec {
   version = "master";
 
   src = fetchFromGitHub {
-    owner = "mvertescher";
+    owner = "vkleen";
     repo = "emoji-fzf";
-    rev = "ae66caa0032b884380dd4ff6ac311fd080a2db49";
-    hash = "sha256-BWsmFPxoQiRM4JQ88GiQsE+FejQhqULBXYZ/z0Xt3xo=";
+    rev = "bf023463f8b185309fe28b9b73f81dd6f75a4304";
+    hash = "sha256-BWsmFPxoQiRM4JQ88GiQsE+FejQhqULBXYZ/z1Xt3xo=";
   };
 
-  cargoHash = "sha256-iVH1oid4GiUUvX32k5YBfdaueRFwlytB/Cg7SUzwqco=";
-  cargoPatches = [ ./add-cargo-lock.patch ];
+  cargoHash = "sha256-iVH1oid4GiUUvX32k5YBfdaueRFwlytB/Cg8SUzwqco=";
 }

@@ -7,7 +7,6 @@
         enable = true;
         package = pkgs.bluezFull;
       };
-      services.blueman.enable = true;
       services.pipewire = {
         enable = true;
         alsa.enable = true;

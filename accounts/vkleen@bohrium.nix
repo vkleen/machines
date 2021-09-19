@@ -8,7 +8,6 @@
   home-manager.users.${userName} = lib.mkMerge (
     (with flake.homeManagerModules; [
       alacritty
-      bluetooth
       browser
       desktop-packages
       direnv

@@ -352,6 +352,15 @@
           recImport rec { dir = ./hosts; _import = mkNixosConfiguration [] dir; };
 
         homeManagerModules = recImport rec { dir = ./home-modules; };
+        homeConfigurations = listToAttrs (concatLists (
+          mapAttrsToList
+            (hostname: nixosConfig:
+              mapAttrsToList (username: configuration: nameValuePair "${username}@${hostname}"
+                                                                     { inherit (configuration.home)
+                                                                               activationPackage;
+                                                                     })
+                             nixosConfig.config.home-manager.users)
+            self.nixosConfigurations));
 
         overlay = import (overlayPaths "x86_64-linux").pkgs; # Dummy system
 
@@ -397,10 +406,11 @@
             nvim-selenized = vimPluginSubdir pkgs "nvim-selenized" "editors/vim";
           });
 
-        devShell = forAllSystems (system: import ./shell.nix {
+        devShell = forAllSystems (system: import ./shell.nix ({
           pkgs = self.legacyPackages.${system};
+        } // (if inputs.agenix.packages ? ${system} then {
           inherit (inputs.agenix.packages.${system}) agenix;
-        });
+        } else {})));
 
         defaultTemplate = {
           path = ./.;

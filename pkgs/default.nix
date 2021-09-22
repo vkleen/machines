@@ -10,7 +10,7 @@ final: prev: {
   qrcp = final.callPackage ./tools/misc/qrcp {};
   spacenavd = final.callPackage ./misc/spacenavd {};
   udp2raw = final.callPackage ./applications/networking/udp2raw {};
-  # uuu = final.callPackage ./tools/misc/uuu {};
+  uuu = final.callPackage ./tools/misc/uuu {};
   seamly2d = final.libsForQt5.callPackage ./misc/seamly2d {};
   kakoune-cr = final.callPackage ./applications/editors/kakoune.cr {};
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)

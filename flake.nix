@@ -94,7 +94,8 @@
         isNull
         pathExists
         toJSON
-        toString;
+        toString
+        ;
       inherit (inputs.nixpkgs) lib;
       utils = import ./utils { inherit lib; };
       inherit (utils) recImport overrideModule;
@@ -106,7 +107,9 @@
         elem
         filterAttrs
         genAttrs
+        getAttrs
         hasPrefix
+        isDerivation
         listToAttrs
         mapAttrs
         mapAttrs'
@@ -117,7 +120,8 @@
         optionalAttrs
         recursiveUpdate
         splitString
-        unique;
+        unique
+        ;
 
       forAllSystems = genAttrs [ "x86_64-linux" "aarch64-linux" "powerpc64le-linux" "riscv64-linux" ];
       forAllSystems' = genAttrs [ "x86_64-linux" "aarch64-linux" ];
@@ -378,6 +382,12 @@
 
         legacyPackages = pkgset;
 
+        packages = forAllSystems (system:
+          let
+            pkgsPath = (overlayPaths system).pkgs;
+            pkgNames = attrNames (import pkgsPath pkgset."${system}" pkgset."${system}");
+          in filterAttrs (_: isDerivation) (getAttrs pkgNames pkgset."${system}"));
+
         apps = activateNixosConfigurations;
 
         vimPlugins = forAllSystems (system:
@@ -410,7 +420,7 @@
             nvim-selenized = vimPluginSubdir pkgs "nvim-selenized" "editors/vim";
           });
 
-        devShell = forAllSystems (system: import ./shell.nix ({
+        devShell = forAllSystems' (system: import ./shell.nix ({
           pkgs = self.legacyPackages.${system};
           inherit (inputs.home-manager.packages.${system}) home-manager;
         } // (if inputs.agenix.packages ? ${system} then {

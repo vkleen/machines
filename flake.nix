@@ -123,8 +123,11 @@
         unique
         ;
 
-      forAllSystems = genAttrs [ "x86_64-linux" "aarch64-linux" "powerpc64le-linux" "riscv64-linux" ];
-      forAllSystems' = genAttrs [ "x86_64-linux" "aarch64-linux" ];
+      allSystems = [ "x86_64-linux" "aarch64-linux" "powerpc64le-linux" "riscv64-linux" ];
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+
+      forAllSystems = genAttrs allSystems;
+      forAllSystems' = genAttrs supportedSystems;
       forAllUsers = genAttrs (unique (map accountUserName (attrNames self.nixosModules.accounts)));
 
       accountUserName = accountName:
@@ -224,12 +227,27 @@
                     )
                     self.nixosConfigurations));
 
-      overlays = recImport { dir = ./overlays; } //
-        { pkgs = self.overlay;
+      onlySystems = systems: overlay:
+        final: prev: optionalAttrs (elem prev.stdenv.targetPlatform.system systems) (overlay final prev);
 
-          nixpkgs-wayland = inputs.nixpkgs-wayland.overlay;
-          neovim-nightly = inputs.neovim-nightly.overlay;
-          sources = _: _: {
+      utilOverlay =
+        final: prev: {
+          lib = prev.lib // {
+            onlySystems = systems: overlay:
+              optionalAttrs (elem prev.stdenv.targetPlatform.system systems) overlay;
+            inherit allSystems supportedSystems;
+          };
+        };
+
+      overlays =
+        recImport { dir = ./overlays; } //
+        {
+          pkgs = self.overlay;
+          nixpkgs-wayland = onlySystems supportedSystems inputs.nixpkgs-wayland.overlay;
+          neovim-nightly = onlySystems supportedSystems (final: prev: {
+            neovim-unwrapped = (inputs.neovim-nightly.overlay final prev).neovim-unwrapped;
+          });
+          sources = final: prev: {
             inherit (inputs)
               alacritty-src
               freecad-assembly3-src
@@ -241,35 +259,17 @@
           };
         };
 
-      overlayPaths = system:
-        recImport rec { dir = ./overlays; _import = (path: _name: "${toString dir}/${path}"); }
-        // { pkgs = ./pkgs;
-             nixpkgs-wayland = inputs.nixpkgs-wayland;
-             neovim-nightly = inputs.neovim-nightly;
-
-             sources = pkgset.${system}.writeText "sources.nix" ''
-               _: _: {
-                 alacritty-src = ${toString inputs.alacritty-src};
-                 freecad-assembly3-src = ${toString inputs.freecad-assembly3-src};
-                 freecad-src = ${toString inputs.freecad-src};
-                 hledger-src = ${toString inputs.hledger-src};
-                 kicad-src = ${toString inputs.kicad-src};
-                 neovide-src = ${toString inputs.neovide-src};
-               }
-             '';
-           };
-
       pkgsImport = system: pkgs:
         import pkgs {
           inherit system;
-          overlays = attrValues overlays;
+          overlays = [utilOverlay] ++ attrValues overlays;
           config = { allowUnfree = true; allowUnsupportedSystem = true; };
         };
 
       pkgsImportCross = localSystem: crossSystem: pkgs:
         import pkgs {
           inherit localSystem crossSystem;
-          overlays = attrValues overlays;
+          overlays = [utilOverlay] ++ attrValues overlays;
           config = { allowUnfree = true; allowUnsupportedSystem = true; };
         };
 
@@ -370,22 +370,17 @@
                              nixosConfig.config.home-manager.users)
             self.nixosConfigurations));
 
-        overlay = import (overlayPaths "x86_64-linux").pkgs; # Dummy system
+        overlay = import ./pkgs; # Dummy system
 
-        overlays-path = forAllSystems (system:
-          let
-            pkgs = self.legacyPackages.${system};
-            overlaysJSON = pkgs.writeText "overlays.json" (toJSON (overlayPaths system));
-          in pkgs.writeText "overlays.nix" ''
-            map (p: import p) (builtins.attrValues (builtins.fromJSON (builtins.readFile ${overlaysJSON})))
-          '');
+        overlays = {
+          inherit utilOverlay;
+        } // overlays;
 
         legacyPackages = pkgset;
 
         packages = forAllSystems (system:
           let
-            pkgsPath = (overlayPaths system).pkgs;
-            pkgNames = attrNames (import pkgsPath pkgset."${system}" pkgset."${system}");
+            pkgNames = concatMap (o: attrNames (o pkgset."${system}" pkgset."${system}")) (attrValues overlays);
           in filterAttrs (_: isDerivation) (getAttrs pkgNames pkgset."${system}"));
 
         apps = activateNixosConfigurations;

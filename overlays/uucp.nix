@@ -1,9 +1,9 @@
-self: super:
+final: prev:
 {
-  uucp = wrapperDir: super.uucp.overrideAttrs (_: {
+  uucp = wrapperDir: prev.uucp.overrideAttrs (_: {
     configureFlags = "--with-newconfigdir=/etc/uucp";
     patches = [
-      (self.writeText "mailprogram" ''
+      (final.writeText "mailprogram" ''
          policy.h | 2 +-
          1 file changed, 1 insertion(+), 1 deletion(-)
 
@@ -23,8 +23,8 @@ self: super:
       '')
     ];
   });
-  rmail = wrapperDir: self.writeScriptBin "rmail" ''
-      #!${self.stdenv.shell}
+  rmail = wrapperDir: final.writeScriptBin "rmail" ''
+      #!${final.stdenv.shell}
 
       # Dummy UUCP rmail command for postfix/qmail systems
 

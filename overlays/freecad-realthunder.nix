@@ -15,7 +15,7 @@ final: prev: let
     doCheck = false;
   };
 
-in {
+in prev.lib.onlySystems prev.lib.supportedSystems {
   freecad-realthunder = prev.freecad.overrideAttrs (o: {
     version = "realthunder";
     src = final.freecad-src;

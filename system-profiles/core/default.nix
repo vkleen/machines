@@ -54,7 +54,6 @@ in
       '';
       nixPath = [
         "nixpkgs=${flake.legacyPackages.${config.nixpkgs.system}.path}"
-        "nixpkgs-overlays=${flake.overlays-path.${config.nixpkgs.system}}"
       ];
       registry =
         let override = { self = "nixos"; };

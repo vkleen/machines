@@ -431,5 +431,7 @@
           path = ./.;
           description = "A flakey nixos configuration";
         };
+
+        checks = self.packages;
       } // installers;
 }

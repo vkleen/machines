@@ -332,6 +332,57 @@
         "url": "https://gitlab.com/kicad/code/kicad.git"
       }
     },
+    "lowdown-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1628247802,
+        "narHash": "sha256-4XSXGYvKqogR7bubyqYNwBHYCtrIn6XRGXj6+u+BXNs=",
+        "owner": "kristapsdz",
+        "repo": "lowdown",
+        "rev": "b4483d0ef85990f54b864158ab786b4a5b3904fa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kristapsdz",
+        "ref": "VERSION_0_8_6",
+        "repo": "lowdown",
+        "type": "github"
+      }
+    },
+    "lowdown-src_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1628247802,
+        "narHash": "sha256-4XSXGYvKqogR7bubyqYNwBHYCtrIn6XRGXj6+u+BXNs=",
+        "owner": "kristapsdz",
+        "repo": "lowdown",
+        "rev": "b4483d0ef85990f54b864158ab786b4a5b3904fa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kristapsdz",
+        "ref": "VERSION_0_8_6",
+        "repo": "lowdown",
+        "type": "github"
+      }
+    },
+    "lowdown-src_3": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1628247802,
+        "narHash": "sha256-4XSXGYvKqogR7bubyqYNwBHYCtrIn6XRGXj6+u+BXNs=",
+        "owner": "kristapsdz",
+        "repo": "lowdown",
+        "rev": "b4483d0ef85990f54b864158ab786b4a5b3904fa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kristapsdz",
+        "ref": "VERSION_0_8_6",
+        "repo": "lowdown",
+        "type": "github"
+      }
+    },
     "lualine": {
       "flake": false,
       "locked": {
@@ -408,6 +459,69 @@
       "original": {
         "owner": "nix-community",
         "repo": "neovim-nightly-overlay",
+        "type": "github"
+      }
+    },
+    "nix": {
+      "inputs": {
+        "lowdown-src": "lowdown-src",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1632431670,
+        "narHash": "sha256-UJ4wiNSTqTLQPML6YNA8l3srkFsxCSNmjySVXFjnOU4=",
+        "owner": "NixOS",
+        "repo": "nix",
+        "rev": "87de086e1aa2bf2fb1a953c0a7935f45f558c758",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nix",
+        "type": "github"
+      }
+    },
+    "nix-power9": {
+      "inputs": {
+        "lowdown-src": "lowdown-src_2",
+        "nixpkgs": [
+          "nixpkgs-power9"
+        ]
+      },
+      "locked": {
+        "lastModified": 1632431670,
+        "narHash": "sha256-UJ4wiNSTqTLQPML6YNA8l3srkFsxCSNmjySVXFjnOU4=",
+        "owner": "NixOS",
+        "repo": "nix",
+        "rev": "87de086e1aa2bf2fb1a953c0a7935f45f558c758",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nix",
+        "type": "github"
+      }
+    },
+    "nix-riscv": {
+      "inputs": {
+        "lowdown-src": "lowdown-src_3",
+        "nixpkgs": [
+          "nixpkgs-riscv"
+        ]
+      },
+      "locked": {
+        "lastModified": 1632431670,
+        "narHash": "sha256-UJ4wiNSTqTLQPML6YNA8l3srkFsxCSNmjySVXFjnOU4=",
+        "owner": "NixOS",
+        "repo": "nix",
+        "rev": "87de086e1aa2bf2fb1a953c0a7935f45f558c758",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nix",
         "type": "github"
       }
     },
@@ -628,6 +742,9 @@
         "neovide-src": "neovide-src",
         "neovim-flake": "neovim-flake",
         "neovim-nightly": "neovim-nightly",
+        "nix": "nix",
+        "nix-power9": "nix-power9",
+        "nix-riscv": "nix-riscv",
         "nixos-rocm-power9": "nixos-rocm-power9",
         "nixpkgs": "nixpkgs",
         "nixpkgs-power9": "nixpkgs-power9",

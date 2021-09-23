@@ -45,7 +45,7 @@ in
     };
 
     nix = {
-      package = pkgs.nixUnstable;
+      package = pkgs.nix;
       useSandbox = true;
       allowedUsers = [ "@wheel" ];
       trustedUsers = [ "root" "@wheel" ];

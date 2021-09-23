@@ -60,6 +60,18 @@
       url = "github:vkleen/emoji-fzf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix = {
+      url = "github:NixOS/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-riscv = {
+      url = "github:NixOS/nix";
+      inputs.nixpkgs.follows = "nixpkgs-riscv";
+    };
+    nix-power9 = {
+      url = "github:NixOS/nix";
+      inputs.nixpkgs.follows = "nixpkgs-power9";
+    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -230,11 +242,14 @@
       onlySystems = systems: overlay:
         final: prev: optionalAttrs (elem prev.stdenv.targetPlatform.system systems) (overlay final prev);
 
+      forSystemsOverlay = defaultOverlay: overlays: final: prev: (overlays."${prev.stdenv.targetPlatform.system}" or defaultOverlay) final prev;
+
       utilOverlay =
         final: prev: {
           lib = prev.lib // {
             onlySystems = systems: overlay:
               optionalAttrs (elem prev.stdenv.targetPlatform.system systems) overlay;
+            forSystemsOverlay = defaultOverlay: overlays: overlays."${prev.stdenv.targetPlatform.system}" or defaultOverlay;
             inherit allSystems supportedSystems;
           };
         };
@@ -247,6 +262,10 @@
           neovim-nightly = onlySystems supportedSystems (final: prev: {
             neovim-unwrapped = (inputs.neovim-nightly.overlay final prev).neovim-unwrapped;
           });
+          nix = forSystemsOverlay inputs.nix.overlay
+                                  (   { "powerpc64le-linux" = inputs.nix-power9.overlay; }
+                                   // { "riscv64-linux" = inputs.nix-riscv.overlay; }
+                                  );
           sources = final: prev: {
             inherit (inputs)
               alacritty-src

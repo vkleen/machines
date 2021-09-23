@@ -20,6 +20,8 @@
       extraStopCommands = ''
       '';
       logRefusedConnections = false;
+
+      allowedTCPPorts = [ 9999 ];
     };
 
     wlanInterfaces = {
@@ -151,33 +153,6 @@
   '';
 
   programs.mtr.enable = true;
-  # programs.captive-browser = {
-  #   enable = true;
-  #   interface = "wlan0";
-  #   browser = lib.concatStringsSep " " [
-  #     ''${pkgs.chromium}/bin/chromium''
-  #     ''--user-data-dir=$XDG_RUNTIME_DIR/.chromium-captive''
-  #     ''--proxy-server="socks5://$PROXY"''
-  #     ''--host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE localhost"''
-  #     ''--no-first-run''
-  #     ''--new-window''
-  #     ''--incognito''
-  #     ''http://plutonium.kleen.org''
-  #   ];
-  # };
-
-  # systemd.services.udp2rawtunnel = {
-  #   wantedBy = [ "multi-user.target" ];
-  #   after = [ "network.target" ];
-  #   description = "Wireguard over udp2raw";
-  #   serviceConfig = {
-  #     User = "nobody";
-  #     Group = "nogroup";
-  #     AmbientCapabilities = "CAP_NET_RAW";
-  #     NoNewPrivileges = true;
-  #     ExecStart = "${pkgs.udp2raw}/bin/udp2raw -c -l127.0.0.2:51820 -r94.16.123.211:8443 --cipher-mode none --auth-mode none";
-  #   };
-  # };
 
   fileSystems."/var/lib/iwd" = {
     device = "/persist/iwd";

@@ -187,7 +187,10 @@ in {
       home = cfg.spoolDir;
       description = "User for uucp over ssh";
       useDefaultShell = true;
+      group = "uucp";
     } // cfg.sshUser;
+
+    users.groups."uucp" = {};
 
     system.activationScripts."uucp-logs" = ''
       mkdir -p $(dirname "${cfg.logFile}")

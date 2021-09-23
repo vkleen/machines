@@ -12,6 +12,9 @@
           pkgs.purple-plugins-prpl
         ];
       };
+
+      users.users.bitlbee.group = "bitlbee";
+      users.groups.bitlbee = {};
     }
     (lib.mkIf config.boot.wipeRoot {
       fileSystems."/var/lib/bitlbee" = {

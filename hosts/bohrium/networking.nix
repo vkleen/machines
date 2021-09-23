@@ -21,7 +21,7 @@
       '';
       logRefusedConnections = false;
 
-      allowedTCPPorts = [ 9999 ];
+      allowedTCPPorts = [ 9998 9999 ];
     };
 
     wlanInterfaces = {

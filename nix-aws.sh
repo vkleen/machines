@@ -1,14 +1,18 @@
 #!/usr/bin/env cached-nix-shell
 #!nix-shell -i zsh
-#!nix-shell -p jq awscli zsh
+#!nix-shell -p jq awscli2 zsh
 
 # This might break in future revision of cached-nix-shell
 # Too lazy to report the bug
 shift
 
-MOSH=
+LAUNCH_TEMPLATE=nixos-build
+SERVER_ARCH=x86_64-linux,i686-linux
 case "$1" in
-    -m) MOSH=1; shift;;
+    --arm64)
+      LAUNCH_TEMPLATE=nixos-arm64-build
+      SERVER_ARCH=aarch64-linux,armv7l-linux,armv6l-linux
+      shift;;
 esac
 
 set -e
@@ -18,7 +22,7 @@ AWS=(aws --region eu-central-1)
 
 launch-spot-request() {
     "$AWS[@]" ec2 run-instances \
-        --launch-template LaunchTemplateName=nixos-build \
+        --launch-template LaunchTemplateName="${LAUNCH_TEMPLATE}" \
         --instance-market-options MarketType=spot,"SpotOptions={SpotInstanceType=one-time,InstanceInterruptionBehavior=terminate}" \
         --user-data file://<(cat "$DIR"/amazon.nix) | \
         jq -r '.Instances[0].InstanceId'
@@ -60,7 +64,7 @@ get_ssh_host_key() {
     while [[ -z "$result" ]]; do
         sleep 1
         result=$("$AWS[@]" ec2 get-console-output --latest --query Output --output text --instance-id "$INSTANCE" |
-            awk '/^-----BEGIN SSH HOST KEY-----/{f=1;next;}/^-----END SSH HOST KEY-----/{exit;} f{ if($1 == "ssh-ed25519") { print $1 " " $2; exit; } }')
+            awk '/-----BEGIN SSH HOST KEY-----/{f=1;next;}/^-----END SSH HOST KEY-----/{exit 1;} f{ if($1 == "ssh-ed25519") { print $1 " " $2; exit 0; } }' || exit 1)
     done
     echo "$result"
 }
@@ -69,7 +73,7 @@ SSH_HOST_KEY=$(get_ssh_host_key)
 
 do_nix() {
   local cmdline=( "${@}" )
-  nix --option builders-use-substitutes true --builders "ssh://$SERVER x86_64-linux $HOME/.ssh/id_rsa 18 - benchmark,kvm,recursive-nix,big-parallel - $(base64 -w0 <<<"$SSH_HOST_KEY")" "${cmdline[@]}"
+  nix --option builders-use-substitutes true --builders "ssh://${SERVER} ${SERVER_ARCH} ${HOME}/.ssh/id_rsa 18 - benchmark,kvm,recursive-nix,big-parallel - $(base64 -w0 <<<"$SSH_HOST_KEY")" "${cmdline[@]}"
 }
 
 do_nix "${build_cmdline[@]}"

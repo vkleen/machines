@@ -337,7 +337,7 @@
            else {};
 
 
-        rtpPath = "share/vim-plugins";
+        rtpPath = ".";
 
         addRtp = path: derivation:
           derivation // { rtp = "${derivation}/${path}"; };
@@ -352,7 +352,7 @@
             runHook preInstall
             target="$out/${rtpPath}"
             mkdir -p "$target"
-            cp -r "${inputs."${ref}".outPath}/${d}" "$target/${ref}"
+            cp -r "${inputs."${ref}".outPath}/${d}/"* "$target"
             runHook postInstall
           '';
         });

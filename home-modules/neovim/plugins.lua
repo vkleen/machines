@@ -144,7 +144,28 @@ require'dapui'.setup{}
 
 vim.g.dap_virtual_text = true
 
-require'crates'.setup{}
+require'crates'.setup {
+    text = {
+        loading    = "   Loading",
+        version    = "   %s",
+        prerelease = "   %s",
+        yanked     = "   %s",
+        nomatch    = "   No match",
+        update     = "   %s",
+        error      = "   Error fetching crate",
+    },
+    popup = {
+        border = "rounded", -- same as nvim_open_win config.border
+        text = {
+            title      = "   %s ",
+            version    = "    %s ",
+            prerelease = "   %s ",
+            yanked     = "   %s ",
+            feature    = "    %s ",
+            date       = " %s ",
+        },
+    },
+}
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))

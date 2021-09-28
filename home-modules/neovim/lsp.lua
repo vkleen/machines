@@ -47,11 +47,8 @@ local on_attach = function(client, bufnr)
   ]], false)
 end
 
-require'rust-tools'.setup({})
-
 local servers = {
   texlab = {},
-  rust_analyzer = {},
   hls = {
     cmd = { "haskell-language-server", "--lsp" },
     root_dir = nvim_lsp.util.root_pattern('hie.yaml', '.git'),
@@ -82,3 +79,7 @@ end
 for lsp,extra_opts in pairs(servers) do
   nvim_lsp[lsp].setup(prepare_opts(extra_opts))
 end
+
+require'rust-tools'.setup{
+  server = prepare_opts{},
+}

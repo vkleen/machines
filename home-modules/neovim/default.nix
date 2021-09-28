@@ -37,8 +37,14 @@ in {
         ''
           lua <<EOF
           ${lib.strings.fileContents ./config.lua}
+          EOF
+          lua <<EOF
           ${lib.strings.fileContents ./bindings.lua}
+          EOF
+          lua <<EOF
           ${lib.strings.fileContents ./plugins.lua}
+          EOF
+          lua <<EOF
           ${lib.strings.fileContents ./lsp.lua}
           EOF
         ''
@@ -89,7 +95,12 @@ in {
         nvim-ts-rainbow
         nvim-treesitter-context
 
+        nvim-dap
+        nvim-dap-ui
+        telescope-dap-nvim
+
         rust-tools
+        crates-nvim
 
         clever-f
 

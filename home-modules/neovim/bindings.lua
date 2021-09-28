@@ -38,6 +38,7 @@ local bindings = {
 
 function WinMove(key)
   curwin = vim.api.nvim_win_get_number(0)
+  local cmd=vim.cmd
   cmd(string.format("wincmd %s", key))
   if curwin == vim.api.nvim_win_get_number(0) then
     if key:find('[jk]') then
@@ -130,3 +131,31 @@ require'which-key'.register({
 }, { prefix = "i", mode = 'x' })
 
 do_bindings()
+
+function do_cargo_toml_bindings()
+  if vim.fn.expand('%:t') ~= 'Cargo.toml' then
+    return
+  end
+  local which_key = require'which-key'
+  which_key.register({
+    v = {
+      name = 'Cargo crates',
+      t = {[[<cmd>lua require'crates'.toggle()<cr>]], "Toggle version display"},
+      r = {[[<cmd>lua require'crates'.reload()<cr>]], "Reload versions"},
+      u = {[[<cmd>lua require'crates'.update_crate()<cr>]], "Update to newest compatible version"},
+      a = {[[<cmd>lua require'crates'.update_all_crates()<cr>]], "Update all to newest compatible version"},
+      U = {[[<cmd>lua require'crates'.upgrade_crate()<cr>]], "Upgrade to newest version"},
+      A = {[[<cmd>lua require'crates'.upgrade_all_crates()<cr>]], "Upgrade all to newest version"},
+      h = {[[<cmd>lua require'crates'.show_popup()<cr>]], "Show crates popup"},
+    },
+  }, { prefix = "<leader>" })
+
+  which_key.register({
+    v = {
+      name = 'Cargo crates',
+      u = {[[<cmd>lua require'crates'.update_crates()<cr>]], "Update to newest compatible version"},
+      U = {[[<cmd>lua require'crates'.upgrade_crates<cr>]], "Upgrade to newest version"},
+    },
+  }, { prefix = "<leader>", mode = "v" })
+end
+vim.cmd[[autocmd FileType toml lua do_cargo_toml_bindings()]]

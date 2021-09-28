@@ -1,12 +1,12 @@
-g.fzf_layout = {
+vim.g.fzf_layout = {
   window = {
     border = 'sharp',
     width = 0.9,
     height = 0.6,
   }
 }
-g.airline_extensions = {}
-g.airline_powerline_fonts = false
+vim.g.airline_extensions = {}
+vim.g.airline_powerline_fonts = false
 
 require'colorizer'.setup()
 
@@ -106,6 +106,7 @@ require'telescope'.setup {
 }
 require'telescope'.load_extension('fzf')
 require'telescope'.load_extension('lsp_handlers')
+require'telescope'.load_extension('dap')
 
 require'telescope._extensions.zoxide.config'.setup{
   mappings = {
@@ -132,6 +133,18 @@ require('FTerm').setup({
   },
   auto_close = true
 })
+
+local dap = require'dap'
+dap.defaults.fallback.external_terminal = {
+  command = 'alacritty',
+  args = { '-e' },
+}
+
+require'dapui'.setup{}
+
+vim.g.dap_virtual_text = true
+
+require'crates'.setup{}
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -166,7 +179,9 @@ cmp.setup({
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'path' },
     { name = 'buffer' },
+    { name = 'crates' },
   }
 })
 

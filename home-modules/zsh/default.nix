@@ -18,8 +18,8 @@ let
   fzf-z = pkgs.fetchFromGitHub {
     owner = "vkleen";
     repo = "fzf-z";
-    rev = "571257730970c1f56d446a6680afd8b21815d266";
-    sha256 = "sha256-piyD+PGil20ZVglEduKlWeQypUkyJFpGVcW5Mnx59PM=";
+    rev = "5fa6c755e1bd4c5933c10fe7c2be3a6645201a06";
+    sha256 = "sha256-n2Rys7NUyYp7bgMsKv0wyjRLxBvEV59CRKsjo3h+vQA=";
   };
 
   dotDir = ".config/zsh";
@@ -84,9 +84,10 @@ in {
     initExtraBeforeCompInit = ''
       source "${config.home.homeDirectory}/${dotDir}/.p10k.zsh"
     '';
+    envExtra = ''
+      FZFZ_EXTRA_DIRS=( "-d" "4" "${config.home.homeDirectory}/src" )
+    '';
     initExtra = ''
-      # export LS_COLORS="$LS_COLORS:ow=1;7;34:st=30;44:su=30;41"
-
       source "${zsh-syntax-highlighting}/zsh-syntax-highlighting.zsh"
       source "${zsh-fzf-tab-completion}/zsh/fzf-zsh-completion.sh"
       eval "$(zoxide init zsh)"

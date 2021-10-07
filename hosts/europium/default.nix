@@ -30,4 +30,9 @@
 
   networking.hostId = "f8a1f27f";
   environment.etc."machine-id".text = "f8a1f27fe211912366eb4b536c533419";
+
+  services.rmfakecloud-proxy = {
+    enable = true;
+    endpoint = "localhost:3000";
+  };
 }

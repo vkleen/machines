@@ -722,6 +722,22 @@
         "type": "github"
       }
     },
+    "rmfakecloud-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1633615144,
+        "narHash": "sha256-9+3uoH7Zvf+EO+HQV+++lcQ/LzyMKdxfN2NKKf/z53s=",
+        "owner": "ddvk",
+        "repo": "rmfakecloud",
+        "rev": "4b985f68d01310ae35a111f33131fa1a193e62bc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ddvk",
+        "repo": "rmfakecloud",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -757,6 +773,7 @@
         "nvim-treesitter-context": "nvim-treesitter-context",
         "nvim-ts-rainbow": "nvim-ts-rainbow",
         "plenary-nvim": "plenary-nvim",
+        "rmfakecloud-src": "rmfakecloud-src",
         "rust-tools": "rust-tools",
         "telescope-ghq": "telescope-ghq",
         "telescope-lsp-handlers": "telescope-lsp-handlers",

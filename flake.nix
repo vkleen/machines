@@ -72,6 +72,10 @@
       url = "github:NixOS/nix";
       inputs.nixpkgs.follows = "nixpkgs-power9";
     };
+    rmfakecloud-src = {
+      url = "github:ddvk/rmfakecloud";
+      flake = false;
+    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -274,6 +278,7 @@
               hledger-src
               kicad-src
               neovide-src
+              rmfakecloud-src
             ;
           };
         };

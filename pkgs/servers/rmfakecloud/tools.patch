@@ -1,0 +1,11 @@
+diff --git a/internal/tools/tools.go b/internal/tools/tools.go
+new file mode 100644
+index 0000000..e5ac2d4
+--- /dev/null
++++ b/internal/tools/tools.go
+@@ -0,0 +1,5 @@
++package tools
++
++import (
++  _ "github.com/shurcooL/vfsgen"
++)

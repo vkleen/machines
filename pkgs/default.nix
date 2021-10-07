@@ -10,6 +10,7 @@ final: prev: {
   seamly2d = final.libsForQt5.callPackage ./misc/seamly2d {};
   spacenavd = final.callPackage ./misc/spacenavd {};
   uuu = final.callPackage ./tools/misc/uuu {};
+  rmfakecloud = final.callPackage ./servers/rmfakecloud {};
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)
   {
     kakoune-cr = final.callPackage ./applications/editors/kakoune.cr {};

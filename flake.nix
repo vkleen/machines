@@ -6,7 +6,7 @@
     nixpkgs-power9.url = "github:vkleen/nixpkgs/local-power9";
     nixpkgs-riscv.url = "github:vkleen/nixpkgs/local-riscv";
     nixpkgs-wayland = {
-      url = "github:colemickens/nixpkgs-wayland";
+      url = "github:nix-community/nixpkgs-wayland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {

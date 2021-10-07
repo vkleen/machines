@@ -165,7 +165,8 @@ let
       | ${pkgs.coreutils}/bin/cut -d $'\t' -f 1)
 
     [[ -n "''${emoji}" ]] || die 1
-    ${emoji-fzf}/bin/emoji-fzf get <<<"''${emoji}" | ${pkgs.wl-clipboard}/bin/wl-copy -n
+    sel=$(${emoji-fzf}/bin/emoji-fzf get <<<"''${emoji}")
+    ${pkgs.wl-clipboard}/bin/wl-copy -n <<<"''${sel}"
     die 0
   '';
 

@@ -57,6 +57,8 @@
         ip6tables -A nixos-fw-forward -p icmpv6 --icmpv6-type 139 -j DROP
         ip6tables -A nixos-fw-forward -p icmpv6 -j ACCEPT
 
+        ip6tables -A nixos-fw-forward -p tcp --dport 22  -j ACCEPT
+
         ip46tables -A nixos-fw-forward -j DROP
         ip46tables -A FORWARD -j nixos-fw-forward
       '';

@@ -35,18 +35,10 @@ in {
 
       extraConfig = builtins.concatStringsSep "\n" [
         ''
-          lua <<EOF
-          ${lib.strings.fileContents ./config.lua}
-          EOF
-          lua <<EOF
-          ${lib.strings.fileContents ./bindings.lua}
-          EOF
-          lua <<EOF
-          ${lib.strings.fileContents ./plugins.lua}
-          EOF
-          lua <<EOF
-          ${lib.strings.fileContents ./lsp.lua}
-          EOF
+          lua dofile("${./config.lua}")
+          lua dofile("${./bindings.lua}")
+          lua dofile("${./plugins.lua}")
+          lua dofile("${./lsp.lua}")
         ''
       ];
 
@@ -105,10 +97,10 @@ in {
         clever-f
 
         nvim-cmp
-        vim-vsnip
-        vim-vsnip-integ
         cmp-buffer
         cmp-nvim-lsp
+        cmp_luasnip
+        luasnip
 
         nvim-colorizer
         gitsigns

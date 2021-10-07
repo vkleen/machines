@@ -167,6 +167,22 @@ require'crates'.setup {
     },
 }
 
+local types = require("luasnip.util.types")
+require'luasnip'.config.setup({
+  ext_opts = {
+    [types.choiceNode] = {
+      active = {
+        virt_text = {{"●", "GruvboxOrange"}}
+      }
+    },
+    [types.insertNode] = {
+      active = {
+        virt_text = {{"●", "GruvboxBlue"}}
+      }
+    }
+  },
+})
+
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
@@ -176,30 +192,39 @@ local cmp = require'cmp'
 cmp.setup({
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
+      require'luasnip'.lsp_expand(args.body)
     end
   },
   mapping = {
-    ['<Tab>'] = cmp.mapping(function(fallback)
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm{
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
       if vim.fn.pumvisible() == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n', true)
-      elseif has_words_before() and vim.fn['vsnip#available']() == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-expand-or-jump)', true, true, true), '', true)
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+      elseif require'luasnip'.expand_or_jumpable() then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
       else
-        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+        fallback()
       end
-    end, { 'i', 's' }),
-
-    ['<S-Tab>'] = cmp.mapping(function()
+    end,
+    ['<S-Tab>'] = function(fallback)
       if vim.fn.pumvisible() == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n', true)
-      elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-prev)', true, true, true), '', true)
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+      elseif require'luasnip'.jumpable(-1) then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-jump-prev', true, true, true), '')
+      else
+        fallback()
       end
-    end, { 'i', 's' }),
+    end,
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'luasnip' },
     { name = 'path' },
     { name = 'buffer' },
     { name = 'crates' },

@@ -86,7 +86,7 @@
             allowedIPs = [ "10.172.40.132/32" "2a01:7e01:e002:aa00:2469:eead::/96" ];
           }
           { publicKey = builtins.readFile ../../wireguard/helium.pub;
-            allowedIPs = [ "10.172.40.133/32" "2a01:7e01:e002:aa00:b467:24b8::/96" "2a01:7e01:e002:aa01::/64" ];
+            allowedIPs = [ "10.172.40.133/32" "2a01:7e01:e002:aa00:b467:24b8::/96" ];
           }
           { publicKey = builtins.readFile ../../wireguard/chlorine.pub;
             allowedIPs = [ "10.172.40.135/32" "2a01:7e01:e002:aa00:5319:9d00::/96" ];

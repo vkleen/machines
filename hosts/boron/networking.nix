@@ -382,6 +382,10 @@ in {
         ethernetAddress = "60:f2:62:17:59:7b";
         ipAddress = "10.172.100.101";
       }
+      { hostName = "helium";
+        ethernetAddress = "e0:63:da:39:22:9f";
+        ipAddress = "10.172.100.5";
+      }
     ];
   };
 

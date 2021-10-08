@@ -27,4 +27,9 @@ in
 
   "mosquitto/mqtt.key.age".publicKeys = [vkleen boron];
   "mosquitto/mqtt.pem.age".publicKeys = [vkleen boron];
+
+  "rmfakecloud/jwtKey.age".publicKeys = [vkleen boron];
+  "rmfakecloud/hwrAppKey.age".publicKeys = [vkleen boron];
+  "rmfakecloud/hwrHMAC.age".publicKeys = [vkleen boron];
+  "rmfakecloud/rmapi.age".publicKeys = [vkleen bohrium];
 }

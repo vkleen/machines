@@ -6,6 +6,7 @@
     latest-linux
     mosquitto
     no-coredump
+    rmfakecloud
     ssh
     zfs
   ]);

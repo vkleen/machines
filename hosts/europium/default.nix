@@ -31,8 +31,10 @@
   networking.hostId = "f8a1f27f";
   environment.etc."machine-id".text = "f8a1f27fe211912366eb4b536c533419";
 
-  services.rmfakecloud-proxy = {
+  services.rmfakecloud-proxy = let
+    boronPublicAddress = (builtins.elemAt flake.nixosConfigurations.boron.config.networking.interfaces."auenheim".ipv6.addresses 0).address;
+  in {
     enable = true;
-    endpoint = "localhost:3000";
+    endpoint = "[${boronPublicAddress}]:3000";
   };
 }

@@ -32,4 +32,7 @@ in
   "rmfakecloud/hwrAppKey.age".publicKeys = [vkleen boron];
   "rmfakecloud/hwrHMAC.age".publicKeys = [vkleen boron];
   "rmfakecloud/rmapi.age".publicKeys = [vkleen bohrium];
+
+  "dptrp1.age".publicKeys = [vkleen bohrium];
+  "dptrp1.key.age".publicKeys = [vkleen bohrium];
 }

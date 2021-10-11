@@ -105,6 +105,19 @@ let
     (builtins.readFile ./fzf/fzf-pdf)
   );
 
+  fzf-dpt = pkgs.writeScript "fzf-dpt" (builtins.replaceStrings
+    [ "@awk@" "@b2sum@" "@cut@" "@fzf@" "@fzf-dpt-candidates@" "@grep@" "@stat@" "@tmux@" "@tr@" "@zsh@" "@dptrp1@"  "@dptrp1-addr@" "@prefix@" ]
+    [ "${pkgs.gawk}/bin/awk" "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.fzf}/bin/fzf" "${fzf-dpt-candidates}" "${pkgs.gnugrep}/bin/grep" "${pkgs.coreutils}/bin/stat" "${pkgs.tmux}/bin/tmux" "${pkgs.coreutils}/bin/tr" "${pkgs.zsh}/bin/zsh" "${pkgs.dpt-rp1-py}/bin/dptrp1" "dptrp1.auenheim.kleen.org" "${config.home.homeDirectory}/dptrp1" ]
+    (builtins.readFile ./fzf/fzf-dpt)
+  );
+
+
+  fzf-dpt-candidates = pkgs.writeScript "fzf-dpt-candidates" (builtins.replaceStrings
+    [ "@b2sum@" "@cut@" "@mkdir@" "@rg@" "@rm@" "@sort@" "@stat@" "@tee@" "@tr@" "@xargs@" "@zsh@" "@prefix@" ]
+    [ "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.coreutils}/bin/mkdir" "${pkgs.ripgrep}/bin/rg" "${pkgs.coreutils}/bin/rm" "${pkgs.coreutils}/bin/sort" "${pkgs.coreutils}/bin/stat" "${pkgs.coreutils}/bin/tee" "${pkgs.coreutils}/bin/tr" "${pkgs.findutils}/bin/xargs" "${pkgs.zsh}/bin/zsh" "${config.home.homeDirectory}/dptrp1" ]
+    (builtins.readFile ./fzf/fzf-dpt-candidates)
+  );
+
   fzf-paper-candidates = pkgs.writeScript "fzf-paper-candidates" (builtins.replaceStrings
     [ "@b2sum@" "@cut@" "@exiftool@" "@jq@" "@mkdir@" "@pdftotext@" "@rg@" "@rm@" "@sort@" "@stat@" "@tee@" "@tr@" "@xargs@" "@zsh@" ]
     [ "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.exiftool}/bin/exiftool" "${pkgs.jq}/bin/jq" "${pkgs.coreutils}/bin/mkdir" "${pkgs.poppler_utils}/bin/pdftotext" "${pkgs.ripgrep}/bin/rg" "${pkgs.coreutils}/bin/rm" "${pkgs.coreutils}/bin/sort" "${pkgs.coreutils}/bin/stat" "${pkgs.coreutils}/bin/tee" "${pkgs.coreutils}/bin/tr" "${pkgs.findutils}/bin/xargs" "${pkgs.zsh}/bin/zsh" ]
@@ -119,6 +132,7 @@ let
 
   update-fzf-paper = pkgs.writeShellScriptBin "update-fzf-paper" ''
     ${fzf-paper-candidates} $HOME/.local/cache/pdftotext
+    ${fzf-dpt-candidates} $HOME/.local/cache/pdftotext
   '';
 
   fzf-ff-url-candidates = pkgs.writeScript "fzf-ff-url-candidates" (builtins.replaceStrings
@@ -359,6 +373,7 @@ in lib.mkMerge [{
         "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
         "${mod}+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pdf}";
         "${mod}+Shift+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-paper}";
+        "${mod}+Ctrl+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-dpt}";
         "${mod}+u" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-emoji}";
 
         "XF86AudioMute" = "exec ${vol}/bin/vol mute";

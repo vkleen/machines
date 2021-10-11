@@ -30,4 +30,12 @@
       zsh
     ])
   );
+  age.secrets."dptrp1" = {
+    file = ../secrets/dptrp1.age;
+    owner = "vkleen";
+  };
+  age.secrets."dptrp1.key" = {
+    file = ../secrets/dptrp1.key.age;
+    owner = "vkleen";
+  };
 }

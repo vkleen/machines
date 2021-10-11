@@ -1,12 +1,12 @@
 #!@zsh@
 
-prefix=(~/dl ~/books ~/papers ~/work ~/dptrp1.bak ~/hw/xilinx/documentation)
+prefix=(~/dl ~/books ~/papers ~/work ~/dptrp1.bak ~/dptrp1 ~/hw/xilinx/documentation)
 
 files=(${(0)"$(@rg@ -0 --no-ignore --files --iglob '*.{pdf,djvu}' "${(@)prefix}")"})
 
 DIR="$1"
 @mkdir@ -p "${DIR}/global"
-GLOBALHASH=$(printf "%s\0" "${(@)files}" | @xargs@ -0 -- stat -c '%d %i %Y %n' | @sort@ | @b2sum@ | @cut@ -c 1-128)
+GLOBALHASH=$(printf "%s\0" "${(@)files}" | @xargs@ -0 -- @stat@ -c '%d %i %Y %n' | @sort@ | @b2sum@ | @cut@ -c 1-128)
 
 if [[ -f "${DIR}/global/${GLOBALHASH}" ]]; then
     cat "${DIR}/global/${GLOBALHASH}"
@@ -32,7 +32,7 @@ while read -d$'\0' -r FILE; do
          @pdftotext@ -f 1 -l 1 "${FILE}" - 2>/dev/null
        } | @tr@ -cd "\11\12\15\40-\176" > "${CACHE}"
    fi
-   printf "%s\t%s\0" "${FILE}" "$(tr "\n" "_" < ${CACHE})"
+   printf "%s\t%s\0" "${FILE}" "$(@tr@ "\n" "_" < ${CACHE})"
 done < <(printf "%s\0" "${(@)files}")} \
     | @tee@ "${DIR}/global/${GLOBALHASH}"
 trap - EXIT INT HUP

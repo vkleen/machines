@@ -1,0 +1,33 @@
+#!@zsh@
+
+prefix=@prefix@
+
+files=(${(0)"$(@rg@ -0 --no-ignore --files --iglob '*.pdf' "${prefix}")"})
+
+DIR="$1"
+@mkdir@ -p "${DIR}/dptrp1"
+GLOBALHASH=$(printf "%s\0" "${(@)files}" | @xargs@ -0 -- @stat@ -c '%d %i %Y %n' | @sort@ | @b2sum@ | @cut@ -c 1-128)
+
+if [[ -f "${DIR}/dptrp1/${GLOBALHASH}" ]]; then
+    cat "${DIR}/dptrp1/${GLOBALHASH}"
+    exit 0
+fi
+
+function cleanup() {
+    @rm@ -f "${DIR}/dptrp1/${GLOBALHASH}"
+}
+trap cleanup EXIT INT HUP
+
+{printf "%s\0" "${(@)files}"
+while read -d$'\0' -r FILE; do
+   HASH=$(@stat@ -c '%d %i %Y %n' "${FILE}" | @b2sum@ | @cut@ -c 1-128)
+   CACHE="${DIR}/${HASH}"
+   printf "%s" "${FILE}"
+   if [[ -f "${CACHE}" ]]; then
+      printf "\t%s" "$(@tr@ "\n" "_" < ${CACHE})"
+   fi
+   printf "\0"
+done < <(printf "%s\0" "${(@)files}")} \
+    | @tee@ "${DIR}/dptrp1/${GLOBALHASH}"
+trap - EXIT INT HUP
+exit 0

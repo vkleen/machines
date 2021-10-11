@@ -31,7 +31,7 @@ in {
 
     bonds = {
       "lan" = {
-        interfaces = [ "wlan0" "eth-dock" ];
+        interfaces = [ "wlan0" "eth-dock" "eth-usb" ];
         driverOptions = {
           miimon = "1000";
           mode = "active-backup";
@@ -45,6 +45,9 @@ in {
         useDHCP = false;
       };
       "eth-dock" = {
+        useDHCP = false;
+      };
+      "eth-usb" = {
         useDHCP = false;
       };
       "lan" = {
@@ -149,6 +152,7 @@ in {
 
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="d0:c0:bf:48:d8:e7", NAME:="eth-dock"
+    SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="00:e0:4c:68:01:b2", NAME:="eth-usb"
   '';
 
   programs.mtr.enable = true;

@@ -76,6 +76,10 @@
       url = "github:ddvk/rmfakecloud";
       flake = false;
     };
+    eseries-src = {
+      url = "github:devbisme/eseries";
+      flake = false;
+    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -273,6 +277,7 @@
           sources = final: prev: {
             inherit (inputs)
               alacritty-src
+              eseries-src
               freecad-assembly3-src
               freecad-src
               hledger-src
@@ -404,7 +409,8 @@
 
         packages = forAllSystems (system:
           let
-            pkgNames = concatMap (o: attrNames (o pkgset."${system}" pkgset."${system}")) (attrValues overlays);
+            pkgs = pkgset."${system}";
+            pkgNames = concatMap (o: attrNames (o pkgs pkgs)) (attrValues overlays);
           in filterAttrs (_: isDerivation) (getAttrs pkgNames pkgset."${system}"));
 
         apps = activateNixosConfigurations;

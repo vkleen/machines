@@ -44,26 +44,6 @@ let
   firejail-element = pkgs.writeShellScriptBin "element-desktop" ''
     exec ${nixos.security.wrapperDir}/firejail --whitelist=${config.home.homeDirectory}/.config/Riot ${pkgs.element-desktop}/bin/element-desktop
   '';
-
-  nixos-zoom = pkgs.writeShellScript "nixos-zoom" ''
-    ${pkgs.flatpak}/bin/flatpak --user run us.zoom.Zoom "$@"
-  '';
-
-  zoomy = pkgs.writeShellScriptBin "zoomy" ''
-    ${nixos-zoom} "$(printf '%s\n' "$*" | ${pkgs.gnused}/bin/sed -e 's,^https://[^.]*\.zoom\.us/j/\([0-9]*\)?pwd=\(.*\)$,zoommtg://zoom.us/join?action=join\&confno=\1\&pwd=\2,')"
-  '';
-
-  nixos-zoom-desktop-item = pkgs.makeDesktopItem {
-    name = "nixos-zoom";
-    desktopName = "nix run zoom";
-    genericName = "zoom";
-    comment = "You know what this is";
-    mimeType = "x-scheme-handler/zoommtg";
-    exec = "${zoomy}/bin/zoomy %u";
-    type = "Application";
-    terminal = "false";
-    categories = "Utility";
-  };
 in {
   imports = [ ./scripts.nix ];
 
@@ -105,6 +85,7 @@ in {
     librepcb
     ngspice
     qucs
+    eseries
 
     pulseview
     dsview
@@ -126,11 +107,4 @@ in {
 
     nixos-zoom-desktop-item
   ];
-
-  xdg.mimeApps = {
-    enable = true;
-    associations.added = {
-      "x-scheme-handler/zoommtg" = "nixos-zoom.desktop";
-    };
-  };
 }

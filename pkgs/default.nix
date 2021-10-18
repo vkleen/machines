@@ -11,6 +11,16 @@ final: prev: {
   spacenavd = final.callPackage ./misc/spacenavd {};
   uuu = final.callPackage ./tools/misc/uuu {};
   rmfakecloud = final.callPackage ./servers/rmfakecloud {};
+
+  eseries = with final.python3Packages; toPythonApplication eseries;
+
+  python3 = prev.python3.override {
+    packageOverrides = pself: _: {
+      eseries = pself.callPackage ./tools/misc/eseries {};
+      docopt-subcommands = pself.callPackage ./development/python-modules/docopt-subcommands {};
+    };
+  };
+  python3Packages = final.python3.pkgs;
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)
   {
     kakoune-cr = final.callPackage ./applications/editors/kakoune.cr {};

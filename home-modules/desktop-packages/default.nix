@@ -74,7 +74,6 @@ in {
     xterm
     youtube-dl
     yq
-    zoomy
 
     adms
     caneda
@@ -104,7 +103,5 @@ in {
     bean-add
 
     seamly2d
-
-    nixos-zoom-desktop-item
   ];
 }

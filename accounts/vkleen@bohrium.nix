@@ -11,6 +11,7 @@
       browser
       desktop-packages
       direnv
+      dptrp1
       git
       gnupg
       gpg-agent

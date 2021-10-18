@@ -106,8 +106,8 @@ let
   );
 
   fzf-dpt = pkgs.writeScript "fzf-dpt" (builtins.replaceStrings
-    [ "@awk@" "@b2sum@" "@cut@" "@fzf@" "@fzf-dpt-candidates@" "@grep@" "@stat@" "@tmux@" "@tr@" "@zsh@" "@dptrp1@"  "@dptrp1-addr@" "@prefix@" ]
-    [ "${pkgs.gawk}/bin/awk" "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.fzf}/bin/fzf" "${fzf-dpt-candidates}" "${pkgs.gnugrep}/bin/grep" "${pkgs.coreutils}/bin/stat" "${pkgs.tmux}/bin/tmux" "${pkgs.coreutils}/bin/tr" "${pkgs.zsh}/bin/zsh" "${pkgs.dpt-rp1-py}/bin/dptrp1" "dptrp1.auenheim.kleen.org" "${config.home.homeDirectory}/dptrp1" ]
+    [ "@awk@" "@b2sum@" "@cut@" "@fzf@" "@fzf-dpt-candidates@" "@grep@" "@stat@" "@basename@" "@tmux@" "@tr@" "@zsh@" "@dptrp1@" "@prefix@" ]
+    [ "${pkgs.gawk}/bin/awk" "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.fzf}/bin/fzf" "${fzf-dpt-candidates}" "${pkgs.gnugrep}/bin/grep" "${pkgs.coreutils}/bin/stat" "${pkgs.coreutils}/bin/basename" "${pkgs.tmux}/bin/tmux" "${pkgs.coreutils}/bin/tr" "${pkgs.zsh}/bin/zsh" "${config.programs.dptrp1.pkg}/bin/dptrp1" "${config.home.homeDirectory}/dptrp1" ]
     (builtins.readFile ./fzf/fzf-dpt)
   );
 

@@ -1,8 +1,8 @@
 #!@zsh@
 
-prefix=@prefix@
+prefix=(@prefix@ ~/dl ~/books ~/papers ~/work ~/hw/xilinx/documentation)
 
-files=(${(0)"$(@rg@ -0 --no-ignore --files --iglob '*.pdf' "${prefix}")"})
+files=(${(0)"$(@rg@ -0 --no-ignore --files --iglob '*.pdf' "${(@)prefix}")"})
 
 DIR="$1"
 @mkdir@ -p "${DIR}/dptrp1"

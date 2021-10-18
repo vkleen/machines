@@ -142,6 +142,28 @@ in {
         }
       ];
     };
+
+    links."40-bnep0" = {
+      matchConfig = {
+        MACAddress = "60:f2:62:17:59:7f";
+        Type = "bluetooth";
+      };
+      linkConfig = {
+        AlternativeName = "dptrp1";
+      };
+    };
+    networks."40-bnep0" = {
+      linkConfig = {
+        Unmanaged = "yes";
+        Multicast = "yes";
+        RequiredForOnline = "no";
+      };
+      networkConfig = {
+        DHCP = "no";
+        MulticastDNS = "resolve";
+        LinkLocalAddressing = "ipv6";
+      };
+    };
   };
 
   services.resolved = {

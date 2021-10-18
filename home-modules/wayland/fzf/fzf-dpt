@@ -26,5 +26,15 @@ file=$(_do_fzf)
 laststatus || die 1
 [[ -z "$file" ]] && die 0
 
-(set -m; trap ':' 1; exec @dptrp1@ --client-id /run/secrets/dptrp1 --key /run/secrets/dptrp1.key --addr @dptrp1-addr@ display-document Document/"${file#${prefix}/}" >/dev/null 2>&1) &!
+case "$file" in
+  @prefix@/*)
+    path=Document/"${file#${prefix}/}"
+    ;;
+  *)
+    path=Document/scratch/"$(@basename@ "${file}")"
+    @dptrp1@ upload "${file}" "${path}"
+    ;;
+esac
+
+(set -m; trap ':' 1; exec @dptrp1@ display-document "${path}" >/dev/null 2>&1) &!
 die 0

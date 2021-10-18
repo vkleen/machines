@@ -70,7 +70,6 @@ in {
   home.packages = with pkgs; [
     calibre
     djvulibre
-    dpt-rp1-py
     evince
     firejail-element
     gnome3.gsettings_desktop_schemas

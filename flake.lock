@@ -132,6 +132,23 @@
         "type": "github"
       }
     },
+    "dptrp1-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1634757419,
+        "narHash": "sha256-HYbA54hDI+5pxpGIwkUIxG6/zDQfsc4OVu6wDVdoVBQ=",
+        "owner": "vkleen",
+        "repo": "dpt-rp1-py",
+        "rev": "f7cff4126e75b95d5a535c00685ffd69ca39246a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "ref": "local",
+        "repo": "dpt-rp1-py",
+        "type": "github"
+      }
+    },
     "emoji-fzf": {
       "inputs": {
         "crate2nix": "crate2nix",
@@ -762,6 +779,7 @@
         "clever-f": "clever-f",
         "cmp-buffer": "cmp-buffer",
         "cmp-nvim-lsp": "cmp-nvim-lsp",
+        "dptrp1-src": "dptrp1-src",
         "emoji-fzf": "emoji-fzf",
         "eseries-src": "eseries-src",
         "freecad-assembly3-src": "freecad-assembly3-src",

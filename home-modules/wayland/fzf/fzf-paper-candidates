@@ -13,8 +13,10 @@ if [[ -f "${DIR}/global/${GLOBALHASH}" ]]; then
     exit 0
 fi
 
+tmpfile=$(@mktemp@)
+cachefile=$(@mktemp@)
 function cleanup() {
-    @rm@ -f "${DIR}/global/${GLOBALHASH}" "${CACHE}"
+    @rm@ -f "${tmpfile}" "${cachefile}"
 }
 trap cleanup EXIT INT HUP
 
@@ -30,10 +32,12 @@ while read -d$'\0' -r FILE; do
    if [[ ! ( -f "${CACHE}" || "${FILE}" = "*.ps" ) ]]; then
        { extract_meta "${FILE}"
          @pdftotext@ -f 1 -l 1 "${FILE}" - 2>/dev/null
-       } | @tr@ -cd "\11\12\15\40-\176" > "${CACHE}"
+       } | @tr@ -cd "\11\12\15\40-\176" > "${cachefile}"
+       @mv@ "${cachefile}" "${CACHE}"
+       cachefile=$(@mktemp@)
    fi
    printf "%s\t%s\0" "${FILE}" "$(@tr@ "\n" "_" < ${CACHE})"
 done < <(printf "%s\0" "${(@)files}")} \
-    | @tee@ "${DIR}/global/${GLOBALHASH}"
-trap - EXIT INT HUP
+    | @tee@ "${tmpfile}"
+@mv@ "${tmpfile}" "${DIR}/global/${GLOBALHASH}"
 exit 0

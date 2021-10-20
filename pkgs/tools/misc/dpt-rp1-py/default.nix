@@ -1,4 +1,4 @@
-{ lib, python3, python3Packages, fetchFromGitHub, writeScript }:
+{ lib, python3, python3Packages, fetchFromGitHub, writeScript, dptrp1-src }:
 let
   aux-python = python3.withPackages (p: [ p.pyserial ]);
   dptrp1-usb = writeScript "dptrp1-usb" ''
@@ -10,14 +10,9 @@ let
   '';
 in python3Packages.buildPythonApplication rec {
   pname = "dpt-rp1-py";
-  version = "local-2020-10-28";
+  version = "local";
 
-  src = fetchFromGitHub {
-    owner = "vkleen";
-    repo = "dpt-rp1-py";
-    rev = "fb9c49d614ad4ec9c9a04eab5d7299e151d586a6";
-    hash = "sha256-0foVGUZZA2UFj8WfPfB+TiecT9aHHPad9j6/7XqWQ/8=";
-  };
+  src = dptrp1-src;
 
   doCheck = false;
 

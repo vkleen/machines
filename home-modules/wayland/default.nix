@@ -113,14 +113,14 @@ let
 
 
   fzf-dpt-candidates = pkgs.writeScript "fzf-dpt-candidates" (builtins.replaceStrings
-    [ "@b2sum@" "@cut@" "@mkdir@" "@rg@" "@rm@" "@sort@" "@stat@" "@tee@" "@tr@" "@xargs@" "@zsh@" "@prefix@" ]
-    [ "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.coreutils}/bin/mkdir" "${pkgs.ripgrep}/bin/rg" "${pkgs.coreutils}/bin/rm" "${pkgs.coreutils}/bin/sort" "${pkgs.coreutils}/bin/stat" "${pkgs.coreutils}/bin/tee" "${pkgs.coreutils}/bin/tr" "${pkgs.findutils}/bin/xargs" "${pkgs.zsh}/bin/zsh" "${config.home.homeDirectory}/dptrp1" ]
+    [ "@b2sum@" "@cut@" "@mkdir@" "@mktemp@" "@mv@" "@rg@" "@rm@" "@sort@" "@stat@" "@tee@" "@tr@" "@xargs@" "@zsh@" "@prefix@" ]
+    [ "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.coreutils}/bin/mkdir" "${pkgs.coreutils}/bin/mktemp" "${pkgs.coreutils}/bin/mv" "${pkgs.ripgrep}/bin/rg" "${pkgs.coreutils}/bin/rm" "${pkgs.coreutils}/bin/sort" "${pkgs.coreutils}/bin/stat" "${pkgs.coreutils}/bin/tee" "${pkgs.coreutils}/bin/tr" "${pkgs.findutils}/bin/xargs" "${pkgs.zsh}/bin/zsh" "${config.home.homeDirectory}/dptrp1" ]
     (builtins.readFile ./fzf/fzf-dpt-candidates)
   );
 
   fzf-paper-candidates = pkgs.writeScript "fzf-paper-candidates" (builtins.replaceStrings
-    [ "@b2sum@" "@cut@" "@exiftool@" "@jq@" "@mkdir@" "@pdftotext@" "@rg@" "@rm@" "@sort@" "@stat@" "@tee@" "@tr@" "@xargs@" "@zsh@" ]
-    [ "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.exiftool}/bin/exiftool" "${pkgs.jq}/bin/jq" "${pkgs.coreutils}/bin/mkdir" "${pkgs.poppler_utils}/bin/pdftotext" "${pkgs.ripgrep}/bin/rg" "${pkgs.coreutils}/bin/rm" "${pkgs.coreutils}/bin/sort" "${pkgs.coreutils}/bin/stat" "${pkgs.coreutils}/bin/tee" "${pkgs.coreutils}/bin/tr" "${pkgs.findutils}/bin/xargs" "${pkgs.zsh}/bin/zsh" ]
+    [ "@b2sum@" "@cut@" "@exiftool@" "@jq@" "@mkdir@" "@mktemp@" "@mv@" "@pdftotext@" "@rg@" "@rm@" "@sort@" "@stat@" "@tee@" "@tr@" "@xargs@" "@zsh@" ]
+    [ "${pkgs.coreutils}/bin/b2sum" "${pkgs.coreutils}/bin/cut" "${pkgs.exiftool}/bin/exiftool" "${pkgs.jq}/bin/jq" "${pkgs.coreutils}/bin/mkdir" "${pkgs.coreutils}/bin/mktemp" "${pkgs.coreutils}/bin/mv" "${pkgs.poppler_utils}/bin/pdftotext" "${pkgs.ripgrep}/bin/rg" "${pkgs.coreutils}/bin/rm" "${pkgs.coreutils}/bin/sort" "${pkgs.coreutils}/bin/stat" "${pkgs.coreutils}/bin/tee" "${pkgs.coreutils}/bin/tr" "${pkgs.findutils}/bin/xargs" "${pkgs.zsh}/bin/zsh" ]
     (builtins.readFile ./fzf/fzf-paper-candidates)
   );
 

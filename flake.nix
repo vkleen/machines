@@ -80,6 +80,10 @@
       url = "github:devbisme/eseries";
       flake = false;
     };
+    dptrp1-src = {
+      url = "github:vkleen/dpt-rp1-py/local";
+      flake = false;
+    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -277,6 +281,7 @@
           sources = final: prev: {
             inherit (inputs)
               alacritty-src
+              dptrp1-src
               eseries-src
               freecad-assembly3-src
               freecad-src

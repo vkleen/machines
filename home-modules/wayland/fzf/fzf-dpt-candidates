@@ -13,8 +13,9 @@ if [[ -f "${DIR}/dptrp1/${GLOBALHASH}" ]]; then
     exit 0
 fi
 
+tmpfile=$(@mktemp@)
 function cleanup() {
-    @rm@ -f "${DIR}/dptrp1/${GLOBALHASH}"
+    @rm@ -f "${tmpfile}"
 }
 trap cleanup EXIT INT HUP
 
@@ -28,6 +29,6 @@ while read -d$'\0' -r FILE; do
    fi
    printf "\0"
 done < <(printf "%s\0" "${(@)files}")} \
-    | @tee@ "${DIR}/dptrp1/${GLOBALHASH}"
-trap - EXIT INT HUP
+    | @tee@ "${tmpfile}"
+@mv@ "${tmpfile}" "${DIR}/dptrp1/${GLOBALHASH}"
 exit 0

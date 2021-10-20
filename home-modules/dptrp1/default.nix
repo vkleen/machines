@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, nixos, ... }:
 let
   cfg = config.programs.dptrp1;
 
@@ -11,7 +11,13 @@ let
     }
 
     connect() {
-      ${pkgs.systemd}/bin/busctl call org.bluez /org/bluez/hci0/dev_${dptrp1-bt-address} org.bluez.Network1 Connect s nap | extract_interface
+      interface=$(${pkgs.systemd}/bin/busctl call org.bluez /org/bluez/hci0/dev_${dptrp1-bt-address} org.bluez.Network1 Connect s nap | extract_interface)
+      tries=0
+      until [[ $tries -eq 5 ]] || ${nixos.security.wrapperDir}/ping -c1 -I "$interface" ${dptrp1-address} >/dev/null; do
+        ${pkgs.coreutils}/bin/sleep 1
+        tries=$((tries + 1))
+      done
+      printf "%s" "$interface"
     }
 
     connected=$(${pkgs.systemd}/bin/busctl get-property org.bluez /org/bluez/hci0/dev_${dptrp1-bt-address} org.bluez.Network1 Connected)

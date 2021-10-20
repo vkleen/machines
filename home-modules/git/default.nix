@@ -1,8 +1,28 @@
 { pkgs, nixos, ... }:
-{
+let
+  hub-wrapper = pkgs.writeShellScriptBin "hub" ''
+    GITHUB_USER=vkleen GITHUB_TOKEN=$(${pkgs.pass}/bin/pass github/hub-token) ${pkgs.gitAndTools.hub}/bin/hub "$@"
+  '';
+  gh-wrapper = pkgs.writeShellScriptBin "gh" ''
+    GH_USER=vkleen GH_TOKEN=$(${pkgs.pass}/bin/pass github/hub-token) ${pkgs.gh}/bin/gh "$@"
+  '';
+in {
   home.packages = [
+    hub-wrapper
+    gh-wrapper
     pkgs.ghq
+    pkgs.glab
+    pkgs.gitAndTools.git-crypt
+    pkgs.gitAndTools.gitRemoteGcrypt
+    pkgs.gitAndTools.lab
   ];
+  xdg.configFile."lab/lab.toml".source = (pkgs.formats.toml{}).generate "lab.toml" {
+    core = {
+      host = "https://gitlab.com";
+      load_token = "${pkgs.pass}/bin/pass gitlab.com/pat";
+      user = "vkleen";
+    };
+  };
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.git;

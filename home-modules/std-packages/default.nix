@@ -24,9 +24,6 @@ in {
     fd
     file
     gdrive
-    gitAndTools.git-crypt
-    gitAndTools.gitRemoteGcrypt
-    gitAndTools.hub
     gitRepo
     htop
     iperf

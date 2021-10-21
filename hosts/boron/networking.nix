@@ -167,7 +167,7 @@ in {
             iptables -I FORWARD 1 -o lte -d 192.168.88.1 -j ACCEPT
             iptables -I FORWARD 2 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
-            ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 4000kbit burst 5kb latency 100ms
+            ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 5000kbit burst 5kb latency 100ms
             ${pkgs.iproute}/bin/tc qdisc add dev lte handle ffff: ingress
             ${pkgs.iproute}/bin/tc filter add dev lte parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
           '';

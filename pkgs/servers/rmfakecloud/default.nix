@@ -25,18 +25,13 @@ in buildGoModule rec {
   pname = "rmfakecloud";
   version = "0.0.5";
   inherit src;
-  vendorSha256 = "sha256-cNRXoarWrMgvseBEAjyBrBTFts0hJpZzPnTDXKJOUJM=";
 
-  overrideModAttrs = (_: { preBuild = "true"; });
+  vendorSha256 = "sha256-YLlsum72r4IRhi3F6R0qHlm7optcqDp4ASqP+KTMNag=";
 
-  patches = [ ./tools.patch ];
+  patches = [ ./assets.patch ];
 
   postPatch = ''
-    ln -s ${uiFiles} ui/build
-  '';
-
-  preBuild = ''
-    go generate ./...
+    cp -a ${uiFiles} ui/build
   '';
 
   doCheck = false;

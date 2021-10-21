@@ -1,0 +1,10 @@
+diff --git a/ui/assets.go b/ui/assets.go
+index ebe7103..3b0865f 100644
+--- a/ui/assets.go
++++ b/ui/assets.go
+@@ -1,4 +1,5 @@
+ //go:build !ci
++// +build !ci
+ 
+ package rmfakecloud
+ 

@@ -11,7 +11,7 @@ let
       ${pkgs.gawk}/bin/awk '{gsub("\"", "", $2); print $2}'
     }
 
-    connect() {
+    connect_bt() {
       interface=$(${pkgs.systemd}/bin/busctl call org.bluez /org/bluez/hci0/dev_${dptrp1-bt-address} org.bluez.Network1 Connect s nap | extract_interface)
       tries=0
       until [[ $tries -eq 5 ]] || ${nixos.security.wrapperDir}/ping -c1 -I "$interface" ${dptrp1-address} >/dev/null; do
@@ -22,14 +22,14 @@ let
     }
 
     get_address() {
-      if ${nixos.security.wrapperDir}/ping -c1 ${dptrp1-wifi} >/dev/null; then
-        printf "%s" "${dptrp1-wifi}"
-        exit 0
-      fi
       connected=$(${pkgs.systemd}/bin/busctl get-property org.bluez /org/bluez/hci0/dev_${dptrp1-bt-address} org.bluez.Network1 Connected)
       case "$connected" in
         *false)
-          interface=$(connect)
+          if ${nixos.security.wrapperDir}/ping -c1 ${dptrp1-wifi} >/dev/null; then
+            printf "%s" "${dptrp1-wifi}"
+            exit 0
+          fi
+          interface=$(connect_bt)
           ;;
         *true)
           interface=$(${pkgs.systemd}/bin/busctl get-property org.bluez /org/bluez/hci0/dev_${dptrp1-bt-address} org.bluez.Network1 Interface | extract_interface)

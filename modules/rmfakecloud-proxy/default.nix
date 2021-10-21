@@ -21,12 +21,20 @@ in {
     };
     services.nginx = {
       enable = true;
+      clientMaxBodySize = "400M";
       virtualHosts = {
         "remarkable.kleen.org" = {
           enableACME = true;
           forceSSL = true;
           locations."/" = {
             proxyPass = "http://${cfg.endpoint}";
+            proxyWebsockets = true;
+            extraConfig = ''
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header Host $host;
+              proxy_read_timeout 1d;
+              proxy_send_timeout 1d;
+            '';
           };
           extraConfig = ''
             access_log off;

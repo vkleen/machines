@@ -2,4 +2,5 @@
 poetry2nix.mkPoetryApplication {
   projectDir = ./.;
   src = rmrl-src;
+  patches = [ ./cli.patch ];
 }

@@ -11,6 +11,7 @@ final: prev: {
   spacenavd = final.callPackage ./misc/spacenavd {};
   uuu = final.callPackage ./tools/misc/uuu {};
   rmfakecloud = final.callPackage ./servers/rmfakecloud {};
+  rmrl = final.callPackage ./tools/remarkable/rmrl {};
 
   eseries = with final.python3Packages; toPythonApplication eseries;
 

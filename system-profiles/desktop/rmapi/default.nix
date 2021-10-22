@@ -21,5 +21,6 @@ in {
 
   environment.systemPackages = [
     rmapi-wrapped
+    pkgs.rmrl
   ];
 }

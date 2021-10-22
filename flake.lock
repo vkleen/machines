@@ -249,6 +249,21 @@
         "type": "github"
       }
     },
+    "flake-utils_4": {
+      "locked": {
+        "lastModified": 1610051610,
+        "narHash": "sha256-U9rPz/usA1/Aohhk7Cmc2gBrEEKRzcW4nwPWMPwja4Y=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3982c9903e93927c2164caa727cd3f6a0e6d14cc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "freecad-assembly3-src": {
       "flake": false,
       "locked": {
@@ -643,6 +658,21 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1610729867,
+        "narHash": "sha256-bk/SBaBLqZX/PEqal27DMQwAHHl0dcZMp8NNksQr80s=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "04af07c659c6723a2259bb6bc00a47ec53330f20",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nvim-cmp": {
       "flake": false,
       "locked": {
@@ -755,6 +785,25 @@
         "type": "github"
       }
     },
+    "poetry2nix": {
+      "inputs": {
+        "flake-utils": "flake-utils_4",
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1633382856,
+        "narHash": "sha256-hYlet806M9xJj4yxf0g5fhDT2IEUVIMAl7sqIeZ8DUM=",
+        "owner": "nix-community",
+        "repo": "poetry2nix",
+        "rev": "705cbfa10e3d9bfed2e59e0256844ae3704dbd7e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "poetry2nix",
+        "type": "github"
+      }
+    },
     "rmfakecloud-src": {
       "flake": false,
       "locked": {
@@ -768,6 +817,22 @@
       "original": {
         "owner": "ddvk",
         "repo": "rmfakecloud",
+        "type": "github"
+      }
+    },
+    "rmrl-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1614671493,
+        "narHash": "sha256-Jqxj/0O/gMubMqoOKjtp/qgxWA5GJ2KL6Epgejoom2c=",
+        "owner": "rschroll",
+        "repo": "rmrl",
+        "rev": "89b5cc38ef45251b96bd3d1c3618429b6b46db92",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rschroll",
+        "repo": "rmrl",
         "type": "github"
       }
     },
@@ -808,7 +873,9 @@
         "nvim-treesitter-context": "nvim-treesitter-context",
         "nvim-ts-rainbow": "nvim-ts-rainbow",
         "plenary-nvim": "plenary-nvim",
+        "poetry2nix": "poetry2nix",
         "rmfakecloud-src": "rmfakecloud-src",
+        "rmrl-src": "rmrl-src",
         "rust-tools": "rust-tools",
         "telescope-ghq": "telescope-ghq",
         "telescope-lsp-handlers": "telescope-lsp-handlers",

@@ -84,6 +84,13 @@
       url = "github:vkleen/dpt-rp1-py/local";
       flake = false;
     };
+    poetry2nix = {
+      url = "github:nix-community/poetry2nix";
+    };
+    rmrl-src = {
+      url = "github:rschroll/rmrl";
+      flake = false;
+    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -274,6 +281,7 @@
           neovim-nightly = onlySystems supportedSystems (final: prev: {
             neovim-unwrapped = (inputs.neovim-nightly.overlay final prev).neovim-unwrapped;
           });
+          poetry2nix = inputs.poetry2nix.overlay;
           nix = forSystemsOverlay inputs.nix.overlay
                                   (   { "powerpc64le-linux" = inputs.nix-power9.overlay; }
                                    // { "riscv64-linux" = inputs.nix-riscv.overlay; }
@@ -289,6 +297,7 @@
               kicad-src
               neovide-src
               rmfakecloud-src
+              rmrl-src
             ;
           };
         };

@@ -23,7 +23,7 @@ let
   makeRangeEntry = {min,max}: "<range><int>${builtins.toString min}</int><int>${builtins.toString max}</int></range>";
 in {
   imports = [
-    ./sway ./audio ./bitlbee ./cups ./remarkable-cups
+    ./sway ./audio ./bitlbee ./cups ./remarkable-cups ./rmapi
   ];
   hardware.opengl = {
     enable = true;

@@ -14,11 +14,13 @@ final: prev: {
   rmrl = final.callPackage ./tools/remarkable/rmrl {};
 
   eseries = with final.python3Packages; toPythonApplication eseries;
+  paper2remarkable = final.callPackage ./tools/remarkable/paper2remarkable/cli.nix {};
 
   python3 = prev.python3.override {
     packageOverrides = pself: _: {
       eseries = pself.callPackage ./tools/misc/eseries {};
       docopt-subcommands = pself.callPackage ./development/python-modules/docopt-subcommands {};
+      paper2remarkable = pself.callPackage ./tools/remarkable/paper2remarkable {};
     };
   };
   python3Packages = final.python3.pkgs;

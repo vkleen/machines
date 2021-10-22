@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 512744a..54867b4 100644
+--- a/setup.py
++++ b/setup.py
+@@ -30,7 +30,7 @@ REQUIRED = [
+     "readability-lxml>=0.7.1",
+     "regex>=2018.11",
+     "requests>=2.21",
+-    "titlecase>=0.12",
++    "titlecase",
+     "unidecode>=1.1",
+     "weasyprint>=51",
+ ]

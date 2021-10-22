@@ -1,0 +1,17 @@
+diff --git a/paper2remarkable/providers/springer.py b/paper2remarkable/providers/springer.py
+index a73ce17..b83519a 100644
+--- a/paper2remarkable/providers/springer.py
++++ b/paper2remarkable/providers/springer.py
+@@ -37,9 +37,9 @@ class SpringerInformer(Informer):
+ 
+ class Springer(Provider):
+ 
+-    re_abs_1 = "https?:\/\/link.springer.com\/article\/10\.\d{4}\/[a-z0-9\-]+"
+-    re_abs_2 = "https?:\/\/link.springer.com\/chapter\/10\.\d{4}\/[a-z0-9\-]+"
+-    re_pdf = "https?:\/\/link\.springer\.com\/content\/pdf\/10\.\d{4}(%2F|\/)[a-z0-9\-\_]+\.pdf"
++    re_abs_1 = "https?:\/\/link.springer.com\/article\/10\.\d{4}\/[a-zA-Z0-9\-]+"
++    re_abs_2 = "https?:\/\/link.springer.com\/chapter\/10\.\d{4}\/[a-zA-Z0-9\-]+"
++    re_pdf = "https?:\/\/link\.springer\.com\/content\/pdf\/10\.\d{4}(%2F|\/)[a-zA-Z0-9\-\_]+\.pdf"
+ 
+     def __init__(self, *args, **kwargs):
+         super().__init__(*args, **kwargs)

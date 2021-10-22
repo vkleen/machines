@@ -225,7 +225,7 @@ in lib.mkMerge [{
   ];
 
   home.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
+    MOZ_ENABLE_WAYLAND = "0";
     XDG_CURRENT_DESKTOP = "sway";
     XDG_SESSION_TYPE = "wayland";
     WAYLAND_DISPLAY = "wayland-1";

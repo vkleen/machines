@@ -72,7 +72,7 @@ in {
     xorg.xprop
     xsel
     xterm
-    youtube-dl
+    yt-dlp
     yq
 
     adms

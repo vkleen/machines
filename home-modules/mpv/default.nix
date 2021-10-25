@@ -119,6 +119,7 @@ in {
       vo=gpu
       hwdec=vaapi
       hwdec-codecs=all
+      script-opts=ytdl_hook-ytdl_path=${pkgs.yt-dlp}/bin/yt-dlp
       ytdl-format=bestvideo[height<=?720][vcodec*=h264][fps=60]+bestaudio[acodec=opus]/bestvideo[height<=?720][fps=60]+bestaudio/best[height<=?720]
       ytdl-raw-options=sub-format=en,write-srt=
     '';

@@ -8,8 +8,7 @@ joboptions=${5}
 jobfile=${6}
 
 rmapi=@RMAPI@
-export RMAPI_AUTH=@cloudUrl@
-export RMAPI_DOC=@cloudUrl@
+export RMAPI_HOST=@cloudUrl@
 export RMAPI_CONFIG=@RMAPI_CONFIG@
 
 printtime=$(@date@ +%Y-%b-%d-%H-%M)

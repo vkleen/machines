@@ -8,8 +8,7 @@ let
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/rmapi \
-        --set RMAPI_AUTH "${cloudUrl}" \
-        --set RMAPI_DOC "${cloudUrl}" \
+        --set RMAPI_HOST "${cloudUrl}" \
         --set RMAPI_CONFIG /run/secrets/rmapi
     '';
   };

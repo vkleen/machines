@@ -91,6 +91,10 @@
       url = "github:rschroll/rmrl";
       flake = false;
     };
+    rmapi-src = {
+      url = "github:juruen/rmapi";
+      flake = false;
+    };
 
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
@@ -296,6 +300,7 @@
               hledger-src
               kicad-src
               neovide-src
+              rmapi-src
               rmfakecloud-src
               rmrl-src
             ;

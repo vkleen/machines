@@ -804,6 +804,22 @@
         "type": "github"
       }
     },
+    "rmapi-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1635088132,
+        "narHash": "sha256-4vxhWwvvPmZf59orLS8WFE5LdXa0qf7vQ3XMC+YZo4Y=",
+        "owner": "juruen",
+        "repo": "rmapi",
+        "rev": "6740394c0c55adcbe8da4416641fe70322363a35",
+        "type": "github"
+      },
+      "original": {
+        "owner": "juruen",
+        "repo": "rmapi",
+        "type": "github"
+      }
+    },
     "rmfakecloud-src": {
       "flake": false,
       "locked": {
@@ -874,6 +890,7 @@
         "nvim-ts-rainbow": "nvim-ts-rainbow",
         "plenary-nvim": "plenary-nvim",
         "poetry2nix": "poetry2nix",
+        "rmapi-src": "rmapi-src",
         "rmfakecloud-src": "rmfakecloud-src",
         "rmrl-src": "rmrl-src",
         "rust-tools": "rust-tools",

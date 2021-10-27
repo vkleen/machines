@@ -35,4 +35,7 @@ in
 
   "dptrp1.age".publicKeys = [vkleen bohrium];
   "dptrp1.key.age".publicKeys = [vkleen bohrium];
+
+  "rsync.age".publicKeys = [vkleen bohrium boron];
+  "boron-borg.age".publicKeys = [vkleen boron];
 }

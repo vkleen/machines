@@ -1,5 +1,6 @@
 { flake, config, modulesPath, pkgSources, pkgset, ... }: {
   imports = [
+    ./backup.nix
     ./hardware.nix
     ./networking.nix
   ] ++ (with flake.nixosModules.systemProfiles; [

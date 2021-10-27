@@ -3,15 +3,12 @@
 with lib;
 
 let
-  knownHostsFile = pkgs.writeText "known_hosts" cfg.sshHosts;
-  sshConfigFile = pkgs.writeText "uucp_ssh_config" cfg.sshConfig;
-  # Don't use quotes, uucp doesn't understand them
   portSpec = name: ''
     port ${name}
     type pipe
     protocol ${if builtins.hasAttr name cfg.protocols then cfg.protocols."${name}" else cfg.defaultProtocol}
     reliable true
-    command ${pkgs.openssh}/bin/ssh -x -F ${sshConfigFile} -o UserKnownHostsFile=${knownHostsFile} -o HostKeyAlias=${name} -o batchmode=yes ${name}
+    command ${pkgs.openssh}/bin/ssh -x -o batchmode=yes ${name}
   '';
   sysSpec = name: ''
     system ${name}
@@ -31,7 +28,7 @@ in {
         type = types.bool;
         default = false;
         description = ''
-          If enabled we set up an account accesible via uucp over ssh
+          If enabled we set up an account accessible via uucp over ssh
         '';
       };
 
@@ -53,12 +50,6 @@ in {
         description = "~uucp/.ssh/config";
       };
 
-      sshHosts = mkOption {
-        type = types.lines;
-        default = "";
-        description = "known_hosts entries";
-      };
-
       remoteNodes = mkOption {
         type = types.listOf types.str;
         default = {};
@@ -70,7 +61,7 @@ in {
 
       commandPath = mkOption {
         type = types.listOf types.path;
-        default = [ "${pkgs.rmail config.security.wrapperDir}/bin" ];
+        default = [ "${pkgs.rmail}/bin" ];
         description = ''
           Command search path for all systems
         '';
@@ -158,102 +149,81 @@ in {
         default = ''
           protocol-parameter g packet-size 4096
         '';
-        description = "Extra configuration to prepend verbatim to `/etc/uucp/sys`";
+	      description = "Extra configuration to prepend verbatim to `/etc/uucp/sys`";
       };
     };
   };
 
-  config = mkMerge [
-    (mkIf cfg.enable {
-      environment.etc."uucp/config" = {
-        text = ''
-          hostname ${cfg.nodeName}
+  config = mkIf cfg.enable {
+    environment.etc."uucp/config" = {
+      text = ''
+        hostname ${cfg.nodeName}
 
-          spool ${cfg.spoolDir}
-          lockdir ${cfg.lockDir}
-          pubdir ${cfg.pubDir}
-          logfile ${cfg.logFile}
-          statfile ${cfg.statFile}
-          debugfile ${cfg.debugFile}
+        spool ${cfg.spoolDir}
+        lockdir ${cfg.lockDir}
+        pubdir ${cfg.pubDir}
+        logfile ${cfg.logFile}
+        statfile ${cfg.statFile}
+        debugfile ${cfg.debugFile}
 
-          ${cfg.extraConfig}
-        '';
-      };
-
-      users.users."uucp" = {
-        name = "uucp";
-        isSystemUser = true;
-        isNormalUser = false;
-        createHome = true;
-        home = cfg.spoolDir;
-        description = "User for uucp over ssh";
-        useDefaultShell = true;
-        group = "uucp";
-      } // cfg.sshUser;
-
-      users.groups."uucp" = {};
-
-      system.activationScripts."uucp-logs" = ''
-        mkdir -p $(dirname "${cfg.logFile}")
-        mkdir -p $(dirname "${cfg.statFile}")
-        mkdir -p $(dirname "${cfg.debugFile}")
-        mkdir -p "${cfg.spoolDir}"
-        touch ${cfg.logFile}
-        chown ${config.users.users."uucp".name}:${config.users.users."uucp".group} ${cfg.logFile}
-        chmod 644 ${cfg.logFile}
-        touch ${cfg.statFile}
-        chown ${config.users.users."uucp".name}:${config.users.users."uucp".group} ${cfg.statFile}
-        chmod 644 ${cfg.statFile}
-        touch ${cfg.debugFile}
-        chown ${config.users.users."uucp".name}:${config.users.users."uucp".group} ${cfg.debugFile}
-        chmod 644 ${cfg.debugFile}
+        ${cfg.extraConfig}
       '';
+    };
 
-      environment.etc."uucp/port" = {
-        text = ''
-          port ssh
-          type stdin
-          protocol e
-        '' + concatStringsSep "\n" (map portSpec cfg.remoteNodes);
-      };
-      environment.etc."uucp/sys" = {
-        text = cfg.extraSys + "\n" + concatStringsSep "\n" (map sysSpec cfg.remoteNodes);
-      };
+    users.users."uucp" = {
+      name = "uucp";
+      isSystemUser = true;
+      isNormalUser = false;
+      createHome = true;
+      home = cfg.spoolDir;
+      description = "User for uucp over ssh";
+      useDefaultShell = true;
+    } // cfg.sshUser;
 
-      security.wrappers = let
-        wrapper = p: { name = p;
-                       value = {
-                         source = "${pkgs.uucp config.security.wrapperDir}/bin/${p}";
-                         owner = "root";
-                         group = "root";
-                         setuid = true;
-                         setgid = false;
-                       };
+    system.activationScripts."uucp-sshconfig" = ''
+      mkdir -p ${config.users.users."uucp".home}/.ssh
+      chown ${config.users.users."uucp".name}:${config.users.users."uucp".group} ${config.users.users."uucp".home}/.ssh
+      chmod 700 ${config.users.users."uucp".home}/.ssh
+      ln -fs ${builtins.toFile "ssh-config" cfg.sshConfig} ${config.users.users."uucp".home}/.ssh/config
+    '';
+
+    system.activationScripts."uucp-logs" = ''
+      touch ${cfg.logFile}
+      chown ${config.users.users."uucp".name}:${config.users.users."uucp".group} ${cfg.logFile}
+      chmod 644 ${cfg.logFile}
+      touch ${cfg.statFile}
+      chown ${config.users.users."uucp".name}:${config.users.users."uucp".group} ${cfg.statFile}
+      chmod 644 ${cfg.statFile}
+      touch ${cfg.debugFile}
+      chown ${config.users.users."uucp".name}:${config.users.users."uucp".group} ${cfg.debugFile}
+      chmod 644 ${cfg.debugFile}
+    '';
+
+    # environment.etc."uucp/port" = {
+    #   text = ''
+    #     port ssh
+    #     type stdin
+    #     protocol e
+    #   '' + concatStringsSep "\n" (map portSpec cfg.remoteNodes);
+    # };
+    environment.etc."uucp/sys" = {
+      text = cfg.extraSys + "\n" + concatStringsSep "\n" (map sysSpec cfg.remoteNodes);
+    };
+
+    security.wrappers = let
+      wrapper = p: { name = p;
+                     value = {
+                       source = "${pkgs.uucp}/bin/${p}";
+                       owner = "root";
+                       group = "root";
+                       setuid = true;
+                       setgid = false;
                      };
-      in listToAttrs (map wrapper ["uucico" "uuxqt" "cu" "uucp" "uuname" "uustat" "uux"]);
+                   };
+    in listToAttrs (map wrapper ["uucico" "uuxqt" "cu" "uucp" "uuname" "uustat" "uux"]);
 
-      environment.systemPackages = with pkgs; [
-        (uucp config.security.wrapperDir) (rmail config.security.wrapperDir)
-      ];
-    })
-    (mkIf (cfg.interval != null) {
-      systemd.services."uucico@" = {
-        serviceConfig = {
-          User = "uucp";
-          Type = "oneshot";
-          ExecStart = "${config.security.wrapperDir}/uucico -D -S %i";
-        };
-      };
-
-      systemd.timers."uucico@" = {
-        timerConfig.OnActiveSec = cfg.interval;
-        timerConfig.OnUnitActiveSec = cfg.interval;
-        timerConfig.RandomizedDelaySec = 30;
-      };
-
-      systemd.targets."multi-user" = {
-        wants = map (name: "uucico@${name}.timer") cfg.remoteNodes;
-      };
-    })
-  ];
+    environment.systemPackages = with pkgs; [
+      uucp rmail
+    ];
+  };
 }

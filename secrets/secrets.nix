@@ -24,6 +24,7 @@ in
   "wireguard/samarium.age".publicKeys = [vkleen samarium];
 
   "nix/europium.1.sec.age".publicKeys = [vkleen europium];
+  "nix/samarium.2.sec.age".publicKeys = [vkleen samarium];
 
   "mosquitto/mqtt.key.age".publicKeys = [vkleen boron];
   "mosquitto/mqtt.pem.age".publicKeys = [vkleen boron];

@@ -1,5 +1,9 @@
 { pkgs, ... }:
-{
+let
+  knownHostsFile = pkgs.writeText "known_hosts" ''
+    rsync ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEYEyoL8HADxd4D1md7t2LGcM8nNhShc5qCjttVH1vTg
+  '';
+in {
   age.secrets."rsync" = {
     file = ../../secrets/rsync.age;
     owner = "root";
@@ -17,7 +21,7 @@
         mode = "repokey-blake2";
         passCommand = "${pkgs.coreutils}/bin/head -c-1 /run/secrets/boron-borg";
       };
-      environment = { BORG_RSH = "ssh -oBatchMode=yes -oIdentitiesOnly=yes -i /run/secrets/rsync"; };
+      environment = { BORG_RSH = "ssh -oBatchMode=yes -oIdentitiesOnly=yes -oUserKnownHostsFile=${knownHostsFile} -oHostKeyAlias=rsync -i /run/secrets/rsync"; };
       compression = "auto,lzma";
       startAt = "hourly";
     };

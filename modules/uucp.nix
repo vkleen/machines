@@ -61,7 +61,7 @@ in {
 
       remoteNodes = mkOption {
         type = types.listOf types.str;
-        default = {};
+        default = [];
         description = ''
           Ports to set up
           Names will probably need to be configured in sshConfig

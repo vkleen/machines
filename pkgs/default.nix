@@ -14,7 +14,6 @@ final: prev: {
   rmrl = final.callPackage ./tools/remarkable/rmrl {};
 
   eseries = with final.python3Packages; toPythonApplication eseries;
-  paper2remarkable = final.callPackage ./tools/remarkable/paper2remarkable/cli.nix {};
 
   python3 = prev.python3.override {
     packageOverrides = pself: _: {
@@ -28,6 +27,7 @@ final: prev: {
   {
     kakoune-cr = final.callPackage ./applications/editors/kakoune.cr {};
     obs-websocket = final.libsForQt514.callPackage ./applications/video/obs-studio/obs-websocket.nix {};
+    paper2remarkable = final.callPackage ./tools/remarkable/paper2remarkable/cli.nix {};
     roc-toolkit = final.callPackage ./applications/audio/misc/roc-toolkit {};
     udp2raw = final.callPackage ./applications/networking/udp2raw {};
     uhk-agent = final.callPackage ./misc/uhk-agent {};

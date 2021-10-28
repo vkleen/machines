@@ -1,7 +1,7 @@
 { config, pkgs, lib, flake, ... }:
 let
   boronPublicAddresses = builtins.map (a: a.address) flake.nixosConfigurations.boron.config.networking.interfaces."auenheim".ipv6.addresses;
-  europiumPublic4Addresses = builtins.map (a: a.address) flake.nixosConfigurations.europium.config.networking.interfaces."eth0".ipv4.addresses;
+  europiumPublicAddresses = builtins.map (a: a.address) flake.nixosConfigurations.europium.config.networking.interfaces."eth0".ipv4.addresses ++ ["2a01:7e01::f03c:92ff:fe12:a0f4"];
 in {
   networking = {
     useDHCP = false;
@@ -57,6 +57,12 @@ in {
         # ];
         useDHCP = true;
       };
+      "carbon" = {
+        useDHCP = false;
+        ipv4.addresses = [
+          { address = "10.11.99.2"; prefixLength = 24; }
+        ];
+      };
       "mgmt" = {
         useDHCP = true;
       };
@@ -72,7 +78,7 @@ in {
       "45.33.37.163"   = [ "plutonium.kleen.org" ];
       "94.16.123.211"  = [ "samarium.kleen.org" ];
     } // lib.genAttrs boronPublicAddresses (_: ["boron.auenheim.kleen.org"])
-      // lib.genAttrs europiumPublic4Addresses (_: ["europium.kleen.org"]);
+      // lib.genAttrs europiumPublicAddresses (_: ["europium.kleen.org"]);
 
     wireguard.interfaces = {
       europium = {
@@ -149,6 +155,7 @@ in {
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="d0:c0:bf:48:d8:e7", NAME:="eth-dock"
     SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="00:e0:4c:68:01:b2", NAME:="eth-usb"
+    SUBSYSTEM=="net", ATTRS{idVendor}=="04b3", ATTRS{idProduct}=="4010", ATTR{address}=="0a:85:21:7d:9d:62", NAME:="carbon"
   '';
 
   programs.mtr.enable = true;

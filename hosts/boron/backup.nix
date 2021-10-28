@@ -14,9 +14,10 @@ in {
   };
   services.borgbackup.jobs = {
     "rmfakecloud-rsync.net" = {
-      paths = [ "/var/lib/rmfakecloud" ];
+      paths = [ "/srv/rmfakecloud" ];
       doInit = true;
       repo = "11414@ch-s011.rsync.net:rmfakecloud";
+      dateFormat = "-u +%s";
       encryption = {
         mode = "repokey-blake2";
         passCommand = "${pkgs.coreutils}/bin/head -c-1 /run/secrets/boron-borg";

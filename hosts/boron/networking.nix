@@ -69,8 +69,8 @@ in {
       allowPing = true;
       interfaces = {
         "auenheim" = {
-          allowedUDPPorts = [ 53 ];
-          allowedTCPPorts = [ 53 8883 ];
+          allowedUDPPorts = [ 53 69 ];
+          allowedTCPPorts = [ 53 69 8883 ];
         };
       };
       extraCommands = ''
@@ -344,6 +344,8 @@ in {
     interfaces = [ "auenheim" ];
     enable = true;
     extraConfig = ''
+      option conf-file code 209 = text;
+
       option subnet-mask 255.255.255.0;
       option broadcast-address 10.172.100.255;
       option routers 10.172.100.1;
@@ -379,6 +381,17 @@ in {
         fixed-address 10.172.100.20;
         ddns-hostname dptrp1;
       }
+
+      host chlorine-bmc {
+        hardware ethernet 2c:09:4d:00:02:af;
+        fixed-address 10.172.100.21;
+        ddns-hostname chlorine-bmc;
+      }
+      host chlorine {
+        hardware ethernet 2c:09:4d:00:02:ad;
+        fixed-address 10.172.100.22;
+        option conf-file "tftp://boron.auenheim.kleen.org/chlorine/pxelinux.cfg";
+      }
     '';
     machines = [
       { hostName = "bohrium";
@@ -390,6 +403,11 @@ in {
         ipAddress = "10.172.100.5";
       }
     ];
+  };
+
+  services.atftpd = {
+    enable = true;
+    root = "/srv/tftp";
   };
 
   services.corerad = {

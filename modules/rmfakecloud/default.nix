@@ -1,8 +1,6 @@
 {config, pkgs, lib, ...}:
 let 
   cfg = config.services.rmfakecloud;
-
-  runtimeDir = "/var/lib/${cfg.dataDir}";
 in {
   options = {
     services.rmfakecloud = {
@@ -35,8 +33,8 @@ in {
       };
       dataDir = lib.mkOption {
         type = lib.types.str;
-        default = "rmfakecloud";
-        description = "rmfakecloud data directory below /var/lib";
+        default = "/var/lib/rmfakecloud";
+        description = "rmfakecloud data directory";
       };
       storageUrl = lib.mkOption {
         type = lib.types.str;
@@ -72,7 +70,7 @@ in {
       networking.firewall.allowedTCPPorts = lib.optional cfg.openFirewall cfg.port;
       systemd.services.rmfakecloud = {
         environment = {
-          DATADIR = runtimeDir;
+          DATADIR = cfg.dataDir;
           STORAGE_URL = cfg.storageUrl;
           LOGLEVEL = cfg.logLevel;
           PORT = builtins.toString cfg.port;
@@ -87,9 +85,8 @@ in {
           User = "rmfakecloud";
           Restart = "always";
           Type = "simple";
-          WorkingDirectory = runtimeDir;
-          StateDirectory = cfg.dataDir;
-          StateDirectoryMode = "0700";
+          WorkingDirectory = cfg.dataDir;
+          ReadWritePaths = cfg.dataDir;
 
           LoadCredential = [
             "jwtKey:${cfg.jwtKey}"
@@ -120,12 +117,6 @@ in {
           SystemCallFilter = "@system-service";
           SystemCallArchitectures = "native";
         };
-      };
-    })
-    (lib.mkIf (cfg.enable && config.boot.wipeRoot) {
-      fileSystems."/var/lib/${cfg.dataDir}" = {
-        device = "/persist/${cfg.dataDir}";
-        options = [ "bind" ];
       };
     })
   ];

@@ -112,6 +112,10 @@
     device = "boron/safe/home";
     fsType = "zfs";
   };
+  fileSystems."/srv" = {
+    device = "boron/safe/srv";
+    fsType = "zfs";
+  };
 
   swapDevices = [
     { device = "/dev/mapper/boron-swap"; }

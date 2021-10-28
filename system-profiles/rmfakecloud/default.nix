@@ -6,6 +6,7 @@
     jwtKey = "/run/secrets/rmfakecloud/jwtKey";
     hwrAppKey = "/run/secrets/rmfakecloud/hwrAppKey";
     hwrHMAC = "/run/secrets/rmfakecloud/hwrHMAC";
+    dataDir = "/srv/rmfakecloud";
   };
   age.secrets."rmfakecloud/jwtKey" = {
     file = ../../secrets/rmfakecloud/jwtKey.age;

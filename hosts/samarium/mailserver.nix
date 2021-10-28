@@ -7,6 +7,7 @@ let
     "vkleen+gearbest@17220103.de"
     "vkleen-greeting@17220103.de"
     "vkleen+funimation@17220103.de"
+    "vkleenfunimation@17220103.de"
     "funimation@17220103.de"
     "voelkner@17220103.de"
     "kleen@kleen.org"

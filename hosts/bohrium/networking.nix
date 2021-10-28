@@ -1,7 +1,9 @@
 { config, pkgs, lib, flake, ... }:
 let
-  boronPublicAddresses = builtins.map (a: a.address) flake.nixosConfigurations.boron.config.networking.interfaces."auenheim".ipv6.addresses;
-  europiumPublicAddresses = builtins.map (a: a.address) flake.nixosConfigurations.europium.config.networking.interfaces."eth0".ipv4.addresses ++ ["2a01:7e01::f03c:92ff:fe12:a0f4"];
+  boronPublicAddresses = flake.nixosConfigurations.boron.config.system.publicAddresses;
+  europiumPublicAddresses = flake.nixosConfigurations.europium.config.system.publicAddresses;
+  #boronPublicAddresses = builtins.map (a: a.address) flake.nixosConfigurations.boron.config.networking.interfaces."auenheim".ipv6.addresses;
+  #europiumPublicAddresses = builtins.map (a: a.address) flake.nixosConfigurations.europium.config.networking.interfaces."eth0".ipv4.addresses ++ ["2a01:7e01::f03c:92ff:fe12:a0f4"];
 in {
   networking = {
     useDHCP = false;

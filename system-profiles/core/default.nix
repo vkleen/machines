@@ -16,6 +16,14 @@ in
         Set (list without duplicates) of ‘systemProfiles’ enabled for this host
       '';
     };
+
+    system.publicAddresses = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = ''
+        Publicly routable IP addresses suitable for inclusion into networking.hosts
+      '';
+    };
   };
   config = {
     networking.hostName = hostName;

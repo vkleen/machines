@@ -7,6 +7,9 @@ in {
     nameserver ::1
     search auenheim.kleen.org
   '';
+  system.publicAddresses = [
+    "2a01:7e01:e002:aa02::1"
+  ];
   networking = {
     useDHCP = false;
     useNetworkd = true;

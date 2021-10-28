@@ -2,6 +2,11 @@
 {
   networking.usePredictableInterfaceNames = false;
 
+  system.publicAddresses = [
+    "172.104.139.29"
+    "2a01:7e01::f03c:92ff:fe12:a0f4"
+  ];
+
   networking = {
     hostName = "europium";
     useDHCP = false;

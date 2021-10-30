@@ -26,9 +26,11 @@ in buildGoModule rec {
   version = "0.0.5";
   inherit src;
 
-  vendorSha256 = "sha256-YLlsum72r4IRhi3F6R0qHlm7optcqDp4ASqP+KTMNag=";
+  vendorSha256 = "sha256-+JnU98F2MVQLsFcwUuWTCZwadYtXjMlfRIWS9TdpY+M=";
 
   patches = [ ./assets.patch ];
+
+  subPackages = [ "cmd/rmfakecloud" ];
 
   postPatch = ''
     cp -a ${uiFiles} ui/build

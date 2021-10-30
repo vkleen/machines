@@ -820,11 +820,11 @@
     "rmfakecloud-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1635428861,
-        "narHash": "sha256-VPHg8En3X3dmL12wPTam3ViioxfOnuqAZwwkc/GB4Oc=",
+        "lastModified": 1635600084,
+        "narHash": "sha256-op1Es0FN/gOXpS07h3lFNnx8khmUn4GzNBLundYe3gw=",
         "owner": "ddvk",
         "repo": "rmfakecloud",
-        "rev": "577667c341cf25a17489c48627bd307c0df8a6ad",
+        "rev": "6e75e6463b36a25c68b20e855c8bcc155691e827",
         "type": "github"
       },
       "original": {

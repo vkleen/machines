@@ -39,4 +39,6 @@ in
 
   "rsync.age".publicKeys = [vkleen bohrium boron];
   "boron-borg.age".publicKeys = [vkleen boron];
+
+  "synapse-registration.age".publicKeys = [ vkleen europium ];
 }

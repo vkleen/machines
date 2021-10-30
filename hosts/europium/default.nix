@@ -5,6 +5,7 @@
   ] ++ (with flake.nixosModules.systemProfiles; [
     latest-linux
     matrix-go-neb
+    matrix-server
     no-coredump
     ssh
   ]);

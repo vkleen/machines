@@ -5,8 +5,11 @@ final: prev: {
     src = final.alacritty-src;
     cargoDeps = drv.cargoDeps.overrideAttrs (_: {
       inherit src;
-      outputHash = "sha256-LtPn99KJ45sTsGBcTKCOsyAfEdwrtmWUAi9eP+jQgCs=";
+      patches = [];
+      outputHash = "sha256-X2s7takCCYoSfqh/tn7v2jWxFoYCeAppxz9oMSKoA5w=";
     });
+
+    patches = [];
 
     doCheck = false;
   });

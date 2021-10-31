@@ -47,7 +47,6 @@
       allowPing = true;
       allowedTCPPorts = [ 80 443 ];
       allowedUDPPorts = [ 51820 53 ];
-      allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
 
       extraCommands = ''
         ip46tables -D FORWARD -j nixos-fw-forward 2>/dev/null || true

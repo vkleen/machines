@@ -29,7 +29,6 @@
       allowPing = true;
       allowedTCPPorts = [ 25 80 443 ];
       allowedUDPPorts = [ 51820 ];
-      allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
     };
   };
 }

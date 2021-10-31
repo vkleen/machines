@@ -1,7 +1,7 @@
 { flake, pkgs, lib, config, ... }:
 {
   services.matrix-synapse = {
-    enable = false;
+    enable = true;
     server_name = "kleen.org";
     public_baseurl = "https://matrix.kleen.org";
     database_type = "psycopg2";

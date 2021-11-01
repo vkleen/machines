@@ -61,7 +61,6 @@ in {
       enable = true;
       externalInterface = "wg-europium";
       internalInterfaces = [ "auenheim" ];
-      # internalIPs = [ "10.172.100.0/24" ];
     };
 
     firewall = {
@@ -429,11 +428,6 @@ in {
     "net.ipv4.conf.all.forwarding" = true;
     "net.ipv4.conf.default.forwarding" = true;
   };
-
-  services.udev.extraRules = ''
-    ATTRS{idVendor}=="12d1", ATTRS{idProduct}=="1f01", RUN+="${pkgs.usb_modeswitch}/bin/usb_modeswitch -J -v %s{idVendor} -p %s{idProduct}"
-    KERNEL=="eth*", ATTR{address}=="58:2c:80:13:92:63", NAME="lte", TAG+="systemd", ENV{SYSTEMD_WANTS}="upstream@.service"
-  '';
 
   systemd.network = {
     networks."40-eth0" = {

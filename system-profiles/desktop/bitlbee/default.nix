@@ -14,7 +14,7 @@
       };
     }
     (lib.mkIf config.boot.wipeRoot {
-      fileSystems."/var/lib/bitlbee" = {
+      fileSystems."/var/lib/private/bitlbee" = {
         device = "/persist/bitlbee";
         options = [ "bind" ];
       };

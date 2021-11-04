@@ -769,11 +769,11 @@
     "plenary-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1631619876,
-        "narHash": "sha256-ghIA/vGmwrZNCL0c0S1wscpwEb/IpvrBPls+y+XFc4Y=",
+        "lastModified": 1636050763,
+        "narHash": "sha256-pZAHWV5Q52+4AqI7N3EovCWkR+/TuI6nwhjmvJPp5qo=",
         "owner": "vkleen",
         "repo": "plenary.nvim",
-        "rev": "66ec0e482abff02a6b57c8e345048de8c5a0b1c0",
+        "rev": "adeb21fac468f6091bc4c70e998d9d0a0275d44c",
         "type": "github"
       },
       "original": {

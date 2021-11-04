@@ -75,6 +75,8 @@ in {
           LOGLEVEL = cfg.logLevel;
           PORT = builtins.toString cfg.port;
         };
+        after = ["network.target"];
+        wantedBy = ["multi-user.target"];
         script = ''
           export JWT_SECRET_KEY=$(cat "''${CREDENTIALS_DIRECTORY}"/jwtKey)
           export RMAPI_HWR_APPLICATIONKEY=$(cat "''${CREDENTIALS_DIRECTORY}"/hwrAppKey)

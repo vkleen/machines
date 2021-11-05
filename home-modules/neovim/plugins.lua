@@ -10,6 +10,12 @@ vim.g.airline_powerline_fonts = false
 
 require'colorizer'.setup()
 
+require 'nvim-web-devicons'.setup {
+  default = true
+}
+
+require'lsp-colors'.setup{}
+
 require'gitsigns'.setup {
   signs = {
     add          = {hl = 'GitSignsAdd'   , text = '┃', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
@@ -71,7 +77,11 @@ require'telescope'.setup {
   defaults = {
     mappings = {
       i = {
-        ["<esc>"] = require'telescope.actions'.close
+        ["<esc>"] = require'telescope.actions'.close,
+        ["<c-t>"] = require'trouble.providers.telescope'.open_with_trouble
+      },
+      n = {
+        ["<c-t>"] = require'trouble.providers.telescope'.open_with_trouble
       }
     }
   },

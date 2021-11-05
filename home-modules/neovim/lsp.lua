@@ -16,6 +16,7 @@ local on_attach = function(client, bufnr)
     d = {"<cmd>lua vim.lsp.buf.definition()<cr>", "Go to definition"},
     t = {"<cmd>lua vim.lsp.buf.type_definition()<cr>", "Go to type definition"},
     r = {"<cmd>lua vim.lsp.buf.references()<cr>", "References"},
+    R = {"<cmd>TroubleToggle lsp_references<cr>", "Trouble References"},
     i = {"<cmd>lua vim.lsp.buf.implementation()<cr>", "Go to implementation"},
   }, { prefix = "g", buffer = bufnr })
 
@@ -82,4 +83,7 @@ end
 
 require'rust-tools'.setup{
   server = prepare_opts{},
+}
+
+require'trouble'.setup{
 }

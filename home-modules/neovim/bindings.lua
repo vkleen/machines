@@ -106,6 +106,17 @@ require'which-key'.register({
     n = {[[<cmd>noh<cr>]], "Delete search highlights"},
   },
 
+  x = {
+    name = 'Trouble',
+    n = {
+      x = {[[<cmd>TroubleToggle<cr>]], "Open Trouble"},
+      w = {[[<cmd>TroubleToggle lsp_workspace_diagnostics<cr>]], "LSP Workspace diagnostics"},
+      d = {[[<cmd>TroubleToggle lsp_document_diagnostics<cr>]], "LSP Document diagnostics"},
+      l = {[[<cmd>TroubleToggle loclist<cr>]], "Location list"},
+      q = {[[<cmd>TroubleToggle quickfix<cr>]], "quickfix list"},
+    }
+  },
+
   [';'] = { [[<cmd>luad require'FTerm'.toggle()<cr>]], "Toggle terminal" },
 }, { prefix = "<leader>" })
 

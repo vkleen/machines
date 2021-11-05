@@ -83,6 +83,7 @@ in {
 
         nvim-notify
 
+        trouble-nvim
         nvim-lspconfig
         nvim-ts-rainbow
         nvim-treesitter-context
@@ -113,6 +114,8 @@ in {
         telescope-ghq
 
         nvim-selenized
+        lsp-colors-nvim
+        nvim-web-devicons
       ];
     };
   };

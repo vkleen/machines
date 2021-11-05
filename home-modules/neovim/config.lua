@@ -57,4 +57,5 @@ cmd[[autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete]]
 g.neovide_floating_blur = false
 g.neovide_floating_opacity = 0.9
 g.neovide_remember_window_size = false
-opt.guifont = "PragmataPro Mono Liga:h12"
+--opt.guifont = "PragmataPro Mono Liga:h12"
+opt.guifont = "PragmataProMonoLiga Nerd Font:h12"

@@ -1,7 +1,7 @@
 final: prev: {
   rmapi = final.buildGoModule {
     pname = "rmapi";
-    version = "0.0.16";
+    version = "0.0.17";
 
     src = final.rmapi-src;
 

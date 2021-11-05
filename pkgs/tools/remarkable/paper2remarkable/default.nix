@@ -66,7 +66,7 @@ in buildPythonPackage rec {
     inherit pname version;
     sha256 = "sha256-UIdVPE/s7pE7/wya+AK7VyCX8R4O9vIAmE5wX2Kw1eU=";
   };
-  patches = [ ./titlecase.patch ./springer.patch ];
+  patches = [ ./titlecase.patch ./springer.patch ./remarkable_dir.patch ];
   propagatedBuildInputs = [
     beautifulsoup4 html2text markdown pdfplumber pikepdf pycryptodome pyyaml
     readability-lxml regex requests titlecase unidecode weasyprint

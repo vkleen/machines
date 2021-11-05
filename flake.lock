@@ -804,11 +804,11 @@
     "rmapi-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1635088132,
-        "narHash": "sha256-4vxhWwvvPmZf59orLS8WFE5LdXa0qf7vQ3XMC+YZo4Y=",
+        "lastModified": 1635866075,
+        "narHash": "sha256-KFoaZ0OAqwJm4tEUaEAGJ+70nHJUbxg0kvhm71mQB6E=",
         "owner": "juruen",
         "repo": "rmapi",
-        "rev": "6740394c0c55adcbe8da4416641fe70322363a35",
+        "rev": "e1fd62ca06cac9dc6f3b4425d8a075bc5ad61d9e",
         "type": "github"
       },
       "original": {

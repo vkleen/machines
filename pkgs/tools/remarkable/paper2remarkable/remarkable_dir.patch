@@ -1,0 +1,21 @@
+diff --git a/paper2remarkable/ui.py b/paper2remarkable/ui.py
+index f3b5703..51cc9b1 100644
+--- a/paper2remarkable/ui.py
++++ b/paper2remarkable/ui.py
+@@ -239,6 +239,7 @@ def merge_options(args, config=None):
+     set_bool(opts["core"], "verbose", args.verbose)
+     set_bool(opts["core"], "upload", args.no_upload, invert=True)
+     set_bool(opts["core"], "experimental", args.experimental)
++    set_path(opts["core"], "remarkable_dir", args.remarkable_dir)
+ 
+     if args.center:
+         opts["core"]["crop"] = "center"
+@@ -296,7 +297,7 @@ def runner(inputs, filenames, options, remarkable_dir="/", debug=False):
+             experimental=options["core"]["experimental"],
+             crop=options["core"]["crop"],
+             blank=options["core"]["blank"],
+-            remarkable_dir=remarkable_dir,
++            remarkable_dir=options["core"]["remarkable_dir"],
+             rmapi_path=options["system"]["rmapi"],
+             pdftoppm_path=options["system"]["pdftoppm"],
+             pdftk_path=options["system"]["pdftk"],

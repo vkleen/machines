@@ -24,6 +24,7 @@ in {
       "bouncy.email"
     ];
     virtualAliases = {
+      "martin@kleen.org" = "martin.kleen@gmail.com";
       "tatjana@kleen.org" = "dr.kleen@t-online.de";
       "tatjana@samarium.kleen.org" = "dr.kleen@t-online.de";
       "some@bouncy.email" = "some@nights.email";

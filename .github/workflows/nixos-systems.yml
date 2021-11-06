@@ -30,6 +30,7 @@ jobs:
       - run: sudo .github/workflows/adjust-nix-daemon-tmp.sh
       - uses: vkleen/cachix-action@v10
         with:
+          installCommand: nix profile install nixpkgs#cachix
           name: eng4aech5ieng4m
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - uses: vkleen/git-crypt-unlock@bdbd4c9ed443b619c3349b53e6752340fcfb6b2e

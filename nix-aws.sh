@@ -73,7 +73,16 @@ SSH_HOST_KEY=$(get_ssh_host_key)
 
 do_nix() {
   local cmdline=( "${@}" )
-  nix --option builders-use-substitutes true --builders "ssh://${SERVER} ${SERVER_ARCH} ${HOME}/.ssh/id_rsa 18 - benchmark,kvm,recursive-nix,big-parallel - $(base64 -w0 <<<"$SSH_HOST_KEY")" "${cmdline[@]}"
+  nix --option builders-use-substitutes true --builders "ssh://${SERVER} ${SERVER_ARCH} ${HOME}/.ssh/id_rsa 18 - benchmark,kvm,recursive-nix,big-parallel,ca-derivations - $(base64 -w0 <<<"$SSH_HOST_KEY")" "${cmdline[@]}"
 }
 
+do_ssh() {
+  local cmdline=( "${@}" )
+  () {
+    trap "rm -f $1" ERR
+    ssh -o UserKnownHostsFile="$1" -o HostKeyAlias=aws-ec2 "${cmdline[@]}"
+  } =(echo aws-ec2 $SSH_HOST_KEY)
+}
+
+do_ssh root@"$SERVER" -- systemctl restart nix-daemon
 do_nix "${build_cmdline[@]}"

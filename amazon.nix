@@ -4,8 +4,12 @@
   ec2.hvm = true;
 
   nix = {
+    package = pkgs.nixUnstable;
     buildCores = 16;
     maxJobs = 16;
+    extraOptions = ''
+      experimental-features = nix-command flakes ca-derivations ca-references
+    '';
   };
 
   systemd.services.print-host-key.script = lib.mkForce

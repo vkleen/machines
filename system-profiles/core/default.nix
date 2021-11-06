@@ -58,7 +58,7 @@ in
       allowedUsers = [ "@wheel" ];
       trustedUsers = [ "root" "@wheel" ];
       extraOptions = ''
-        experimental-features = nix-command flakes
+        experimental-features = nix-command flakes ca-derivations
       '';
       nixPath = [
         "nixpkgs=${flake.legacyPackages.${config.nixpkgs.system}.path}"

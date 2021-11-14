@@ -39,12 +39,10 @@ in {
     man-pages
     mbuffer
     mercurial
-    mkpasswd
     nix-index nix-prefetch-scripts
     nix-prefetch-github
     nox
     parallel
-    pass
     pciutils
     picocom
     pmtools

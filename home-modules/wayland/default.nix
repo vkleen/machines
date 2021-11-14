@@ -161,7 +161,7 @@ let
 
   fzf-pass = pkgs.writeScript "fzf-pass" (builtins.replaceStrings
     [ "@zsh@" "@tmux@" "@pass@" "@head@" "@wl-copy@" "@fzf@" ]
-    [ "${pkgs.zsh}/bin/zsh" "${pkgs.tmux}/bin/tmux" "${pkgs.pass}/bin/pass" "${pkgs.coreutils}/bin/head" "${pkgs.wl-clipboard}/bin/wl-copy" "${pkgs.fzf}/bin/fzf" ]
+    [ "${pkgs.zsh}/bin/zsh" "${pkgs.tmux}/bin/tmux" "${pkgs.gopass}/bin/gopass" "${pkgs.coreutils}/bin/head" "${pkgs.wl-clipboard}/bin/wl-copy" "${pkgs.fzf}/bin/fzf" ]
     (builtins.readFile ./fzf/fzf-pass)
   );
 

@@ -7,14 +7,9 @@ function die() {
     exit $1
 }
 
-prefix=${PASSWORD_STORE_DIR-~/.password-store}
-password_files=( "$prefix"/**/*.gpg )
-password_files=( "${password_files[@]#"$prefix"/}" )
-password_files=( "${password_files[@]%.gpg}" )
-
-password=$(printf '%s\n' "${password_files[@]}" | @fzf@ --reverse --prompt='pass> ')
+password=$(@pass@ list -f | @fzf@ --reverse --prompt='pass> ')
 
 [[ -n $password ]] || die 0
 
-@pass@ show "$password" | @head@ -n1 | @wl-copy@ --trim-newline
+@pass@ show -o "$password" | @wl-copy@ --trim-newline
 die 0

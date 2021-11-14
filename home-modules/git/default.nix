@@ -1,10 +1,10 @@
 { pkgs, nixos, ... }:
 let
   hub-wrapper = pkgs.writeShellScriptBin "hub" ''
-    GITHUB_USER=vkleen GITHUB_TOKEN=$(${pkgs.pass}/bin/pass github/hub-token) ${pkgs.gitAndTools.hub}/bin/hub "$@"
+    GITHUB_USER=vkleen GITHUB_TOKEN=$(${pkgs.gopass}/bin/gopass github/hub-token) ${pkgs.gitAndTools.hub}/bin/hub "$@"
   '';
   gh-wrapper = pkgs.writeShellScriptBin "gh" ''
-    GH_USER=vkleen GH_TOKEN=$(${pkgs.pass}/bin/pass github/hub-token) ${pkgs.gh}/bin/gh "$@"
+    GH_USER=vkleen GH_TOKEN=$(${pkgs.gopass}/bin/gopass github/hub-token) ${pkgs.gh}/bin/gh "$@"
   '';
 in {
   home.packages = [
@@ -19,7 +19,7 @@ in {
   xdg.configFile."lab/lab.toml".source = (pkgs.formats.toml{}).generate "lab.toml" {
     core = {
       host = "https://gitlab.com";
-      load_token = "${pkgs.pass}/bin/pass gitlab.com/pat";
+      load_token = "${pkgs.gopass}/bin/gopass gitlab.com/pat";
       user = "vkleen";
     };
   };

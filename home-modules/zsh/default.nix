@@ -91,6 +91,7 @@ in {
       source "${zsh-syntax-highlighting}/zsh-syntax-highlighting.zsh"
       source "${zsh-fzf-tab-completion}/zsh/fzf-zsh-completion.sh"
       eval "$(zoxide init zsh)"
+      eval "$(pass completion zsh)"
 
       bindkey "^A" beginning-of-line
       bindkey "^E" end-of-line

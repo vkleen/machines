@@ -21,6 +21,7 @@
       neomutt
       neovim
       obs
+      pass
       redshift
       spacenav
       std-packages

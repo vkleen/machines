@@ -83,6 +83,7 @@ in {
     }];
     initExtraBeforeCompInit = ''
       source "${config.home.homeDirectory}/${dotDir}/.p10k.zsh"
+      fpath+="${config.xdg.configHome}/zsh/vendor-completions"
     '';
     envExtra = ''
       FZFZ_EXTRA_DIRS=( "-d" "4" "${config.home.homeDirectory}/src" )
@@ -91,7 +92,6 @@ in {
       source "${zsh-syntax-highlighting}/zsh-syntax-highlighting.zsh"
       source "${zsh-fzf-tab-completion}/zsh/fzf-zsh-completion.sh"
       eval "$(zoxide init zsh)"
-      eval "$(pass completion zsh)"
 
       bindkey "^A" beginning-of-line
       bindkey "^E" end-of-line

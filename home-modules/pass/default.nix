@@ -4,6 +4,10 @@ let
     mkdir -p $out/bin
     ln -s "${pkgs.gopass}"/bin/gopass $out/bin/pass
   '';
+
+  pass-completion = pkgs.runCommand "_gopass" {} ''
+    ${pkgs.gopass}/bin/gopass completion zsh > $out
+  '';
 in {
   home.packages = [
     pass-symlink
@@ -30,4 +34,6 @@ in {
       android = "${config.xdg.dataHome}/gopass/stores/android";
     };
   };
+
+  xdg.configFile."zsh/vendor-completions/_gopass".source = pass-completion;
 }

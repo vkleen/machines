@@ -23,6 +23,10 @@ in {
         id = 30;
         interface = "eth0";
       };
+      "apc" = {
+        id = 31;
+        interface = "eth0";
+      };
       "lte" = {
         id = 8;
         interface = "eth0";
@@ -44,6 +48,12 @@ in {
         ipv6.addresses = [
           { address = "2a01:7e01:e002:aa02::1"; prefixLength = 64; }
         ];
+      };
+      "apc" = {
+        ipv4.addresses = [
+          { address = "10.172.31.1"; prefixLength = 24; }
+        ];
+        ipv6.addresses = [];
       };
       "mgmt" = {
         useDHCP = true;

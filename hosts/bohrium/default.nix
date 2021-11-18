@@ -8,6 +8,7 @@
     desktop
     docker
     flatpak
+    initrd-all-crypto-modules
     interception-tools
     laptop
     latest-linux

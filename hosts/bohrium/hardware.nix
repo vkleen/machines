@@ -61,32 +61,6 @@
         keyFile = "/persist/private/keyfiles/boot";
       };
     };
-
-    cryptoModules = [
-      "aegis128-aesni" "aesni-intel" "blake2s-x86_64" "blowfish-x86_64"
-      "camellia-aesni-avx-x86_64" "camellia-aesni-avx2" "camellia-x86_64"
-      "cast5-avx-x86_64" "cast6-avx-x86_64" "chacha-x86_64" "crc32-pclmul"
-      "crc32c-intel" "crct10dif-pclmul" "curve25519-x86_64" "des3_ede-x86_64"
-      "ghash-clmulni-intel" "nhpoly1305-avx2" "nhpoly1305-sse2" "poly1305-x86_64"
-      "serpent-avx-x86_64" "serpent-avx2" "serpent-sse2-x86_64" "sha1-ssse3"
-      "sha256-ssse3" "sha512-ssse3" "twofish-avx-x86_64" "twofish-x86_64-3way"
-      "twofish-x86_64" "842" "adiantum" "aegis128" "aes_generic" "aes_ti"
-      "af_alg" "algif_aead" "algif_hash" "algif_rng" "algif_skcipher" "ansi_cprng"
-      "anubis" "arc4" "asym_tpm" "pkcs7_test_key" "tpm_key_parser" "async_memcpy"
-      "async_pq" "async_raid6_recov" "async_tx" "async_xor" "authenc" "authencesn"
-      "blake2b_generic" "blake2s_generic" "blowfish_common" "blowfish_generic"
-      "camellia_generic" "cast5_generic" "cast6_generic" "cast_common" "cbc"
-      "ccm" "cfb" "chacha20poly1305" "chacha_generic" "cmac" "crc32_generic"
-      "crc32c_generic" "crct10dif_common" "crct10dif_generic" "cryptd"
-      "crypto_engine" "crypto_simd" "crypto_user" "ctr" "cts" "curve25519-generic"
-      "deflate" "des_generic" "drbg" "ecb" "ecc" "ecdh_generic" "echainiv"
-      "ecrdsa_generic" "essiv" "fcrypt" "gcm" "gf128mul" "ghash-generic"
-      "jitterentropy_rng" "keywrap" "khazad" "lrw" "lz4" "lz4hc" "md4" "michael_mic"
-      "nhpoly1305" "ofb" "pcbc" "pcrypt" "poly1305_generic" "rmd160" "seed" "seqiv"
-      "serpent_generic" "sha3_generic" "sha512_generic" "sm2_generic" "sm3_generic"
-      "sm4_generic" "streebog_generic" "tea" "twofish_common" "twofish_generic"
-      "vmac" "wp512" "xcbc" "xor" "xts" "xxhash_generic" "zstd"
-    ];
   };
 
   fileSystems."/" = {
@@ -132,4 +106,9 @@
     SUBSYSTEM=="usb", ATTR{idVendor}=="0f0f", ATTR{idProduct}=="8006", MODE="0660", GROUP="users"
     SUBSYSTEM=="usb", ATTR{idVendor}=="0f0f", ATTR{idProduct}=="0006", MODE="0660", GROUP="users"
   '';
+
+  system.activationScripts.mountPersist = lib.stringAfter [ "specialfs" ] ''
+    specialMount "${config.fileSystems."/persist".device}" "/persist" "${lib.concatStringsSep "," config.fileSystems."/persist".options}" "${config.fileSystems."/persist".fsType}"
+  '';
+  system.activationScripts.agenixRoot.deps = [ "mountPersist" ];
 }

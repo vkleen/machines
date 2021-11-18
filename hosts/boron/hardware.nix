@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 {
   boot.wipeRoot = true;
 
@@ -30,9 +30,6 @@
         keyFile = "/persist/private/keyfiles/data";
       };
     };
-    cryptoModules = [
-      "aes-neon-blk" "aes-neon-bs" "chacha-neon" "crct10dif-ce" "nhpoly1305-neon" "poly1305-neon" "sha3-ce" "sha512-arm64" "sha512-ce" "sm3-ce" "sm4-ce" "842" "adiantum" "aegis128" "aes_ti" "af_alg" "algif_aead" "algif_hash" "algif_rng" "algif_skcipher" "anubis" "arc4" "asym_tpm" "pkcs7_test_key" "tpm_key_parser" "async_memcpy" "async_pq" "async_raid6_recov" "async_tx" "async_xor" "authenc" "authencesn" "blake2b_generic" "blake2s_generic" "blowfish_common" "blowfish_generic" "camellia_generic" "cast5_generic" "cast6_generic" "cast_common" "cbc" "ccm" "cfb" "chacha20poly1305" "chacha_generic" "cmac" "crc32_generic" "crypto_engine" "crypto_user" "ctr" "cts" "curve25519-generic" "des_generic" "ecb" "ecc" "ecdh_generic" "ecdsa_generic" "ecrdsa_generic" "essiv" "fcrypt" "gcm" "ghash-generic" "keywrap" "khazad" "lrw" "lz4" "lz4hc" "md4" "md5" "michael_mic" "nhpoly1305" "ofb" "pcbc" "pcrypt" "poly1305_generic" "rmd160" "seed" "seqiv" "serpent_generic" "sha3_generic" "sha512_generic" "sm2_generic" "sm3_generic" "sm4_generic" "streebog_generic" "tea" "twofish_common" "twofish_generic" "vmac" "wp512" "xcbc" "xor" "xts" "xxhash_generic" "zstd"
-    ];
   };
 
   boot.initrd.preLVMCommands = lib.mkBefore ''
@@ -120,5 +117,10 @@
   swapDevices = [
     { device = "/dev/mapper/boron-swap"; }
   ];
+
+  system.activationScripts.mountPersist = lib.stringAfter [ "specialfs" ] ''
+    specialMount "${config.fileSystems."/persist".device}" "/persist" "${lib.concatStringsSep "," config.fileSystems."/persist".options}" "${config.fileSystems."/persist".fsType}"
+  '';
+  system.activationScripts.agenixRoot.deps = [ "mountPersist" ];
 }
 

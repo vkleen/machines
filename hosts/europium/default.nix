@@ -7,6 +7,7 @@
     matrix-go-neb
     matrix-server
     no-coredump
+    ntp-server
     ssh
   ]);
 

@@ -1,0 +1,63 @@
+#!/usr/bin/env -S expect -f
+
+proc shift {list} {
+  set result ""
+  upvar 1 $list ll
+  set ll [lassign $ll result]
+  return $result
+}
+
+proc usage_exit {} {
+  send_user [subst -nocommand {Usage: $::argv0 <interface number> [on|off]\n}]
+  exit 1
+}
+
+if {[llength $argv] == 0 || [llength $argv] > 2} {
+  usage_exit
+}
+
+set interface [format "ge-0/0/%d" [shift argv]]
+
+set on 1
+set off 1
+
+if {[llength $argv] == 1} {
+  switch -- [shift argv] {
+    on { set off 0 }
+    off { set on 0 }
+    default { usage_exit }
+  }
+}
+
+log_user 0
+
+spawn ssh -J helium.europium lead-mgmt
+expect "root@lead:RE:0% "
+send "cli\r"
+expect "root@lead> "
+send "set cli screen-length 0\r"
+expect "root@lead> "
+
+send "configure\r"
+expect "root@lead# "
+if { $off } {
+  send_user "Turning off $interface..."
+  send "set poe interface $interface disable\r"
+  expect "root@lead# "
+  send "commit\r"
+  expect "root@lead# "
+  send_user " ✓\n"
+}
+if { $on } {
+  if { $off } { sleep 1 }
+  send_user "Turning on  $interface..."
+  send "delete poe interface $interface\r"
+  expect "root@lead# "
+  send "commit\r"
+  expect "root@lead# "
+  send_user " ✓\n"
+}
+
+send "exit\r"
+expect "root@lead> "
+send "\x01\x18"

@@ -196,7 +196,7 @@
           in attrValues (filterAttrs (n: _v: !(elem n ["systemProfiles" "users" "userProfiles" "accounts"]))
                                      self.nixosModules
                         )
-             ++ [ inputs.agenix.nixosModules.age argsModule ]
+             ++ [ argsModule ]
              ++ defaultProfiles
              ++ addProfiles
              ++ [ local ]

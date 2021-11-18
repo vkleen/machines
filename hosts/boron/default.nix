@@ -4,6 +4,7 @@
     ./hardware.nix
     ./networking.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
+    initrd-all-crypto-modules
     latest-linux
     mosquitto
     no-coredump

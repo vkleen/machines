@@ -189,9 +189,9 @@ in {
 
     systemd.services."upstream-container" = {
       description = "Container handling upstream networking";
-      after = [ "network-pre.target" "systemd-udevd.service" "systemd-sysctl.service" "netns@${cfg.netns}.service" ];
+      after = [ "network.target" "systemd-udevd.service" "systemd-sysctl.service" "netns@${cfg.netns}.service" ];
       bindsTo = [ "netns@${cfg.netns}.service" ];
-      before = [ "network.target" "shutdown.target" ];
+      before = [ "shutdown.target" ];
       wants = [ "network.target" ];
       conflicts = [ "shutdown.target" ];
       wantedBy = [ "multi-user.target" "network-online.target" ];

@@ -27,6 +27,10 @@ in {
         id = 31;
         interface = "eth0";
       };
+      "ilo" = {
+        id = 32;
+        interface = "eth0";
+      };
       "lte" = {
         id = 8;
         interface = "eth0";
@@ -52,6 +56,12 @@ in {
       "apc" = {
         ipv4.addresses = [
           { address = "10.172.31.1"; prefixLength = 24; }
+        ];
+        ipv6.addresses = [];
+      };
+      "ilo" = {
+        ipv4.addresses = [
+          { address = "10.172.32.1"; prefixLength = 24; }
         ];
         ipv6.addresses = [];
       };
@@ -349,69 +359,168 @@ in {
     };
   };
 
-  services.dhcpd4 = {
-    interfaces = [ "auenheim" ];
-    enable = true;
-    extraConfig = ''
-      option conf-file code 209 = text;
+  services.kea = {
+    dhcp4 = {
+      enable = true;
+      settings = {
+        valid-lifetime = 600;
+        calculate-tee-times = true;
+        interfaces-config = {
+          interfaces = [
+            "auenheim"
+          ];
+        };
+        lease-database = {
+          type = "memfile";
+          persist = true;
+          name = "/var/lib/kea/dhcp4.leases";
+        };
+        loggers = [
+          { name = "kea-dhcp4";
+            output_options = [
+              { output = "stdout"; }
+            ];
+            severity = "INFO";
+          }
+        ];
+        option-def = [
+          { name = "conf-file";
+            code = 209;
+            type = "string";
+          }
+        ];
+        dhcp-ddns = {
+          enable-updates = true;
+          server-ip = "127.0.0.3";
+          server-port = 53001;
+          ncr-protocol = "UDP";
+          ncr-format = "JSON";
+        };
+        ddns-send-updates = false;
+        ddns-override-client-update = true;
+        ddns-override-no-update = true;
+        ddns-replace-client-name = "always";
+        ddns-generated-prefix = "noname";
+        ddns-qualifying-suffix = "auenheim.kleen.org";
+        ddns-update-on-renew = true;
+        subnet4 = [
+          { subnet = "10.172.100.0/24";
+            interface = "auenheim";
+            ddns-send-updates = true;
+            option-data = [
+              { name = "domain-name-servers";
+                data = "10.172.100.1";
+              }
+              { name = "routers";
+                data = "10.172.100.1";
+              }
+              { name = "domain-name";
+                data = "auenheim.kleen.org";
+              }
+            ];
+            pools = [
+              { pool = "10.172.100.102 - 10.172.100.200"; }
+            ];
+            reservations = [
+              { hw-address = "60:f2:62:17:59:7b";
+                ip-address = "10.172.100.101";
+                hostname = "bohrium";
+              }
+              { hw-address = "e0:63:da:39:22:9f";
+                ip-address = "10.172.100.5";
+                hostname = "helium";
+              }
+              { hw-address = "ac:89:95:f8:15:a3";
+                ip-address = "10.172.100.20";
+                hostname = "dptrp1";
+              }
+              { hw-address = "2c:09:4d:00:02:af";
+                ip-address = "10.172.100.21";
+                hostname = "chlorine-bmc";
+              }
+              { hw-address = "2c:09:4d:00:02:ad";
+                ip-address = "10.172.100.22";
+                option-data = [
+                  { name = "conf-file";
+                    data = "tftp://boron.auenheim.kleen.org/chlorine/pxelinux.cfg";
+                  }
+                ];
+              }
+            ];
+          }
+        ];
+      };
+    };
+    dhcp-ddns = {
+      enable = true;
+      settings = {
+        ip-address = "127.0.0.3";
+        port = 53001;
+        dns-server-timeout = 100;
+        ncr-protocol = "UDP";
+        ncr-format = "JSON";
+        loggers = [
+          { name = "kea-dhcp-ddns";
+            output_options = [
+              { output = "stdout"; }
+            ];
+            severity = "INFO";
+          }
+        ];
+        forward-ddns = {
+          ddns-domains = [
+            { name = "auenheim.kleen.org.";
+              dns-servers = [
+                { ip-address = "127.0.0.2";
+                  port = 53;
+                  key-name = "dhcp-tsig";
+                }
+              ];
+            }
+          ];
+        };
+        reverse-ddns = {
+          ddns-domains = [
+            { name = "100.172.10.in-addr.arpa.";
+              dns-servers = [
+                { ip-address = "127.0.0.2";
+                  port = 53;
+                  key-name = "dhcp-tsig";
+                }
+              ];
+            }
+          ];
+        };
+      };
+    };
+  };
+  systemd.services.kea-dhcp-ddns-server.serviceConfig = let 
+    configLines = [
+      "<?include \"@CREDENTIALS_DIRECTORY@/knot-boron-tsig\"?>"
+    ] ++ lib.mapAttrsToList (k: v:
+      "\"${k}\": ${builtins.toJSON v}"
+    ) config.services.kea.dhcp-ddns.settings;
 
-      option subnet-mask 255.255.255.0;
-      option broadcast-address 10.172.100.255;
-      option routers 10.172.100.1;
-      option domain-name "auenheim.kleen.org";
-      subnet 10.172.100.0 netmask 255.255.255.0 {
-        range 10.172.100.102 10.172.100.200;
-        option domain-name-servers 10.172.100.1;
-      }
-
-      include "/persist/dhcpd4/dhcp-tsig";
-
-      ddns-update-style standard;
-      ddns-updates on;
-      ddns-domainname "auenheim.kleen.org.";
-      ddns-rev-domainname "in-addr.arpa";
-      use-host-decl-names on;
-      update-static-leases on;
-
-      allow client-updates;
-      allow unknown-clients;
-
-      zone auenheim.kleen.org. {
-        primary 127.0.0.2;
-        key dhcp-tsig;
-      }
-      zone 100.172.10.in-addr.arpa. {
-        primary 127.0.0.2;
-        key dhcp-tsig;
-      }
-
-      host dptrp1 {
-        hardware ethernet ac:89:95:f8:15:a3;
-        fixed-address 10.172.100.20;
-        ddns-hostname dptrp1;
-      }
-
-      host chlorine-bmc {
-        hardware ethernet 2c:09:4d:00:02:af;
-        fixed-address 10.172.100.21;
-        ddns-hostname chlorine-bmc;
-      }
-      host chlorine {
-        hardware ethernet 2c:09:4d:00:02:ad;
-        fixed-address 10.172.100.22;
-        option conf-file "tftp://boron.auenheim.kleen.org/chlorine/pxelinux.cfg";
-      }
+    config-template = pkgs.writeText "dhcp-ddns.conf" ''
+      {"DhcpDdns": {
+        ${lib.concatStringsSep ",\n" configLines}
+      }}
     '';
-    machines = [
-      { hostName = "bohrium";
-        ethernetAddress = "60:f2:62:17:59:7b";
-        ipAddress = "10.172.100.101";
-      }
-      { hostName = "helium";
-        ethernetAddress = "e0:63:da:39:22:9f";
-        ipAddress = "10.172.100.5";
-      }
+  in {
+    ExecStartPre = pkgs.writeShellScript "kea-dhcp-ddns-server-startpre" ''
+      ${pkgs.gnused}/bin/sed -e s";@CREDENTIALS_DIRECTORY@;$CREDENTIALS_DIRECTORY;g" "${config-template}" > "$RUNTIME_DIRECTORY/dhcp-ddns.conf"
+    '';
+    ExecStart = lib.mkForce ''
+      ${pkgs.kea}/bin/kea-dhcp-ddns -c "''${RUNTIME_DIRECTORY}/dhcp-ddns.conf" ${lib.escapeShellArgs config.services.kea.dhcp-ddns.extraArgs}
+    '';
+    LoadCredential = [
+      "knot-boron-tsig:/run/secrets/kea-boron-tsig"
     ];
+  };
+
+  age.secrets."kea-boron-tsig" = {
+    file = ../../secrets/kea-boron-tsig.age;
+    owner = "root";
   };
 
   services.atftpd = {

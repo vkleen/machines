@@ -84,5 +84,5 @@ do_ssh() {
   } =(echo aws-ec2 $SSH_HOST_KEY)
 }
 
-do_ssh root@"$SERVER" -- systemctl restart nix-daemon
+#do_ssh root@"$SERVER" -- systemctl restart nix-daemon
 do_nix "${build_cmdline[@]}"

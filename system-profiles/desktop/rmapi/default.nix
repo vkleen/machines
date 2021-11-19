@@ -21,6 +21,6 @@ in {
   environment.systemPackages = [
     rmapi-wrapped
     pkgs.rmrl
-    (pkgs.paper2remarkable.override { rmapi = rmapi-wrapped; })
+    #(pkgs.paper2remarkable.override { rmapi = rmapi-wrapped; })
   ];
 }

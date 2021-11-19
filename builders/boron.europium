@@ -1,0 +1,1 @@
+ssh://root@10.172.40.136 aarch64-linux /home/vkleen/.ssh/id_nix_build 2 - benchmark,kvm,recursive-nix,big-parallel - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUJrUnRTamU1ckRlTU1kNndaRmJRMWQ5WGxGOW5xZVJmNDB2Wjh5K3gxL0ogcm9vdEBib3Jvbgo=

@@ -367,7 +367,7 @@ in {
         calculate-tee-times = true;
         interfaces-config = {
           interfaces = [
-            "auenheim"
+            "auenheim" "ilo" "apc"
           ];
         };
         lease-database = {
@@ -387,6 +387,23 @@ in {
           { name = "conf-file";
             code = 209;
             type = "string";
+          }
+        ];
+        client-classes = [
+          { name = "actinium-ipxe";
+            test = "option[77].hex == 'iPXE' and pkt4.mac == 0x5065f3f0aa00";
+            next-server = "10.172.100.1";
+            boot-file-name = "actinium/netboot.ipxe";
+          }
+          { name = "boot-ipxe";
+            option-data = [
+              { name = "tftp-server-name";
+                data = "10.172.100.1";
+              }
+              { name = "boot-file-name";
+                data = "ipxe";
+              }
+            ];
           }
         ];
         dhcp-ddns = {
@@ -446,6 +463,29 @@ in {
                   }
                 ];
               }
+              { hw-address = "50:65:f3:f0:aa:00";
+                client-classes = [ "boot-ipxe" ];
+              }
+            ];
+          }
+          { subnet = "10.172.31.0/24";
+            interface = "apc";
+            ddns-send-updates = false;
+            pools = [
+              { pool = "10.172.31.100 - 10.172.31.200"; }
+            ];
+            reservations = [
+              { hw-address = "00:c0:b7:4a:a6:18";
+                ip-address = "10.172.31.2";
+                hostname = "auenheim-ats";
+              }
+            ];
+          }
+          { subnet = "10.172.32.0/24";
+            interface = "ilo";
+            ddns-send-updates = false;
+            pools = [
+              { pool = "10.172.32.100 - 10.172.32.200"; }
             ];
           }
         ];

@@ -3,6 +3,7 @@
     boot = {
       kernelPackages = pkgs.linuxKernel.packages.linux_5_14;
       zfs.enableUnstable = true;
+      kernelParams = [ "console=ttyS0,115200n8" ];
     };
 
     networking.wireless.enable = false;
@@ -23,5 +24,9 @@
     environment.systemPackages = with pkgs; [
       nvme-cli iotop mosh
     ];
+
+    services.tcsd = {
+      enable = true;
+    };
   };
 }

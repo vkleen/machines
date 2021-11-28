@@ -19,7 +19,7 @@ final: prev: {
     packageOverrides = pself: _: {
       eseries = pself.callPackage ./tools/misc/eseries {};
       docopt-subcommands = pself.callPackage ./development/python-modules/docopt-subcommands {};
-      paper2remarkable = pself.callPackage ./tools/remarkable/paper2remarkable {};
+      #paper2remarkable = pself.callPackage ./tools/remarkable/paper2remarkable {};
     };
   };
   python3Packages = final.python3.pkgs;
@@ -27,7 +27,7 @@ final: prev: {
   {
     kakoune-cr = final.callPackage ./applications/editors/kakoune.cr {};
     obs-websocket = final.libsForQt514.callPackage ./applications/video/obs-studio/obs-websocket.nix {};
-    paper2remarkable = final.callPackage ./tools/remarkable/paper2remarkable/cli.nix {};
+    #paper2remarkable = final.callPackage ./tools/remarkable/paper2remarkable/cli.nix {};
     roc-toolkit = final.callPackage ./applications/audio/misc/roc-toolkit {};
     udp2raw = final.callPackage ./applications/networking/udp2raw {};
     uhk-agent = final.callPackage ./misc/uhk-agent {};

@@ -21,6 +21,7 @@ in {
     home.packages = [
       neovide-wrapped
       pkgs.neovim-remote
+      pkgs.rnix-lsp pkgs.nixpkgs-fmt
     ];
     programs.neovim = {
       enable = true;

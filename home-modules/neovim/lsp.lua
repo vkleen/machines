@@ -53,7 +53,8 @@ local servers = {
   hls = {
     cmd = { "haskell-language-server", "--lsp" },
     root_dir = nvim_lsp.util.root_pattern('hie.yaml', '.git'),
-  }
+  },
+  rnix = {},
 }
 
 local function merge(t1, t2)

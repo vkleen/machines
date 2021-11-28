@@ -251,14 +251,13 @@
 
       activateNixosConfigurations = forAllSystems (system:
         filterAttrs (_: v: v != null)
-          (mapAttrs' (hostName: nixosConfig:
-                      if system == nixosConfig.config.nixpkgs.pkgs.stdenv.targetPlatform.system
-                      then nameValuePair
-                             "${hostName}-activate"
-                             { type = "app";
-                               program = "${nixosConfig.config.system.build.toplevel}/bin/switch-to-configuration";
-                             }
-                      else nameValuePair "${hostName}-activate" null
+          (mapAttrs' (hostName: nixosConfig: nameValuePair "${hostName}-activate" (
+                          if system == nixosConfig.config.nixpkgs.pkgs.stdenv.targetPlatform.system
+                            then { type = "app";
+                                   program = "${nixosConfig.config.system.build.toplevel}/bin/switch-to-configuration";
+                                  }
+                            else null
+                        )
                     )
                     self.nixosConfigurations));
 
@@ -404,7 +403,6 @@
           in modulesAttrs // { inherit systemProfiles users userProfiles accounts; };
 
         nixosConfigurations =
-          optionalAttrs (!(isNull installerConfig)) { installer = installerConfig; } //
           recImport rec { dir = ./hosts; _import = mkNixosConfiguration [] dir; };
 
         homeManagerModules = recImport rec { dir = ./home-modules; };

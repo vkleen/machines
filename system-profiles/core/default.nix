@@ -59,6 +59,7 @@ in
       trustedUsers = [ "root" "@wheel" ];
       extraOptions = ''
         experimental-features = nix-command flakes ca-derivations
+        auto-optimise-store = true
       '';
       nixPath = [
         "nixpkgs=${flake.legacyPackages.${config.nixpkgs.system}.path}"

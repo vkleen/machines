@@ -55,6 +55,7 @@ local servers = {
     root_dir = nvim_lsp.util.root_pattern('hie.yaml', '.git'),
   },
   rnix = {},
+  pyright = {},
 }
 
 local function merge(t1, t2)

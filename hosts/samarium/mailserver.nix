@@ -10,6 +10,8 @@ let
     "vkleenfunimation@17220103.de"
     "funimation@17220103.de"
     "voelkner@17220103.de"
+    "admin@17220103.de"
+    "omega@17220103.de"
     "kleen@kleen.org"
     "admin@kleen.org"
   ];

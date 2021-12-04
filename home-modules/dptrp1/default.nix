@@ -41,7 +41,7 @@ let
       printf "%s" "[${dptrp1-address}%$interface]"
     }
 
-    ${pkgs.dpt-rp1-py}/bin/dptrp1 --client-id /run/secrets/dptrp1 --key /run/secrets/dptrp1.key --addr "$(get_address)" "''${@}"
+    ${pkgs.dpt-rp1-py}/bin/dptrp1 --client-id /run/agenix/dptrp1 --key /run/agenix/dptrp1.key --addr "$(get_address)" "''${@}"
   '';
 in {
   options = {

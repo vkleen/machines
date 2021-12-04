@@ -9,7 +9,7 @@ let
     postBuild = ''
       wrapProgram $out/bin/rmapi \
         --set RMAPI_HOST "${cloudUrl}" \
-        --set RMAPI_CONFIG /run/secrets/rmapi
+        --set RMAPI_CONFIG /run/agenix/rmapi
     '';
   };
 in {

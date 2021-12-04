@@ -19,9 +19,9 @@
           port = 8883;
           ssl = {
             enable = true;
-            cafile = "/run/secrets/mqtt.pem";
-            certfile = "/run/secrets/mqtt.pem";
-            keyfile = "/run/secrets/mqtt.key";
+            cafile = "/run/agenix/mqtt.pem";
+            certfile = "/run/agenix/mqtt.pem";
+            keyfile = "/run/agenix/mqtt.key";
           };
           extraConf = ''
             tls_version tlsv1.3

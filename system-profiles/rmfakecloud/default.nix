@@ -3,9 +3,9 @@
   services.rmfakecloud = {
     enable = true;
     storageUrl = "https://remarkable.kleen.org";
-    jwtKey = "/run/secrets/rmfakecloud/jwtKey";
-    hwrAppKey = "/run/secrets/rmfakecloud/hwrAppKey";
-    hwrHMAC = "/run/secrets/rmfakecloud/hwrHMAC";
+    jwtKey = "/run/agenix/rmfakecloud/jwtKey";
+    hwrAppKey = "/run/agenix/rmfakecloud/hwrAppKey";
+    hwrHMAC = "/run/agenix/rmfakecloud/hwrHMAC";
     dataDir = "/srv/rmfakecloud";
   };
   age.secrets."rmfakecloud/jwtKey" = {

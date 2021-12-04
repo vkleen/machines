@@ -85,7 +85,7 @@ in {
     wireguard.interfaces = {
       europium = {
         ips = [ "10.172.40.132/24" "2a01:7e01:e002:aa00:2469:eead::1/64" ];
-        privateKeyFile = "/run/secrets/bohrium";
+        privateKeyFile = "/run/agenix/bohrium";
         allowedIPsAsRoutes = false;
         peers = [
           { publicKey = builtins.readFile ../../wireguard/europium.pub;

@@ -24,7 +24,7 @@
     maxJobs = 4;
     buildCores = 4;
     extraOptions = ''
-      secret-key-files = /run/secrets/europium.1.sec
+      secret-key-files = /run/agenix/europium.1.sec
     '';
   };
 

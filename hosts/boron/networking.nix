@@ -126,7 +126,7 @@ in {
     wireguard.interfaces = {
       wg-europium = {
         ips = [ "10.172.40.136/24" "2a01:7e01:e002:aa00:cc6b:36a1:0:1/64" ];
-        privateKeyFile = "/run/secrets/boron";
+        privateKeyFile = "/run/agenix/boron";
         allowedIPsAsRoutes = false;
         peers = [
           { publicKey = builtins.readFile ../../wireguard/europium.pub;
@@ -554,7 +554,7 @@ in {
       ${pkgs.kea}/bin/kea-dhcp-ddns -c "''${RUNTIME_DIRECTORY}/dhcp-ddns.conf" ${lib.escapeShellArgs config.services.kea.dhcp-ddns.extraArgs}
     '';
     LoadCredential = [
-      "knot-boron-tsig:/run/secrets/kea-boron-tsig"
+      "knot-boron-tsig:/run/agenix/kea-boron-tsig"
     ];
   };
 

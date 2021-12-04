@@ -25,7 +25,7 @@ let
           --replace "@id@" "${pkgs.coreutils}/bin/id" \
           --replace "@cat@" "${pkgs.coreutils}/bin/cat" \
           --replace "@sed@" "${pkgs.gnused}/bin/sed" \
-          --replace "@RMAPI_CONFIG@" "/run/secrets/cups/rmapi"
+          --replace "@RMAPI_CONFIG@" "/run/agenix/cups/rmapi"
 
         chmod a+x $out/lib/cups/backend/remarkable
       '';

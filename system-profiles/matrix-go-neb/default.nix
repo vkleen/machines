@@ -5,7 +5,7 @@
     enable = true;
     bindAddress = "localhost:4050";
     baseUrl = "http://localhost:4050";
-    secretFile = "/run/secrets/go-neb-token";
+    secretFile = "/run/agenix/go-neb-token";
     config = {
       clients = [
         {

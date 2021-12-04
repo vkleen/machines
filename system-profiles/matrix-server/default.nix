@@ -22,7 +22,7 @@
     rc_message_burst_count = "100";
     rc_messages_per_second = "100";
     max_upload_size = "500M";
-    extraConfigFiles = [ "/run/secrets/synapse-registration" ];
+    extraConfigFiles = [ "/run/agenix/synapse-registration" ];
   };
 
   age.secrets."synapse-registration" = {

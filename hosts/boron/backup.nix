@@ -20,9 +20,9 @@ in {
       dateFormat = "-u +%s";
       encryption = {
         mode = "repokey-blake2";
-        passCommand = "${pkgs.coreutils}/bin/head -c-1 /run/secrets/boron-borg";
+        passCommand = "${pkgs.coreutils}/bin/head -c-1 /run/agenix/boron-borg";
       };
-      environment = { BORG_RSH = "ssh -oBatchMode=yes -oIdentitiesOnly=yes -oUserKnownHostsFile=${knownHostsFile} -oHostKeyAlias=rsync -i /run/secrets/rsync"; };
+      environment = { BORG_RSH = "ssh -oBatchMode=yes -oIdentitiesOnly=yes -oUserKnownHostsFile=${knownHostsFile} -oHostKeyAlias=rsync -i /run/agenix/rsync"; };
       compression = "auto,lzma";
       startAt = "hourly";
     };

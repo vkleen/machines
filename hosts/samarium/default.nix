@@ -23,7 +23,7 @@
     maxJobs = 4;
     buildCores = 4;
     extraOptions = ''
-      secret-key-files = /run/secrets/samarium.2.sec
+      secret-key-files = /run/agenix/samarium.2.sec
     '';
   };
 

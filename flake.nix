@@ -49,7 +49,7 @@
       };
     };
     neovide-src = {
-      url = "github:Kethku/neovide";
+      url = "github:Kethku/neovide?rev=8a7c2a00dc4be834215e3f21f5a0c9dd53646998";
       flake = false;
     };
     alacritty-src = {

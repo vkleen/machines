@@ -696,6 +696,8 @@ in {
     '';
   };
 
+  services.lldpd.enable = true;
+
   fileSystems."/var/lib/knot" = {
     device = "/persist/knot";
     options = [ "bind" ];

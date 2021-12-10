@@ -64,8 +64,9 @@ in {
     shellAliases = {
       l = "ls -l";
       la = "ls -la";
-      ls = "${pkgs.exa}/bin/exa -F";
-      lg = "l --git";
+      ls = "${pkgs.lsd}/bin/lsd --icon-theme unicode --date relative -F";
+      lt = "tree";
+      tree = "ls --tree";
       ".." = "cd ..";
       p = "${pkgs.parallel}/bin/parallel";
       cat = "${pkgs.bat}/bin/bat -p";

@@ -1,6 +1,6 @@
 { flake, flakeInputs, config, pkgs, lib, ... }:
 {
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_15.extend (self: super: {
+  boot.kernelPackages = pkgs.linuxPackages_latest.extend (self: super: {
     kernel = with (import "${flakeInputs.nixpkgs}/lib/kernel.nix" { inherit lib; });
       super.kernel.override {
         structuredExtraConfig = {

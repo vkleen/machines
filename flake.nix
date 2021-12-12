@@ -280,7 +280,9 @@
         recImport { dir = ./overlays; } //
         {
           pkgs = self.overlay;
-          nixpkgs-wayland = onlySystems supportedSystems inputs.nixpkgs-wayland.overlay;
+          nixpkgs-wayland = lib.composeExtensions
+            (onlySystems supportedSystems inputs.nixpkgs-wayland.overlay)
+            self.overlays.i3status-rust;
           neovim-nightly = onlySystems supportedSystems (final: prev: {
             neovim-unwrapped = (inputs.neovim-nightly.overlay final prev).neovim-unwrapped;
           });

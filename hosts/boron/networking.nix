@@ -592,6 +592,8 @@ in {
     networks."40-eth0" = {
       networkConfig = {
         LinkLocalAddressing = "no";
+        LLDP = "yes";
+        EmitLLDP = "yes";
       };
     };
     networks."40-auenheim-mgmt" = {
@@ -695,8 +697,6 @@ in {
           any: info
     '';
   };
-
-  services.lldpd.enable = true;
 
   fileSystems."/var/lib/knot" = {
     device = "/persist/knot";

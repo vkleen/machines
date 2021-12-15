@@ -5,8 +5,9 @@ let
   boron = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBkRtSje5rDeMMd6wZFbQ1d9XlF9nqeRf40vZ8y+x1/J";
   europium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIODkqoX3kRPftiOdRdpHutcIbbRGrMdkKlOpINa8AUQa";
   samarium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4wuOpHO+UmLG+D5xEQadJaeR5lm7FKmt22a2uysOYE";
+  gadolinium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAJjXDWb3CZ1Ff9PfyWt7wtsYxwm5vkpEOrVBgxLKfeh";
 
-  all-systems = [ bohrium boron europium samarium ];
+  all-systems = [ bohrium boron europium samarium gadolinium ];
 in
 {
   "aws/credentials.age".publicKeys = [vkleen bohrium];
@@ -20,6 +21,7 @@ in
   "wireguard/europium.age".publicKeys = [vkleen europium];
   "wireguard/helium.age".publicKeys = [vkleen];
   "wireguard/samarium.age".publicKeys = [vkleen samarium];
+  "wireguard/gadolinium.age".publicKeys = [vkleen gadolinium];
 
   "nix/europium.1.sec.age".publicKeys = [vkleen europium];
   "nix/samarium.2.sec.age".publicKeys = [vkleen samarium];

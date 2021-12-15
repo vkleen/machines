@@ -1,7 +1,10 @@
 { flake, pkgs, ... }: {
+  imports = (with flake.nixosModules.systemProfiles; [
+    latest-linux
+    ssh
+  ]);
   config = {
     boot = {
-      kernelPackages = pkgs.linuxKernel.packages.linux_5_14;
       zfs.enableUnstable = true;
       kernelParams = [ "console=ttyS0,115200n8" ];
     };

@@ -455,8 +455,14 @@ in {
                 ip-address = "10.172.100.21";
                 hostname = "chlorine-bmc";
               }
-              { hw-address = "2c:09:4d:00:02:ad";
+              {
+                hw-address = "2c:09:4d:00:02:b0";
+                ip-address = "10.172.100.23";
+                hostname = "chlorine";
+              }
+              { hw-address = "2c:09:4d:00:02:ae";
                 ip-address = "10.172.100.22";
+                hostname = "chlorine-boot";
                 option-data = [
                   { name = "conf-file";
                     data = "tftp://boron.auenheim.kleen.org/chlorine/pxelinux.cfg";

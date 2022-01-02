@@ -60,7 +60,6 @@ in {
     socat
     sqlite
     s-tui
-    tealdeer
     telnet
     tree
     tsocks

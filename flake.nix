@@ -20,6 +20,7 @@
     nixos-rocm-power9 = {
       url = "github:vkleen/nixos-rocm";
       flake = false;
+      inputs.nixpkgs.follows = "nixpkgs-power9";
     };
     freecad-src = {
       url = "github:realthunder/FreeCAD";

@@ -66,6 +66,8 @@ in {
 
   security.acme = {
     acceptTerms = true;
-    email = "vkleen-acme@17220103.de";
+    defaults = {
+      email = "vkleen-acme@17220103.de";
+    };
   };
 }

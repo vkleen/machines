@@ -17,7 +17,9 @@ in {
   config = lib.mkIf cfg.enable {
     security.acme = {
       acceptTerms = true;
-      email = "vkleen-acme@17220103.de";
+      defaults = {
+        email = "vkleen-acme@17220103.de";
+      };
     };
     services.nginx = {
       enable = true;

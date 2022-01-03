@@ -26,7 +26,7 @@ in buildGoModule rec {
   version = "0.0.5";
   inherit src;
 
-  vendorSha256 = "sha256-Fym9g2/DiVHUyw0jjNhrjh8JJdFs8559UovznitNyMs=";
+  vendorSha256 = "sha256-7O0ETkDZ/y23X9Nknrjqavdv2Qq2bQNUqDLYnHo+DA4=";
 
   patches = [ ./assets.patch ];
 

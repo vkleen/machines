@@ -1,10 +1,17 @@
 { pkgs, ... }:
 let
-  vultr-wrapped = pkgs.writeShellScriptBin "vultr" ''
-    VULTR_API_KEY=$(cat /run/agenix/vultr) ${pkgs.vultr}/bin/vultr "$@"
-  '';
+
+  vultr-wrapped = pkgs.symlinkJoin {
+    name = "vultr-wrapped";
+    paths = [ pkgs.vultr-cli ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/vultr-cli \
+        --add-flags --config --add-flags /run/agenix/vultr.yaml
+    '';
+  };
 in {
-  age.secrets."vultr" = {
+  age.secrets."vultr.yaml" = {
     file = ../../../secrets/vultr.age;
     owner = "vkleen";
   };

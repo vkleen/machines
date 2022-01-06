@@ -97,6 +97,15 @@
       flake = false;
     };
 
+    macname = {
+      url = "github:vkleen/macname";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    macname-power9 = {
+      url = "github:vkleen/macname";
+      inputs.nixpkgs.follows = "nixpkgs-power9";
+    };
+
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
     clever-f = { url = "github:rhysd/clever-f.vim"; flake = false; };
@@ -292,6 +301,10 @@
                                   (   { "powerpc64le-linux" = inputs.nix-power9.overlay; }
                                    // { "riscv64-linux" = inputs.nix-riscv.overlay; }
                                   );
+          macname = forSystemsOverlay
+            (_: _: {})
+            (forAllSystems (system: _: _: { inherit (inputs.macname.packages."${system}") macname; })
+             // { "powerpc64le-linux" = _: _: { inherit (inputs.macname-power9.packages."powerpc64le-linux") macname; }; });
           sources = final: prev: {
             inherit (inputs)
               alacritty-src

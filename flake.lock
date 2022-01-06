@@ -444,6 +444,46 @@
         "type": "github"
       }
     },
+    "macname": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1641476354,
+        "narHash": "sha256-0EN9wLRTCuZoT0tDRdkfV6tmy/qF2ZsdZntgmQcbk+k=",
+        "owner": "vkleen",
+        "repo": "macname",
+        "rev": "6bc31cf37e7c13d7848fc1fdca8c8082dded8e9b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "repo": "macname",
+        "type": "github"
+      }
+    },
+    "macname-power9": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-power9"
+        ]
+      },
+      "locked": {
+        "lastModified": 1641476354,
+        "narHash": "sha256-0EN9wLRTCuZoT0tDRdkfV6tmy/qF2ZsdZntgmQcbk+k=",
+        "owner": "vkleen",
+        "repo": "macname",
+        "rev": "6bc31cf37e7c13d7848fc1fdca8c8082dded8e9b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "repo": "macname",
+        "type": "github"
+      }
+    },
     "neovide-src": {
       "flake": false,
       "locked": {
@@ -884,6 +924,8 @@
         "home-manager": "home-manager",
         "kicad-src": "kicad-src",
         "lualine": "lualine",
+        "macname": "macname",
+        "macname-power9": "macname-power9",
         "neovide-src": "neovide-src",
         "neovim-flake": "neovim-flake",
         "neovim-nightly": "neovim-nightly",

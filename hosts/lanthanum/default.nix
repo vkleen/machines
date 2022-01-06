@@ -24,5 +24,5 @@
     buildCores = 4;
   };
 
-  system.macnameNamespace = "wolkenheim";
+  system.macnameNamespace = "wolkenheim.kleen.org";
 }

@@ -1,4 +1,4 @@
-{ flake, flakeInputs, hostName, customUtils, config, lib, pkgs, ... }:
+{ flake, flakeInputs, customUtils, config, lib, pkgs, ... }:
 let
   inherit (lib) fileContents;
   profileSet = customUtils.types.attrNameSet flake.nixosModules.systemProfiles;
@@ -26,7 +26,6 @@ in
     };
   };
   config = {
-    networking.hostName = hostName;
     system.configurationRevision = lib.mkIf (flake ? rev) flake.rev;
 
     environment = {

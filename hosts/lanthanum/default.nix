@@ -3,6 +3,7 @@
     ./hardware.nix
     ./networking.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
+    hostid
     latest-linux
     no-coredump
     ntp-server
@@ -23,6 +24,5 @@
     buildCores = 4;
   };
 
-  networking.hostId = "2979953b";
-  environment.etc."machine-id".text = "2979953b3cf473a1f9510b8e27804ab4";
+  system.macnameNamespace = "wolkenheim";
 }

@@ -1,4 +1,4 @@
-{ flake, config, ... }: {
+{ flake, config, hostName, ... }: {
   imports = [
     ./hardware.nix
     ./networking.nix
@@ -40,6 +40,7 @@
     '';
   };
 
+  networking.hostName = hostName;
   networking.hostId = "2469eead";
   environment.etc."machine-id".text = "2469eead8c84bfe7caf902d7f00a1a7c";
 

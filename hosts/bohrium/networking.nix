@@ -2,7 +2,6 @@
 let
   boronPublicAddresses = flake.nixosConfigurations.boron.config.system.publicAddresses;
   europiumPublicAddresses = flake.nixosConfigurations.europium.config.system.publicAddresses;
-  gadoliniumPublicAddresses = flake.nixosConfigurations.gadolinium.config.system.publicAddresses;
   #boronPublicAddresses = builtins.map (a: a.address) flake.nixosConfigurations.boron.config.networking.interfaces."auenheim".ipv6.addresses;
   #europiumPublicAddresses = builtins.map (a: a.address) flake.nixosConfigurations.europium.config.networking.interfaces."eth0".ipv4.addresses ++ ["2a01:7e01::f03c:92ff:fe12:a0f4"];
 in {
@@ -80,8 +79,7 @@ in {
     hosts = {
       "94.16.123.211"  = [ "samarium.kleen.org" ];
     } // lib.genAttrs boronPublicAddresses (_: ["boron.auenheim.kleen.org"])
-      // lib.genAttrs europiumPublicAddresses (_: ["europium.kleen.org"])
-      // lib.genAttrs gadoliniumPublicAddresses (_: ["gadolinium.kleen.org"]);
+      // lib.genAttrs europiumPublicAddresses (_: ["europium.kleen.org"]);
 
     wireguard.interfaces = {
       europium = {
@@ -92,11 +90,6 @@ in {
           { publicKey = builtins.readFile ../../wireguard/europium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
             endpoint = "europium.kleen.org:51820";
-            persistentKeepalive = 5;
-          }
-          { publicKey = builtins.readFile ../../wireguard/gadolinium.pub;
-            allowedIPs = [ "0.0.0.0/0" "::/0" ];
-            endpoint = "gadolinium.kleen.org:51820";
             persistentKeepalive = 5;
           }
         ];

@@ -8,6 +8,7 @@
     desktop
     docker
     flatpak
+    hostid
     initrd-all-crypto-modules
     interception-tools
     laptop
@@ -40,8 +41,7 @@
     '';
   };
 
-  networking.hostId = "2469eead";
-  environment.etc."machine-id".text = "2469eead8c84bfe7caf902d7f00a1a7c";
+  system.macnameNamespace = "auenheim.kleen.org";
 
   services.lock-on-suspend.enable = true;
 }

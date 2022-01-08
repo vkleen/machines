@@ -49,15 +49,15 @@
   boot.initrd.luks = {
     devices = {
       "bohrium-swap" = {
-        device = "/dev/disk/by-uuid/f3f36a73-398e-4bdd-9db2-df0b2ae118a2";
+        device = "/dev/disk/by-uuid/7d817c0f-c3d4-46dc-9d30-eed825675684";
         keyFile = "/persist/private/keyfiles/swap";
       };
       "bohrium-data" = {
-        device = "/dev/disk/by-uuid/e4628d1c-659f-47ce-8fcd-cbb8a8e201be";
+        device = "/dev/disk/by-uuid/8f4e99fb-ffe0-44eb-8e18-13ae20b5368e";
         keyFile = "/persist/private/keyfiles/data";
       };
       "bohrium-boot" = {
-        device = "/dev/disk/by-uuid/4e3ff2bf-bdd2-4c43-beae-e16fcc110845";
+        device = "/dev/disk/by-uuid/12e199c8-5a22-464c-ae8a-fb0c094b74d9";
         keyFile = "/persist/private/keyfiles/boot";
       };
     };
@@ -84,12 +84,12 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/d5530f58-e33b-40e7-8919-d0a7fe8df5e8";
+    device = "/dev/disk/by-uuid/6a9d7ece-c3b5-46fa-bc41-2b98a093b443";
     fsType = "ext4";
   };
 
   fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-uuid/68DD-25F9";
+    device = "/dev/disk/by-uuid/DF2D-4BCA";
     fsType = "vfat";
   };
 

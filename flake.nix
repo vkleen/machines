@@ -106,6 +106,11 @@
       inputs.nixpkgs.follows = "nixpkgs-power9";
     };
 
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
+
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
     clever-f = { url = "github:rhysd/clever-f.vim"; flake = false; };

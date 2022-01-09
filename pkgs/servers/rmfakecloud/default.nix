@@ -1,13 +1,28 @@
-{ lib, fetchFromGitHub, mkYarnPackage, buildGoModule, rmfakecloud-src }:
+{ lib, stdenv, yarn2nix, fetchFromGitHub, mkYarnPackage, buildGoModule, rmfakecloud-src }:
 let
   src = rmfakecloud-src;
+
+  yarnNix = stdenv.mkDerivation {
+    name = "yarn.nix";
+    nativeBuildInputs = [yarn2nix];
+    src = "${src}/ui";
+    buildPhase = ''
+      runHook preBuild
+      yarn2nix --builtin-fetchgit > $out
+      runHook postBuild
+    '';
+    installPhase = "true";
+    distPhase = "true";
+
+    outputHash = "sha256-xNJg3XWuFBuve18WOpCpba64HaiGX7tRZOmGiCdWh1U=";
+  };
 
   uiFiles = mkYarnPackage {
     name = "rmfakecloud-ui";
     src = "${src}/ui";
     packageJSON = "${src}/ui/package.json";
     yarnLock = "${src}/ui/yarn.lock";
-    yarnNix = ./yarn.nix;
+    inherit yarnNix;
 
     configurePhase = ''
       cp -r $node_modules node_modules
@@ -37,4 +52,8 @@ in buildGoModule rec {
   '';
 
   doCheck = false;
+
+  passthru = {
+    inherit yarnNix;
+  };
 }

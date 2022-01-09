@@ -191,6 +191,22 @@
     "flake-compat": {
       "flake": false,
       "locked": {
+        "lastModified": 1641205782,
+        "narHash": "sha256-4jY7RCWUoZ9cKD8co0/4tFARpWB+57+r1bLLvXNJliY=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "b7547d3eed6f32d06102ead8991ec52ab0a4f1a7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compat_2": {
+      "flake": false,
+      "locked": {
         "lastModified": 1627913399,
         "narHash": "sha256-hY8g6H2KFL8ownSiFeMOjwPC8P0ueXpCVEbxgda3pko=",
         "owner": "edolstra",
@@ -526,7 +542,7 @@
     },
     "neovim-nightly": {
       "inputs": {
-        "flake-compat": "flake-compat",
+        "flake-compat": "flake-compat_2",
         "neovim-flake": [
           "neovim-flake"
         ],
@@ -916,6 +932,7 @@
         "dptrp1-src": "dptrp1-src",
         "emoji-fzf": "emoji-fzf",
         "eseries-src": "eseries-src",
+        "flake-compat": "flake-compat",
         "freecad-assembly3-src": "freecad-assembly3-src",
         "freecad-src": "freecad-src",
         "fterm": "fterm",

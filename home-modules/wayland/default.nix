@@ -387,8 +387,6 @@ in lib.mkMerge [{
 
         "XF86Sleep" = "exec ${pkgs.systemd}/bin/loginctl lock-session";
 
-        "Print" = "exec ${pkgs.obs-cli}/bin/obs-cli toggle-mute Mic/Aux";
-
         "${mod}+Ctrl+j" = "move workspace to output down";
         "${mod}+Ctrl+k" = "move workspace to output up";
         "${mod}+Ctrl+l" = "move workspace to output right";

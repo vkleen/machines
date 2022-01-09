@@ -23,7 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs-power9";
     };
     freecad-src = {
-      url = "github:realthunder/FreeCAD";
+      url = "github:realthunder/FreeCAD?rev=ecadd72902e5eab3b44ecb25b30c3dbcafe67e5e";
       flake = false;
     };
     freecad-assembly3-src = {
@@ -99,7 +99,6 @@
 
     macname = {
       url = "github:vkleen/macname";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     macname-power9 = {
       url = "github:vkleen/macname";

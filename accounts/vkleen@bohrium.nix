@@ -15,12 +15,10 @@
       git
       gnupg
       gpg-agent
-      kak
       kitty
       mpv
       neomutt
       neovim
-      obs
       pass
       redshift
       spacenav

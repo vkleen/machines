@@ -29,7 +29,7 @@
   };
 
 # cryptsetup:
-#   cryptsetup luksFormat /dev/nvme0n1p2 --cipher='aes-xts-plain64' --key-size=512 --keyslot-key-size=512 --keyslot-cipher=aes-xts-plain64 --hash=sha256 --type luks
+#   cryptsetup luksFormat /dev/nvme0n1p2 --cipher='aes-xts-plain64' --key-size=512 --hash=sha256 --type luks1
 #   cryptsetup luksFormat /dev/nvme0n1p3 --cipher='capi:adiantum(xchacha20,aes)-plain64' --key-size=256 --keyslot-key-size=512 --keyslot-cipher=aes-xts-plain64 --pbkdf=argon2i --hash=blake2b512 --sector-size=4096
 #   cryptsetup luksFormat /dev/nvme0n1p4 --cipher='capi:adiantum(xchacha20,aes)-plain64' --key-size=256 --keyslot-key-size=512 --keyslot-cipher=aes-xts-plain64 --pbkdf=argon2i --hash=blake2b512 --sector-size=4096
 #   cryptsetup luksAddKey /dev/nvme0n1p2 /persist/private/keyfiles/boot
@@ -57,7 +57,7 @@
         keyFile = "/persist/private/keyfiles/data";
       };
       "bohrium-boot" = {
-        device = "/dev/disk/by-uuid/12e199c8-5a22-464c-ae8a-fb0c094b74d9";
+        device = "/dev/disk/by-uuid/1f2e2852-e026-406a-83cf-310bf1ceae4f";
         keyFile = "/persist/private/keyfiles/boot";
       };
     };
@@ -84,7 +84,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/6a9d7ece-c3b5-46fa-bc41-2b98a093b443";
+    device = "/dev/disk/by-uuid/9043fcad-e770-462c-8bfc-788717d4dc76";
     fsType = "ext4";
   };
 

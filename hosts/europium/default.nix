@@ -3,6 +3,7 @@
     ./hardware.nix
     ./networking.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
+    hostid
     latest-linux
     matrix-go-neb
     matrix-server
@@ -30,8 +31,7 @@
 
   age.secrets."europium.1.sec".file = ../../secrets/nix/europium.1.sec.age;
 
-  networking.hostId = "f8a1f27f";
-  environment.etc."machine-id".text = "f8a1f27fe211912366eb4b536c533419";
+  system.macnameNamespace = "wolkenheim.kleen.org";
 
   services.rmfakecloud-proxy = let
     boronPublicAddress = (builtins.elemAt flake.nixosConfigurations.boron.config.networking.interfaces."auenheim".ipv6.addresses 0).address;

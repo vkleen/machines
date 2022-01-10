@@ -62,7 +62,6 @@ in {
     pavucontrol
     pidgin-with-plugins
     pinentry
-    renderdoc
     streamlink
     uhubctl
     xorg.xbacklight

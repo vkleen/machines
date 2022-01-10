@@ -5,7 +5,7 @@ final: prev: {
     cargoDeps = o.cargoDeps.overrideAttrs (final.lib.const {
       name = "${name}-vendor.tar.gz";
       inherit src;
-      outputHash = "sha256-TQEhz9FtvIb/6Qtyz018dPle0+nub1oMZMFtKAqYcoI=";
+      outputHash = "sha256-NVOVgyd0273uECJ3SANhhX5wB0nYkCcvzJf6pWNHLd4=";
     });
   });
 }

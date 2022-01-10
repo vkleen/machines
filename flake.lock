@@ -280,6 +280,36 @@
         "type": "github"
       }
     },
+    "flake-utils_5": {
+      "locked": {
+        "lastModified": 1638122382,
+        "narHash": "sha256-sQzZzAbvKEqN9s0bzWuYmRaA03v40gaJ4+iL1LXjaeI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "74f7e4319258e287b0f9cb95426c9853b282730b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_6": {
+      "locked": {
+        "lastModified": 1610051610,
+        "narHash": "sha256-U9rPz/usA1/Aohhk7Cmc2gBrEEKRzcW4nwPWMPwja4Y=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3982c9903e93927c2164caa727cd3f6a0e6d14cc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "freecad-assembly3-src": {
       "flake": false,
       "locked": {
@@ -757,6 +787,34 @@
         "type": "github"
       }
     },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1641130651,
+        "narHash": "sha256-Ir9UYC67/9NV313F8TDHGw99nrbTB9RLbmlMawsotVE=",
+        "path": "/nix/store/9f9d7vkcmccvmh2l2j91iha82d9cnx54-source",
+        "rev": "c5b3112642d2d6c7d8f596e9f01a77551a74912f",
+        "type": "path"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_6": {
+      "locked": {
+        "lastModified": 1610729867,
+        "narHash": "sha256-bk/SBaBLqZX/PEqal27DMQwAHHl0dcZMp8NNksQr80s=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "04af07c659c6723a2259bb6bc00a47ec53330f20",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nvim-cmp": {
       "flake": false,
       "locked": {
@@ -888,6 +946,25 @@
         "type": "github"
       }
     },
+    "poetry2nix_2": {
+      "inputs": {
+        "flake-utils": "flake-utils_6",
+        "nixpkgs": "nixpkgs_6"
+      },
+      "locked": {
+        "lastModified": 1641641774,
+        "narHash": "sha256-uCUup7GEKgqisAh0nQig1J3gaMUWkD1/5gcwchz08b4=",
+        "owner": "nix-community",
+        "repo": "poetry2nix",
+        "rev": "4893be10026ddbbc1e5ce18fd88aa1866df3df19",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "poetry2nix",
+        "type": "github"
+      }
+    },
     "rmapi-src": {
       "flake": false,
       "locked": {
@@ -920,18 +997,22 @@
         "type": "github"
       }
     },
-    "rmrl-src": {
-      "flake": false,
+    "rmrl": {
+      "inputs": {
+        "flake-utils": "flake-utils_5",
+        "nixpkgs": "nixpkgs_5",
+        "poetry2nix": "poetry2nix_2"
+      },
       "locked": {
-        "lastModified": 1614671493,
-        "narHash": "sha256-Jqxj/0O/gMubMqoOKjtp/qgxWA5GJ2KL6Epgejoom2c=",
-        "owner": "rschroll",
+        "lastModified": 1641742601,
+        "narHash": "sha256-9+Si9oWlVOlDaWrsd7xy5Ies07UYxQrsVqCMXx3c7os=",
+        "owner": "vkleen",
         "repo": "rmrl",
-        "rev": "89b5cc38ef45251b96bd3d1c3618429b6b46db92",
+        "rev": "e02e5a38898c6585b51f71c569e346d7571f2d8f",
         "type": "github"
       },
       "original": {
-        "owner": "rschroll",
+        "owner": "vkleen",
         "repo": "rmrl",
         "type": "github"
       }
@@ -979,7 +1060,7 @@
         "poetry2nix": "poetry2nix",
         "rmapi-src": "rmapi-src",
         "rmfakecloud-src": "rmfakecloud-src",
-        "rmrl-src": "rmrl-src",
+        "rmrl": "rmrl",
         "rust-tools": "rust-tools",
         "telescope-ghq": "telescope-ghq",
         "telescope-lsp-handlers": "telescope-lsp-handlers",

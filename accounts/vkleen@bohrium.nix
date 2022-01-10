@@ -5,6 +5,9 @@
       ++ lib.optional (lib.elem "jack" config.system.profiles) "jackaudio"
       ++ lib.optional (lib.elem "docker" config.system.profiles) "docker";
   };
+  home-manager.extraSpecialArgs = {
+    inherit flake;
+  };
   home-manager.users.${userName} = lib.mkMerge (
     (with flake.homeManagerModules; [
       alacritty

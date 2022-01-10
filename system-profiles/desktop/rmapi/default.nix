@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, flake, ... }:
 let
   cloudUrl = "https://remarkable.kleen.org";
 
@@ -20,7 +20,7 @@ in {
 
   environment.systemPackages = [
     rmapi-wrapped
-    pkgs.rmrl
+    flake.inputs.rmrl.packages.${config.nixpkgs.system}.rmrl
     #(pkgs.paper2remarkable.override { rmapi = rmapi-wrapped; })
   ];
 }

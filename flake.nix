@@ -88,10 +88,6 @@
     poetry2nix = {
       url = "github:nix-community/poetry2nix";
     };
-    rmrl-src = {
-      url = "github:rschroll/rmrl";
-      flake = false;
-    };
     rmapi-src = {
       url = "github:juruen/rmapi";
       flake = false;
@@ -103,6 +99,10 @@
     macname-power9 = {
       url = "github:vkleen/macname";
       inputs.nixpkgs.follows = "nixpkgs-power9";
+    };
+
+    rmrl = {
+      url = "github:vkleen/rmrl";
     };
 
     flake-compat = {
@@ -321,7 +321,6 @@
               neovide-src
               rmapi-src
               rmfakecloud-src
-              rmrl-src
             ;
           };
         };

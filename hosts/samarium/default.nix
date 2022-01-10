@@ -5,6 +5,7 @@
     ./mailserver.nix
     ./math.kleen.org.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
+    hostid
     latest-linux
     no-coredump
     ssh
@@ -29,6 +30,5 @@
 
   age.secrets."samarium.2.sec".file = ../../secrets/nix/samarium.2.sec.age;
 
-  networking.hostId = "c4decb69";
-  environment.etc."machine-id".text = "c4decb69165ba83fa1167e065c1a5bc7";
+  system.macnameNamespace = "wolkenheim.kleen.org";
 }

@@ -17,6 +17,7 @@ opt.encoding = 'UTF-8'
 
 opt.conceallevel = 0
 opt.list = true
+opt.listchars:append("space:⋅")
 opt.showbreak = '↪'
 
 opt.expandtab = true
@@ -46,8 +47,6 @@ opt.wildmenu = true
 opt.wildmode = 'longest:list,full'
 
 opt.background = 'dark'
-cmd[[colorscheme selenized]]
-cmd[[hi! link FloatBorder Normal]]
 
 cmd[[au BufRead,BufNewFile *.nix set filetype=nix]]
 

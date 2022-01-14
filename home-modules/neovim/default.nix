@@ -37,6 +37,7 @@ in {
       extraConfig = builtins.concatStringsSep "\n" [
         ''
           lua dofile("${./config.lua}")
+          lua dofile("${./colors.lua}").setup{}
           lua dofile("${./bindings.lua}")
           lua dofile("${./plugins.lua}")
           lua dofile("${./lsp.lua}")
@@ -80,6 +81,8 @@ in {
 
         nerdcommenter
 
+        indent-blankline-nvim
+
         direnv-vim
 
         nvim-notify
@@ -114,7 +117,6 @@ in {
 
         telescope-ghq
 
-        nvim-selenized
         lsp-colors-nvim
         nvim-web-devicons
       ];

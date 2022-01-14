@@ -1066,7 +1066,8 @@
         "telescope-lsp-handlers": "telescope-lsp-handlers",
         "telescope-zoxide": "telescope-zoxide",
         "vim-vsnip": "vim-vsnip",
-        "vim-vsnip-integ": "vim-vsnip-integ"
+        "vim-vsnip-integ": "vim-vsnip-integ",
+        "which-key-nvim": "which-key-nvim"
       }
     },
     "rust-overlay": {
@@ -1181,6 +1182,22 @@
       "original": {
         "owner": "hrsh7th",
         "repo": "vim-vsnip-integ",
+        "type": "github"
+      }
+    },
+    "which-key-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1642056136,
+        "narHash": "sha256-vumqkTgHN6PJgeiyq9oFqm4uw2NUzzu6/1pHS/uxH/0=",
+        "owner": "folke",
+        "repo": "which-key.nvim",
+        "rev": "387fd676d3f9b419d38890820f6e262dc0fadb46",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "which-key.nvim",
         "type": "github"
       }
     }

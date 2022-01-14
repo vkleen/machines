@@ -131,6 +131,7 @@
     telescope-zoxide = { url = "github:jvgrootveld/telescope-zoxide"; flake = false; };
     vim-vsnip-integ = { url = "github:hrsh7th/vim-vsnip-integ"; flake = false; };
     vim-vsnip = { url = "github:hrsh7th/vim-vsnip"; flake = false; };
+    which-key-nvim = { url = "github:folke/which-key.nvim"; flake = false; };
   };
 
   outputs = { self, ...}@inputs:
@@ -477,6 +478,7 @@
             "telescope-zoxide"
             "vim-vsnip"
             "vim-vsnip-integ"
+            "which-key-nvim"
           ] (vimPlugin pkgs) // {
             nvim-selenized = vimPluginSubdir pkgs "nvim-selenized" "editors/vim";
           });

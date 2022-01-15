@@ -4,7 +4,6 @@
     ./networking.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
     airplay-server
-    binfmt
     desktop
     docker
     flatpak

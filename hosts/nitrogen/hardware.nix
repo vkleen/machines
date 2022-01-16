@@ -121,6 +121,6 @@
   system.activationScripts.mountPersist = lib.stringAfter [ "specialfs" ] ''
     specialMount "${config.fileSystems."/persist".device}" "/persist" "${lib.concatStringsSep "," config.fileSystems."/persist".options}" "${config.fileSystems."/persist".fsType}"
   '';
-  system.activationScripts.agenixRoot.deps = [ "mountPersist" ];
+  #system.activationScripts.agenixRoot.deps = [ "mountPersist" ];
 }
 

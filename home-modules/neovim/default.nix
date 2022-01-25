@@ -70,14 +70,11 @@ in {
 
         plenary-nvim
         telescope-nvim
-        telescope-frecency-nvim
         telescope-fzf-native-nvim
         telescope-zoxide
         telescope-lsp-handlers
 
         lightspeed-nvim
-        limelight-vim
-        goyo-vim
 
         nerdcommenter
 

@@ -61,7 +61,7 @@ in {
     noti
     pavucontrol
     pidgin-with-plugins
-    pinentry
+    pinentry-gtk2
     streamlink
     uhubctl
     xorg.xbacklight
@@ -81,7 +81,7 @@ in {
     gtkwave
     kicad-master
     librepcb
-    ngspice
+    #ngspice
     qucs
     eseries
 

@@ -1,15 +1,15 @@
 {
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs;
-    utils.url = "path:../utils-flake";
+    utils.url = path:../utils-flake;
     utils.inputs.nixpkgs.follows = "nixpkgs";
 
     neovim-flake = {
-      url = "github:neovim/neovim?dir=contrib";
+      url = github:neovim/neovim?dir=contrib;
       inputs.nixpkgs.follows = "nixpkgs";
     };
     neovim-nightly = {
-      url = "github:nix-community/neovim-nightly-overlay";
+      url = github:nix-community/neovim-nightly-overlay;
       inputs = {
         nixpkgs.follows = "nixpkgs";
         neovim-flake.follows = "neovim-flake";
@@ -17,31 +17,31 @@
     };
 
     neovide-src = {
-      url = "github:Kethku/neovide?rev=8a7c2a00dc4be834215e3f21f5a0c9dd53646998";
+      url = github:Kethku/neovide?rev=8a7c2a00dc4be834215e3f21f5a0c9dd53646998;
       flake = false;
     };
 
-    bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
-    clever-f = { url = "github:rhysd/clever-f.vim"; flake = false; };
-    cmp-buffer = { url = "github:hrsh7th/cmp-buffer"; flake = false; };
-    cmp-nvim-lsp = { url = "github:hrsh7th/cmp-nvim-lsp"; flake = false; };
-    fterm = { url = "github:numtostr/FTerm.nvim"; flake = false; };
-    gitsigns = { url = "github:lewis6991/gitsigns.nvim"; flake = false; };
-    lualine = { url = "github:hoob3rt/lualine.nvim"; flake = false; };
-    nvim-cmp = { url = "github:hrsh7th/nvim-cmp"; flake = false; };
-    nvim-colorizer = { url = "github:norcalli/nvim-colorizer.lua"; flake = false; };
-    nvim-lspconfig = { url = "github:neovim/nvim-lspconfig"; flake = false; };
-    nvim-selenized = { url = "github:jan-warchol/selenized"; flake = false; };
-    nvim-treesitter-context = { url = "github:romgrk/nvim-treesitter-context"; flake = false; };
-    nvim-ts-rainbow = { url = "github:p00f/nvim-ts-rainbow"; flake = false; };
-    plenary-nvim = { url = "github:vkleen/plenary.nvim"; flake = false; };
-    rust-tools = { url = "github:simrat39/rust-tools.nvim"; flake = false; };
-    telescope-ghq = { url = "github:nvim-telescope/telescope-ghq.nvim"; flake = false; };
-    telescope-lsp-handlers = { url = "github:gbrlsnchs/telescope-lsp-handlers.nvim"; flake = false; };
-    telescope-zoxide = { url = "github:jvgrootveld/telescope-zoxide"; flake = false; };
-    vim-vsnip-integ = { url = "github:hrsh7th/vim-vsnip-integ"; flake = false; };
-    vim-vsnip = { url = "github:hrsh7th/vim-vsnip"; flake = false; };
-    which-key-nvim = { url = "github:folke/which-key.nvim"; flake = false; };
+    bufferline = { url = github:akinsho/bufferline.nvim; flake = false; };
+    clever-f = { url = github:rhysd/clever-f.vim; flake = false; };
+    cmp-buffer = { url = github:hrsh7th/cmp-buffer; flake = false; };
+    cmp-nvim-lsp = { url = github:hrsh7th/cmp-nvim-lsp; flake = false; };
+    fterm = { url = github:numtostr/FTerm.nvim; flake = false; };
+    gitsigns = { url = github:lewis6991/gitsigns.nvim; flake = false; };
+    lualine = { url = github:hoob3rt/lualine.nvim; flake = false; };
+    nvim-cmp = { url = github:hrsh7th/nvim-cmp; flake = false; };
+    nvim-colorizer = { url = github:norcalli/nvim-colorizer.lua; flake = false; };
+    nvim-hlslens = { url = github:kevinhwang91/nvim-hlslens; flake = false; };
+    nvim-lspconfig = { url = github:neovim/nvim-lspconfig; flake = false; };
+    nvim-treesitter-context = { url = github:romgrk/nvim-treesitter-context; flake = false; };
+    nvim-ts-rainbow = { url = github:p00f/nvim-ts-rainbow; flake = false; };
+    plenary-nvim = { url = github:vkleen/plenary.nvim; flake = false; };
+    rust-tools = { url = github:simrat39/rust-tools.nvim; flake = false; };
+    telescope-ghq = { url = github:nvim-telescope/telescope-ghq.nvim; flake = false; };
+    telescope-lsp-handlers = { url = github:gbrlsnchs/telescope-lsp-handlers.nvim; flake = false; };
+    telescope-zoxide = { url = github:jvgrootveld/telescope-zoxide; flake = false; };
+    vim-vsnip-integ = { url = github:hrsh7th/vim-vsnip-integ; flake = false; };
+    vim-vsnip = { url = github:hrsh7th/vim-vsnip; flake = false; };
+    which-key-nvim = { url = github:folke/which-key.nvim; flake = false; };
   };
 
   outputs = { self, ... }@inputs: let
@@ -144,6 +144,7 @@
         "lualine"
         "nvim-cmp"
         "nvim-colorizer"
+        "nvim-hlslens"
         "nvim-lspconfig"
         "nvim-treesitter-context"
         "nvim-ts-rainbow"
@@ -155,9 +156,7 @@
         "vim-vsnip"
         "vim-vsnip-integ"
         "which-key-nvim"
-      ] (vimPlugin pkgs) // {
-        nvim-selenized = vimPluginSubdir pkgs "nvim-selenized" "editors/vim";
-      });
+      ] (vimPlugin pkgs));
 
     apps = forAllSystems (system: {
       update-hashes = {

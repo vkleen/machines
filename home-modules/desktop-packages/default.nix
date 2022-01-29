@@ -52,7 +52,7 @@ in {
     djvulibre
     evince
     firejail-element
-    gnome3.gsettings_desktop_schemas
+    gsettings-desktop-schemas
     i3status
     imagemagick
     imv
@@ -89,7 +89,7 @@ in {
     dsview
     sigrok-cli
 
-    cura-x11
+    #cura-x11
     openscad
     freecad-realthunder-x11
     solvespace

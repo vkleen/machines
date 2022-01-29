@@ -94,6 +94,8 @@ in
 
     security.sudo.enable = false;
 
+    security.polkit.enable = lib.mkForce false;
+
     services.ntp.enable = false;
     services.chrony = {
       enable = true;

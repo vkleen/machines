@@ -7,17 +7,22 @@ rec {
     attrValues
     concatMap
     elem
+    extends
     fakeHash
     filterAttrs
     functionArgs
     genAttrs
     getAttrs
+    getBin
     hasSuffix
     id
     isDerivation
     isFunction
+    makeExtensible
+    mapAttrs
     mapAttrs'
     nameValuePair
+    optional
     optionalAttrs
     readDir
     readFile

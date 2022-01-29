@@ -1,0 +1,11 @@
+{
+  "url": "https://github.com/nvim-neorg/tree-sitter-norg",
+  "rev": "c4be6addec0a8ada234684ced6c928189fd399af",
+  "date": "2022-01-22T17:12:52+01:00",
+  "path": "/nix/store/vnk5hr43sibby91n5154vcvl27wsfnf4-tree-sitter-norg-c4be6ad",
+  "sha256": "14wf53p6lkf4xknzb4bngh9fsas6hnr8iv73xnalyf8mqq1977pc",
+  "fetchLFS": false,
+  "fetchSubmodules": false,
+  "deepClone": false,
+  "leaveDotGit": false
+}

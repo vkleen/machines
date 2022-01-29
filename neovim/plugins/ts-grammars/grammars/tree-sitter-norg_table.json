@@ -1,0 +1,11 @@
+{
+  "url": "https://github.com/nvim-neorg/tree-sitter-norg-table",
+  "rev": "644fcd618463103566768e996e79b11c84cdfcd8",
+  "date": "2021-11-20T13:58:09+01:00",
+  "path": "/nix/store/lxhvvpjq38sngz3rsgn6wy7pi09rizga-tree-sitter-norg-table-644fcd6",
+  "sha256": "0rskqnf2marfyjbrf6jybmzq5pp0lldf0payq75k2jz8fvvpbm2g",
+  "fetchLFS": false,
+  "fetchSubmodules": false,
+  "deepClone": false,
+  "leaveDotGit": false
+}

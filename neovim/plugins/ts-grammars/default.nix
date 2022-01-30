@@ -11,16 +11,13 @@ let
         location = grammar.location or null;
         abiVersion = (import ./grammars/abi-version.nix).abi-version;
         generateFromGrammar = grammar.generateFromGrammar or false;
-        requiresNpm = grammar.requiresNpm or false;
       };
 
     grammars' = (import ./grammars);
     grammars = (lib.makeExtensible (_: grammars')).extend (lib.composeManyExtensions [
       grammarsOverrides
       generateOverrides
-      npmOverrides
     ]);
-
 
     grammarsOverrides = final: prev: {
       tree-sitter-ocaml_interface = prev.tree-sitter-ocaml // { location = "interface"; };
@@ -37,5 +34,6 @@ let
         "swift"
         "teal"
       ]);
-  in lib.mapAttrs buildGrammar (lib.filterAttrs (n: _: ! lib.elem n [ "__unfix__" "extend" ]) grammars);
+  in lib.mapAttrs' (n: v: lib.nameValuePair (lib.strings.removePrefix "tree-sitter-" n) (buildGrammar n v))
+                   (lib.filterAttrs (n: _: ! lib.elem n [ "__unfix__" "extend" ]) grammars);
 in { inherit builtGrammars; }

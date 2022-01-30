@@ -95,6 +95,7 @@
   tree-sitter-foam = (builtins.fromJSON (builtins.readFile ./tree-sitter-foam.json));
   tree-sitter-hack = (builtins.fromJSON (builtins.readFile ./tree-sitter-hack.json));
   tree-sitter-norg = (builtins.fromJSON (builtins.readFile ./tree-sitter-norg.json));
+  tree-sitter-vala = (builtins.fromJSON (builtins.readFile ./tree-sitter-vala.json));
   tree-sitter-norg_meta = (builtins.fromJSON (builtins.readFile ./tree-sitter-norg_meta.json));
   tree-sitter-norg_table = (builtins.fromJSON (builtins.readFile ./tree-sitter-norg_table.json));
 }

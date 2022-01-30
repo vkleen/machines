@@ -1,4 +1,4 @@
-{ addRtp, pkgs, ...}:
+{ addRtp, pkgs, treeSitterGrammars, ...}:
 final: prev: {
   gitsigns-nvim = prev.gitsigns-nvim.overrideAttrs (old: {
     dependencies = with final; [ plenary-nvim ];
@@ -18,12 +18,13 @@ final: prev: {
   nvim-treesitter = prev.nvim-treesitter.overrideAttrs (old: {
     passthru.withPlugins =
       grammarFn: final.nvim-treesitter.overrideAttrs (_: {
-        postPatch =
+        postInstall =
           let
-            grammars = pkgs.tree-sitter.withPlugins grammarFn;
+            grammars = treeSitterGrammars grammarFn;
           in ''
-            rm -r parser
-            ln -s ${grammars} parser
+            chmod -R u+w $out
+            rm -rf $out/parser
+            ln -s ${grammars} $out/parser
           '';
       });
   });

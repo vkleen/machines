@@ -43,6 +43,16 @@ with open(grammars_file_path, "w") as grammars_file:
                             + f"builtins.readFile ./tree-sitter-{parser_name}.json"
                             + "));\n")
 
+        try:
+            with open(parser_file_path, "r") as f:
+                old_rev = json.load(f)["rev"]
+        except FileNotFoundError:
+            old_rev = ""
+
+        if old_rev == parser_rev:
+            continue
+        print(f"{parser_name}: {old_rev} -> {parser_rev}")
+
         nix_prefetch_args = ["--url", parser_repo, "--rev", parser_rev]
         with open(parser_file_path, "w") as f:
             subprocess.run(nix_prefetch_cmd + nix_prefetch_args, stdout=f)

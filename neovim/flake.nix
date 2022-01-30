@@ -25,6 +25,7 @@
     plugins.inputs = {
       utils.follows = "utils";
       nixpkgs.follows = "nixpkgs";
+      neovim-flake.follows = "neovim-flake";
     };
   };
 
@@ -59,10 +60,10 @@
       };
     pkgset = forAllSystems (s: pkgsImport s inputs.nixpkgs);
 
-    updateScript = s: let
+    updateCargoHashesScript = s: let
       pkgs = pkgset.${s};
     in pkgs.writeShellApplication {
-      name = "update-hashes";
+      name = "update-cargo-hashes";
       runtimeInputs = [ pkgs.nix pkgs.jq pkgs.coreutils ];
       text = ''
         flake="${./.}"
@@ -79,17 +80,51 @@
 
         newhash="$(getNewHash)"
         if [[ -n "''${newhash}" ]]; then
-          jq --arg newhash "''${newhash}" '."neovide-cargoHash" = $newhash' <"${./hashes.json}"
+          jq --arg newhash "''${newhash}" '."neovide-cargoHash" = $newhash' <"${./cargoHashes.json}"
         else
           exit 1
         fi
       '';
     };
+
+    updatePluginsScript = s: let
+      pkgs = pkgset.${s};
+    in pkgs.writeShellApplication {
+      name = "update-plugins";
+      runtimeInputs = [ pkgs.nix pkgs.coreutils ];
+      text = ''
+        pushd plugins
+        nix flake update --inputs-from path:../.
+        nix run .#update-grammars
+        popd
+        nix flake lock --update-input plugins
+      '';
+    };
+
+    updateScript = s: let
+      pkgs = pkgset.${s};
+    in pkgs.writeShellApplication {
+      name = "update";
+      runtimeInputs = [ pkgs.nix pkgs.coreutils ];
+      text = ''
+        nix flake update
+        ${updatePluginsScript s}/bin/update-plugins
+        ${updateCargoHashesScript s}/bin/update-cargo-hashes > cargoHashes.json
+      '';
+    };
+
+    homeModule = s: {
+      imports = [ ./configuration/home-module.nix ];
+      _module.args.neovim = {
+        neovide = self.packages.${s}.neovide;
+        vimPlugins = self.vimPlugins.${s};
+      };
+    };
   in {
     overlays = {
       neovide-master = import ./neovide-master.nix {
         inherit (inputs) neovide-src;
-        inherit (fromJSON (readFile ./hashes.json)) neovide-cargoHash;
+        inherit (fromJSON (readFile ./cargoHashes.json)) neovide-cargoHash;
       };
       neovim-nightly = onlySystems allSystems (final: prev: {
         neovim-unwrapped = (inputs.neovim-nightly.overlay final prev).neovim-unwrapped;
@@ -103,10 +138,24 @@
             (inputs.plugins.vimPluginsOverrides pkgs)
             (inputs.plugins.vimPlugins pkgs)));
 
+    homeManagerModules = forAllSystems (s: {
+      neovim-config = homeModule s;
+    });
+
     apps = forAllSystems (system: {
-      update-hashes = {
+      update-cargo-hashes = {
         type = "app";
-        program = "${updateScript system}/bin/update-hashes";
+        program = "${updateCargoHashesScript system}/bin/update-cargo-hashes";
+      };
+
+      update-plugins = {
+        type = "app";
+        program = "${updatePluginsScript system}/bin/update-plugins";
+      };
+
+      update = {
+        type = "app";
+        program = "${updateScript system}/bin/update";
       };
     });
 
@@ -117,6 +166,9 @@
       in filterAttrs (_: isDerivation) (getAttrs pkgNames pkgset."${system}"));
 
     checks = forAllSystems (system: 
-      self.packages.${system} // (filterAttrs (_: isDerivation) self.vimPlugins.${system}));
+      self.packages.${system} //
+      (filterAttrs (_: isDerivation) self.vimPlugins.${system}) //
+      { nvim-treesitter = self.vimPlugins.${system}.nvim-treesitter.withPlugins (gs: with gs; [c bash]); } //
+      inputs.plugins.checks.${system});
   };
 }

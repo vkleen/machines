@@ -21,7 +21,7 @@
       kitty
       mpv
       neomutt
-      neovim
+      flake.inputs.neovim-subflake.homeManagerModules.${config.nixpkgs.system}.neovim-config
       pass
       redshift
       spacenav
@@ -31,6 +31,8 @@
       weechat
       zathura
       zsh
+      { neovim-config.enable = true;
+      }
     ])
   );
   age.secrets."dptrp1" = {

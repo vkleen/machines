@@ -1,10 +1,10 @@
 {
   inputs = {
-    utils.url = path:../../utils-flake;
-    nixpkgs.url = github:NixOS/nixpkgs;
+    utils = {};
+    nixpkgs = {};
 
     neovim-flake = {
-      url = github:neovim/neovim?dir=contrib;
+      url = flake:neovim-flake?dir=contrib;
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -78,7 +78,7 @@
       installPhase = ''
         runHook preInstall
         mkdir -p "$out"
-        cp -r "${inputs.self.inputs."${ref}".outPath}/${d}/"* "$out"
+        cp -r "${inputs.self.inputs."${ref_}".outPath}/${d}/"* "$out"
         runHook postInstall
       '';
     });
@@ -97,8 +97,24 @@
       '';
     });
 
+    builtGrammars = pkgs: (pkgs.callPackage ./ts-grammars {}).builtGrammars;
+    treeSitterGrammars = pkgs: grammarFn:
+      let
+        grammars = grammarFn (builtGrammars pkgs);
+      in pkgs.linkFarm "grammars" (builtins.map (drv: let
+          name = strings.getName drv;
+        in {
+          name = 
+            (strings.replaceStrings [ "-" ] [ "_" ]
+              (strings.removePrefix "tree-sitter-"
+                (strings.removeSuffix "-grammar" name)))
+            + pkgs.stdenv.hostPlatform.extensions.sharedLibrary;
+          path = "${drv}/parser";
+        })
+        grammars);
+
   in {
-    vimPluginsOverrides = pkgs: import ./overrides.nix { inherit addRtp pkgs; };
+    vimPluginsOverrides = pkgs: import ./overrides.nix { inherit addRtp pkgs; treeSitterGrammars = treeSitterGrammars pkgs; };
     vimPlugins = pkgs: _: mapAttrs'
       (n: v: let name = strings.removePrefix "vimplugin-" n; in nameValuePair name (vimPlugin pkgs n))
       (filterAttrs (n: _: strings.hasPrefix "vimplugin-" n) inputs.self.inputs);
@@ -114,7 +130,7 @@
     });
     checks = forAllSystems (s:
       inputs.self.packages.${s} //
-      (inputs.nixpkgs.legacyPackages.${s}.callPackage ./ts-grammars {}).builtGrammars
+      (builtGrammars inputs.nixpkgs.legacyPackages.${s})
     );
   };
 }

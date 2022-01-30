@@ -11,10 +11,7 @@
 , lib, stdenv, libcxx, tree-sitter, nodejs
 , abiVersion
 , generateFromGrammar ? false
-, requiresNpm ? false 
 }:
-
-assert !requiresNpm;
 
 stdenv.mkDerivation {
   pname = "${language}-grammar";
@@ -48,7 +45,7 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
     mkdir $out
-    mv parser.so $out/
+    mv parser.so $out/parser
     runHook postInstall
   '';
 }

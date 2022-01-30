@@ -110,6 +110,11 @@
       flake = false;
     };
 
+    neovim-subflake = {
+      url = path:./neovim;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Vim Plugins
     bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
     clever-f = { url = "github:rhysd/clever-f.vim"; flake = false; };

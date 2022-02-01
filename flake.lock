@@ -703,7 +703,7 @@
         "utils": "utils"
       },
       "locked": {
-        "narHash": "sha256-ZL4wyOTZ5Kw8wTi2scRCAAh3A5N11XNbIzm0tIrJOpo=",
+        "narHash": "sha256-3wUgocWDf1Ysl/bfgNAAvqK6DlE5RFLKvG4CknIMhKE=",
         "path": "./neovim",
         "type": "path"
       },

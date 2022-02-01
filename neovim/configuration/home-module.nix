@@ -8,7 +8,7 @@ let
 
   finalPackage = pkgs.wrapNeovimUnstable neovim.neovim-unwrapped
     (neovimConfig  // {
-      wrapperArgs = neovimConfig.wrapperArgs ++ [ "--suffix" "PATH" ":" "${lib.traceVal (lib.makeBinPath cfg.extraPackages)}" ];
+      wrapperArgs = neovimConfig.wrapperArgs ++ [ "--suffix" "PATH" ":" "${lib.makeBinPath cfg.extraPackages}" ];
     });
 
   moduleConfigure = {

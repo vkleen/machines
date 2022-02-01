@@ -22,7 +22,7 @@ final: prev: {
           let
             grammars = treeSitterGrammars grammarFn;
           in ''
-            chmod -R u+w $out
+            chmod  -R u+w $out
             rm -rf $out/parser
             ln -s ${grammars} $out/parser
           '';
@@ -31,6 +31,15 @@ final: prev: {
 
   telescope-nvim = prev.telescope-nvim.overrideAttrs (old: {
     dependencies = with final; [ plenary-nvim popup-nvim ];
+  });
+
+  telescope-fzf-nvim = prev.telescope-fzf-nvim.overrideAttrs (old: {
+    dependencies = with final; [ telescope-nvim ];
+    postInstall = ''
+      chmod u+w $out -R
+      cd $out
+      make
+    '';
   });
 
   fzf-vim = prev.fzf-vim.overrideAttrs (old: {

@@ -25,7 +25,7 @@ runCommand name rec {
   find -name 'PragmataPro*.ttf' -print | while read -d $'\n' file; do
     cp "$file" "$install_path"
   done
-  find -name 'PragmataPro_Mono_R*.ttf' -print | while read -d $'\n' file; do
-    ${python}/bin/python ${nerdfonts-src}/font-patcher --progressbars --mono --complete --careful --glyphdir "${nerdfonts-src}/src/glyphs/" --outputdir "$install_path" "$file"
+  find -name 'PragmataProR*.ttf' -print | while read -d $'\n' file; do
+    ${python}/bin/python ${nerdfonts-src}/font-patcher --progressbars --complete --glyphdir "${nerdfonts-src}/src/glyphs/" --outputdir "$install_path" "$file"
   done
 ''

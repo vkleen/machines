@@ -116,6 +116,7 @@
     homeModule = s: {
       imports = [ ./configuration/home-module.nix ];
       _module.args.neovim = {
+        neovim-unwrapped = self.packages.${s}.neovim-unwrapped;
         neovide = self.packages.${s}.neovide;
         vimPlugins = self.vimPlugins.${s};
       };

@@ -5,35 +5,109 @@ let
   neovide-wrapped = pkgs.writeShellScriptBin "neovide" ''
     exec ${neovim.neovide}/bin/neovide --multigrid "$@"
   '';
+
+  finalPackage = pkgs.wrapNeovimUnstable neovim.neovim-unwrapped
+    (neovimConfig  // {
+      wrapperArgs = neovimConfig.wrapperArgs ++ [ "--suffix" "PATH" ":" "${lib.traceVal (lib.makeBinPath cfg.extraPackages)}" ];
+    });
+
+  moduleConfigure = {
+    packages.neovim-config = {
+      start = [configurationPlugin];
+      opt = [];
+    };
+    beforePlugins = "";
+  };
+
+  neovimConfig = pkgs.neovimUtils.makeNeovimConfig {
+    vimAlias = true;
+    viAlias = true;
+    withPython3 = true;
+    configure = moduleConfigure;
+    customRC = ''
+      lua require"neovim-config".setup{}
+    '';
+  };
+
+  configurationPlugin = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "neovim-config";
+    src = ./.;
+    dependencies = plugins;
+  };
+  plugins = with neovim.vimPlugins; [
+    aerial-nvim
+    cmp-buffer
+    cmp-cmdline
+    cmp_luasnip
+    cmp-nvim-lsp
+    cmp-nvim-lua
+    cmp-path
+    crates-nvim
+    friendly-snippets
+    gitsigns-nvim
+    indent-blankline
+    lsp-colors-nvim
+    lspkind-nvim
+    lspsaga-nvim
+    lsp_signature
+    lualine
+    luasnip
+    null-ls-nvim
+    numb-nvim
+    nvim-cmp
+    nvim-colorizer
+    nvim-dap
+    nvim-dap-ui
+    nvim-hlslens
+    nvim-lspconfig
+    nvim-notify
+    nvim-scrollbar
+    nvim-tree
+    nvim-treesitter-context
+    (nvim-treesitter.withPlugins (p: builtins.attrValues p))
+    nvim-ts-rainbow
+    nvim-web-devicons
+    plenary-nvim
+    popup-nvim
+    telescope-dap-nvim
+    telescope-fzf-nvim
+    telescope-lsp-handlers
+    telescope-nvim
+    telescope-zoxide
+    trouble-nvim
+    which-key-nvim
+  ];
 in {
   options.neovim-config = {
     enable = lib.mkEnableOption "neovim-config";
+    finalPackage = lib.mkOption {
+      type = lib.types.package;
+      visible = false;
+      description = "Final customised neovim package";
+    };
+    extraPackages = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
+      default = with pkgs; [
+        curl
+        jq
+        rnix-lsp
+        stylua
+      ];
+      description = "Extra packages in PATH for neovim";
+    };
   };
   config = lib.mkIf cfg.enable {
     home.sessionVariables = {
-      EDITOR = "${config.programs.neovim.finalPackage}/bin/nvim";
+      EDITOR = "${config.neovim-config.finalPackage}/bin/nvim";
     };
     home.packages = [
       neovide-wrapped
       pkgs.neovim-remote
+      cfg.finalPackage
     ];
 
-    programs.neovim = {
-      enable = true;
-      viAlias = true;
-      withPython3 = true;
+    neovim-config.finalPackage = finalPackage;
 
-      extraPackages = with pkgs; [
-        jq curl
-        rnix-lsp
-      ];
-
-      plugins = with neovim.vimPlugins; [
-        fzf-vim
-        (nvim-treesitter.withPlugins (p: builtins.attrValues p))
-
-        plenary-nvim
-      ];
-    };
+    programs.zsh.shellAliases = { vimdiff = "${cfg.finalPackage}/bin/nvim -d"; };
   };
 }

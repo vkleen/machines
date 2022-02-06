@@ -11,14 +11,21 @@ final: prev: {
 
   eseries = with final.python3Packages; toPythonApplication eseries;
 
+  power-assert = final.callPackage ./misc/power-assert {};
+  test-unit = final.callPackage ./misc/test-unit {};
+
   python3 = prev.python3.override {
     packageOverrides = pself: _: {
       eseries = pself.callPackage ./tools/misc/eseries {};
       docopt-subcommands = pself.callPackage ./development/python-modules/docopt-subcommands {};
+      dacite = pself.callPackage ./development/python-modules/dacite {};
       #paper2remarkable = pself.callPackage ./tools/remarkable/paper2remarkable {};
     };
   };
   python3Packages = final.python3.pkgs;
+
+  pacemaker = final.callPackage ./cluster/pacemaker.nix {};
+  pcs = final.callPackage ./cluster/pcs.nix {};
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)
   {
     #paper2remarkable = final.callPackage ./tools/remarkable/paper2remarkable/cli.nix {};

@@ -92,6 +92,26 @@
       url = "github:juruen/rmapi";
       flake = false;
     };
+    pacemaker-src = {
+      url = "github:ClusterLabs/pacemaker";
+      flake = false;
+    };
+    pcs-src = {
+      url = "github:ClusterLabs/pcs";
+      flake = false;
+    };
+    dacite-src = {
+      url = "github:konradhalas/dacite";
+      flake = false;
+    };
+    power-assert-src = {
+      url = "github:ruby/power_assert";
+      flake = false;
+    };
+    test-unit-src = {
+      url = "github:test-unit/test-unit";
+      flake = false;
+    };
 
     macname = {
       url = "github:vkleen/macname";
@@ -114,29 +134,6 @@
       url = path:./neovim;
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Vim Plugins
-    bufferline = { url = "github:akinsho/bufferline.nvim"; flake = false; };
-    clever-f = { url = "github:rhysd/clever-f.vim"; flake = false; };
-    cmp-buffer = { url = "github:hrsh7th/cmp-buffer"; flake = false; };
-    cmp-nvim-lsp = { url = "github:hrsh7th/cmp-nvim-lsp"; flake = false; };
-    fterm = { url = "github:numtostr/FTerm.nvim"; flake = false; };
-    gitsigns = { url = "github:lewis6991/gitsigns.nvim"; flake = false; };
-    lualine = { url = "github:hoob3rt/lualine.nvim"; flake = false; };
-    nvim-cmp = { url = "github:hrsh7th/nvim-cmp"; flake = false; };
-    nvim-colorizer = { url = "github:norcalli/nvim-colorizer.lua"; flake = false; };
-    nvim-lspconfig = { url = "github:neovim/nvim-lspconfig"; flake = false; };
-    nvim-selenized = { url = "github:jan-warchol/selenized"; flake = false; };
-    nvim-treesitter-context = { url = "github:romgrk/nvim-treesitter-context"; flake = false; };
-    nvim-ts-rainbow = { url = "github:p00f/nvim-ts-rainbow"; flake = false; };
-    plenary-nvim = { url = "github:vkleen/plenary.nvim"; flake = false; };
-    rust-tools = { url = "github:simrat39/rust-tools.nvim"; flake = false; };
-    telescope-ghq = { url = "github:nvim-telescope/telescope-ghq.nvim"; flake = false; };
-    telescope-lsp-handlers = { url = "github:gbrlsnchs/telescope-lsp-handlers.nvim"; flake = false; };
-    telescope-zoxide = { url = "github:jvgrootveld/telescope-zoxide"; flake = false; };
-    vim-vsnip-integ = { url = "github:hrsh7th/vim-vsnip-integ"; flake = false; };
-    vim-vsnip = { url = "github:hrsh7th/vim-vsnip"; flake = false; };
-    which-key-nvim = { url = "github:folke/which-key.nvim"; flake = false; };
   };
 
   outputs = { self, ...}@inputs:
@@ -318,6 +315,7 @@
           sources = final: prev: {
             inherit (inputs)
               alacritty-src
+              dacite-src
               dptrp1-src
               eseries-src
               freecad-assembly3-src
@@ -325,8 +323,12 @@
               hledger-src
               kicad-src
               neovide-src
+              pacemaker-src
+              pcs-src
+              power-assert-src
               rmapi-src
               rmfakecloud-src
+              test-unit-src
             ;
           };
         };
@@ -456,37 +458,6 @@
           in filterAttrs (_: isDerivation) (getAttrs pkgNames pkgset."${system}"));
 
         apps = activateNixosConfigurations;
-
-        vimPlugins = forAllSystems (system:
-        let
-          pkgs = self.legacyPackages.${system};
-          subdir = n: d: {
-            outPath = "${builtins.toString inputs."${n}".outPath}/${d}";
-          };
-        in genAttrs [
-            "bufferline"
-            "clever-f"
-            "cmp-buffer"
-            "cmp-nvim-lsp"
-            "fterm"
-            "gitsigns"
-            "lualine"
-            "nvim-cmp"
-            "nvim-colorizer"
-            "nvim-lspconfig"
-            "nvim-treesitter-context"
-            "nvim-ts-rainbow"
-            "plenary-nvim"
-            "rust-tools"
-            "telescope-ghq"
-            "telescope-lsp-handlers"
-            "telescope-zoxide"
-            "vim-vsnip"
-            "vim-vsnip-integ"
-            "which-key-nvim"
-          ] (vimPlugin pkgs) // {
-            nvim-selenized = vimPluginSubdir pkgs "nvim-selenized" "editors/vim";
-          });
 
         devShell = forAllSystems' (system: import ./shell.nix ({
           pkgs = self.legacyPackages.${system};

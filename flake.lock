@@ -52,6 +52,22 @@
         "type": "github"
       }
     },
+    "corosync-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1643708068,
+        "narHash": "sha256-h1vt4qs+cGVshnYJyXopYqroU1PeFae+zStBPMkjItk=",
+        "owner": "corosync",
+        "repo": "corosync",
+        "rev": "59d3303517f05deb7e47c7c6451c8d7d71bf7611",
+        "type": "github"
+      },
+      "original": {
+        "owner": "corosync",
+        "repo": "corosync",
+        "type": "github"
+      }
+    },
     "crate2nix": {
       "flake": false,
       "locked": {
@@ -1059,6 +1075,7 @@
       "inputs": {
         "agenix": "agenix",
         "alacritty-src": "alacritty-src",
+        "corosync-src": "corosync-src",
         "dacite-src": "dacite-src",
         "dptrp1-src": "dptrp1-src",
         "emoji-fzf": "emoji-fzf",

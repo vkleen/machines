@@ -96,6 +96,10 @@
       url = "github:ClusterLabs/pacemaker";
       flake = false;
     };
+    corosync-src = {
+      url = "github:corosync/corosync";
+      flake = false;
+    };
     pcs-src = {
       url = "github:ClusterLabs/pcs";
       flake = false;
@@ -315,6 +319,7 @@
           sources = final: prev: {
             inherit (inputs)
               alacritty-src
+              corosync-src
               dacite-src
               dptrp1-src
               eseries-src

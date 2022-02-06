@@ -24,6 +24,7 @@ final: prev: {
   };
   python3Packages = final.python3.pkgs;
 
+  corosync = final.callPackage ./cluster/corosync.nix {};
   pacemaker = final.callPackage ./cluster/pacemaker.nix {};
   pcs = final.callPackage ./cluster/pcs.nix {};
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)

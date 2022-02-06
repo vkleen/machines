@@ -5,6 +5,9 @@ function M.setup()
 
   require"trouble".setup{}
   require"which-key".register({
+    x = { name = 'Trouble' },
+  }, { prefix = '<leader>', mode = 'n' })
+  require"which-key".register({
     x = { [[<cmd>TroubleToggle<cr>]], 'Open Trouble' },
     w = { [[<cmd>TroubleToggle workspace_diagnostics<cr>]], 'LSP Workspace diagnostics'},
     d = { [[<cmd>TroubleToggle document_diagnostics<cr>]], 'LSP Document diagnostics'},

@@ -49,7 +49,7 @@
     vimplugin-nvim-scrollbar = { url = github:petertriho/nvim-scrollbar; flake = false; };
     vimplugin-nvim-ts-rainbow = { url = github:p00f/nvim-ts-rainbow; flake = false; };
     vimplugin-nvim-web-devicons = { url = github:kyazdani42/nvim-web-devicons; flake = false; };
-    vimplugin-plenary-nvim = { url = github:vkleen/plenary.nvim; flake = false; };
+    vimplugin-plenary-nvim = { url = github:nvim-lua/plenary.nvim; flake = false; };
     vimplugin-popup-nvim = { url = github:nvim-lua/popup.nvim; flake = false; };
     vimplugin-rust-tools = { url = github:simrat39/rust-tools.nvim; flake = false; };
     vimplugin-telescope-dap-nvim = { url = github:nvim-telescope/telescope-dap.nvim; flake = false; };

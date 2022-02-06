@@ -12,6 +12,15 @@ function M.setup()
         },
       },
       layout_strategy = "flex",
+      mappings = {
+        i = {
+          ["<C-t>"] = require"trouble.providers.telescope".open_with_trouble,
+          ["<C-h>"] = "which_key",
+          ["<C-j>"] = require"telescope.actions".move_selection_next,
+          ["<C-k>"] = require"telescope.actions".move_selection_previous,
+        },
+        n = { ["<C-t>"] = require"trouble.providers.telescope".open_with_trouble },
+      },
     },
   }
   require"telescope".load_extension("fzf")
@@ -26,19 +35,25 @@ function M.setup()
       },
       ["<C-e>"] = {
         action = function(selection)
-          require'telescope.builtin'.find_files({cwd = selection.path, initial_mode = 'insert'})
+          require'telescope.builtin'.find_files({cwd = selection.path})
         end
       },
     }
   }
   require"which-key".register({
-    name = 'Telescope',
+    f = { name = 'Telescope' }
+  }, { prefix = '<leader>', mode = 'n' })
+  require"which-key".register({
     f = { function() require"telescope.builtin".find_files() end, 'Find Files'},
     g = { function() require"telescope.builtin".live_grep() end, 'Live Grep'},
     b = { function() require"telescope.builtin".buffers() end, 'Buffers'},
     h = { function() require'telescope.builtin'.help_tags() end, 'Help'},
     z = { function() require"telescope".extensions.zoxide.list() end, 'Z'},
   }, { prefix = '<leader>f', mode = 'n' })
+
+  vim.api.nvim_exec([[
+    autocmd FileType TelescopePrompt lua require"cmp".setup.buffer { enabled = false }
+  ]], false)
 end
 
 return M

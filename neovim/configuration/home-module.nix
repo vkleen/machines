@@ -43,6 +43,7 @@ let
     cmp-nvim-lua
     cmp-path
     crates-nvim
+    direnv-vim
     friendly-snippets
     gitsigns-nvim
     indent-blankline
@@ -61,7 +62,6 @@ let
     nvim-hlslens
     nvim-lspconfig
     nvim-notify
-    nvim-scrollbar
     nvim-tree
     nvim-treesitter-context
     (nvim-treesitter.withPlugins (p: builtins.attrValues p))
@@ -69,6 +69,7 @@ let
     nvim-web-devicons
     plenary-nvim
     popup-nvim
+    rust-tools
     telescope-dap-nvim
     telescope-fzf-nvim
     telescope-lsp-handlers

@@ -61,6 +61,8 @@ function M.setup()
     ['K'] = { '3kzz', 'Move 3 lines up and center' },
 
     [ '<M-j>' ] = { '<cmd>join<cr>', 'Join' },
+
+    ['<leader>n'] = { '<cmd>nohl<cr>', 'Disable search highlight' },
   }, { mode = 'n' })
 
   require"which-key".register({

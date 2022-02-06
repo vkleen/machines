@@ -3,6 +3,9 @@ local M = {}
 local servers = {
   require"config.lsp.null-ls",
   require"config.lsp.nix",
+  require"config.lsp.rust",
+  require"config.lsp.python",
+  require"config.lsp.texlab",
 }
 
 local function on_attach(client, bufnr)
@@ -27,6 +30,9 @@ local function on_attach(client, bufnr)
   end
 
   require"which-key".register({
+    ['<leader>'] = {
+      r = { name = 'LSP' }
+    },
     ['<leader>r'] = {
       h = { function() require"lspsaga.hover".render_hover_doc() end, 'Show hover info' },
       s = { function() require"lspsaga.signaturehelp".signature_help() end, 'Show signature help' },
@@ -52,6 +58,27 @@ local function on_attach(client, bufnr)
           end, 'Symbol sidebar' }
     }, { buffer = bufnr, mode = 'n' })
   end
+
+  if client.resolved_capabilities.document_highlight then
+    dark_yellow = require"config.colors".colors.dark_yellow
+    black = require"config.colors".colors.black
+    vim.api.nvim_exec(string.format([[
+      hi LspReferenceRead cterm=bold ctermbg=red guifg=%s guibg=%s
+      hi LspReferenceText cterm=bold ctermbg=red guifg=%s guibg=%s
+      hi LspReferenceWrite cterm=bold ctermbg=red guifg=%s guibg=%s
+      augroup lsp_document_highlight
+      autocmd! * <buffer>
+      autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+      autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]], dark_yellow, black, dark_yellow, black, dark_yellow, black), false)
+  end
+
+  if client.resolved_capabilities.code_lens then
+    vim.api.nvim_exec([[
+      autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
+    ]], false)
+  end
 end
 
 function M.setup()
@@ -74,11 +101,13 @@ function M.setup()
   }
 
   local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require"cmp_nvim_lsp".update_capabilities(capabilities)
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = {
       prefix = "𥉉 ",
     },
+    update_in_insert = true,
   })
 
   for _, server in pairs(servers) do
@@ -86,6 +115,10 @@ function M.setup()
       server.setup(capabilities, on_attach)
     end
   end
+
+  vim.api.nvim_exec([[
+    hi! LspCodeLens gui=italic guifg=green
+  ]], false)
 end
 
 return M

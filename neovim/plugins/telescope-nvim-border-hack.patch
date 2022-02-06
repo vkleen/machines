@@ -1,0 +1,34 @@
+diff --git a/lua/telescope/actions/init.lua b/lua/telescope/actions/init.lua
+index 7ceb96e..1fa8c95 100644
+--- a/lua/telescope/actions/init.lua
++++ b/lua/telescope/actions/init.lua
+@@ -1002,9 +1002,9 @@ actions.which_key = function(prompt_bufnr, opts)
+   local km_win_id, km_opts = popup.create("", popup_opts)
+   local km_buf = a.nvim_win_get_buf(km_win_id)
+   a.nvim_buf_set_name(km_buf, "_TelescopeWhichKey")
+-  a.nvim_buf_set_name(km_opts.border.bufnr, "_TelescopeTelescopeWhichKeyBorder")
++  --a.nvim_buf_set_name(km_opts.border.bufnr, "_TelescopeTelescopeWhichKeyBorder")
+   a.nvim_win_set_option(km_win_id, "winhl", "Normal:" .. opts.normal_hl)
+-  a.nvim_win_set_option(km_opts.border.win_id, "winhl", "Normal:" .. opts.border_hl)
++  --a.nvim_win_set_option(km_opts.border.win_id, "winhl", "Normal:" .. opts.border_hl)
+   a.nvim_win_set_option(km_win_id, "winblend", opts.winblend)
+   a.nvim_win_set_option(km_win_id, "foldenable", false)
+ 
+@@ -1012,7 +1012,7 @@ actions.which_key = function(prompt_bufnr, opts)
+     "autocmd BufLeave <buffer> ++once lua %s",
+     table.concat({
+       string.format("pcall(vim.api.nvim_win_close, %s, true)", km_win_id),
+-      string.format("pcall(vim.api.nvim_win_close, %s, true)", km_opts.border.win_id),
++      --string.format("pcall(vim.api.nvim_win_close, %s, true)", km_opts.border.win_id),
+       string.format("require 'telescope.utils'.buf_delete(%s)", km_buf),
+     }, ";")
+   ))
+@@ -1052,7 +1052,7 @@ actions.which_key = function(prompt_bufnr, opts)
+         "autocmd User TelescopeKeymap ++once lua %s",
+         table.concat({
+           string.format("pcall(vim.api.nvim_win_close, %s, true)", km_win_id),
+-          string.format("pcall(vim.api.nvim_win_close, %s, true)", km_opts.border.win_id),
++          --string.format("pcall(vim.api.nvim_win_close, %s, true)", km_opts.border.win_id),
+           string.format("require 'telescope.utils'.buf_delete(%s)", km_buf),
+         }, ";")
+       ))

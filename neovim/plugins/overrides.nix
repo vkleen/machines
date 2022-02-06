@@ -8,12 +8,21 @@ final: prev: {
 
   plenary-nvim = prev.plenary-nvim.overrideAttrs (old: {
     postInstall = ''
-      chmod -R u+rw $out
+      chmod -R u+w $out
+      cd $out
+      patch -p1 <${./plenary-border-hack.patch}
       sed -Ei $out/lua/plenary/curl.lua \
           -e 's@(command\s*=\s*")curl(")@\1${pkgs.curl}/bin/curl\2@'
     '';
   });
 
+  popup-nvim = prev.popup-nvim.overrideAttrs (old: {
+    postInstall = ''
+      chmod -R u+w $out
+      cd $out
+      patch -p1 <${./popup-nvim-border-hack.patch}
+    '';
+  });
 
   nvim-treesitter = prev.nvim-treesitter.overrideAttrs (old: {
     passthru.withPlugins =
@@ -31,6 +40,11 @@ final: prev: {
 
   telescope-nvim = prev.telescope-nvim.overrideAttrs (old: {
     dependencies = with final; [ plenary-nvim popup-nvim ];
+    postInstall = ''
+      chmod u+w $out -R
+      cd $out
+      patch -p1 <${./telescope-nvim-border-hack.patch}
+    '';
   });
 
   telescope-fzf-nvim = prev.telescope-fzf-nvim.overrideAttrs (old: {

@@ -73,8 +73,6 @@ function M.setup()
   require"numb".setup{}
   require"lsp-colors".setup{}
   require"hlslens".setup{}
-  require"scrollbar".setup{}
-  require"scrollbar.handlers.search".setup{}
 
   require"config.mappings".setup{}
 end

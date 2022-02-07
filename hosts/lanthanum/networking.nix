@@ -22,6 +22,20 @@ in {
     interfaces = {
       "enp1s0" = {
         useDHCP = true;
+        ipv4.addresses = [ {
+          address = "45.32.153.151";
+          prefixLength = 22;
+        } {
+          address = "45.77.54.162";
+          prefixLength = 32;
+        } ];
+        ipv6.addresses = [ {
+          address = "2001:19f0:6c01:21c1:5400:03ff:fec6:c9cd";
+          prefixLength = 64;
+        } {
+          address = "2001:19f0:6c01:2bc5::1";
+          prefixLength = 64;
+        } ];
       };
       "enp6s0" = {
         ipv4.addresses = [ {
@@ -33,7 +47,7 @@ in {
     };
     firewall = {
       enable = true;
-      trustedInterfaces = [ "wg0" ];
+      trustedInterfaces = [ "wg0" "enp6s0" ];
       allowPing = true;
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
@@ -44,6 +58,26 @@ in {
     "net.ipv6.conf.all.forwarding" = 2;
   };
   systemd.network = {
+    networks."40-enp1s0" = {
+      routes = [
+        { routeConfig = {
+            Destination = "2001:19f0:ffff::1/128";
+            PreferredSource = "2001:19f0:6c01:21c1:5400:03ff:fec6:c9cd";
+            Gateway = "_ipv6ra";
+          };
+        }
+        { routeConfig = {
+            Destination = "169.254.169.254";
+            PreferredSource = "45.32.153.151";
+            Gateway = "_dhcp4";
+          };
+        }
+      ];
+      ipv6AcceptRAConfig = {
+        UseAutonomousPrefix = "no";
+        UseOnLinkPrefix = "no";
+      };
+    };
     networks."40-enp6s0" = {
       networkConfig = {
         LinkLocalAddressing = "no";

@@ -1,8 +1,16 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   inherit (builtins) substring;
+  inherit (import ../../utils/ints.nix { inherit lib; }) hexToInt;
   machine_id = config.environment.etc."machine-id".text;
-  ula_host = "${substring 0 4 machine_id}:${substring 4 4 machine_id}:${substring 8 4 machine_id}:${substring 12 4 machine_id}:${substring 16 4 machine_id}";
+
+  private_address = let
+    chars12 = substring 0 2 machine_id;
+    chars34 = substring 2 2 machine_id;
+
+    octet1 = hexToInt chars12;
+    octet2 = hexToInt chars34;
+  in "10.32.${builtins.toString octet1}.${builtins.toString octet2}";
 in {
   networking = {
     useDHCP = false;
@@ -13,18 +21,32 @@ in {
     interfaces = {
       "enp1s0" = {
         useDHCP = true;
+        ipv4.addresses = [ {
+          address = "45.32.154.225";
+          prefixLength = 22;
+        } {
+          address = "45.77.54.162";
+          prefixLength = 32;
+        } ];
+        ipv6.addresses = [ {
+          address = "2001:19f0:6c01:284a:5400:03ff:fec6:c9b0";
+          prefixLength = 64;
+        } {
+          address = "2001:19f0:6c01:2bc5::1";
+          prefixLength = 64;
+        } ];
       };
       "enp6s0" = {
-        ipv6.addresses = [ {
-          address = "fd5d:9dff:9eb6:${ula_host}";
-          prefixLength = 48;
+        ipv4.addresses = [ {
+          address = private_address;
+          prefixLength = 16;
         } ];
         mtu = 1450;
       };
     };
     firewall = {
       enable = true;
-      trustedInterfaces = [ "wg0" ];
+      trustedInterfaces = [ "wg0" "enp6s0" ];
       allowPing = true;
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
@@ -35,6 +57,26 @@ in {
     "net.ipv6.conf.all.forwarding" = 2;
   };
   systemd.network = {
+    networks."40-enp1s0" = {
+      routes = [
+        { routeConfig = {
+            Destination = "2001:19f0:ffff::1/128";
+            PreferredSource = "2001:19f0:6c01:284a:5400:03ff:fec6:c9b0";
+            Gateway = "_ipv6ra";
+          };
+        }
+        { routeConfig = {
+            Destination = "169.254.169.254";
+            PreferredSource = "45.32.154.225";
+            Gateway = "_dhcp4";
+          };
+        }
+      ];
+      ipv6AcceptRAConfig = {
+        UseAutonomousPrefix = "no";
+        UseOnLinkPrefix = "no";
+      };
+    };
     networks."40-enp6s0" = {
       networkConfig = {
         LinkLocalAddressing = "no";

@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, makeWrapper, pkg-config, kronosnet, nss, nspr, libqb, autoreconfHook
+{ lib, stdenv, fetchurl, makeWrapper, pkg-config, kronosnet, nss, nspr, libqb, autoreconfHook, systemd
 , dbus, rdma-core, libstatgrab, net-snmp
 , enableDbus ? false
 , enableInfiniBandRdma ? false
@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ makeWrapper autoreconfHook pkg-config ];
 
   buildInputs = [
-    kronosnet nss nspr libqb
+    kronosnet nss nspr libqb systemd
   ] ++ optional enableDbus dbus
     ++ optional enableInfiniBandRdma rdma-core
     ++ optional enableMonitoring libstatgrab
@@ -34,6 +34,7 @@ stdenv.mkDerivation rec {
     "--with-logdir=/var/log/corosync"
     "--enable-watchdog"
     "--enable-qdevices"
+    "--enable-systemd"
   ] ++ optional enableDbus "--enable-dbus"
     ++ optional enableInfiniBandRdma "--enable-rdma"
     ++ optional enableMonitoring "--enable-monitoring"

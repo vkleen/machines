@@ -94,7 +94,7 @@ in
 
     security.sudo.enable = false;
 
-    security.polkit.enable = lib.mkForce false;
+    security.polkit.enable = lib.mkForce (builtins.elem "desktop" config.system.profiles);
 
     services.ntp.enable = false;
     services.chrony = {

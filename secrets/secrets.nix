@@ -5,7 +5,7 @@ let
   boron = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBkRtSje5rDeMMd6wZFbQ1d9XlF9nqeRf40vZ8y+x1/J";
   europium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIODkqoX3kRPftiOdRdpHutcIbbRGrMdkKlOpINa8AUQa";
   samarium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4wuOpHO+UmLG+D5xEQadJaeR5lm7FKmt22a2uysOYE";
-  lanthanum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDscJfzyLqK3ANfzA83T0hCygHimE7orAD5jAT9b99o9";
+  lanthanum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBQlRlLUKTTjKrwzPD+djLIaWQ36aXUpPkKJcAULmey2";
   cerium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILqPhc/mYvz9ZpcqXJmM/2YEnQ2WhEl3jwc11ZRKy8Jb";
 
   all-systems = [ bohrium boron europium samarium lanthanum cerium ];
@@ -47,4 +47,7 @@ in
   "kea-boron-tsig.age".publicKeys = [vkleen boron];
 
   "vultr.age".publicKeys = [vkleen bohrium];
+
+  "wolkenheim/gobgp-auth-password-lanthanum.age".publicKeys = [vkleen lanthanum];
+  "wolkenheim/gobgp-auth-password-cerium.age".publicKeys = [vkleen cerium];
 }

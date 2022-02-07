@@ -2,6 +2,7 @@
   imports = [
     ./hardware.nix
     ./networking.nix
+    ./cluster.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
     hostid
     latest-linux

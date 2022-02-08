@@ -25,19 +25,12 @@
     system = "x86_64-linux";
   };
 
-  nix = {
-    binaryCaches = [
-    ];
-
-    binaryCachePublicKeys = [
-    ];
-    maxJobs = 4;
-    buildCores = 4;
-    extraOptions = ''
-      secret-key-files = /persist/private/bohrium.1.sec
-      builders-use-substitutes = true
-      keep-outputs = true
-    '';
+  nix.settings = {
+      max-jobs = 4;
+      cores = 4;
+      secret-key-files = "/persist/private/bohrium.1.sec";
+      builders-use-substitutes = true;
+      keep-outputs = true;
   };
 
   system.macnameNamespace = "auenheim.kleen.org";

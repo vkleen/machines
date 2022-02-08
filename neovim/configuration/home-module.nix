@@ -3,7 +3,7 @@ let
   cfg = config.neovim-config;
 
   neovide-wrapped = pkgs.writeShellScriptBin "neovide" ''
-    exec ${neovim.neovide}/bin/neovide --multigrid "$@"
+    exec ${pkgs.neovide}/bin/neovide --multigrid "$@"
   '';
 
   finalPackage = pkgs.wrapNeovimUnstable neovim.neovim-unwrapped

@@ -15,14 +15,9 @@
     system = "powerpc64le-linux";
   };
 
-  nix = {
-    binaryCaches = [
-    ];
-
-    binaryCachePublicKeys = [
-    ];
-    maxJobs = 72;
-    buildCores = 72;
+  nix.settings = {
+    max-jobs = 144;
+    cores = 72;
   };
 
   networking.hostId = "53199d00";

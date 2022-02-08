@@ -49,10 +49,6 @@
         neovim-flake.follows = "neovim-flake";
       };
     };
-    neovide-src = {
-      url = "github:Kethku/neovide?rev=8a7c2a00dc4be834215e3f21f5a0c9dd53646998";
-      flake = false;
-    };
     alacritty-src = {
       url = "github:alacritty/alacritty";
       flake = false;
@@ -327,7 +323,6 @@
               freecad-src
               hledger-src
               kicad-src
-              neovide-src
               pacemaker-src
               pcs-src
               power-assert-src

@@ -16,11 +16,6 @@
       };
     };
 
-    neovide-src = {
-      url = github:Kethku/neovide?rev=8a7c2a00dc4be834215e3f21f5a0c9dd53646998;
-      flake = false;
-    };
-
     plugins.url = path:./plugins;
     plugins.inputs = {
       utils.follows = "utils";
@@ -60,33 +55,6 @@
       };
     pkgset = forAllSystems (s: pkgsImport s inputs.nixpkgs);
 
-    updateCargoHashesScript = s: let
-      pkgs = pkgset.${s};
-    in pkgs.writeShellApplication {
-      name = "update-cargo-hashes";
-      runtimeInputs = [ pkgs.nix pkgs.jq pkgs.coreutils ];
-      text = ''
-        flake="${./.}"
-        if [[ "''${#}" -ge 1 ]]; then
-          flake="''${1}"
-        fi
-
-        function getNewHash() {
-          (nix build --impure --expr '(builtins.getFlake "'"''${flake}"'").packages."${s}".neovide.cargoDeps.overrideAttrs (_: { outputHash = "${fakeHash}"; })' 2>&1 || true) | \
-            grep 'got:' | \
-            cut -d':' -f2 | \
-            tr -d ' '
-        }
-
-        newhash="$(getNewHash)"
-        if [[ -n "''${newhash}" ]]; then
-          jq --arg newhash "''${newhash}" '."neovide-cargoHash" = $newhash' <"${./cargoHashes.json}"
-        else
-          exit 1
-        fi
-      '';
-    };
-
     updatePluginsScript = s: let
       pkgs = pkgset.${s};
     in pkgs.writeShellApplication {
@@ -109,7 +77,6 @@
       text = ''
         nix flake update
         ${updatePluginsScript s}/bin/update-plugins
-        ${updateCargoHashesScript s}/bin/update-cargo-hashes > cargoHashes.json
       '';
     };
 
@@ -117,16 +84,11 @@
       imports = [ ./configuration/home-module.nix ];
       _module.args.neovim = {
         neovim-unwrapped = self.packages.${s}.neovim-unwrapped;
-        neovide = self.packages.${s}.neovide;
         vimPlugins = self.vimPlugins.${s};
       };
     };
   in {
     overlays = {
-      neovide-master = import ./neovide-master.nix {
-        inherit (inputs) neovide-src;
-        inherit (fromJSON (readFile ./cargoHashes.json)) neovide-cargoHash;
-      };
       neovim-nightly = onlySystems allSystems (final: prev: {
         neovim-unwrapped = (inputs.neovim-nightly.overlay final prev).neovim-unwrapped;
       });
@@ -144,11 +106,6 @@
     });
 
     apps = forAllSystems (system: {
-      update-cargo-hashes = {
-        type = "app";
-        program = "${updateCargoHashesScript system}/bin/update-cargo-hashes";
-      };
-
       update-plugins = {
         type = "app";
         program = "${updatePluginsScript system}/bin/update-plugins";

@@ -17,17 +17,10 @@
     system = "aarch64-linux";
   };
 
-  nix = {
-    binaryCaches = [
-    ];
-
-    binaryCachePublicKeys = [
-    ];
-    maxJobs = 4;
-    buildCores = 4;
-    extraOptions = ''
-      secret-key-files = /persist/private/boron.1.sec
-    '';
+  nix.settings = {
+    max-jobs = 4;
+    cores = 4;
+    secret-key-files = "/persist/private/boron.1.sec";
   };
 
   networking.hostId = "cc6b36a1";

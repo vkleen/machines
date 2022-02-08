@@ -16,17 +16,10 @@
     system = "x86_64-linux";
   };
 
-  nix = {
-    binaryCaches = [
-    ];
-
-    binaryCachePublicKeys = [
-    ];
-    maxJobs = 4;
-    buildCores = 4;
-    extraOptions = ''
-      secret-key-files = /run/agenix/europium.1.sec
-    '';
+  nix.settings = {
+    max-jobs = 4;
+    cores = 1;
+    secret-key-files = "/run/agenix/europium.1.sec";
   };
 
   age.secrets."europium.1.sec".file = ../../secrets/nix/europium.1.sec.age;

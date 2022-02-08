@@ -480,40 +480,6 @@
         "type": "github"
       }
     },
-    "neovide-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1638993184,
-        "narHash": "sha256-BpwCS316JN884h14EyQFQljflTNls9WJeqALY3xXncg=",
-        "owner": "Kethku",
-        "repo": "neovide",
-        "rev": "8a7c2a00dc4be834215e3f21f5a0c9dd53646998",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Kethku",
-        "repo": "neovide",
-        "rev": "8a7c2a00dc4be834215e3f21f5a0c9dd53646998",
-        "type": "github"
-      }
-    },
-    "neovide-src_2": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1638993184,
-        "narHash": "sha256-BpwCS316JN884h14EyQFQljflTNls9WJeqALY3xXncg=",
-        "owner": "Kethku",
-        "repo": "neovide",
-        "rev": "8a7c2a00dc4be834215e3f21f5a0c9dd53646998",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Kethku",
-        "repo": "neovide",
-        "rev": "8a7c2a00dc4be834215e3f21f5a0c9dd53646998",
-        "type": "github"
-      }
-    },
     "neovim-flake": {
       "inputs": {
         "flake-utils": "flake-utils_3",
@@ -613,7 +579,6 @@
     },
     "neovim-subflake": {
       "inputs": {
-        "neovide-src": "neovide-src_2",
         "neovim-flake": "neovim-flake_2",
         "neovim-nightly": "neovim-nightly_2",
         "nixpkgs": [
@@ -623,7 +588,7 @@
         "utils": "utils"
       },
       "locked": {
-        "narHash": "sha256-JdWhWrjsW34xOi5bv26xWAZOyYlshQGXm3QWsj9f7B8=",
+        "narHash": "sha256-Fn85kNxPKOYb8oj79NvmhW92vi8aSF/llWI53Dd3hzQ=",
         "path": "./neovim",
         "type": "path"
       },
@@ -797,11 +762,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1643243103,
-        "narHash": "sha256-/Zl64p/3B7/lzNAkGHgiS6WR2fT0BdL1Ffu9we7GdMk=",
+        "lastModified": 1644277268,
+        "narHash": "sha256-40WFADLOq4UhpSp9a6xlajxCLhktL16Ao1r3mFEjEc0=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "5c0700f0d6868e786e2bdcc1b8de78ba0cb9233d",
+        "rev": "e54c6f2e90756e892f17b8e03232a3c03041403e",
         "type": "github"
       },
       "original": {
@@ -1088,7 +1053,6 @@
         "kicad-src": "kicad-src",
         "macname": "macname",
         "macname-power9": "macname-power9",
-        "neovide-src": "neovide-src",
         "neovim-flake": "neovim-flake",
         "neovim-nightly": "neovim-nightly",
         "neovim-subflake": "neovim-subflake",

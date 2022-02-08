@@ -15,14 +15,9 @@
     system = "x86_64-linux";
   };
 
-  nix = {
-    binaryCaches = [
-    ];
-
-    binaryCachePublicKeys = [
-    ];
-    maxJobs = 4;
-    buildCores = 4;
+  nix.settings = {
+    max-jobs = 4;
+    cores = 1;
   };
 
   system.macnameNamespace = "wolkenheim.kleen.org";

@@ -54,13 +54,13 @@ in
 
     nix = {
       package = pkgs.nix;
-      useSandbox = true;
-      allowedUsers = [ "@wheel" ];
-      trustedUsers = [ "root" "@wheel" ];
-      extraOptions = ''
-        experimental-features = nix-command flakes ca-derivations
-        auto-optimise-store = true
-      '';
+      settings = {
+        sandbox = true;
+        trusted-users = [ "root" "@wheel" ];
+        allowed-users = [ "@wheel" ];
+        experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
+        auto-optimise-store = true;
+      };
       nixPath = [
         "nixpkgs=${flake.legacyPackages.${config.nixpkgs.system}.path}"
       ];

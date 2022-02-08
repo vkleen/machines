@@ -105,6 +105,12 @@ in {
               peer-as = 64515;
               auth-password = "$BGP_AUTH_PASSWORD";
             };
+            timers = {
+              config = {
+                hold-time = 3;
+                keepalive-interval = 1;
+              };
+            };
             ebgp-multihop = {
               config = {
                 enabled = true;
@@ -116,6 +122,12 @@ in {
               neighbor-address = "2001:19f0:ffff::1";
               peer-as = 64515;
               auth-password = "$BGP_AUTH_PASSWORD";
+            };
+            timers = {
+              config = {
+                hold-time = 3;
+                keepalive-interval = 1;
+              };
             };
             ebgp-multihop = {
               config = {

@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs;
-    utils.url = path:../utils-flake;
+    utils.url = path:../utils;
     utils.inputs.nixpkgs.follows = "nixpkgs";
 
     neovim-flake = {

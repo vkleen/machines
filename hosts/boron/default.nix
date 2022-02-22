@@ -10,6 +10,7 @@
     no-coredump
     rmfakecloud
     ssh
+    wolkenheim
     zfs
   ]);
 

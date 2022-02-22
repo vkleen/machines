@@ -1,18 +1,15 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, flake, ... }:
 let
   inherit (builtins) substring;
-  inherit (import ../../utils/ints.nix { inherit lib; }) hexToInt;
+  inherit (import ../../utils { inherit lib; }) private_address private_address6;
   machine_id = config.environment.etc."machine-id".text;
 
-  private_address = let
-    chars12 = substring 0 2 machine_id;
-    chars34 = substring 2 2 machine_id;
-
-    octet1 = hexToInt chars12;
-    octet2 = hexToInt chars34;
-  in "10.32.${builtins.toString octet1}.${builtins.toString octet2}";
-
 in {
+  system.publicAddresses = [
+    "45.32.153.151"
+    "2001:19f0:6c01:21c1:5400:03ff:fec6:c9cd"
+  ];
+
   networking = {
     useDHCP = false;
     useNetworkd = true;
@@ -25,21 +22,15 @@ in {
         ipv4.addresses = [ {
           address = "45.32.153.151";
           prefixLength = 22;
-        } {
-          address = "45.77.54.162";
-          prefixLength = 32;
         } ];
         ipv6.addresses = [ {
           address = "2001:19f0:6c01:21c1:5400:03ff:fec6:c9cd";
-          prefixLength = 64;
-        } {
-          address = "2001:19f0:6c01:2bc5::1";
           prefixLength = 64;
         } ];
       };
       "enp6s0" = {
         ipv4.addresses = [ {
-          address = private_address;
+          address = private_address 32 machine_id;
           prefixLength = 16;
         } ];
         mtu = 1450;
@@ -47,12 +38,25 @@ in {
     };
     firewall = {
       enable = true;
-      trustedInterfaces = [ "wg0" "enp6s0" ];
+      trustedInterfaces = [ "enp6s0" ];
       allowPing = true;
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
+      interfaces = {
+        "boron-dsl" = {
+          allowedUDPPorts = [ 3784 ];
+        };
+      };
     };
   };
+
+  age.secrets.${config.networking.hostName} = {
+    file = ../../secrets/wireguard + "/${config.networking.hostName}.age";
+    mode = "0440";
+    owner = "0";
+    group = "systemd-network";
+  };
+
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
     "net.ipv6.conf.all.forwarding" = 2;
@@ -83,5 +87,17 @@ in {
         LinkLocalAddressing = "no";
       };
     };
+    #networks."40-boron" = {
+    #  routes = [
+    #    { routeConfig = {
+    #        Destination = "2001:19f0:6c01:2bc5::/64";
+    #      };
+    #    }
+    #    { routeConfig = {
+    #        Destination = "45.77.54.162/32";
+    #      };
+    #    }
+    #  ];
+    #};
   };
 }

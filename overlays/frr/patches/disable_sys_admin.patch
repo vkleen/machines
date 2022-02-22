@@ -1,0 +1,26 @@
+diff --git a/bgpd/bgp_main.c b/bgpd/bgp_main.c
+index d9b0fab51..ecef216f9 100644
+--- a/bgpd/bgp_main.c
++++ b/bgpd/bgp_main.c
+@@ -111,7 +111,7 @@ static struct frr_signal_t bgp_signals[] = {
+ 
+ /* privileges */
+ static zebra_capabilities_t _caps_p[] = {ZCAP_BIND, ZCAP_NET_RAW,
+-					 ZCAP_NET_ADMIN, ZCAP_SYS_ADMIN};
++					 ZCAP_NET_ADMIN};
+ 
+ struct zebra_privs_t bgpd_privs = {
+ #if defined(FRR_USER) && defined(FRR_GROUP)
+diff --git a/zebra/main.c b/zebra/main.c
+index 079751af0..2f9055a28 100644
+--- a/zebra/main.c
++++ b/zebra/main.c
+@@ -103,7 +103,7 @@ const struct option longopts[] = {
+ 	{0}};
+ 
+ zebra_capabilities_t _caps_p[] = {
+-	ZCAP_NET_ADMIN, ZCAP_SYS_ADMIN, ZCAP_NET_RAW,
++	ZCAP_NET_ADMIN, ZCAP_NET_RAW,
+ };
+ 
+ /* zebra privileges to run with */

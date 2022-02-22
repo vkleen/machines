@@ -12,6 +12,10 @@ let
     octet2 = hexToInt chars34;
   in "10.32.${builtins.toString octet1}.${builtins.toString octet2}";
 in {
+  system.publicAddresses = [
+    "45.32.154.225"
+    "2001:19f0:6c01:284a:5400:03ff:fec6:c9b0"
+  ];
   networking = {
     useDHCP = false;
     useNetworkd = true;

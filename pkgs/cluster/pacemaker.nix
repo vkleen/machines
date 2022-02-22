@@ -4,6 +4,7 @@
 , gnutls, libqb, dbus, systemd
 , corosync
 , python3
+, ocfDir ? "/etc/ocf"
 , pacemaker-src }:
 with lib; stdenv.mkDerivation {
   pname = "pacemaker";
@@ -33,10 +34,15 @@ with lib; stdenv.mkDerivation {
     "--with-gnutls"
     "--with-systemdsystemunitdir=${placeholder "out"}/lib/systemd/system"
     "--with-initdir=${placeholder "out"}/lib/sysvinit"
-    "--with-ocfdir=${placeholder "out"}/ocf"
+    "--with-ocfdir=${ocfDir}"
+    "--with-ocfrainstalldir=${placeholder "out"}/ocf"
     "--localstatedir=/var"
     "--runstatedir=/run"
   ];
 
-  outputs = [ "out" "dev" "doc" ];
+  postFixup = ''
+    moveToOutput ocf "$ocf"
+  '';
+
+  outputs = [ "out" "dev" "doc" "ocf" ];
 }

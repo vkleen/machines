@@ -1,0 +1,14 @@
+diff --git a/exec/main.c b/exec/main.c
+index 977aaf5e..0e353a20 100644
+--- a/exec/main.c
++++ b/exec/main.c
+@@ -163,7 +163,8 @@ struct sched_param global_sched_param;
+ 
+ static corosync_timer_handle_t corosync_stats_timer_handle;
+ 
+-static const char *corosync_lock_file = LOCALSTATEDIR"/run/corosync.pid";
++// Relative to get_state_dir()
++static const char *corosync_lock_file = "corosync.pid";
+ 
+ static char corosync_config_file[PATH_MAX + 1] = COROSYSCONFDIR "/corosync.conf";
+ 

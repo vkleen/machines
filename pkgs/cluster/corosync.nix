@@ -15,6 +15,8 @@ stdenv.mkDerivation rec {
 
   src = corosync-src;
 
+  patches = [ ./patches/corosync-lockfile.patch ];
+
   postPatch = ''
     echo "ref names:tag: v3.1.6" > .gitarchivever
   '';

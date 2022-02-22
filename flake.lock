@@ -36,6 +36,22 @@
         "type": "github"
       }
     },
+    "bfd-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1644789592,
+        "narHash": "sha256-ivVjsDVTMI4RI8G9vHSEfWwryscpVqjjBnMPtt1wqBQ=",
+        "owner": "vkleen",
+        "repo": "bfd",
+        "rev": "077fe61b4635f22ac4a2a3d2f57253beaf571275",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "repo": "bfd",
+        "type": "github"
+      }
+    },
     "cachix": {
       "locked": {
         "lastModified": 1642244250,
@@ -342,6 +358,22 @@
         "type": "github"
       }
     },
+    "frr-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1645145511,
+        "narHash": "sha256-02NegQRvhWOXqmCfqcuQ/0NroAGdRxV3MusHOF08XzU=",
+        "owner": "FRRouting",
+        "repo": "frr",
+        "rev": "52ddb8d545bef4a4322a31a9b5bc5c5b1a3c4573",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FRRouting",
+        "repo": "frr",
+        "type": "github"
+      }
+    },
     "hledger-src": {
       "flake": false,
       "locked": {
@@ -444,14 +476,17 @@
     },
     "macname": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_2",
+        "utils": [
+          "utils"
+        ]
       },
       "locked": {
-        "lastModified": 1642289100,
-        "narHash": "sha256-k+h0/Rm1Nf8fYz6v+t4MGjZFarFfYLfH81AhSbIHJWI=",
+        "lastModified": 1645377735,
+        "narHash": "sha256-yLrhtDUBiLoHYPuVNKWicjIlsQBGyA+Wo6ynlm+fQ6I=",
         "owner": "vkleen",
         "repo": "macname",
-        "rev": "76263638d16ab13d29bbd4128c290029813ce4c3",
+        "rev": "4107ea5472e18a485b75060bccac6f7cfc8076e6",
         "type": "github"
       },
       "original": {
@@ -746,18 +781,13 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1641474285,
-        "narHash": "sha256-QmtuErcK4e93kJsHmBrIg5JmV45uczBhsx2W0sZBALQ=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "b47ba6b62bd9a7723962b6b78f9fd52e074dc52f",
-        "type": "github"
+        "narHash": "sha256-40WFADLOq4UhpSp9a6xlajxCLhktL16Ao1r3mFEjEc0=",
+        "path": "/nix/store/9kpg95k9x3mi6m3hqk0yhjxs8v7q009w-source",
+        "type": "path"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nixpkgs",
-        "type": "github"
+        "id": "nixpkgs",
+        "type": "indirect"
       }
     },
     "nixpkgs_3": {
@@ -1040,6 +1070,7 @@
       "inputs": {
         "agenix": "agenix",
         "alacritty-src": "alacritty-src",
+        "bfd-src": "bfd-src",
         "corosync-src": "corosync-src",
         "dacite-src": "dacite-src",
         "dptrp1-src": "dptrp1-src",
@@ -1048,6 +1079,7 @@
         "flake-compat": "flake-compat",
         "freecad-assembly3-src": "freecad-assembly3-src",
         "freecad-src": "freecad-src",
+        "frr-src": "frr-src",
         "hledger-src": "hledger-src",
         "home-manager": "home-manager",
         "kicad-src": "kicad-src",
@@ -1071,7 +1103,8 @@
         "rmapi-src": "rmapi-src",
         "rmfakecloud-src": "rmfakecloud-src",
         "rmrl": "rmrl",
-        "test-unit-src": "test-unit-src"
+        "test-unit-src": "test-unit-src",
+        "utils": "utils_2"
       }
     },
     "rust-overlay": {
@@ -1123,6 +1156,22 @@
       },
       "original": {
         "path": "../utils-flake",
+        "type": "path"
+      }
+    },
+    "utils_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "narHash": "sha256-murMsgFJ5naS3md7ejPgOgExs2tFG7YGzrp4cMZVoQg=",
+        "path": "./utils",
+        "type": "path"
+      },
+      "original": {
+        "path": "./utils",
         "type": "path"
       }
     },

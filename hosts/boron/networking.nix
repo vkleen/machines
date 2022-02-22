@@ -1,7 +1,26 @@
 { config, flake, pkgs, lib, ... }:
 let
   ppp_interface = "wan";
+
+  inherit (import ../../utils { inherit lib; }) private_address private_address6;
+  machine_id = config.environment.etc."machine-id".text;
+
+  bfdConfig = (pkgs.formats.yaml {}).generate "bfdd.yaml" {
+    listen = [ "${private_address 64 config.environment.etc."machine-id".text}" ];
+    peers = {
+      "${private_address 64 flake.nixosConfigurations.lanthanum.config.environment.etc."machine-id".text}" = {
+        name = "lanthanum";
+        port = 3784;
+        interval = 250;
+        detectionMultiplier = 2;
+      };
+    };
+  };
 in {
+  environment.systemPackages = [
+    pkgs.bfd
+  ];
+
   environment.etc."resolv.conf".text = ''
     nameserver 127.0.0.1
     nameserver ::1
@@ -91,6 +110,9 @@ in {
           allowedUDPPorts = [ 53 69 ];
           allowedTCPPorts = [ 53 69 8883 ];
         };
+        "lanthanum" = {
+          allowedUDPPorts = [ 3784 ];
+        };
       };
       extraCommands = ''
         ip46tables -D FORWARD -j nixos-fw-forward 2>/dev/null || true
@@ -121,6 +143,8 @@ in {
       "45.33.37.163"   = [ "plutonium.kleen.org" ];
       "94.16.123.211"  = [ "samarium.kleen.org" ];
       "172.104.139.29" = [ "europium.kleen.org" ];
+      "45.32.153.151" =  [ "lanthanum.kleen.org" ];
+      "45.32.154.225" =  [ "cerium.kleen.org" ];
     };
 
     wireguard.interfaces = {
@@ -150,7 +174,12 @@ in {
 
     namespaces.enable = true;
   };
-  age.secrets.boron.file = ../../secrets/wireguard/boron.age;
+  age.secrets.boron = {
+    file = ../../secrets/wireguard/boron.age;
+    mode = "0440";
+    owner = "0";
+    group = "systemd-network";
+  };
 
   boot.kernelModules = [ "ifb" ];
   boot.extraModprobeConfig = ''
@@ -707,5 +736,18 @@ in {
   fileSystems."/var/lib/knot" = {
     device = "/persist/knot";
     options = [ "bind" ];
+  };
+
+  systemd.services.bfdd = {
+    #wantedBy = [ "multi-user.target" ];
+    #after = [ "network.target" "wireguard-lanthanum.service" ];
+    #requires = [ "wireguard-lanthanum.service" ];
+    script = ''
+      exec ${pkgs.bfdd}/bin/bfdd -c "${bfdConfig}"
+    '';
+    serviceConfig = {
+      Type = "simple";
+      DynamicUser = true;
+    };
   };
 }

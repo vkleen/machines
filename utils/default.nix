@@ -122,5 +122,5 @@ in rec {
     chars1234 = substring 0 4 machine_id;
     chars5678 = substring 4 4 machine_id;
   in assert 0 <= linkId && linkId <= ints.pow 2 48;
-    "fd95:3e0e:b7ec:${linkId0-15}:${linkId16-31}:${linkId32-47}:${chars1234}:${chars5678}";
+    "fe80:3e0e:b7ec:${linkId0-15}:${linkId16-31}:${linkId32-47}:${chars1234}:${chars5678}";
 }

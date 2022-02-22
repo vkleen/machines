@@ -24,6 +24,7 @@ in
   "wireguard/helium.age".publicKeys = [vkleen];
   "wireguard/lanthanum.age".publicKeys = [vkleen lanthanum];
   "wireguard/samarium.age".publicKeys = [vkleen samarium];
+  "wireguard/nitrogen.age".publicKeys = [vkleen];
 
   "nix/europium.1.sec.age".publicKeys = [vkleen europium];
   "nix/samarium.2.sec.age".publicKeys = [vkleen samarium];
@@ -50,4 +51,6 @@ in
 
   "wolkenheim/gobgp-auth-password-lanthanum.age".publicKeys = [vkleen lanthanum];
   "wolkenheim/gobgp-auth-password-cerium.age".publicKeys = [vkleen cerium];
+
+  "wolkenheim/vultr-bgp-password-lanthanum.age".publicKeys = [vkleen lanthanum];
 }

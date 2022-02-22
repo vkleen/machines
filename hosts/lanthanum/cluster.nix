@@ -2,15 +2,8 @@
 let
   inherit (builtins) substring;
   inherit (import ../../utils/ints.nix { inherit lib; }) hexToInt;
-
-  private_address = host: let
-    machine_id = flake.nixosConfigurations.${host}.config.environment.etc."machine-id".text;
-    chars12 = substring 0 2 machine_id;
-    chars34 = substring 2 2 machine_id;
-
-    octet1 = hexToInt chars12;
-    octet2 = hexToInt chars34;
-  in "10.32.${builtins.toString octet1}.${builtins.toString octet2}";
+  inherit (import ../../utils { inherit lib; }) private_address;
+  private_address' = host: private_address 32 flake.nixosConfigurations.${host}.config.environment.etc."machine-id".text;
 
   mkId = host: let
     machine_id = flake.nixosConfigurations.${host}.config.environment.etc."machine-id".text;
@@ -22,7 +15,7 @@ let
     node {
       name: ${host}
       nodeid: ${mkId host}
-      ring0_addr: ${private_address host}
+      ring0_addr: ${private_address' host}
     }
   '';
 
@@ -37,12 +30,17 @@ let
       crypto_cipher: none
       crypto_hash: none
     }
+    system {
+      state_dir: $RUNTIME_DIRECTORY
+      move_to_root_cgroup: no
+    }
     logging {
       fileline: off
       to_stderr: no
       to_logfile: no
       to_syslog: yes
       debug: off
+      blackbox: off
       logger_subsys {
         subsys: QUORUM
         debug: off
@@ -57,38 +55,103 @@ let
       ${node "cerium"}
     }
   '';
+
+  pacemaker = pkgs.pacemaker;
+
+  bfdConfig = (pkgs.formats.yaml {}).generate "bfdd.yaml" {
+    listen = [ "${private_address 64 config.environment.etc."machine-id".text}" ];
+    peers = {
+      "${private_address 64 flake.nixosConfigurations.boron.config.environment.etc."machine-id".text}" = {
+        name = "boron";
+        port = 3784;
+        interval = 250;
+        detectionMultiplier = 2;
+      };
+    };
+  };
 in {
   config = {
+#    boot.kernel.sysctl = {
+#      "net.core.wmem_max" = 8388608;
+#      "net.core.rmem_max" = 8388608;
+#    };
+
     environment.systemPackages = [
-      pkgs.pacemaker
-      pkgs.corosync
-      pkgs.pcs
+#      pacemaker
+#      pkgs.corosync
+#      pkgs.pcs
       pkgs.gobgpd
       pkgs.gobgp
+      pkgs.bfd
     ];
-    environment.etc."corosync/corosync.conf".source = corosyncConf;
-    systemd = {
-      packages = [ pkgs.corosync pkgs.pacemaker ];
-      services.corosync = {
-        preStart = ''
-          mkdir -p /var/lib/corosync
-        '';
-        restartTriggers = [ corosyncConf ];
-      };
-      services.pacemaker.wantedBy = [ "multi-user.target" ];
-    };
+#    systemd.services = {
+#      corosync = {
+#        description = "Corosync Cluster Engine";
+#        documentation = [ "man:corosync" "man:corosync.conf" "man:corosync_overview" ];
+#        requires = [ "network-online.target" ];
+#        after = [ "network-online.target" ];
+#        script = ''
+#          ${pkgs.envsubst}/bin/envsubst -i "${corosyncConf}" > "$RUNTIME_DIRECTORY/corosync.conf"
+#          cat "$RUNTIME_DIRECTORY/corosync.conf"
+#          exec ${pkgs.corosync}/sbin/corosync -f -c "$RUNTIME_DIRECTORY/corosync.conf"
+#        '';
+#        serviceConfig = {
+#          Type = "notify";
+#          StandardError = "null";
+#          ExecStop = "${pkgs.corosync}/sbin/corosync-cfgtool -H --force";
+#          RuntimeDirectory = "corosync";
+#          RestrictRealtime = "no";
+#          LimitMEMLOCK="infinity";
+#        };
+#      };
+#
+#      pacemaker = {
+#        description = "Pacemaker High Availability CLuster Manager";
+#        documentation = [ "man:pacemakerd" "https://clusterlabs.org/pacemaker/doc" ];
+#        after = [
+#          "network.target"
+#          "time-sync.target"
+#          "dbus.service"
+#          "resource-agent-deps.target"
+#          "syslog.service"
+#          "rsyslog.service"
+#          "corosync.service"
+#        ];
+#        wants = [
+#          "dbus.service"
+#          "resource-agent-deps.service"
+#        ];
+#        wantedBy = [ "multi-user.target" ];
+#        requires = [ "corosync.service" ];
+#        startLimitBurst = 5;
+#        startLimitIntervalSec = 25;
+#
+#        serviceConfig = {
+#          ExecStart = "${pacemaker}/sbin/pacemakerd";
+#          KillMode = "process";
+#          NotifyAccess = "main";
+#          Restart = "on-failure";
+#          RestartSec = "1s";
+#          SendSIGKILL = "no";
+#          StandardError = "null";
+#          SuccessExitStatus = "100";
+#          TimeoutStartSec = "60s";
+#          TimeoutStopSec = "30min";
+#        };
+#      };
+#    };
 
-    users = {
-      users.hacluster = {
-        group = "haclient";
-        isSystemUser = true;
-        uid = 189;
-      };
-
-      groups.haclient = {
-        gid = 189;
-      };
-    };
+#    users = {
+#      users.hacluster = {
+#        group = "haclient";
+#        isSystemUser = true;
+#        uid = 189;
+#      };
+#
+#      groups.haclient = {
+#        gid = 189;
+#      };
+#    };
 
     services.gobgpd = {
       settings = {
@@ -97,6 +160,14 @@ in {
             as = 4288000175;
             router-id = "45.32.153.151";
             port = -1;
+          };
+          apply-policy = {
+            config = {
+              import-policy-list = [];
+              default-import-policy = "accept-route";
+              export-policy-list = [ "prepend-as" ];
+              default-export-policy = "accept-route";
+            };
           };
         };
         neighbors = [
@@ -135,11 +206,6 @@ in {
                 multihop-ttl = 2;
               };
             };
-            transport = {
-              config = {
-                local-address = "2001:19f0:6c01:21c1:5400:3ff:fec6:c9cd";
-              };
-            };
             afi-safis = [
               { config = {
                 afi-safi-name = "ipv6-unicast";
@@ -165,38 +231,52 @@ in {
       };
     };
 
-    systemd.services.gobgpd = let
-      configFile = (pkgs.formats.toml {}).generate "gobgpd.conf" config.services.gobgpd.settings;
-      finalConfigFile = "$RUNTIME_DIRECTORY/gobgpd.conf";
-    in {
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
-      description = "GoBGP Routing Daemon";
+#    systemd.services.gobgpd = let
+#      configFile = (pkgs.formats.toml {}).generate "gobgpd.conf" config.services.gobgpd.settings;
+#      finalConfigFile = "$RUNTIME_DIRECTORY/gobgpd.conf";
+#    in {
+#      #wantedBy = [ "multi-user.target" ];
+#      after = [ "network.target" ];
+#      description = "GoBGP Routing Daemon";
+#      script = ''
+#        umask 077
+#        export $(xargs < "''${CREDENTIALS_DIRECTORY}"/auth-password)
+#        ${pkgs.envsubst}/bin/envsubst -i "${configFile}" > ${finalConfigFile}
+#        exec ${pkgs.gobgpd}/bin/gobgpd -f "${finalConfigFile}" --sdnotify --pprof-disable --api-hosts=unix://"$RUNTIME_DIRECTORY/gobgpd.sock"
+#      '';
+#      postStart = ''
+#        ${pkgs.gobgp}/bin/gobgp --target unix://"$RUNTIME_DIRECTORY/gobgpd.sock" global rib add 45.77.54.162/32 -a ipv4
+#        ${pkgs.gobgp}/bin/gobgp --target unix://"$RUNTIME_DIRECTORY/gobgpd.sock" global rib add 2001:19f0:6c01:2bc5::/64 -a ipv6
+#      '';
+#      serviceConfig = {
+#        Type = "notify";
+#        ExecReload = "${pkgs.gobgpd}/bin/gobgpd -r";
+#        DynamicUser = true;
+#        RuntimeDirectoryMode = "0700";
+#        RuntimeDirectory = "gobgpd";
+#        LoadCredential = [
+#          "auth-password:/run/agenix/gobgp-auth-password"
+#        ];
+#      };
+#    };
+#
+#    age.secrets."gobgp-auth-password" = {
+#      file = ../../secrets/wolkenheim/gobgp-auth-password + "-${config.networking.hostName}.age";
+#    };
+
+    systemd.services.bfdd = {
+      #wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" "wireguard-boron.service" ];
+      requires = [ "wireguard-boron.service" ];
       script = ''
-        umask 077
-        export $(xargs < "''${CREDENTIALS_DIRECTORY}"/auth-password)
-        ${pkgs.envsubst}/bin/envsubst -i "${configFile}" > ${finalConfigFile}
-        exec ${pkgs.gobgpd}/bin/gobgpd -f "${finalConfigFile}" --sdnotify --pprof-disable --api-hosts=unix://"$RUNTIME_DIRECTORY/gobgpd.sock"
-      '';
-      postStart = ''
-        ${pkgs.gobgp}/bin/gobgp --target unix://"$RUNTIME_DIRECTORY/gobgpd.sock" global rib add 45.77.54.162/32 -a ipv4
-        ${pkgs.gobgp}/bin/gobgp --target unix://"$RUNTIME_DIRECTORY/gobgpd.sock" global rib add 2001:19f0:6c01:2bc5::1/64 -a ipv6
+        exec ${pkgs.bfdd}/bin/bfdd -s "$RUNTIME_DIRECTORY/bfdd.sock" -c "${bfdConfig}"
       '';
       serviceConfig = {
-        Type = "notify";
-        ExecReload = "${pkgs.gobgpd}/bin/gobgpd -r";
-        DynamicUser = true;
-        AmbientCapabilities = "cap_net_bind_service";
+        Type = "simple";
         RuntimeDirectoryMode = "0700";
-        RuntimeDirectory = "gobgpd";
-        LoadCredential = [
-          "auth-password:/run/agenix/gobgp-auth-password"
-        ];
+        RuntimeDirectory = "bfdd";
+        DynamicUser = true;
       };
-    };
-
-    age.secrets."gobgp-auth-password" = {
-      file = ../../secrets/wolkenheim/gobgp-auth-password + "-${config.networking.hostName}.age";
     };
   };
 }

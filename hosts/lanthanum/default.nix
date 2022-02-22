@@ -9,6 +9,7 @@
     no-coredump
     ntp-server
     ssh
+    wolkenheim
   ]);
 
   nixpkgs = rec {

@@ -112,13 +112,28 @@
       url = "github:test-unit/test-unit";
       flake = false;
     };
+    bfd-src = {
+      url = "github:vkleen/bfd";
+      flake = false;
+    };
+    frr-src = {
+      url = "github:FRRouting/frr";
+      flake = false;
+    };
+
+    utils = {
+      url = path:./utils;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     macname = {
       url = "github:vkleen/macname";
+      inputs.utils.follows = "utils";
     };
     macname-power9 = {
       url = "github:vkleen/macname";
       inputs.nixpkgs.follows = "nixpkgs-power9";
+      inputs.utils.follows = "utils";
     };
 
     rmrl = {
@@ -315,12 +330,14 @@
           sources = final: prev: {
             inherit (inputs)
               alacritty-src
+              bfd-src
               corosync-src
               dacite-src
               dptrp1-src
               eseries-src
               freecad-assembly3-src
               freecad-src
+              frr-src
               hledger-src
               kicad-src
               pacemaker-src

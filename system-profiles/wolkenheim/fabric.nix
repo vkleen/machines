@@ -19,7 +19,7 @@
     "samarium" = { AS = "netcup"; };
   };
 
-  links = {
+  wg-links = {
     "boron" = {
       "dsl" = [
         { to = "lanthanum"; }

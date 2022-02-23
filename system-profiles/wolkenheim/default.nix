@@ -1,77 +1,7 @@
 { flake, config, hostName, lib, pkgs, ... }:
 with (import ./utils.nix { inherit lib flake; });
 let
-  wolkenheimFabric = import ./fabric.nix;
-
-  wgNetworkd = host: fabric: let
-    normalizedLinks = normalize fabric.links;
-
-    name = l: intfName (remote l).host l.from.intf;
-
-    remote = l: if linkIsFrom host l
-                  then l.to
-                  else l.from;
-
-    netdevs = lib.attrsets.listToAttrs (lib.lists.map
-      (l: let
-        ip6Ns = l.linkId;
-        ip4Ns = ip4Namespace fabric normalizedLinks ip6Ns;
-      in lib.attrsets.nameValuePair "40-${name l}" {
-        netdevConfig = {
-          Name = name l;
-          Kind = "wireguard";
-          MTUBytes = "1412";
-        };
-        wireguardConfig = {
-          PrivateKeyFile = "/run/agenix/${host}";
-        } // lib.attrsets.optionalAttrs (linkIsTo host l) {
-          ListenPort = linkListenPort ip4Ns;
-        };
-        wireguardPeers = [
-          { wireguardPeerConfig = {
-            PublicKey = lib.strings.removeSuffix "\n" (builtins.readFile (
-              ../../wireguard + "/${(remote l).host}.pub"));
-            AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-          } // lib.attrsets.optionalAttrs (linkIsFrom host l) {
-            Endpoint = "${(remote l).host}.kleen.org:${builtins.toString (linkListenPort ip4Ns)}";
-          }; }
-        ];
-        extraConfig = ''
-          [Match]
-        '';
-      })
-      (linksInvolving host normalizedLinks));
-
-    networks = lib.attrsets.listToAttrs (lib.lists.map
-      (l: let
-        ip6Ns = l.linkId;
-        ip4Ns = ip4Namespace fabric normalizedLinks ip6Ns;
-        localAS = fabric.AS.${fabric.hosts.${host}.AS};
-      in lib.attrsets.nameValuePair "40-${name l}" ({
-        name = name l;
-        address = [
-          "${private_address ip4Ns hostIds.${host}}/16"
-          "${private_address6 ip6Ns hostIds.${host}}/96" 
-        ];
-        extraConfig = ''
-          [Neighbor]
-          Address=${private_address6 ip6Ns hostIds.${(remote l).host}}
-          LinkLayerAddress=${private_address6 ip6Ns hostIds.${(remote l).host}}
-        '';
-      } // lib.attrsets.optionalAttrs (linkIsFrom host l && localAS.announcePublic) { # HACK: change me to zebra
-        routingPolicyRules = [
-          { routingPolicyRuleConfig = { Table = ip4Ns; From = localAS.public; Priority = ip4Ns; }; }
-          { routingPolicyRuleConfig = { Table = ip4Ns; From = localAS.public6; Priority = ip4Ns; }; }
-        ];
-        routes = [
-          { routeConfig = { Gateway = "${private_address ip4Ns hostIds.${(remote l).host}}"; Table = ip4Ns; }; }
-          { routeConfig = { Gateway = "${private_address6 ip6Ns hostIds.${(remote l).host}}"; Table = ip4Ns; }; }
-        ];
-      }))
-      (linksInvolving host normalizedLinks));
-  in {
-    inherit netdevs networks;
-  };
+  wolkenheimFabric = config.networking.wolkenheim.fabric;
 
   zebraConfig = pkgs.writeText "zebra.conf" ''
     hostname ${hostName}
@@ -348,12 +278,20 @@ let
     ];
   };
 in {
+  options = {
+    networking.wolkenheim = {
+      fabric = lib.mkOption {
+        description = "Wolkenheim fabric description";
+        default = import ./fabric.nix;
+        type = lib.types.attrs;
+      };
+    };
+  };
+  imports = [ ./wireguard-links.nix ];
   config = lib.mkMerge [{
     system.build.uncheckedIp4NamespaceMap = uncheckedIp4NamespaceMap wolkenheimFabric (normalize wolkenheimFabric.links);
-    system.build.wgNetworkd = wgNetworkd hostName wolkenheimFabric;
+
     networking.firewall.checkReversePath = "loose";
-    systemd.network = wgNetworkd hostName wolkenheimFabric;
-    environment.systemPackages = [ pkgs.wireguard-tools ];
   }
   (lib.mkIf (hostName == "boron") {
     systemd.network = {
@@ -408,10 +346,6 @@ in {
     };
   })
   (lib.mkIf (hostName == "lanthanum") {
-    networking.firewall.allowedUDPPorts = lib.lists.concatMap
-      (l: if l.listenPort != null then [ l.listenPort ] else [])
-      (lib.attrsets.attrValues config.networking.wireguard.interfaces);
-
     environment.etc = {
       "frr/zebra.conf".source = zebraConfig;
       "frr/vtysh.conf".text = "";

@@ -164,8 +164,6 @@
     pkey = "/run/credentials/coturn.service/turn.kleen.org.key.pem";
     relay-ips = config.system.publicAddresses;
     extraConfig = ''
-      # for debugging
-      verbose
       # ban private IP ranges
       no-multicast-peers
       denied-peer-ip=0.0.0.0-0.255.255.255

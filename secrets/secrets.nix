@@ -44,6 +44,8 @@ in
   "boron-borg.age".publicKeys = [vkleen boron];
 
   "synapse-registration.age".publicKeys = [ vkleen europium ];
+  "coturn-auth.age".publicKeys = [ vkleen europium ];
+  "synapse-coturn.age".publicKeys = [ vkleen europium ];
 
   "kea-boron-tsig.age".publicKeys = [vkleen boron];
 

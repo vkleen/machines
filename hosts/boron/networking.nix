@@ -2,7 +2,7 @@
 let
   ppp_interface = "wan";
 
-  inherit (import ../../utils { inherit lib; }) private_address private_address6;
+  inherit (flake.inputs.utils.lib) private_address private_address6;
   machine_id = config.environment.etc."machine-id".text;
 
   bfdConfig = (pkgs.formats.yaml {}).generate "bfdd.yaml" {

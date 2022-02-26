@@ -1,7 +1,7 @@
 { config, pkgs, lib, flake, ... }:
 let
   inherit (builtins) substring;
-  inherit (import ../../utils { inherit lib; }) private_address private_address6;
+  inherit (flake.inputs.utils.lib) private_address private_address6;
   machine_id = config.environment.etc."machine-id".text;
 
 in {
@@ -42,19 +42,7 @@ in {
       allowPing = true;
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
-      interfaces = {
-        "boron-dsl" = {
-          allowedUDPPorts = [ 3784 ];
-        };
-      };
     };
-  };
-
-  age.secrets.${config.networking.hostName} = {
-    file = ../../secrets/wireguard + "/${config.networking.hostName}.age";
-    mode = "0440";
-    owner = "0";
-    group = "systemd-network";
   };
 
   boot.kernel.sysctl = {
@@ -87,17 +75,5 @@ in {
         LinkLocalAddressing = "no";
       };
     };
-    #networks."40-boron" = {
-    #  routes = [
-    #    { routeConfig = {
-    #        Destination = "2001:19f0:6c01:2bc5::/64";
-    #      };
-    #    }
-    #    { routeConfig = {
-    #        Destination = "45.77.54.162/32";
-    #      };
-    #    }
-    #  ];
-    #};
   };
 }

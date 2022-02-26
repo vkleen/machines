@@ -3,13 +3,18 @@ with import ./utils.nix { inherit lib flake; }; let
   inherit (config.networking.wolkenheim) fabric;
   normalizedLinks = normalize fabric.wg-links;
 
-  name = l: intfName (remote l).host l.from.intf;
-
-  remote = l: if linkIsFrom hostName l
-                then l.to
-                else l.from;
+  name = linkName hostName;
+  remote = linkRemote hostName;
 in {
   config = {
+
+    age.secrets.${config.networking.hostName} = {
+      file = ../../secrets/wireguard + "/${config.networking.hostName}.age";
+      mode = "0440";
+      owner = "0";
+      group = "systemd-network";
+    };
+
     environment.systemPackages = [ pkgs.wireguard-tools ];
     networking.firewall.allowedUDPPorts = lib.lists.map
       (l: linkListenPort (ip4Namespace fabric normalizedLinks l.linkId))
@@ -48,11 +53,11 @@ in {
         (l: let
           ip6Ns = l.linkId;
           ip4Ns = ip4Namespace fabric normalizedLinks ip6Ns;
-          localAS = fabric.AS.${fabric.hosts.${hostName}.AS};
+          localAS = hostAS fabric hostName;
         in lib.attrsets.nameValuePair "40-${name l}" ({
           name = name l;
           address = [
-            "${private_address ip4Ns hostIds.${hostName}}/16"
+            "${linkLocal_address ip4Ns hostName}/24"
             "${private_address6 ip6Ns hostIds.${hostName}}/96" 
           ];
           extraConfig = ''
@@ -62,11 +67,11 @@ in {
           '';
         } // lib.attrsets.optionalAttrs (linkIsFrom hostName l && localAS.announcePublic) { # HACK: change me to zebra
           routingPolicyRules = [
-            { routingPolicyRuleConfig = { Table = ip4Ns; From = localAS.public; Priority = ip4Ns; }; }
+            { routingPolicyRuleConfig = { Table = ip4Ns; From = localAS.public4; Priority = ip4Ns; }; }
             { routingPolicyRuleConfig = { Table = ip4Ns; From = localAS.public6; Priority = ip4Ns; }; }
           ];
           routes = [
-            { routeConfig = { Gateway = "${private_address ip4Ns hostIds.${(remote l).host}}"; Table = ip4Ns; }; }
+            { routeConfig = { Gateway = "${linkLocal_address ip4Ns (remote l).host}"; Table = ip4Ns; }; }
             { routeConfig = { Gateway = "${private_address6 ip6Ns hostIds.${(remote l).host}}"; Table = ip4Ns; }; }
           ];
         }))

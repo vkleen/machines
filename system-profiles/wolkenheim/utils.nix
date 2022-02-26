@@ -1,18 +1,30 @@
 { lib, flake, ... }:
 rec {
-  inherit (flake.inputs.utils.lib) private_address private_address6;
+  inherit (flake.inputs.utils.lib) private_address linkLocal_address private_address6;
   inherit (flake.inputs.utils.lib.ints) hexToInt;
 
   hostIds = flake.inputs.macname.idTable."wolkenheim.kleen.org";
 
-  hostAS = fabric: host:
+  hostASN = fabric: host:
     ASN fabric.hosts.${host}.AS;
+
+  hostAS = fabric: host:
+    fabric.AS.${fabric.hosts.${host}.AS};
+
+  otherAS = fabric: host:
+    lib.attrsets.filterAttrs (n: _: n != fabric.hosts.${host}.AS) fabric.AS;
 
   ASN = AS:
     4204871356 + (flake.inputs.macname.computeHash16 AS);
 
   intfName = host: intf:
     "${host}${lib.strings.optionalString (intf != "_") "-${intf}"}";
+
+  linkName = host: l: intfName (linkRemote host l).host l.from.intf;
+
+  linkRemote = host: l: if linkIsFrom host l
+                          then l.to
+                          else l.from;
 
   assignIds = linkList:
     lib.lists.map (l: l // { linkId = flake.inputs.macname.computeLinkId l; }) linkList;

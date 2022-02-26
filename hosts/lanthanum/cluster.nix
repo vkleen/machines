@@ -1,8 +1,8 @@
 { lib, pkgs, flake, config, ...}:
 let
   inherit (builtins) substring;
-  inherit (import ../../utils/ints.nix { inherit lib; }) hexToInt;
-  inherit (import ../../utils { inherit lib; }) private_address;
+  inherit (flake.inputs.utils.lib.ints) hexToInt;
+  inherit (flake.inputs.utils.lib) private_address;
   private_address' = host: private_address 32 flake.nixosConfigurations.${host}.config.environment.etc."machine-id".text;
 
   mkId = host: let
@@ -151,117 +151,6 @@ in {
 #      groups.haclient = {
 #        gid = 189;
 #      };
-#    };
-
-    services.gobgpd = {
-      settings = {
-        global = {
-          config = {
-            as = 4288000175;
-            router-id = "45.32.153.151";
-            port = -1;
-          };
-          apply-policy = {
-            config = {
-              import-policy-list = [];
-              default-import-policy = "accept-route";
-              export-policy-list = [ "prepend-as" ];
-              default-export-policy = "accept-route";
-            };
-          };
-        };
-        neighbors = [
-          { config = {
-              neighbor-address = "169.254.169.254";
-              peer-as = 64515;
-              auth-password = "$BGP_AUTH_PASSWORD";
-            };
-            timers = {
-              config = {
-                hold-time = 3;
-                keepalive-interval = 1;
-              };
-            };
-            ebgp-multihop = {
-              config = {
-                enabled = true;
-                multihop-ttl = 2;
-              };
-            };
-          }
-          { config = {
-              neighbor-address = "2001:19f0:ffff::1";
-              peer-as = 64515;
-              auth-password = "$BGP_AUTH_PASSWORD";
-            };
-            timers = {
-              config = {
-                hold-time = 3;
-                keepalive-interval = 1;
-              };
-            };
-            ebgp-multihop = {
-              config = {
-                enabled = true;
-                multihop-ttl = 2;
-              };
-            };
-            afi-safis = [
-              { config = {
-                afi-safi-name = "ipv6-unicast";
-              }; }
-            ];
-          }
-        ];
-        policy-definitions = [
-          { name = "prepend-as";
-            statements = [
-              { actions = {
-                  bgp-actions = {
-                    set-as-path-prepend = {
-                      as = 4288000175;
-                      repeat-n = 1;
-                    };
-                  };
-                };
-              }
-            ];
-          }
-        ];
-      };
-    };
-
-#    systemd.services.gobgpd = let
-#      configFile = (pkgs.formats.toml {}).generate "gobgpd.conf" config.services.gobgpd.settings;
-#      finalConfigFile = "$RUNTIME_DIRECTORY/gobgpd.conf";
-#    in {
-#      #wantedBy = [ "multi-user.target" ];
-#      after = [ "network.target" ];
-#      description = "GoBGP Routing Daemon";
-#      script = ''
-#        umask 077
-#        export $(xargs < "''${CREDENTIALS_DIRECTORY}"/auth-password)
-#        ${pkgs.envsubst}/bin/envsubst -i "${configFile}" > ${finalConfigFile}
-#        exec ${pkgs.gobgpd}/bin/gobgpd -f "${finalConfigFile}" --sdnotify --pprof-disable --api-hosts=unix://"$RUNTIME_DIRECTORY/gobgpd.sock"
-#      '';
-#      postStart = ''
-#        ${pkgs.gobgp}/bin/gobgp --target unix://"$RUNTIME_DIRECTORY/gobgpd.sock" global rib add 45.77.54.162/32 -a ipv4
-#        ${pkgs.gobgp}/bin/gobgp --target unix://"$RUNTIME_DIRECTORY/gobgpd.sock" global rib add 2001:19f0:6c01:2bc5::/64 -a ipv6
-#      '';
-#      serviceConfig = {
-#        Type = "notify";
-#        ExecReload = "${pkgs.gobgpd}/bin/gobgpd -r";
-#        DynamicUser = true;
-#        RuntimeDirectoryMode = "0700";
-#        RuntimeDirectory = "gobgpd";
-#        LoadCredential = [
-#          "auth-password:/run/agenix/gobgp-auth-password"
-#        ];
-#      };
-#    };
-#
-#    age.secrets."gobgp-auth-password" = {
-#      file = ../../secrets/wolkenheim/gobgp-auth-password + "-${config.networking.hostName}.age";
 #    };
 
     systemd.services.bfdd = {

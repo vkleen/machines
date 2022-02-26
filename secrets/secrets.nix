@@ -55,4 +55,5 @@ in
   "wolkenheim/gobgp-auth-password-cerium.age".publicKeys = [vkleen cerium];
 
   "wolkenheim/vultr-bgp-password-lanthanum.age".publicKeys = [vkleen lanthanum];
+  "wolkenheim/vultr-bgp-password.age".publicKeys = [vkleen lanthanum cerium];
 }

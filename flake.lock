@@ -361,16 +361,33 @@
     "frr-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1645145511,
-        "narHash": "sha256-02NegQRvhWOXqmCfqcuQ/0NroAGdRxV3MusHOF08XzU=",
+        "lastModified": 1636343064,
+        "narHash": "sha256-hJcgLiPBxOE5QEh0RhtZhM3dOxFqW5H0TUjN+aP4qRk=",
         "owner": "FRRouting",
         "repo": "frr",
-        "rev": "52ddb8d545bef4a4322a31a9b5bc5c5b1a3c4573",
+        "rev": "1752bfdfc14409c667f10b7ee2c99b9014abb271",
         "type": "github"
       },
       "original": {
         "owner": "FRRouting",
+        "ref": "frr-8.1",
         "repo": "frr",
+        "type": "github"
+      }
+    },
+    "gobgp-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1644811980,
+        "narHash": "sha256-YmwLnYKqPrCrIHmiLtT7wxaVsLAxf5dIOvMPZaFtmDY=",
+        "owner": "osrg",
+        "repo": "gobgp",
+        "rev": "5d96988932661fd8f7695c07d7190fb0b33eeeeb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "osrg",
+        "repo": "gobgp",
         "type": "github"
       }
     },
@@ -493,17 +510,14 @@
     },
     "macname": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2",
-        "utils": [
-          "utils"
-        ]
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1645377735,
-        "narHash": "sha256-yLrhtDUBiLoHYPuVNKWicjIlsQBGyA+Wo6ynlm+fQ6I=",
+        "lastModified": 1645724130,
+        "narHash": "sha256-GqdRiAUIbQ94pHvMUmIKpIL2rOUUWKFfTTo80bWpWkU=",
         "owner": "vkleen",
         "repo": "macname",
-        "rev": "4107ea5472e18a485b75060bccac6f7cfc8076e6",
+        "rev": "db05690b8a537be946f56a76e14491e678ce5085",
         "type": "github"
       },
       "original": {
@@ -1098,6 +1112,7 @@
         "freecad-assembly3-src": "freecad-assembly3-src",
         "freecad-src": "freecad-src",
         "frr-src": "frr-src",
+        "gobgp-src": "gobgp-src",
         "hledger-src": "hledger-src",
         "home-manager": "home-manager",
         "kicad-src": "kicad-src",
@@ -1180,12 +1195,15 @@
     },
     "utils_2": {
       "inputs": {
+        "macname": [
+          "macname"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "narHash": "sha256-murMsgFJ5naS3md7ejPgOgExs2tFG7YGzrp4cMZVoQg=",
+        "narHash": "sha256-p4MMMSQ9+kStMocz7osTDy/BKf6rtQIx9ekEtO5RIgA=",
         "path": "./utils",
         "type": "path"
       },

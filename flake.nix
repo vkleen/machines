@@ -117,7 +117,11 @@
       flake = false;
     };
     frr-src = {
-      url = "github:FRRouting/frr";
+      url = "github:FRRouting/frr?ref=frr-8.1";
+      flake = false;
+    };
+    gobgp-src = {
+      url = "github:osrg/gobgp";
       flake = false;
     };
     lego-src = {
@@ -128,16 +132,15 @@
     utils = {
       url = path:./utils;
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.macname.follows = "macname";
     };
 
     macname = {
       url = "github:vkleen/macname";
-      inputs.utils.follows = "utils";
     };
     macname-power9 = {
       url = "github:vkleen/macname";
       inputs.nixpkgs.follows = "nixpkgs-power9";
-      inputs.utils.follows = "utils";
     };
 
     rmrl = {
@@ -168,7 +171,7 @@
         toString
         ;
       inherit (inputs.nixpkgs) lib;
-      utils = import ./utils { inherit lib; };
+      utils = inputs.utils.lib;
       inherit (utils) recImport overrideModule;
       inherit (lib)
         composeManyExtensions
@@ -342,6 +345,7 @@
               freecad-assembly3-src
               freecad-src
               frr-src
+              gobgp-src
               hledger-src
               kicad-src
               lego-src

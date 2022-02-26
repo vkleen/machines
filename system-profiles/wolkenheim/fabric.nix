@@ -2,7 +2,7 @@
   AS = {
     "auenheim" = {
       announcePublic = true;
-      public = "45.77.54.162/32";
+      public4 = "45.77.54.162/32";
       public6 = "2001:19f0:6c01:2bc5::/64";
     };
     "wolkenheim" = {
@@ -47,9 +47,34 @@
     };
   };
 
+  uplinks = let
+    vultr-uplink = {
+      type = "bgp";
+      credentials = ../../secrets/wolkenheim/vultr-bgp-password.age;
+      remote-as = 64515;
+      local-as = 4288000175;
+      password = "$VULTR_BGP_PASSWORD";
+      allowed-prefixes4 = [ "45.77.54.162/32" ];
+      allowed-prefixes6 = [ "2001:19f0:6c01:2bc5::/64" ];
+      peer4 = "169.254.169.254";
+      peer6 = "2001:19f0:ffff::1";
+      extraGobgpNeighborConfig = {
+        ebgp-multihop.config = {
+          enabled = true;
+          multihop-ttl = 2;
+        };
+      };
+    };
+  in {
+    "lanthanum" = vultr-uplink;
+    "cerium" = vultr-uplink;
+    "samarium" = {
+      type = "nat";
+    };
+  };
+
   ip4NamespaceAllocation = {
-    "reserved_auenheim" = 172;
-    "reserved_wolkenheim" = 32;
     "reserved_router_id" = 0;
+    "reserved_vultr" = 169;
   };
 }

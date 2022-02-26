@@ -1,4 +1,4 @@
-{ lib, allSystems ? [ "x86_64-linux" "aarch64-linux" ] }: let
+{ lib, macname, allSystems ? [ "x86_64-linux" "aarch64-linux" ] }: let
 in rec {
   inherit (builtins)
     readDir
@@ -111,6 +111,10 @@ in rec {
     octet2 = hexToInt chars34;
   in assert 0 <= linkId && linkId <= 255;
     "10.${builtins.toString linkId}.${builtins.toString octet1}.${builtins.toString octet2}";
+
+  linkLocal_address = linkId: hostName: let
+    n = macname.elementTable.${hostName};
+  in assert 0 <= linkId && linkId <= 255; "169.254.${builtins.toString linkId}.${builtins.toString n}";
 
   private_address6 = linkId: machine_id: let
     inherit (strings) substring;

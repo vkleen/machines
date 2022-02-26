@@ -143,11 +143,7 @@
 
   security.acme.certs = {
     "turn.kleen.org" = {
-      email = "vkleen-zerossl@17220103.de";
       server = "https://acme.zerossl.com/v2/DV90";
-      extraLegoFlags = [
-        "--eab" "--kid" "dummy" "--hmac" "dummy"
-      ];
     };
   };
 

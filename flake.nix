@@ -120,6 +120,10 @@
       url = "github:FRRouting/frr";
       flake = false;
     };
+    lego-src = {
+      url = "github:vkleen/lego?ref=zerossl-accounts";
+      flake = false;
+    };
 
     utils = {
       url = path:./utils;
@@ -340,6 +344,7 @@
               frr-src
               hledger-src
               kicad-src
+              lego-src
               pacemaker-src
               pcs-src
               power-assert-src

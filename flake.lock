@@ -426,6 +426,23 @@
         "url": "https://gitlab.com/kicad/code/kicad.git"
       }
     },
+    "lego-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1645875006,
+        "narHash": "sha256-CayeWo9Dm534+l/zQf1E1JGxVP3twLBSyDwTcKTwXj0=",
+        "owner": "vkleen",
+        "repo": "lego",
+        "rev": "a424cd721953d3ed4e758dfafcde7d7b10405044",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vkleen",
+        "ref": "zerossl-accounts",
+        "repo": "lego",
+        "type": "github"
+      }
+    },
     "lowdown-src": {
       "flake": false,
       "locked": {
@@ -1083,6 +1100,7 @@
         "hledger-src": "hledger-src",
         "home-manager": "home-manager",
         "kicad-src": "kicad-src",
+        "lego-src": "lego-src",
         "macname": "macname",
         "macname-power9": "macname-power9",
         "neovim-flake": "neovim-flake",

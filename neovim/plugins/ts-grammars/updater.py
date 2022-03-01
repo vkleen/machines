@@ -27,7 +27,8 @@ with open(grammars_file_path, "w") as grammars_file:
 
     grammars_file.write("{\n")
     # phpdoc require tree-sitter-php as a node dependency, too much effort
-    problematic_parsers = ["phpdoc"]
+    # todotxt is not in lockfile as of now (1.3.22)
+    problematic_parsers = ["phpdoc", "todotxt"]
 
     for data in parsers_data:
         parser_name, parser_repo = data

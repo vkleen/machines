@@ -1,0 +1,11 @@
+{
+  "url": "https://github.com/J3RN/tree-sitter-gleam",
+  "rev": "cfcbca3f8f734773878e00d7bfcedea98eb10be2",
+  "date": "2022-02-26T12:20:54-05:00",
+  "path": "/nix/store/fixdwqgi6l0l398fhj574x8ajpzl30ia-tree-sitter-gleam-cfcbca3",
+  "sha256": "1qg1221d3g97nhbxlj69p0m9pmrngcavp320v0yk1qi1haa961lp",
+  "fetchLFS": false,
+  "fetchSubmodules": false,
+  "deepClone": false,
+  "leaveDotGit": false
+}

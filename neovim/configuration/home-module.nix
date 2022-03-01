@@ -53,6 +53,7 @@ let
     lsp_signature
     lualine
     luasnip
+    nftables
     null-ls-nvim
     numb-nvim
     nvim-cmp

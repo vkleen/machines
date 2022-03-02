@@ -376,6 +376,8 @@ in lib.mkMerge [{
         "${mod}+Ctrl+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-dpt}";
         "${mod}+u" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-emoji}";
 
+        "${mod}+Shift+period" = "${pkgs.mako}/bin/makoctl dismiss -a";
+
         "XF86AudioMute" = "exec ${vol}/bin/vol mute";
         "XF86AudioLowerVolume" = "exec ${vol}/bin/vol down";
         "XF86AudioRaiseVolume" = "exec ${vol}/bin/vol up";
@@ -494,6 +496,10 @@ in lib.mkMerge [{
     [urgency=high]
     border-color=${colors.red}
     default-timeout=8000
+    
+    [app-name=weechat]
+    ignore-timeout=1
+    default-timeout=0
   '';
 
   # systemd.user.services.clipman = {

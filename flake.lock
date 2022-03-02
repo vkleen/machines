@@ -546,6 +546,21 @@
         "type": "github"
       }
     },
+    "macname_2": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3",
+        "utils": "utils_2"
+      },
+      "locked": {
+        "narHash": "sha256-EgxExyOFa6817giAFSR2sKfVrm8jTWZ/beu8MSoHaog=",
+        "path": "/nix/store/idpy9wpwikc5prz0y3y000nkdnqam1f7-source",
+        "type": "path"
+      },
+      "original": {
+        "id": "macname",
+        "type": "indirect"
+      }
+    },
     "neovim-flake": {
       "inputs": {
         "flake-utils": "flake-utils_3",
@@ -823,6 +838,28 @@
     },
     "nixpkgs_3": {
       "locked": {
+        "narHash": "sha256-40WFADLOq4UhpSp9a6xlajxCLhktL16Ao1r3mFEjEc0=",
+        "path": "/nix/store/9kpg95k9x3mi6m3hqk0yhjxs8v7q009w-source",
+        "type": "path"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
+        "narHash": "sha256-40WFADLOq4UhpSp9a6xlajxCLhktL16Ao1r3mFEjEc0=",
+        "path": "/nix/store/9kpg95k9x3mi6m3hqk0yhjxs8v7q009w-source",
+        "type": "path"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
         "lastModified": 1644277268,
         "narHash": "sha256-40WFADLOq4UhpSp9a6xlajxCLhktL16Ao1r3mFEjEc0=",
         "owner": "vkleen",
@@ -837,7 +874,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_6": {
       "locked": {
         "lastModified": 1610729867,
         "narHash": "sha256-bk/SBaBLqZX/PEqal27DMQwAHHl0dcZMp8NNksQr80s=",
@@ -852,7 +889,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_5": {
+    "nixpkgs_7": {
       "locked": {
         "lastModified": 1641130651,
         "narHash": "sha256-Ir9UYC67/9NV313F8TDHGw99nrbTB9RLbmlMawsotVE=",
@@ -865,7 +902,7 @@
         "type": "indirect"
       }
     },
-    "nixpkgs_6": {
+    "nixpkgs_8": {
       "locked": {
         "lastModified": 1610729867,
         "narHash": "sha256-bk/SBaBLqZX/PEqal27DMQwAHHl0dcZMp8NNksQr80s=",
@@ -995,7 +1032,7 @@
     "poetry2nix": {
       "inputs": {
         "flake-utils": "flake-utils_5",
-        "nixpkgs": "nixpkgs_4"
+        "nixpkgs": "nixpkgs_6"
       },
       "locked": {
         "lastModified": 1641641774,
@@ -1014,7 +1051,7 @@
     "poetry2nix_2": {
       "inputs": {
         "flake-utils": "flake-utils_7",
-        "nixpkgs": "nixpkgs_6"
+        "nixpkgs": "nixpkgs_8"
       },
       "locked": {
         "lastModified": 1641641774,
@@ -1081,7 +1118,7 @@
     "rmrl": {
       "inputs": {
         "flake-utils": "flake-utils_6",
-        "nixpkgs": "nixpkgs_5",
+        "nixpkgs": "nixpkgs_7",
         "poetry2nix": "poetry2nix_2"
       },
       "locked": {
@@ -1126,7 +1163,7 @@
         "nix-power9": "nix-power9",
         "nix-riscv": "nix-riscv",
         "nixos-rocm-power9": "nixos-rocm-power9",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_5",
         "nixpkgs-power9": "nixpkgs-power9",
         "nixpkgs-riscv": "nixpkgs-riscv",
         "nixpkgs-wayland": "nixpkgs-wayland",
@@ -1138,7 +1175,7 @@
         "rmfakecloud-src": "rmfakecloud-src",
         "rmrl": "rmrl",
         "test-unit-src": "test-unit-src",
-        "utils": "utils_2"
+        "utils": "utils_3"
       }
     },
     "rust-overlay": {
@@ -1178,6 +1215,7 @@
     },
     "utils": {
       "inputs": {
+        "macname": "macname_2",
         "nixpkgs": [
           "neovim-subflake",
           "nixpkgs"
@@ -1195,6 +1233,26 @@
     },
     "utils_2": {
       "inputs": {
+        "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "dir": "utils",
+        "lastModified": 1645131919,
+        "narHash": "sha256-Lyrp2ZlcXC///es7rchoIGmSXWil+sWxQ+f0Y9OnYqo=",
+        "owner": "vkleen",
+        "repo": "machines",
+        "rev": "aeea6dfe70a3958ac96ba5d6c10ae06ed9bdf2b4",
+        "type": "github"
+      },
+      "original": {
+        "dir": "utils",
+        "owner": "vkleen",
+        "repo": "machines",
+        "type": "github"
+      }
+    },
+    "utils_3": {
+      "inputs": {
         "macname": [
           "macname"
         ],
@@ -1203,7 +1261,7 @@
         ]
       },
       "locked": {
-        "narHash": "sha256-p4MMMSQ9+kStMocz7osTDy/BKf6rtQIx9ekEtO5RIgA=",
+        "narHash": "sha256-bnAOw+XtBWe1I0vrW+5n5bihphXcszgkZYixOgNPJIM=",
         "path": "./utils",
         "type": "path"
       },

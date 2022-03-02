@@ -116,7 +116,7 @@ in rec {
     n = macname.elementTable.${hostName};
   in assert 0 <= linkId && linkId <= 255; "169.254.${builtins.toString linkId}.${builtins.toString n}";
 
-  private_address6 = linkId: machine_id: let
+  linkLocal_address6 = linkId: machine_id: let
     inherit (strings) substring;
     linkIdParts = trivial.toBaseDigits (ints.pow 2 16) linkId;
     linkId0-15  = strings.toLower (trivial.toHexString (elemAtOr 0 linkIdParts 0));

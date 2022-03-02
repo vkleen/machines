@@ -5,6 +5,7 @@ with import ./utils.nix { inherit lib flake; }; let
 
   name = linkName hostName;
   remote = linkRemote hostName;
+  local = linkLocal hostName;
 in {
   config = {
 
@@ -19,36 +20,41 @@ in {
     networking.firewall.allowedUDPPorts = lib.lists.map
       (l: linkListenPort (ip4Namespace fabric normalizedLinks l.linkId))
       (linksTo hostName normalizedLinks);
+
+    networking.hosts = lib.attrsets.listToAttrs (lib.lists.concatMap
+      (l: lib.lists.map
+        (a: lib.attrsets.nameValuePair a [(remote l).host])
+        (flake.nixosConfigurations.${(remote l).host}.config.system.publicAddresses))
+      (linksInvolving hostName normalizedLinks));
+
+    networking.useNetworkd = true;
+    networking.wireguard.interfaces = lib.attrsets.listToAttrs (lib.lists.map
+      (l: let
+        ip6Ns = l.linkId;
+        ip4Ns = ip4Namespace fabric normalizedLinks ip6Ns;
+        localAS = hostAS fabric hostName;
+      in lib.attrsets.nameValuePair (name l) ({
+        privateKeyFile = "/run/agenix/${hostName}";
+        allowedIPsAsRoutes = false;
+        peers = [
+          ({
+            publicKey = lib.strings.removeSuffix "\n" (builtins.readFile (
+              ../../wireguard + "/${(remote l).host}.pub"));
+            allowedIPs = [ "0.0.0.0/0" "::/0" ];
+          } // lib.attrsets.optionalAttrs (linkIsFrom hostName l) {
+            endpoint = "${(remote l).host}.kleen.org:${builtins.toString (linkListenPort ip4Ns)}";
+          })
+        ];
+        socketNamespace = if (local l).intf == "_"
+          then "init"
+          else "wg_upstream"; # TODO: replace this with (local l).intf when deploying
+        interfaceNamespace = "init";
+      } // lib.attrsets.optionalAttrs (linkIsTo hostName l) {
+        listenPort = linkListenPort ip4Ns;
+      }))
+      (linksInvolving hostName normalizedLinks));
+
     systemd.network = {
-      netdevs = lib.attrsets.listToAttrs (lib.lists.map
-        (l: let
-          ip6Ns = l.linkId;
-          ip4Ns = ip4Namespace fabric normalizedLinks ip6Ns;
-        in lib.attrsets.nameValuePair "40-${name l}" {
-          netdevConfig = {
-            Name = name l;
-            Kind = "wireguard";
-            MTUBytes = "1412";
-          };
-          wireguardConfig = {
-            PrivateKeyFile = "/run/agenix/${hostName}";
-          } // lib.attrsets.optionalAttrs (linkIsTo hostName l) {
-            ListenPort = linkListenPort ip4Ns;
-          };
-          wireguardPeers = [
-            { wireguardPeerConfig = {
-              PublicKey = lib.strings.removeSuffix "\n" (builtins.readFile (
-                ../../wireguard + "/${(remote l).host}.pub"));
-              AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-            } // lib.attrsets.optionalAttrs (linkIsFrom hostName l) {
-              Endpoint = "${(remote l).host}.kleen.org:${builtins.toString (linkListenPort ip4Ns)}";
-            }; }
-          ];
-          extraConfig = ''
-            [Match]
-          '';
-        })
-        (linksInvolving hostName normalizedLinks));
       networks = lib.attrsets.listToAttrs (lib.lists.map
         (l: let
           ip6Ns = l.linkId;
@@ -58,22 +64,16 @@ in {
           name = name l;
           address = [
             "${linkLocal_address ip4Ns hostName}/24"
-            "${private_address6 ip6Ns hostIds.${hostName}}/96" 
+            "${linkLocal_address6 ip6Ns hostIds.${hostName}}/96" 
           ];
+          linkConfig = {
+            MTUBytes = "1412";
+          };
           extraConfig = ''
             [Neighbor]
-            Address=${private_address6 ip6Ns hostIds.${(remote l).host}}
-            LinkLayerAddress=${private_address6 ip6Ns hostIds.${(remote l).host}}
+            Address=${linkLocal_address6 ip6Ns hostIds.${(remote l).host}}
+            LinkLayerAddress=${linkLocal_address6 ip6Ns hostIds.${(remote l).host}}
           '';
-        } // lib.attrsets.optionalAttrs (linkIsFrom hostName l && localAS.announcePublic) { # HACK: change me to zebra
-          routingPolicyRules = [
-            { routingPolicyRuleConfig = { Table = ip4Ns; From = localAS.public4; Priority = ip4Ns; }; }
-            { routingPolicyRuleConfig = { Table = ip4Ns; From = localAS.public6; Priority = ip4Ns; }; }
-          ];
-          routes = [
-            { routeConfig = { Gateway = "${linkLocal_address ip4Ns (remote l).host}"; Table = ip4Ns; }; }
-            { routeConfig = { Gateway = "${private_address6 ip6Ns hostIds.${(remote l).host}}"; Table = ip4Ns; }; }
-          ];
         }))
         (linksInvolving hostName normalizedLinks));
     };

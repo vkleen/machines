@@ -1,6 +1,6 @@
 { lib, flake, ... }:
 rec {
-  inherit (flake.inputs.utils.lib) private_address linkLocal_address private_address6;
+  inherit (flake.inputs.utils.lib) private_address linkLocal_address linkLocal_address6;
   inherit (flake.inputs.utils.lib.ints) hexToInt;
 
   hostIds = flake.inputs.macname.idTable."wolkenheim.kleen.org";
@@ -25,6 +25,9 @@ rec {
   linkRemote = host: l: if linkIsFrom host l
                           then l.to
                           else l.from;
+  linkLocal = host: l: if linkIsFrom host l
+                          then l.from
+                          else l.to;
 
   assignIds = linkList:
     lib.lists.map (l: l // { linkId = flake.inputs.macname.computeLinkId l; }) linkList;

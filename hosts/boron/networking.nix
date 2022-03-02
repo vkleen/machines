@@ -2,7 +2,7 @@
 let
   ppp_interface = "wan";
 
-  inherit (flake.inputs.utils.lib) private_address private_address6;
+  inherit (flake.inputs.utils.lib) private_address;
   machine_id = config.environment.etc."machine-id".text;
 
   bfdConfig = (pkgs.formats.yaml {}).generate "bfdd.yaml" {
@@ -16,9 +16,92 @@ let
       };
     };
   };
+
+  nft_ruleset = let
+    globalTcpPorts =
+         lib.lists.map builtins.toString config.networking.firewall.allowedTCPPorts
+      ++ lib.lists.map ({from,to}: "${builtins.toString from}-${builtins.toString to}") config.networking.firewall.allowedTCPPortRanges;
+    globalUdpPorts =
+         lib.lists.map builtins.toString config.networking.firewall.allowedUDPPorts
+      ++ lib.lists.map ({from,to}: "${builtins.toString from}-${builtins.toString to}") config.networking.firewall.allowedUDPPortRanges;
+
+    interfaceTcpPorts = i: lib.lists.map builtins.toString config.networking.firewall.interfaces.${i}.allowedTCPPorts;
+    interfaceUdpPorts = i: lib.lists.map builtins.toString config.networking.firewall.interfaces.${i}.allowedUDPPorts;
+  in ''
+    define icmp_protos = { ipv6-icmp, icmp, igmp }
+
+    table inet filter {
+      chain input {
+        type filter hook input priority filter
+        policy drop
+        
+        iifname { lo } accept
+        ct state { related, established} accept
+
+        meta l4proto ipv6-icmp icmpv6 type nd-redirect drop
+        meta l4proto $icmp_protos accept
+
+        iifname { auenheim } meta l4proto tcp tcp dport { ${lib.strings.concatStringsSep "," (interfaceTcpPorts "auenheim")} } accept
+        iifname { auenheim } meta l4proto udp udp dport { ${lib.strings.concatStringsSep "," (interfaceUdpPorts "auenheim")} } accept
+
+        iifname { wg-europium } meta l4proto tcp tcp dport { ${builtins.toString config.services.rmfakecloud.port} } accept
+
+        meta l4proto tcp tcp dport { ${lib.strings.concatStringsSep "," globalTcpPorts} } accept
+        meta l4proto udp udp dport { ${lib.strings.concatStringsSep "," globalUdpPorts} } accept
+
+        meta l4proto udp ip6 daddr fe80::/64 udp dport 546 accept
+      }
+
+      chain forward {
+        type filter hook forward priority filter
+        policy drop
+        iifname { auenheim } accept
+        ct state { related, established } accept
+
+        meta l4proto ipv6-icmp icmpv6 type nd-redirect drop
+        meta l4proto $icmp_protos accept
+      }
+    }
+
+    table inet raw {
+      chain rpfilter {
+        fib saddr . mark oif != 0 return
+        meta nfproto ipv4 meta l4proto udp udp sport 67 udp dport 68 return
+        meta nfproto ipv4 meta l4proto udp ip saddr 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
+        counter drop
+      }
+      chain prerouting {
+        type filter hook prerouting priority raw
+        policy accept
+        jump rpfilter
+      }
+    }
+    table inet mss_clamp {
+      chain postrouting {
+        type filter hook postrouting priority mangle
+        policy accept
+        oifname { wg-europium, lanthanum-dsl, lanthanum-lte } meta l4proto tcp tcp flags & (syn|rst) == syn tcp option maxseg size set rt mtu
+      }
+    }
+    table ip nat {
+      chain prerouting {
+        type nat hook prerouting priority dstnat
+        policy accept
+
+        iifname { auenheim } meta mark set 0x1
+      }
+      chain postrouting {
+        type nat hook postrouting priority srcnat
+        policy accept
+
+        oifname { wg-europium } mark 0x1 masquerade
+        oifname { lanthanum-dsl, lanthanum-lte } mark 0x1 snat to 45.77.54.162
+      }
+    }
+  '';
 in {
   environment.systemPackages = [
-    pkgs.bfd
+    pkgs.bfd pkgs.nftables
   ];
 
   environment.etc."resolv.conf".text = ''
@@ -27,7 +110,8 @@ in {
     search auenheim.kleen.org
   '';
   system.publicAddresses = [
-    "2a01:7e01:e002:aa02::1"
+    "45.77.54.162"
+    "2001:19f0:6c01:2bc5::1"
   ];
   networking = {
     useDHCP = false;
@@ -50,7 +134,7 @@ in {
         id = 32;
         interface = "eth0";
       };
-      "lte" = {
+      "lte-if" = {
         id = 8;
         interface = "eth0";
       };
@@ -69,7 +153,7 @@ in {
           { address = "10.172.100.1"; prefixLength = 24; }
         ];
         ipv6.addresses = [
-          { address = "2a01:7e01:e002:aa02::1"; prefixLength = 64; }
+          { address = "2001:19f0:6c01:2bc5::1"; prefixLength = 64; }
         ];
       };
       "apc" = {
@@ -88,11 +172,17 @@ in {
         useDHCP = true;
         macAddress = "5a:1d:49:77:c9:26";
       };
+      "lte-bridge" = {
+        useDHCP = false;
+      };
     };
 
     bridges = {
       "mgmt" = {
         interfaces = [ "auenheim-mgmt" "upstream-mgmt" ];
+      };
+      "lte-bridge" = {
+        interfaces = [ "lte-if" "upstream-lte" ];
       };
     };
 
@@ -102,16 +192,18 @@ in {
       internalInterfaces = [ "auenheim" ];
     };
 
-    firewall = {
+    nftables = {
       enable = true;
+      ruleset = nft_ruleset;
+    };
+
+    firewall = {
+      enable = false;
       allowPing = true;
       interfaces = {
         "auenheim" = {
           allowedUDPPorts = [ 53 69 ];
           allowedTCPPorts = [ 53 69 8883 ];
-        };
-        "lanthanum" = {
-          allowedUDPPorts = [ 3784 ];
         };
       };
       extraCommands = ''
@@ -198,7 +290,7 @@ in {
           "telekom" = {
             useDHCP = false;
           };
-          "lte" = {
+          "lte-veth" = {
             useDHCP = true;
           };
           "ifb0" = {
@@ -219,25 +311,25 @@ in {
             iptables -I FORWARD 2 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
             ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 5000kbit burst 5kb latency 100ms
-            ${pkgs.iproute}/bin/tc qdisc add dev lte handle ffff: ingress
-            ${pkgs.iproute}/bin/tc filter add dev lte parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
+            ${pkgs.iproute}/bin/tc qdisc add dev lte-veth handle ffff: ingress
+            ${pkgs.iproute}/bin/tc filter add dev lte-veth parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
           '';
           extraStopCommands = ''
-            ${pkgs.iproute}/bin/tc filter del dev lte root
-            ${pkgs.iproute}/bin/tc qdisc del dev lte ingress
+            ${pkgs.iproute}/bin/tc filter del dev lte-veth root
+            ${pkgs.iproute}/bin/tc qdisc del dev lte-veth ingress
             ${pkgs.iproute}/bin/tc qdisc del dev ifb0 root
           '';
         };
         nat = {
           enable = true;
-          externalInterface = "lte";
+          externalInterface = "lte-veth";
           internalInterfaces = [ "mgmt-veth" ];
           internalIPs = [ ];
         };
         inherit (config.networking) hosts;
       };
       systemd.network = {
-        networks."40-lte" = {
+        networks."40-lte-veth" = {
           dhcpV4Config = {
             RouteMetric = 2048;
           };
@@ -343,17 +435,18 @@ in {
     netns = "wg_upstream";
     preStartScript = ''
       ${pkgs.iproute}/bin/ip link add dev upstream-mgmt type veth peer name mgmt-veth
+      ${pkgs.iproute}/bin/ip link add dev upstream-lte type veth peer name lte-veth
 
       ${pkgs.iproute}/bin/ip link set telekom netns wg_upstream
       ${pkgs.iproute}/bin/ip link set mgmt-veth netns wg_upstream
       ${pkgs.iproute}/bin/ip link set ifb0 netns wg_upstream
-      ${pkgs.iproute}/bin/ip link set lte netns wg_upstream
+      ${pkgs.iproute}/bin/ip link set lte-veth netns wg_upstream
     '';
     postStopScript = ''
       ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set telekom netns 1 || true
       ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set ifb0 netns 1 || true
-      ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set lte netns 1 || true
       ${pkgs.iproute}/bin/ip link del upstream-mgmt || true
+      ${pkgs.iproute}/bin/ip link del upstream-lte || true
     '';
 
     bindMounts = {
@@ -637,6 +730,11 @@ in {
       };
     };
     networks."40-upstream-mgmt" = {
+      networkConfig = {
+        LinkLocalAddressing = "no";
+      };
+    };
+    networks."40-upstream-lte" = {
       networkConfig = {
         LinkLocalAddressing = "no";
       };

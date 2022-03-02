@@ -113,7 +113,7 @@ in {
         defined-sets.neighbor-sets = lib.lists.map
           (l: {
             neighbor-set-name = name l;
-            neighbor-info-list = [ (private_address6 l.linkId hostIds.${(remote l).host}) ];
+            neighbor-info-list = [ (linkLocal_address6 l.linkId hostIds.${(remote l).host}) ];
           })
           (linksInvolving hostName normalizedLinks);
       };
@@ -163,7 +163,7 @@ in {
         networks."40-public" = {
           name = "public";
           address = with localAS; [
-            public4 public6
+            public4
           ];
           networkConfig = {
             LinkLocalAddressing = "no";

@@ -36,6 +36,7 @@ in {
       systemd.services.zebra = {
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" "systemd-sysctl.service" ];
+        bindsTo = [ "systemd-networkd.service" ];
 
         description = "FRR Zebra routing manager";
 
@@ -173,3 +174,5 @@ in {
     })
   ];
 }
+
+

@@ -182,7 +182,7 @@ in {
         interfaces = [ "auenheim-mgmt" "upstream-mgmt" ];
       };
       "lte-bridge" = {
-        interfaces = [ "lte-if" "upstream-lte" ];
+        interfaces = [ "lte-if" "upstream-lte" "ltens" ];
       };
     };
 
@@ -282,12 +282,6 @@ in {
           "telekom" = {
             useDHCP = false;
           };
-          "lte-veth" = {
-            useDHCP = true;
-          };
-          "ifb0" = {
-            useDHCP = false;
-          };
           "mgmt-veth" = {
             useDHCP = true;
             macAddress = "5a:1d:49:77:c9:27";
@@ -301,19 +295,12 @@ in {
             ip46tables -A FORWARD -j DROP
             iptables -I FORWARD 1 -o lte -d 192.168.88.1 -j ACCEPT
             iptables -I FORWARD 2 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-
-            ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 5000kbit burst 5kb latency 100ms
-            ${pkgs.iproute}/bin/tc qdisc add dev lte-veth handle ffff: ingress
-            ${pkgs.iproute}/bin/tc filter add dev lte-veth parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
           '';
           extraStopCommands = ''
-            ${pkgs.iproute}/bin/tc filter del dev lte-veth root
-            ${pkgs.iproute}/bin/tc qdisc del dev lte-veth ingress
-            ${pkgs.iproute}/bin/tc qdisc del dev ifb0 root
           '';
         };
         nat = {
-          enable = true;
+          enable = false;
           externalInterface = "lte-veth";
           internalInterfaces = [ "mgmt-veth" ];
           internalIPs = [ ];
@@ -321,22 +308,6 @@ in {
         inherit (config.networking) hosts;
       };
       systemd.network = {
-        networks."40-lte-veth" = {
-          dhcpV4Config = {
-            RouteMetric = 2048;
-          };
-          networkConfig = {
-            DHCP = lib.mkForce "ipv4";
-            LinkLocalAddressing = "no";
-          };
-          routes = [
-            { routeConfig = {
-                Destination = "94.16.123.211/32";
-                Gateway = "192.168.88.1";
-              };
-            }
-          ];
-        };
         networks."40-telekom" = {
           networkConfig.LinkLocalAddressing = "no";
         };
@@ -402,15 +373,6 @@ in {
         RuntimeDirectory = "pppd";
         RuntimeDirectoryPreserve = true;
       };
-      systemd.services."lte-keepalive" = {
-        requires = [ "systemd-networkd-wait-online.service" ];
-        wantedBy = [ "network-online.target" ];
-        serviceConfig = {
-          ExecStart = "${config.security.wrapperDir}/ping -i10 94.16.123.211";
-          Restart = "always";
-          RestartSec = 10;
-        };
-      };
       environment.etc = {
         "ppp/ip-up" = {
           text = ''
@@ -427,16 +389,12 @@ in {
     netns = "wg_upstream";
     preStartScript = ''
       ${pkgs.iproute}/bin/ip link add dev upstream-mgmt type veth peer name mgmt-veth
-      ${pkgs.iproute}/bin/ip link add dev upstream-lte type veth peer name lte-veth
 
       ${pkgs.iproute}/bin/ip link set telekom netns wg_upstream
       ${pkgs.iproute}/bin/ip link set mgmt-veth netns wg_upstream
-      ${pkgs.iproute}/bin/ip link set ifb0 netns wg_upstream
-      ${pkgs.iproute}/bin/ip link set lte-veth netns wg_upstream
     '';
     postStopScript = ''
       ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set telekom netns 1 || true
-      ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set ifb0 netns 1 || true
       ${pkgs.iproute}/bin/ip link del upstream-mgmt || true
       ${pkgs.iproute}/bin/ip link del upstream-lte || true
     '';
@@ -462,16 +420,88 @@ in {
         Type = "oneshot";
       };
       environment = {
-        DEVPATH="%I";
+        devpath="%i";
       };
       script =''
-        ${pkgs.iproute}/bin/ip link set dev "$(${pkgs.coreutils}/bin/basename "$DEVPATH")" netns wg_upstream
+        ${pkgs.iproute}/bin/ip link set dev "$(${pkgs.coreutils}/bin/basename "$devpath")" netns wg_upstream
       '';
     };
     "upstream-container" = {
       after = [ "sys-subsystem-net-devices-mgmt.device" ];
     };
+    "lte-dhcp-if" = {
+      requires = [ "netns@lte.service" "network.target" ];
+      after = [ "netns@lte.service" "network.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+      };
+      preStart = ''
+        ${pkgs.iproute}/bin/ip link add dev ltens type veth peer name lte
+        ${pkgs.iproute}/bin/ip link set ltens up
+        ${pkgs.iproute}/bin/ip link set lte up
+        ${pkgs.iproute}/bin/ip link set ifb0 up
+      '';
+      script = ''
+        ${pkgs.iproute}/bin/ip link set lte netns lte
+        ${pkgs.iproute}/bin/ip link set ifb0 netns lte
+
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev lte up
+
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 6500kbit burst 5kb latency 100ms
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev lte handle ffff: ingress
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc filter add dev lte parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
+      '';
+      postStop = ''
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc filter del dev lte root
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc del dev lte ingress
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc del dev ifb0 root
+        ${pkgs.iproute}/bin/ip link del ltens || true
+      '';
+    };
+    "lte-dhcp" = let
+      script = pkgs.writeShellScript "udhcpc-dispatch" ''
+        case $1 in
+          bound|renew)
+            ${pkgs.iproute}/bin/ip addr add dev "$interface" "$ip"/"$subnet" ''${mtu:+mtu $mtu}
+            ${pkgs.iproute}/bin/ip route replace 0.0.0.0/0 dev "$interface" via "$router"
+            ;;
+          deconfig)
+            ${pkgs.iproute}/bin/ip -4 addr flush dev $interface
+            ${pkgs.iproute}/bin/ip -4 route flush dev $interface
+            ;;
+          leasefail|nak)
+            echo "$0: Could not obtain DHCP lease" >&2
+            exit 1
+            ;;
+          *)
+            echo "$0: Unknown udhcpc command: $1" >&2
+            exit 1
+            ;;
+        esac
+      '';
+    in {
+      wantedBy = [ "multi-user.target" ];
+      requires = [ "lte-dhcp-if.service" ];
+      after = [ "lte-dhcp-if.service" ];
+      unitConfig = {
+        JoinsNamespaceOf = "netns@lte.service";
+      };
+      serviceConfig = {
+        PIDFile = "/run/lte-dhcp/pid";
+        RuntimeDirectory = "lte-dhcp";
+        Restart = "always";
+        PrivateNetwork = true;
+      };
+      script = "exec ${pkgs.busybox}/bin/udhcpc -f --interface=lte --script=${script}";
+    };
+    "wireguard-lanthanum-lte" = {
+      after = [ "netns@lte.service" ];
+      bindsTo = [ "netns@lte.service" ];
+    };
   };
+
+  networking.wireguard.interfaces."lanthanum-lte".socketNamespace = lib.mkForce "lte";
 
   services.kea = {
     dhcp4 = {

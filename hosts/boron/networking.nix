@@ -76,7 +76,7 @@ let
         jump rpfilter
       }
     }
-    table inet mss_clamp {
+    table ip mss_clamp {
       chain postrouting {
         type filter hook postrouting priority mangle
         policy accept
@@ -95,10 +95,7 @@ let
         policy accept
 
         oifname { wg-europium } mark 0x1 masquerade
-        oifname lanthanum-dsl ip daddr != 169.254.52.57 mark set 0x1
-        oifname lanthanum-lte ip daddr != 169.254.24.57 mark set 0x1
-
-        oifname { lanthanum-dsl, lanthanum-lte } mark 0x1 snat to 45.77.54.162
+        oifname { lanthanum-dsl, lanthanum-lte } ip daddr != { 169.254.0.0/16 } snat to 45.77.54.162
       }
     }
   '';
@@ -746,7 +743,7 @@ in {
     settings = {
       server = {
         interface = [ "127.0.0.1" "10.172.100.1" "::1" "2001:19f0:6c01:2bc5::1" ];
-        access-control = [ "10.172.100.0/24 allow" "127.0.0.0/24 allow" "::1/128 allow" ];
+        access-control = [ "10.172.100.0/24 allow" "127.0.0.0/24 allow" "::1/128 allow" "2001:19f0:6c01:2bc5::/64 allow" ];
         local-zone = ["100.172.10.in-addr.arpa. transparent"];
         domain-insecure = "100.172.10.in-addr.arpa.";
         do-not-query-localhost = "no";

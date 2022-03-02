@@ -28,9 +28,10 @@
   system.macnameNamespace = "wolkenheim.kleen.org";
 
   services.rmfakecloud-proxy = let
+    boronWgAddress = "2a01:7e01:e002:aa00:cc6b:36a1:0:1";
     boronPublicAddress = (builtins.elemAt flake.nixosConfigurations.boron.config.networking.interfaces."auenheim".ipv6.addresses 0).address;
   in {
     enable = true;
-    endpoint = "[${boronPublicAddress}]:3000";
+    endpoint = "[${boronWgAddress}]:3000";
   };
 }

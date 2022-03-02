@@ -95,6 +95,9 @@ let
         policy accept
 
         oifname { wg-europium } mark 0x1 masquerade
+        oifname lanthanum-dsl ip daddr != 169.254.52.57 mark set 0x1
+        oifname lanthanum-lte ip daddr != 169.254.24.57 mark set 0x1
+
         oifname { lanthanum-dsl, lanthanum-lte } mark 0x1 snat to 45.77.54.162
       }
     }
@@ -251,14 +254,6 @@ in {
             persistentKeepalive = 1;
           }
         ];
-        postSetup = ''
-          ${pkgs.iproute}/bin/ip route add default via 10.172.40.1 dev wg-europium
-          ${pkgs.iproute}/bin/ip -6 route add default via 2a01:7e01:e002:aa00:f8a1:f27f:0:1 dev wg-europium
-        '';
-        postShutdown = ''
-          ${pkgs.iproute}/bin/ip route del default via 10.172.40.1 dev wg-europium
-          ${pkgs.iproute}/bin/ip -6 route del default via 2a01:7e01:e002:aa00:f8a1:f27f:0:1 dev wg-europium
-        '';
         socketNamespace = "wg_upstream";
         interfaceNamespace = "init";
       };
@@ -750,7 +745,7 @@ in {
     localControlSocketPath = "/var/lib/unbound/control.socket";
     settings = {
       server = {
-        interface = [ "127.0.0.1" "10.172.100.1" "::1" "2a01:7e01:e002:aa02::1" ];
+        interface = [ "127.0.0.1" "10.172.100.1" "::1" "2001:19f0:6c01:2bc5::1" ];
         access-control = [ "10.172.100.0/24 allow" "127.0.0.0/24 allow" "::1/128 allow" ];
         local-zone = ["100.172.10.in-addr.arpa. transparent"];
         domain-insecure = "100.172.10.in-addr.arpa.";

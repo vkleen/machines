@@ -93,8 +93,8 @@ in {
               peer-as = ASN n;
             };
             timers.config = {
-              hold-time = 15;
-              keepalive-interval = 5;
+              hold-time = 9;
+              keepalive-interval = 3;
             };
             afi-safis = [
               { config.afi-safi-name = "ipv4-unicast"; }

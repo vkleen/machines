@@ -65,6 +65,9 @@ rec {
   linkListenPort = ip4Ns:
     51820 + ip4Ns;
 
+  bfdListenPort = ip4Ns:
+    3784 + ip4Ns;
+
   linkIsTo = h: a: a.to.host == h;
   linkIsFrom = h: a: a.from.host == h;
 

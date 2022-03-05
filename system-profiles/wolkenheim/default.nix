@@ -39,8 +39,8 @@ let
           peer-group-name = "wolkenheim";
         };
         timers.config = {
-          hold-time = 3;
-          keepalive-interval = 1;
+          hold-time = 9;
+          keepalive-interval = 3;
         };
         afi-safis = [
           { config.afi-safi-name = "ipv4-unicast"; }
@@ -220,11 +220,9 @@ in {
       };
     };
   };
-  imports = [ ./wireguard-links.nix ./bgp.nix ];
+  imports = [ ./wireguard-links.nix ./bgp.nix ./bfd.nix ];
   config = lib.mkMerge [{
     system.build.uncheckedIp4NamespaceMap = uncheckedIp4NamespaceMap wolkenheimFabric (normalize wolkenheimFabric.links);
-
-    networking.firewall.checkReversePath = "loose";
   }
   (lib.mkIf (hostName == "boron") {
     networking.gobgpd.config = lib.mkForce boronGobgpConfig;

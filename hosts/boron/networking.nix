@@ -5,18 +5,6 @@ let
   inherit (flake.inputs.utils.lib) private_address;
   machine_id = config.environment.etc."machine-id".text;
 
-  bfdConfig = (pkgs.formats.yaml {}).generate "bfdd.yaml" {
-    listen = [ "${private_address 64 config.environment.etc."machine-id".text}" ];
-    peers = {
-      "${private_address 64 flake.nixosConfigurations.lanthanum.config.environment.etc."machine-id".text}" = {
-        name = "lanthanum";
-        port = 3784;
-        interval = 250;
-        detectionMultiplier = 2;
-      };
-    };
-  };
-
   nft_ruleset = let
     globalTcpPorts =
          lib.lists.map builtins.toString config.networking.firewall.allowedTCPPorts
@@ -41,8 +29,14 @@ let
         meta l4proto ipv6-icmp icmpv6 type nd-redirect drop
         meta l4proto $icmp_protos accept
 
-        iifname { auenheim } meta l4proto tcp tcp dport { ${lib.strings.concatStringsSep "," (interfaceTcpPorts "auenheim")} } accept
-        iifname { auenheim } meta l4proto udp udp dport { ${lib.strings.concatStringsSep "," (interfaceUdpPorts "auenheim")} } accept
+        ${lib.strings.concatStringsSep "\n" (lib.attrsets.mapAttrsToList
+          (i: _: ''
+            ${lib.strings.optionalString (interfaceUdpPorts i != [])
+              "iifname { ${i} } meta l4proto udp udp dport { ${lib.strings.concatStringsSep "," (interfaceUdpPorts i)} } accept"}
+            ${lib.strings.optionalString (interfaceTcpPorts i != [])
+              "iifname { ${i} } meta l4proto tcp tcp dport { ${lib.strings.concatStringsSep "," (interfaceTcpPorts i)} } accept"}
+          '')
+          config.networking.firewall.interfaces)}
 
         iifname { wg-europium } meta l4proto tcp tcp dport { ${builtins.toString config.services.rmfakecloud.port} } accept
 
@@ -320,7 +314,7 @@ in {
           config = ''
             nodefaultroute
             ifname ${ppp_interface}
-            lcp-echo-failure 1
+            lcp-echo-failure 5
             lcp-echo-interval 1
             maxfail 0
             mtu 1492
@@ -856,18 +850,5 @@ in {
   fileSystems."/var/lib/knot" = {
     device = "/persist/knot";
     options = [ "bind" ];
-  };
-
-  systemd.services.bfdd = {
-    #wantedBy = [ "multi-user.target" ];
-    #after = [ "network.target" "wireguard-lanthanum.service" ];
-    #requires = [ "wireguard-lanthanum.service" ];
-    script = ''
-      exec ${pkgs.bfdd}/bin/bfdd -c "${bfdConfig}"
-    '';
-    serviceConfig = {
-      Type = "simple";
-      DynamicUser = true;
-    };
   };
 }

@@ -27,24 +27,24 @@
         { to = "samarium"; }
       ];
       "lte" = [
-        { to = "lanthanum"; }
-        { to = "cerium"; }
-        { to = "samarium"; }
+        { to = "lanthanum"; bfdInterval = 5000; }
+        { to = "cerium"; bfdInterval = 5000; }
+        { to = "samarium"; bfdInterval = 5000; }
       ];
     };
 
-    "nitrogen" = {
-      "dsl" = [
-        { to = "lanthanum"; }
-        { to = "cerium"; }
-        { to = "samarium"; }
-      ];
-      "lte" = [
-        { to = "lanthanum"; }
-        { to = "cerium"; }
-        { to = "samarium"; }
-      ];
-    };
+#    "nitrogen" = {
+#      "dsl" = [
+#        { to = "lanthanum"; }
+#        { to = "cerium"; }
+#        { to = "samarium"; }
+#      ];
+#      "lte" = [
+#        { to = "lanthanum"; }
+#        { to = "cerium"; }
+#        { to = "samarium"; }
+#      ];
+#    };
   };
 
   uplinks = let

@@ -32,7 +32,8 @@ in {
         '';
         serviceConfig = {
           Type = "notify";
-          ExecReload = "${pkgs.gobgpd}/bin/gobgpd -r";
+          RestartSec = "5s";
+          Restart = "always";
           DynamicUser = lib.mkDefault true;
           RuntimeDirectoryMode = "0700";
           RuntimeDirectory = "gobgpd";

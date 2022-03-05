@@ -143,6 +143,10 @@
       inputs.nixpkgs.follows = "nixpkgs-power9";
     };
 
+    bfd-monitor = {
+      url = "github:vkleen/bfd-monitor";
+    };
+
     rmrl = {
       url = "github:vkleen/rmrl";
     };

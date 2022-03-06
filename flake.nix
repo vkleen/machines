@@ -147,6 +147,10 @@
       url = "github:vkleen/bfd-monitor";
     };
 
+    matrix-bifrost = {
+      url = "github:vkleen/matrix-bifrost";
+    };
+
     rmrl = {
       url = "github:vkleen/rmrl";
     };

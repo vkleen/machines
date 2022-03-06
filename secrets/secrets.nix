@@ -56,4 +56,7 @@ in
 
   "wolkenheim/vultr-bgp-password-lanthanum.age".publicKeys = [vkleen lanthanum];
   "wolkenheim/vultr-bgp-password.age".publicKeys = [vkleen lanthanum cerium];
+
+  "ejabberd-config-secrets.age".publicKeys = [vkleen boron europium];
+  "bifrost-registration.age".publicKeys = [vkleen boron europium];
 }

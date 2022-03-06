@@ -17,7 +17,7 @@ function M.setup()
           { key = 'd', action = 'remove' },
           { key = 'y', action = 'copy' },
           { key = { '<C-g>', '<C-c>', 'q' }, action = "close", action_cb = function(node)
-            require"nvim-tree".close()
+            require"nvim-tree.view".close()
             vim.cmd('AerialClose')
           end },
         },
@@ -27,7 +27,7 @@ function M.setup()
 
   require"which-key".register({
     ['<C-e>'] = { function()
-      require"nvim-tree".close()
+      require"nvim-tree.view".close()
       vim.cmd("AerialClose")
       require"nvim-tree".find_file(true)
     end, 'Open file explorer sidebar' },

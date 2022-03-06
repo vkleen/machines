@@ -59,4 +59,5 @@ in
 
   "ejabberd-config-secrets.age".publicKeys = [vkleen boron europium];
   "bifrost-registration.age".publicKeys = [vkleen boron europium];
+  "heisenbridge-registration.age".publicKeys = [vkleen boron europium];
 }

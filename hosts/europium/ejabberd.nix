@@ -1,12 +1,12 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 let
   cfgFile = (pkgs.formats.yaml {}).generate "ejabberd.yaml" {
     hosts = [
-      "xmpp.kleen.org"
+      "ejabberd.kleen.org"
     ];
     certfiles = [
-      "/run/credentials/ejabberd.service/xmpp.kleen.org.pem"
-      "/run/credentials/ejabberd.service/xmpp.kleen.org.key.pem"
+      "/run/credentials/ejabberd.service/ejabberd.kleen.org.pem"
+      "/run/credentials/ejabberd.service/ejabberd.kleen.org.key.pem"
       "/run/credentials/ejabberd.service/pubsub.xmpp.kleen.org.pem"
       "/run/credentials/ejabberd.service/pubsub.xmpp.kleen.org.key.pem"
       "/run/credentials/ejabberd.service/proxy.xmpp.kleen.org.pem"
@@ -27,6 +27,16 @@ let
         module = "ejabberd_s2s_in";
         max_stanza_size = 524288;
       }
+      { port = 5347;
+        ip = "10.172.40.1";
+        module = "ejabberd_service";
+        check_from = "false";
+        hosts = {
+          "xmpp.kleen.org" = {
+            password = "$BIFROST_PASSWORD";
+          };
+        };
+      }
     ];
     s2s_use_starttls = "required";
 
@@ -46,7 +56,7 @@ let
       };
       "admin" = {
         user = [
-          "vkleen@xmpp.kleen.org"
+          "vkleen@ejabberd.kleen.org"
         ];
       };
     };
@@ -186,27 +196,49 @@ let
       };
     };
   };
+  
+  finalConfigFile = "/var/lib/ejabberd/ejabberd.yaml";
+
+  ectl = let
+    cfg = config.services.ejabberd;
+    ctlcfg = pkgs.writeText "ejabberdctl.cfg" ''
+      ERL_EPMD_ADDRESS=127.0.0.1
+      ${cfg.ctlConfig}
+    '';
+  in ''${cfg.package}/bin/ejabberdctl --config ${cfg.configFile} --ctl-config "${ctlcfg}" --spool "${cfg.spoolDir}" --logs "${cfg.logsDir}"'';
 in {
   services.ejabberd = {
     enable = true;
-    configFile = cfgFile;
+    configFile = finalConfigFile;
     package = pkgs.ejabberd.override { withPam = true; withTools = true; };
   };
   systemd.services.ejabberd = {
     serviceConfig = {
+      ExecStart = lib.mkForce ((pkgs.writeShellScript "ejabberd-start" ''
+        set -e
+        umask 077
+        export $(xargs < "''${CREDENTIALS_DIRECTORY}"/config-secrets)
+        ${pkgs.envsubst}/bin/envsubst -i "${cfgFile}" > ${finalConfigFile}
+        exec ${ectl} foreground
+      '').overrideAttrs (_: {
+        name = "unit-script-ejabberd";
+      }));
       LoadCredential = [
-        "xmpp.kleen.org.key.pem:${config.security.acme.certs."xmpp.kleen.org".directory}/key.pem"
-        "xmpp.kleen.org.pem:${config.security.acme.certs."xmpp.kleen.org".directory}/fullchain.pem"
+        "ejabberd.kleen.org.key.pem:${config.security.acme.certs."ejabberd.kleen.org".directory}/key.pem"
+        "ejabberd.kleen.org.pem:${config.security.acme.certs."ejabberd.kleen.org".directory}/fullchain.pem"
         "pubsub.xmpp.kleen.org.key.pem:${config.security.acme.certs."pubsub.xmpp.kleen.org".directory}/key.pem"
         "pubsub.xmpp.kleen.org.pem:${config.security.acme.certs."pubsub.xmpp.kleen.org".directory}/fullchain.pem"
         "proxy.xmpp.kleen.org.key.pem:${config.security.acme.certs."proxy.xmpp.kleen.org".directory}/key.pem"
         "proxy.xmpp.kleen.org.pem:${config.security.acme.certs."proxy.xmpp.kleen.org".directory}/fullchain.pem"
+        "config-secrets:/run/agenix/ejabberd-config-secrets"
       ];
+      RuntimeDirectory = "ejabberd";
+      RuntimeDirectoryMode = "0700";
     };
   };
   services.nginx.virtualHosts = {
-    "xmpp.kleen.org" = {
-      serverName = "xmpp.kleen.org";
+    "ejabberd.kleen.org" = {
+      serverName = "ejabberd.kleen.org";
       forceSSL = true;
       enableACME = true;
       http2 = false;
@@ -237,6 +269,7 @@ in {
               ];
   };
   users.groups."xmpp" = {};
+  age.secrets."ejabberd-config-secrets".file = ../../secrets/ejabberd-config-secrets.age;
 
   networking.firewall.allowedTCPPorts = [
     5000 5222 5269

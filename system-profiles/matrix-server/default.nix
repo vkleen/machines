@@ -25,6 +25,10 @@
     extraConfigFiles = [ "/run/agenix/synapse-registration" "/run/agenix/synapse-coturn" ];
     turn_uris = [ "turns:turn.kleen.org?transport=udp" "turns:turn.kleen.org?transport=tcp" ];
     turn_user_lifetime = "1h";
+    app_service_config_files = [
+      "/run/agenix/bifrost-registration.yaml"
+      "/run/agenix/heisenbridge-registration.yaml"
+    ];
   };
 
   age.secrets."synapse-registration" = {
@@ -33,6 +37,14 @@
   };
   age.secrets."synapse-coturn" = {
     file = ../../secrets/synapse-coturn.age;
+    owner = "matrix-synapse";
+  };
+  age.secrets."bifrost-registration.yaml" = {
+    file = ../../secrets/bifrost-registration.age;
+    owner = "matrix-synapse";
+  };
+  age.secrets."heisenbridge-registration.yaml" = {
+    file = ../../secrets/heisenbridge-registration.age;
     owner = "matrix-synapse";
   };
 

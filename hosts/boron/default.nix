@@ -3,6 +3,8 @@
     ./backup.nix
     ./hardware.nix
     ./networking.nix
+    ./matrix-bifrost.nix
+    ./heisenbridge.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
     initrd-all-crypto-modules
     latest-linux

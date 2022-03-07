@@ -1,47 +1,4 @@
 { flake, config, pkgs, ... }: let
-  purple = pkgs.pidgin.overrideAttrs (o: {
-    buildInputs = with pkgs; let
-      python-with-dbus = python3.withPackages (pp: with pp; [ dbus-python ]);
-    in [
-      aspell libstartup_notification
-      libxml2 nss nspr
-      python-with-dbus
-      avahi dbus dbus-glib intltool libidn
-      cyrus_sasl
-      libgnt ncurses # optional: build finch - the console UI
-      openssl
-    ];
-    propagatedBuildInputs = with pkgs; with perlPackages; [
-      perl XMLParser pkg-config gettext
-    ];
-
-    NIX_CFLAGS_COMPILE = "";
-    postInstall = ":";
-
-    configureFlags = with pkgs; [
-      "--with-nspr-includes=${nspr.dev}/include/nspr"
-      "--with-nspr-libs=${nspr.out}/lib"
-      "--with-nss-includes=${nss.dev}/include/nss"
-      "--with-nss-libs=${nss.out}/lib"
-      "--with-ncurses-headers=${ncurses.dev}/include"
-      "--with-system-ssl-certs=${cacert}/etc/ssl/certs"
-      "--disable-gtkui"
-      "--disable-gstreamer"
-      "--disable-vv"
-      "--disable-meanwhile"
-      "--disable-nm"
-      "--disable-tcl"
-      "--disable-gevolution"
-      "--enable-cyrus-sasl=yes"
-    ];
-  });
-  
-#      backend = "node-purple";
-#      backendOpts = {
-#        pluginsDir = "${purple}/lib/purple-2";
-#        dataDir = "/var/lib/matrix-bifrost/.purple-data";
-#        soloProtocol = "prpl-jabber";
-#      };
   cfgFile = (pkgs.formats.yaml {}).generate "bifrost.yaml" {
     bridge = {
       domain = "kleen.org";
@@ -83,10 +40,6 @@
           parameters = {
             "@viktor:kleen.org" = "vkleen@xmpp.kleen.org";
           };
-#          type = "implicit";
-#          parameters = {
-#            username = "<T_LOCALPART>_<T_DOMAIN>@matrix.kleen.org";
-#          };
         };
       };
     };
@@ -115,8 +68,6 @@
   finalConfigFile = "/var/lib/matrix-bifrost/bifrost.yaml";
 in {
   config = {
-    system.build.bifrostConfig = cfgFile;
-    system.build.purple = purple;
     systemd.services.matrix-bifrost = {
       wantedBy = [ "multi-user.target" ];
       requires = [ "wireguard-wg-europium.service" ];
@@ -124,7 +75,6 @@ in {
       description = "matrix-bifrost bridge";
       script = let
         bifrost = flake.inputs.matrix-bifrost.defaultPackage.${config.nixpkgs.system};
-#        export LD_PRELOAD=${purple}/lib/libpurple.so
       in ''
         umask 077
         export $(xargs < "''${CREDENTIALS_DIRECTORY}"/config-secrets)

@@ -631,11 +631,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1646599133,
-        "narHash": "sha256-d/WUlD1Ued3TP5gzjKdVDa86Sq0/aL9MT5ugapWAn5Y=",
+        "lastModified": 1646673651,
+        "narHash": "sha256-FVYxV5tDlKHlceiazEPDELkrlyobss4ce3n3xQK9kiY=",
         "owner": "vkleen",
         "repo": "matrix-bifrost",
-        "rev": "2e6e9d91289a025e732f6ea56501a6a419d4fd41",
+        "rev": "217a83cbe6a2af1e1d9c0a707c8c8eb34220a691",
         "type": "github"
       },
       "original": {

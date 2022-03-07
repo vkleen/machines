@@ -7,6 +7,8 @@ let
     certfiles = [
       "/run/credentials/ejabberd.service/ejabberd.kleen.org.pem"
       "/run/credentials/ejabberd.service/ejabberd.kleen.org.key.pem"
+      "/run/credentials/ejabberd.service/xmpp.kleen.org.pem"
+      "/run/credentials/ejabberd.service/xmpp.kleen.org.key.pem"
       "/run/credentials/ejabberd.service/pubsub.xmpp.kleen.org.pem"
       "/run/credentials/ejabberd.service/pubsub.xmpp.kleen.org.key.pem"
       "/run/credentials/ejabberd.service/proxy.xmpp.kleen.org.pem"
@@ -226,6 +228,8 @@ in {
       LoadCredential = [
         "ejabberd.kleen.org.key.pem:${config.security.acme.certs."ejabberd.kleen.org".directory}/key.pem"
         "ejabberd.kleen.org.pem:${config.security.acme.certs."ejabberd.kleen.org".directory}/fullchain.pem"
+        "xmpp.kleen.org.key.pem:${config.security.acme.certs."xmpp.kleen.org".directory}/key.pem"
+        "xmpp.kleen.org.pem:${config.security.acme.certs."xmpp.kleen.org".directory}/fullchain.pem"
         "pubsub.xmpp.kleen.org.key.pem:${config.security.acme.certs."pubsub.xmpp.kleen.org".directory}/key.pem"
         "pubsub.xmpp.kleen.org.pem:${config.security.acme.certs."pubsub.xmpp.kleen.org".directory}/fullchain.pem"
         "proxy.xmpp.kleen.org.key.pem:${config.security.acme.certs."proxy.xmpp.kleen.org".directory}/key.pem"
@@ -239,6 +243,13 @@ in {
   services.nginx.virtualHosts = {
     "ejabberd.kleen.org" = {
       serverName = "ejabberd.kleen.org";
+      forceSSL = true;
+      enableACME = true;
+      http2 = false;
+      locations."/".return = "404";
+    };
+    "xmpp.kleen.org" = {
+      serverName = "xmpp.kleen.org";
       forceSSL = true;
       enableACME = true;
       http2 = false;

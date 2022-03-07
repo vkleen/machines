@@ -118,6 +118,7 @@ in {
     system.build.bifrostConfig = cfgFile;
     system.build.purple = purple;
     systemd.services.matrix-bifrost = {
+      wantedBy = [ "multi-user.target" ];
       requires = [ "wireguard-wg-europium.service" ];
       after = [ "wireguard-wg-europium.service" ];
       description = "matrix-bifrost bridge";
@@ -133,6 +134,8 @@ in {
         exec ${bifrost}/bin/matrix-bifrost -f "''${CREDENTIALS_DIRECTORY}"/bifrost-registration.yaml -c ${finalConfigFile} -p 9555
       '';
       serviceConfig = {
+        RestartSec = "5s";
+        Restart = "always";
         WorkingDirectory = "/var/lib/matrix-bifrost";
         StateDirectoryMode = "0700";
         StateDirectory = "matrix-bifrost";

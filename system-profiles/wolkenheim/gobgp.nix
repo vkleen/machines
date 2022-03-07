@@ -22,6 +22,7 @@ in {
         finalConfigFile = "$RUNTIME_DIRECTORY/gobgpd.conf";
       in {
         wantedBy = [ "multi-user.target" ];
+        requires = [ "network.target" "systemd-sysctl.service" ];
         after = [ "network.target" "systemd-sysctl.service" ];
         description = "GoBGP Routing Daemon";
         script = ''

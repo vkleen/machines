@@ -2,33 +2,44 @@
 {
   services.matrix-synapse = {
     enable = true;
-    server_name = "kleen.org";
-    public_baseurl = "https://matrix.kleen.org";
-    database_type = "psycopg2";
-    database_name = "matrix_synapse";
-    database_user = "matrix_synapse";
-    listeners = [
-      {
-        port = 8008;
-        bind_address = "::1";
-        type = "http";
-        tls = false;
-        x_forwarded = true;
-        resources = [
-          { names = [ "client" "federation" ]; compress = false; }
-        ];
-      }
-    ];
-    rc_message_burst_count = "100";
-    rc_messages_per_second = "100";
-    max_upload_size = "500M";
-    extraConfigFiles = [ "/run/agenix/synapse-registration" "/run/agenix/synapse-coturn" ];
-    turn_uris = [ "turns:turn.kleen.org?transport=udp" "turns:turn.kleen.org?transport=tcp" ];
-    turn_user_lifetime = "1h";
-    app_service_config_files = [
-      "/run/agenix/bifrost-registration.yaml"
-      "/run/agenix/heisenbridge-registration.yaml"
-    ];
+    settings = {
+      server_name = "kleen.org";
+      public_baseurl = "https://matrix.kleen.org";
+      database = {
+        name = "psycopg2";
+        args = {
+          database = "matrix_synapse";
+          user = "matrix_synapse";
+        };
+      };
+      listeners = [
+        {
+          port = 8008;
+          bind_addresses = ["::1"];
+          type = "http";
+          tls = false;
+          x_forwarded = true;
+          resources = [
+            { names = [ "client" "federation" ]; compress = false; }
+          ];
+        }
+      ];
+      rc_messages = {
+        burst_count = "100";
+        per_second = "100";
+      };
+      max_upload_size = "500M";
+      extraConfigFiles = [ "/run/agenix/synapse-registration" "/run/agenix/synapse-coturn" ];
+      turn_uris = [
+        "turns:turn.kleen.org?transport=udp" "turns:turn.kleen.org?transport=tcp" 
+        "turn:turn.kleen.org?transport=udp" "turn:turn.kleen.org?transport=tcp"
+      ];
+      turn_user_lifetime = "1h";
+      app_service_config_files = [
+        "/run/agenix/bifrost-registration.yaml"
+        "/run/agenix/heisenbridge-registration.yaml"
+      ];
+    };
   };
 
   age.secrets."synapse-registration" = {
@@ -213,8 +224,11 @@
   };
 
   networking.firewall = {
-    allowedUDPPorts = [ 3478 5349 ];
+    allowedUDPPorts = with config.services.coturn;
+        [ listening-port tls-listening-port alt-listening-port alt-tls-listening-port ];
     allowedUDPPortRanges = [ { from = config.services.coturn.min-port; to = config.services.coturn.max-port; } ];
-    allowedTCPPorts = [ 80 443 8448 3478 5349 ];
+    allowedTCPPorts = [ 80 443 8448 ] ++
+      (with config.services.coturn;
+        [ listening-port tls-listening-port alt-listening-port alt-tls-listening-port ]);
   };
 }

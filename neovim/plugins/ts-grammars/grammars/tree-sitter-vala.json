@@ -1,9 +1,9 @@
 {
   "url": "https://github.com/matbme/tree-sitter-vala",
-  "rev": "4c31aa2f3c077fa69acc49e5c5a58cd87c704229",
-  "date": "2022-02-25T14:44:54-03:00",
-  "path": "/nix/store/8pld7k3nz0xbji9jnzhqj49jgzmn37iz-tree-sitter-vala-4c31aa2",
-  "sha256": "1m8816sw8lcliqr98vmz6zdl1p2kd72cl9idyfhqjqv4sd9d8f6q",
+  "rev": "31a08784cc74b61cb10c5d8314cf8a8aa98aa9a8",
+  "date": "2022-03-07T10:55:41-03:00",
+  "path": "/nix/store/x3fw3m6baw0phk23mk28awlycdwf1k6m-tree-sitter-vala-31a0878",
+  "sha256": "16mw7s8d0c319b3c37vr994kpldc499yrh4rhh4j75yb9lzj2l03",
   "fetchLFS": false,
   "fetchSubmodules": false,
   "deepClone": false,

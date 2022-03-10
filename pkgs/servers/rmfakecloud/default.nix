@@ -14,7 +14,7 @@ let
     installPhase = "true";
     distPhase = "true";
 
-    outputHash = "sha256-xNJg3XWuFBuve18WOpCpba64HaiGX7tRZOmGiCdWh1U=";
+    outputHash = "sha256-Gw5XJ+0LXRPMA0yq5K6ZhlZgQ7OdBwyRO5Bsr/GvaUg=";
   };
 
   uiFiles = mkYarnPackage {
@@ -38,10 +38,10 @@ let
   };
 in buildGoModule rec {
   pname = "rmfakecloud";
-  version = "0.0.5";
+  version = "flake";
   inherit src;
 
-  vendorSha256 = "sha256-kLwa5ucCzZ8MYIyiWUYIYMw7yqJ/RkmGtHgxjz1MH48=";
+  vendorSha256 = "sha256-NwDaPpjkQogXE37RGS3zEALlp3NuXP9RW//vbwM6y0A=";
 
   patches = [ ./assets.patch ];
 

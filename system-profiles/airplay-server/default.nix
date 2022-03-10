@@ -9,9 +9,9 @@
   #   };
   # };
 
-  services.usbmuxd = {
-    enable = true;
-  };
+  #services.usbmuxd = {
+  #  enable = true;
+  #};
 
   environment.etc = {
     "systemd/dnssd/raop.dnssd".text = ''

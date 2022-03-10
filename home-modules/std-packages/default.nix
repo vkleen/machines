@@ -45,7 +45,6 @@ in {
     parallel
     pciutils
     picocom
-    pmtools
     poppler_utils
     psmisc
     pv
@@ -55,12 +54,12 @@ in {
     radare2
     rsync
     sanoid
-    scim
+    sc-im
     skim
     socat
     sqlite
     s-tui
-    telnet
+    inetutils
     tree
     tsocks
     unzip

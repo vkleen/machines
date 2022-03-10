@@ -2,6 +2,7 @@
 let 
   cfg = config.services.rmfakecloud;
 in {
+  disabledModules = [ "services/misc/rmfakecloud.nix" ];
   options = {
     services.rmfakecloud = {
       enable = lib.mkEnableOption "rmfakecloud";

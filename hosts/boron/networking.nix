@@ -74,7 +74,7 @@ let
       chain postrouting {
         type filter hook postrouting priority mangle
         policy accept
-        oifname { wg-europium, lanthanum-dsl, lanthanum-lte } meta l4proto tcp tcp flags & (syn|rst) == syn tcp option maxseg size set rt mtu
+        oifname { wg-europium, lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } meta l4proto tcp tcp flags & (syn|rst) == syn tcp option maxseg size set rt mtu
       }
     }
     table ip nat {
@@ -89,7 +89,7 @@ let
         policy accept
 
         oifname { wg-europium } mark 0x1 masquerade
-        oifname { lanthanum-dsl, lanthanum-lte } ip daddr != { 169.254.0.0/16 } snat to 45.77.54.162
+        oifname { lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } ip daddr != { 169.254.0.0/16 } snat to 45.77.54.162
       }
     }
   '';
@@ -493,9 +493,14 @@ in {
       after = [ "netns@lte.service" ];
       bindsTo = [ "netns@lte.service" ];
     };
+    "wireguard-cerium-lte" = {
+      after = [ "netns@lte.service" ];
+      bindsTo = [ "netns@lte.service" ];
+    };
   };
 
   networking.wireguard.interfaces."lanthanum-lte".socketNamespace = lib.mkForce "lte";
+  networking.wireguard.interfaces."cerium-lte".socketNamespace = lib.mkForce "lte";
 
   services.kea = {
     dhcp4 = {

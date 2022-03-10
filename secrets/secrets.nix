@@ -18,7 +18,7 @@ in
 
   "wireguard/bohrium.age".publicKeys = [vkleen bohrium];
   "wireguard/boron.age".publicKeys = [vkleen boron];
-  "wireguard/cerium.age".publicKeys = [vkleen lanthanum];
+  "wireguard/cerium.age".publicKeys = [vkleen cerium];
   "wireguard/chlorine.age".publicKeys = [vkleen];
   "wireguard/europium.age".publicKeys = [vkleen europium];
   "wireguard/helium.age".publicKeys = [vkleen];

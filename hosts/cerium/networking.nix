@@ -1,21 +1,72 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, flake, ... }:
 let
   inherit (builtins) substring;
-  inherit (import ../../utils/ints.nix { inherit lib; }) hexToInt;
+  inherit (flake.inputs.utils.lib) private_address;
   machine_id = config.environment.etc."machine-id".text;
 
-  private_address = let
-    chars12 = substring 0 2 machine_id;
-    chars34 = substring 2 2 machine_id;
+  nft_ruleset = let
+    tcpPorts =
+         lib.lists.map builtins.toString config.networking.firewall.allowedTCPPorts
+      ++ lib.lists.map ({from,to}: "${builtins.toString from}-${builtins.toString to}") config.networking.firewall.allowedTCPPortRanges;
+    udpPorts =
+         lib.lists.map builtins.toString config.networking.firewall.allowedUDPPorts
+      ++ lib.lists.map ({from,to}: "${builtins.toString from}-${builtins.toString to}") config.networking.firewall.allowedUDPPortRanges;
+  in ''
+    define icmp_protos = { ipv6-icmp, icmp, igmp }
+    define udp_allowed_ports = { ${lib.strings.concatStringsSep "," udpPorts} }
+    define tcp_allowed_ports = { ${lib.strings.concatStringsSep "," tcpPorts} }
 
-    octet1 = hexToInt chars12;
-    octet2 = hexToInt chars34;
-  in "10.32.${builtins.toString octet1}.${builtins.toString octet2}";
+    define trusted_interfaces = { lo, ${lib.strings.concatStringsSep "," config.networking.firewall.trustedInterfaces} }
+
+    table inet filter {
+      chain input {
+        type filter hook input priority filter
+        policy drop
+
+        iifname $trusted_interfaces accept
+        ct state { related, established } accept
+
+        meta l4proto ipv6-icmp icmpv6 type nd-redirect drop
+
+        meta l4proto $icmp_protos accept
+        meta l4proto tcp tcp dport $tcp_allowed_ports accept
+        meta l4proto udp udp dport $udp_allowed_ports accept
+      }
+
+      chain forward {
+        type filter hook forward priority filter
+        policy drop
+
+        oifname { boron-dsl, boron-lte } accept
+        iifname { boron-dsl, boron-lte } accept
+      }
+    }
+
+    table inet raw {
+      chain rpfilter {
+        fib saddr . mark oif != 0 return
+        meta nfproto ipv4 meta l4proto udp udp sport 67 udp dport 68 return
+        meta nfproto ipv4 meta l4proto udp ip saddr 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
+        counter drop
+      }
+      chain prerouting {
+        type filter hook prerouting priority raw
+        policy accept
+        jump rpfilter
+      }
+    }
+  '';
+
 in {
   system.publicAddresses = [
     "45.32.154.225"
     "2001:19f0:6c01:284a:5400:03ff:fec6:c9b0"
   ];
+  
+  environment.systemPackages = [
+    pkgs.nftables
+  ];
+
   networking = {
     useDHCP = false;
     useNetworkd = true;
@@ -28,34 +79,32 @@ in {
         ipv4.addresses = [ {
           address = "45.32.154.225";
           prefixLength = 22;
-        } {
-          address = "45.77.54.162";
-          prefixLength = 32;
         } ];
         ipv6.addresses = [ {
           address = "2001:19f0:6c01:284a:5400:03ff:fec6:c9b0";
-          prefixLength = 64;
-        } {
-          address = "2001:19f0:6c01:2bc5::1";
           prefixLength = 64;
         } ];
       };
       "enp6s0" = {
         ipv4.addresses = [ {
-          address = private_address;
+          address = private_address 32 machine_id;
           prefixLength = 16;
         } ];
         mtu = 1450;
       };
     };
     firewall = {
-      enable = true;
-      trustedInterfaces = [ "wg0" "enp6s0" ];
-      allowPing = true;
+      enable = false;
+      trustedInterfaces = [ "enp6s0" "boron-dsl" "boron-lte" ];
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };
+    nftables = {
+      enable = true;
+      ruleset = nft_ruleset;
+    };
   };
+
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
     "net.ipv6.conf.all.forwarding" = 2;
@@ -65,7 +114,7 @@ in {
       routes = [
         { routeConfig = {
             Destination = "2001:19f0:ffff::1/128";
-            PreferredSource = "2001:19f0:6c01:284a:5400:03ff:fec6:c9b0";
+            PreferredSource = "2001:19f0:6c01:21c1:5400:03ff:fec6:c9cd";
             Gateway = "_ipv6ra";
           };
         }

@@ -19,14 +19,14 @@ let
         ];
         default-import-policy = "reject-route";
         export-policy-list = [
-          "replace-next-hop-dsl"
-          "replace-next-hop-lte"
+          "replace-next-hop"
           "demote-lte"
 
           "vultr-prefixes"
         ];
         default-export-policy = "reject-route";
       };
+      use-multiple-paths.config.enabled = true;
     };
     zebra.config = {
       enabled = true;
@@ -56,6 +56,16 @@ let
       }
       { config = {
           neighbor-interface = "lanthanum-lte";
+          peer-group = "wolkenheim";
+        };
+      }
+      { config = {
+          neighbor-interface = "cerium-dsl";
+          peer-group = "wolkenheim";
+        };
+      }
+      { config = {
+          neighbor-interface = "cerium-lte";
           peer-group = "wolkenheim";
         };
       }
@@ -89,6 +99,16 @@ let
           "fe80:3e0e:b7ec:2cf1:bb2b:4a18:d409:3b73"
         ];
       }
+      { neighbor-set-name = "cerium-dsl";
+        neighbor-info-list = [
+          "fe80:3e0e:b7ec:40a3:179e:4e98:f674:4af5"
+        ];
+      }
+      { neighbor-set-name = "cerium-lte";
+        neighbor-info-list = [
+          "fe80:3e0e:b7ec:ab7d:1c68:9c48:f674:4af5"
+        ];
+      }
     ];
     policy-definitions = [
       { name = "vultr-prefixes";
@@ -109,7 +129,7 @@ let
           }
         ];
       }
-      { name = "replace-next-hop-dsl";
+      { name = "replace-next-hop";
         statements = [
           { conditions.match-prefix-set = {
               prefix-set = "vultr-ipv4";
@@ -123,10 +143,6 @@ let
               set-next-hop = "169.254.52.5";
             };
           }
-        ];
-      }
-      { name = "replace-next-hop-lte";
-        statements = [
           { conditions.match-prefix-set = {
               prefix-set = "vultr-ipv4";
               match-set-options = "any";
@@ -139,10 +155,45 @@ let
               set-next-hop = "169.254.24.5";
             };
           }
+          { conditions.match-prefix-set = {
+              prefix-set = "vultr-ipv4";
+              match-set-options = "any";
+            };
+            conditions.match-neighbor-set = {
+              neighbor-set = "cerium-dsl";
+              match-set-options = "any";
+            };
+            actions.bgp-actions = {
+              set-next-hop = "169.254.152.5";
+            };
+          }
+          { conditions.match-prefix-set = {
+              prefix-set = "vultr-ipv4";
+              match-set-options = "any";
+            };
+            conditions.match-neighbor-set = {
+              neighbor-set = "cerium-lte";
+              match-set-options = "any";
+            };
+            actions.bgp-actions = {
+              set-next-hop = "169.254.72.5";
+            };
+          }
         ];
       }
       { name = "demote-lte";
         statements = [
+          { conditions.match-neighbor-set = {
+              neighbor-set = "cerium-lte";
+              match-set-options = "any";
+            };
+            actions.bgp-actions = {
+              set-as-path-prepend = {
+                as = "last-as";
+                repeat-n = 1;
+              };
+            };
+          }
           { conditions.match-neighbor-set = {
               neighbor-set = "lanthanum-lte";
               match-set-options = "any";
@@ -158,6 +209,18 @@ let
       }
       { name = "default-route";
         statements = [
+          { conditions.match-prefix-set = {
+              prefix-set = "default-ipv4";
+              match-set-options = "any";
+            };
+            actions.bgp-actions.set-med = 0;
+          }
+          { conditions.match-prefix-set = {
+              prefix-set = "default-ipv6";
+              match-set-options = "any";
+            };
+            actions.bgp-actions.set-med = 0;
+          }
           { conditions.match-neighbor-set = {
               neighbor-set = "lanthanum-dsl";
               match-set-options = "any";
@@ -194,6 +257,54 @@ let
           }
           { conditions.match-neighbor-set = {
               neighbor-set = "lanthanum-lte";
+              match-set-options = "any";
+            };
+            conditions.match-prefix-set = {
+              prefix-set = "default-ipv6";
+              match-set-options = "any";
+            };
+            actions.bgp-actions.set-as-path-prepend = {
+              as = "last-as";
+              repeat-n = 1;
+            };
+            actions.route-disposition = "accept-route";
+          }
+          { conditions.match-neighbor-set = {
+              neighbor-set = "cerium-dsl";
+              match-set-options = "any";
+            };
+            conditions.match-prefix-set = {
+              prefix-set = "default-ipv4";
+              match-set-options = "any";
+            };
+            actions.route-disposition = "accept-route";
+          }
+          { conditions.match-neighbor-set = {
+              neighbor-set = "cerium-dsl";
+              match-set-options = "any";
+            };
+            conditions.match-prefix-set = {
+              prefix-set = "default-ipv6";
+              match-set-options = "any";
+            };
+            actions.route-disposition = "accept-route";
+          }
+          { conditions.match-neighbor-set = {
+              neighbor-set = "cerium-lte";
+              match-set-options = "any";
+            };
+            conditions.match-prefix-set = {
+              prefix-set = "default-ipv4";
+              match-set-options = "any";
+            };
+            actions.bgp-actions.set-as-path-prepend = {
+              as = "last-as";
+              repeat-n = 1;
+            };
+            actions.route-disposition = "accept-route";
+          }
+          { conditions.match-neighbor-set = {
+              neighbor-set = "cerium-lte";
               match-set-options = "any";
             };
             conditions.match-prefix-set = {

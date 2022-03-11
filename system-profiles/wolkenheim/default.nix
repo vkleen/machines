@@ -14,8 +14,10 @@ let
       };
       apply-policy.config = {
         import-policy-list = [
+          "demote-lte"
           "vultr-prefixes"
           "default-route"
+          "accept-freerange-endpoint"
         ];
         default-import-policy = "reject-route";
         export-policy-list = [
@@ -82,12 +84,11 @@ let
           { ip-prefix = "45.77.54.162/32"; }
         ];
       }
-      { prefix-set-name = "default-ipv4";
-        prefix-list = [];
-        #prefix-list = [ { ip-prefix = "0.0.0.0/0"; } ];
-      }
       { prefix-set-name = "default-ipv6";
         prefix-list = [ { ip-prefix = "::/0"; } ];
+      }
+      { prefix-set-name = "freerange-endpoint";
+        prefix-list = [ { ip-prefix = "206.83.40.91/32"; } ];
       }
     ];
     defined-sets.neighbor-sets = [
@@ -125,6 +126,17 @@ let
           {
             conditions.match-prefix-set = {
               prefix-set = "vultr-ipv6";
+              match-set-options = "any";
+            };
+            actions.route-disposition = "accept-route";
+          }
+        ];
+      }
+      { name = "accept-freerange-endpoint";
+        statements = [
+          {
+            conditions.match-prefix-set = {
+              prefix-set = "freerange-endpoint";
               match-set-options = "any";
             };
             actions.route-disposition = "accept-route";
@@ -212,26 +224,10 @@ let
       { name = "default-route";
         statements = [
           { conditions.match-prefix-set = {
-              prefix-set = "default-ipv4";
-              match-set-options = "any";
-            };
-            actions.bgp-actions.set-med = 0;
-          }
-          { conditions.match-prefix-set = {
               prefix-set = "default-ipv6";
               match-set-options = "any";
             };
             actions.bgp-actions.set-med = 0;
-          }
-          { conditions.match-neighbor-set = {
-              neighbor-set = "lanthanum-dsl";
-              match-set-options = "any";
-            };
-            conditions.match-prefix-set = {
-              prefix-set = "default-ipv4";
-              match-set-options = "any";
-            };
-            actions.route-disposition = "accept-route";
           }
           { conditions.match-neighbor-set = {
               neighbor-set = "lanthanum-dsl";
@@ -248,35 +244,7 @@ let
               match-set-options = "any";
             };
             conditions.match-prefix-set = {
-              prefix-set = "default-ipv4";
-              match-set-options = "any";
-            };
-            actions.bgp-actions.set-as-path-prepend = {
-              as = "last-as";
-              repeat-n = 1;
-            };
-            actions.route-disposition = "accept-route";
-          }
-          { conditions.match-neighbor-set = {
-              neighbor-set = "lanthanum-lte";
-              match-set-options = "any";
-            };
-            conditions.match-prefix-set = {
               prefix-set = "default-ipv6";
-              match-set-options = "any";
-            };
-            actions.bgp-actions.set-as-path-prepend = {
-              as = "last-as";
-              repeat-n = 1;
-            };
-            actions.route-disposition = "accept-route";
-          }
-          { conditions.match-neighbor-set = {
-              neighbor-set = "cerium-dsl";
-              match-set-options = "any";
-            };
-            conditions.match-prefix-set = {
-              prefix-set = "default-ipv4";
               match-set-options = "any";
             };
             actions.route-disposition = "accept-route";
@@ -296,26 +264,8 @@ let
               match-set-options = "any";
             };
             conditions.match-prefix-set = {
-              prefix-set = "default-ipv4";
-              match-set-options = "any";
-            };
-            actions.bgp-actions.set-as-path-prepend = {
-              as = "last-as";
-              repeat-n = 1;
-            };
-            actions.route-disposition = "accept-route";
-          }
-          { conditions.match-neighbor-set = {
-              neighbor-set = "cerium-lte";
-              match-set-options = "any";
-            };
-            conditions.match-prefix-set = {
               prefix-set = "default-ipv6";
               match-set-options = "any";
-            };
-            actions.bgp-actions.set-as-path-prepend = {
-              as = "last-as";
-              repeat-n = 1;
             };
             actions.route-disposition = "accept-route";
           }
@@ -341,7 +291,7 @@ in {
     networking.gobgpd.config = lib.mkForce boronGobgpConfig;
     environment.etc = {
       "frr/staticd.conf".text = ''
-        ip route 0.0.0.0/0 10.172.40.1
+        ip route 0.0.0.0/0 100.64.101.33
       '';
     };
   }) ];

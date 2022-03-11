@@ -91,6 +91,7 @@ let
         policy accept
 
         oifname { wg-europium } mark 0x1 masquerade
+        oifname { freerange } snat to 206.83.40.96
         oifname { lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } ip daddr != { 169.254.0.0/16 } snat to 45.77.54.162
       }
     }
@@ -247,12 +248,29 @@ in {
           }
         ];
       };
+      freerange = {
+        ips = [ "100.64.101.37/27" ];
+        privateKeyFile = "/run/agenix/freerange";
+        allowedIPsAsRoutes = false;
+        peers = [
+          { publicKey = "enMJtnjeb3AFY9v4OybvnM0Hvt4xZE0lPJ8exizfFHs=";
+            allowedIPs = [ "0.0.0.0/0" "::/0" ];
+            endpoint = "206.83.40.91:36745";
+          }
+        ];
+      };
     };
 
     namespaces.enable = true;
   };
   age.secrets.boron = {
     file = ../../secrets/wireguard/boron.age;
+    mode = "0440";
+    owner = "0";
+    group = "systemd-network";
+  };
+  age.secrets.freerange = {
+    file = ../../secrets/wireguard/freerange.age;
     mode = "0440";
     owner = "0";
     group = "systemd-network";
@@ -757,6 +775,16 @@ in {
     networks."40-upstream-lte" = {
       networkConfig = {
         LinkLocalAddressing = "no";
+      };
+    };
+    networks."40-wg-europium" = {
+      linkConfig = {
+        MTUBytes = "1332";
+      };
+    };
+    networks."40-freerange" = {
+      linkConfig = {
+        MTUBytes = "1332";
       };
     };
   };

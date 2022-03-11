@@ -10,6 +10,11 @@ let
   remote = linkRemote hostName;
 in {
   config = lib.mkIf (fabric.uplinks.${hostName}.type or "" == "bgp") {
+    environment.etc = {
+      "frr/staticd.conf".text = with localAS; ''
+        ip route 206.83.40.91/32 45.32.152.1
+      '';
+    };
     networking.gobgpd.credentialFile = fabric.uplinks.${hostName}.credentials;
     networking.gobgpd.config = {
       global = {
@@ -17,11 +22,13 @@ in {
           port = 179;
         };
         apply-policy.config = {
-          import-policy-list = [ "uplink-routes" "default-routes-import" ];
-          export-policy-list = [ "export-next-hop" "uplink-routes" "default-routes-export" ];
+          import-policy-list = [ "uplink-routes" "routes-import" ];
+          export-policy-list = [
+            "export-next-hop" "uplink-routes" "routes-export"
+          ];
         };
       };
-      zebra.config.redistribute-route-type-list = [ "kernel" ];
+      zebra.config.redistribute-route-type-list = [ "kernel" "static" ];
       peer-groups = [
         ({ config = {
              peer-group-name = "uplink";
@@ -66,11 +73,11 @@ in {
             (p: { ip-prefix = p; })
             fabric.uplinks.${hostName}.allowed-prefixes6;
         }
-        { prefix-set-name = "default-ipv4";
-          prefix-list = [ { ip-prefix = "0.0.0.0/0"; } ];
-        }
         { prefix-set-name = "default-ipv6";
           prefix-list = [ { ip-prefix = "::/0"; } ];
+        }
+        { prefix-set-name = "freerange-endpoint";
+          prefix-list = [ { ip-prefix = "206.83.40.91/32"; } ];
         }
       ];
       defined-sets.neighbor-sets = [
@@ -95,10 +102,10 @@ in {
             }
           ];
         }
-        { name = "default-routes-import";
+        { name = "routes-import";
           statements = [
             { conditions.match-prefix-set = {
-                prefix-set = "default-ipv4";
+                prefix-set = "freerange-endpoint";
                 match-set-options = "any";
               };
               conditions.bgp-conditions.route-type = "local";
@@ -113,14 +120,14 @@ in {
             }
           ];
         }
-        { name = "default-routes-export";
+        { name = "routes-export";
           statements = [
             { conditions.match-neighbor-set = {
                 neighbor-set = "uplink";
                 match-set-options = "invert";
               };
               conditions.match-prefix-set = {
-                prefix-set = "default-ipv4";
+                prefix-set = "freerange-endpoint";
                 match-set-options = "any";
               };
               actions.route-disposition = "accept-route";
@@ -156,7 +163,7 @@ in {
                 match-set-options = "any";
               };
               conditions.match-prefix-set = {
-                prefix-set = "default-ipv4";
+                prefix-set = "freerange-endpoint";
                 match-set-options = "any";
               };
               actions.bgp-actions.set-next-hop = linkLocal_address

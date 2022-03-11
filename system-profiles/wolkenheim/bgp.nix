@@ -23,6 +23,7 @@ in {
           ip nht resolve-via-default
         '';
         "frr/vtysh.conf".text = "";
+        "frr/staticd.conf".text = "";
       };
       users.users.frr = {
         description = "FRR daemon user";
@@ -54,6 +55,28 @@ in {
           LogsDirectory = "frr";
           AmbientCapabilities = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
           CapabilityBoundingSet = [ "CAP_NET_ADMIN" "CAP_NET_RAW" ];
+        };
+      };
+
+      systemd.services.staticd = {
+        wantedBy = [ "multi-user.target" ];
+        after = [ "network.target" "systemd-sysctl.service" "zebra.service" ];
+        bindsTo = [ "zebra.service" ];
+
+        description = "FRR STATIC routing daemon";
+
+        unitConfig.Documentation = "man:staticd(8) man:zebra(8)";
+
+        serviceConfig = {
+          PIDFile = "frr/staticd.pid";
+          ExecStart = "${pkgs.frr}/libexec/frr/staticd -f /etc/frr/staticd.conf --vty_addr localhost --vty_port 0";
+          Restart = "always";
+          User = "frr";
+          Group = "frr";
+          SupplementaryGroups = [ "frrvty" ];
+          LogsDirectory = "frr";
+          AmbientCapabilities = [ ];
+          CapabilityBoundingSet = [ ];
         };
       };
 
@@ -124,30 +147,9 @@ in {
       environment.etc = {
         "frr/staticd.conf".text = with localAS; ''
           ip route ${public4} blackhole 254
+          ip route 206.93.40.96 blackhole 254
           ipv6 route ${public6} blackhole 254
         '';
-      };
-
-      systemd.services.staticd = {
-        wantedBy = [ "multi-user.target" ];
-        after = [ "network.target" "systemd-sysctl.service" "zebra.service" ];
-        bindsTo = [ "zebra.service" ];
-
-        description = "FRR STATIC routing daemon";
-
-        unitConfig.Documentation = "man:staticd(8) man:zebra(8)";
-
-        serviceConfig = {
-          PIDFile = "frr/staticd.pid";
-          ExecStart = "${pkgs.frr}/libexec/frr/staticd -f /etc/frr/staticd.conf --vty_addr localhost --vty_port 0";
-          Restart = "always";
-          User = "frr";
-          Group = "frr";
-          SupplementaryGroups = [ "frrvty" ];
-          LogsDirectory = "frr";
-          AmbientCapabilities = [ ];
-          CapabilityBoundingSet = [ ];
-        };
       };
 
       networking.gobgpd.config.zebra.config.redistribute-route-type-list = [ "static" "directly-connected" ];
@@ -166,6 +168,7 @@ in {
           name = "public";
           address = with localAS; [
             public4
+            "206.83.40.96/32"
           ];
           networkConfig = {
             LinkLocalAddressing = "no";

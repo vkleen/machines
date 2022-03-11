@@ -54,7 +54,7 @@
       remote-as = 64515;
       local-as = 4288000175;
       password = "$VULTR_BGP_PASSWORD";
-      allowed-prefixes4 = [ ];
+      allowed-prefixes4 = [ "45.77.54.162/32" ];
       allowed-prefixes6 = [ "2001:19f0:6c01:2bc5::/64" ];
       peer4 = "169.254.169.254";
       peer6 = "2001:19f0:ffff::1";

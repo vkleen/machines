@@ -82,7 +82,8 @@ let
         ];
       }
       { prefix-set-name = "default-ipv4";
-        prefix-list = [ { ip-prefix = "0.0.0.0/0"; } ];
+        prefix-list = [];
+        #prefix-list = [ { ip-prefix = "0.0.0.0/0"; } ];
       }
       { prefix-set-name = "default-ipv6";
         prefix-list = [ { ip-prefix = "::/0"; } ];
@@ -337,5 +338,10 @@ in {
   }
   (lib.mkIf (hostName == "boron") {
     networking.gobgpd.config = lib.mkForce boronGobgpConfig;
+    environment.etc = {
+      "frr/staticd.conf".text = ''
+        ip route 0.0.0.0/0 10.172.40.1
+      '';
+    };
   }) ];
 }

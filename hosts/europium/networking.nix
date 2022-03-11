@@ -46,7 +46,7 @@
       trustedInterfaces = [ "wg0" ];
       allowPing = true;
       allowedTCPPorts = [ 80 443 ];
-      allowedUDPPorts = [ 51820 53 ];
+      allowedUDPPorts = [ 51820 51821 51822 53 ];
 
       extraCommands = ''
         ip46tables -D FORWARD -j nixos-fw-forward 2>/dev/null || true
@@ -55,6 +55,8 @@
 
         ip46tables -N nixos-fw-forward
         ip46tables -A nixos-fw-forward -i wg0 -j ACCEPT
+        ip46tables -A nixos-fw-forward -i cerium -j ACCEPT
+        ip46tables -A nixos-fw-forward -i lanthanum -j ACCEPT
         ip46tables -A nixos-fw-forward -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
         ip6tables -A nixos-fw-forward -p icmpv6 --icmpv6-type redirect -j DROP
@@ -74,8 +76,8 @@
     };
     nat = {
       enable = true;
-      internalInterfaces = [ "wg0" ];
-      internalIPs = [ "10.172.40.1/24" ];
+      internalInterfaces = [ "wg0" "cerium" "lanthanum" ];
+      internalIPs = [ "10.172.40.1/24" "10.174.41.1/24" "10.174.42.1/24" ];
       externalInterface = "eth0";
       externalIP = "172.104.139.29";
       forwardPorts = [];
@@ -97,6 +99,28 @@
           }
           { publicKey = builtins.readFile ../../wireguard/boron.pub;
             allowedIPs = [ "10.172.40.136/32" "2a01:7e01:e002:aa00:cc6b:36a1::/96" "2a01:7e01:e002:aa02::/64" ];
+          }
+        ];
+      };
+      cerium = {
+        ips = [ "10.172.41.1/24" ];
+        privateKeyFile = "/run/agenix/europium";
+        listenPort = 51821;
+        allowedIPsAsRoutes = false;
+        peers = [
+          { publicKey = builtins.readFile ../../wireguard/cerium.pub;
+            allowedIPs = [ "10.172.41.100/32" "45.77.54.162/32" ];
+          }
+        ];
+      };
+      lanthanum = {
+        ips = [ "10.172.42.1/24" ];
+        privateKeyFile = "/run/agenix/europium";
+        listenPort = 51822;
+        allowedIPsAsRoutes = false;
+        peers = [
+          { publicKey = builtins.readFile ../../wireguard/lanthanum.pub;
+            allowedIPs = [ "10.172.42.100/32" "45.77.54.162/32" ];
           }
         ];
       };

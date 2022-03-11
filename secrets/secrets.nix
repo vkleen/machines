@@ -25,6 +25,7 @@ in
   "wireguard/lanthanum.age".publicKeys = [vkleen lanthanum];
   "wireguard/samarium.age".publicKeys = [vkleen samarium];
   "wireguard/nitrogen.age".publicKeys = [vkleen];
+  "wireguard/freerange.age".publicKeys =[vkleen];
 
   "nix/europium.1.sec.age".publicKeys = [vkleen europium];
   "nix/samarium.2.sec.age".publicKeys = [vkleen samarium];

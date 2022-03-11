@@ -5,6 +5,8 @@ let
   inherit (flake.inputs.utils.lib) private_address;
   machine_id = config.environment.etc."machine-id".text;
 
+  europiumPublicAddresses = flake.nixosConfigurations.europium.config.system.publicAddresses;
+
   nft_ruleset = let
     globalTcpPorts =
          lib.lists.map builtins.toString config.networking.firewall.allowedTCPPorts
@@ -228,14 +230,13 @@ in {
     hosts = {
       "45.33.37.163"   = [ "plutonium.kleen.org" ];
       "94.16.123.211"  = [ "samarium.kleen.org" ];
-      "172.104.139.29" = [ "europium.kleen.org" ];
       "45.32.153.151" =  [ "lanthanum.kleen.org" ];
       "45.32.154.225" =  [ "cerium.kleen.org" ];
-    };
+    } // lib.genAttrs europiumPublicAddresses (_: ["europium.kleen.org"]);
 
     wireguard.interfaces = {
       wg-europium = {
-        ips = [ "10.172.40.136/24" "2a01:7e01:e002:aa00:cc6b:36a1:0:1/64" ];
+        ips = [ "10.172.40.136/24" ];
         privateKeyFile = "/run/agenix/boron";
         allowedIPsAsRoutes = false;
         peers = [
@@ -245,8 +246,6 @@ in {
             persistentKeepalive = 1;
           }
         ];
-        socketNamespace = "wg_upstream";
-        interfaceNamespace = "init";
       };
     };
 

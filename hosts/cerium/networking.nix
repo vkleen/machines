@@ -103,6 +103,20 @@ in {
       enable = true;
       ruleset = nft_ruleset;
     };
+    wireguard.interfaces = {
+      europium = {
+        ips = [ "10.172.41.100/24" ];
+        privateKeyFile = "/run/agenix/cerium";
+        allowedIPsAsRoutes = false;
+        peers = [
+          { publicKey = builtins.readFile ../../wireguard/europium.pub;
+            allowedIPs = [ "0.0.0.0/0" "::/0" ];
+            endpoint = "europium.kleen.org:51821";
+            persistentKeepalive = 1;
+          }
+        ];
+      };
+    };
   };
 
   boot.kernel.sysctl = {

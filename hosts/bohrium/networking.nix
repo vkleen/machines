@@ -1,9 +1,6 @@
 { config, pkgs, lib, flake, ... }:
 let
-  boronPublicAddresses = flake.nixosConfigurations.boron.config.system.publicAddresses;
-  europiumPublicAddresses = flake.nixosConfigurations.europium.config.system.publicAddresses;
-  lanthanumPublicAddresses = flake.nixosConfigurations.lanthanum.config.system.publicAddresses;
-  ceriumPublicAddresses = flake.nixosConfigurations.cerium.config.system.publicAddresses;
+  inherit (flake.inputs.utils.lib) private_address mkV4 mkV6 mkHosts;
 in {
   networking = {
     useDHCP = false;
@@ -77,11 +74,8 @@ in {
     # nameservers = [ "10.172.100.1" ];
 
     hosts = {
-      "94.16.123.211"  = [ "samarium.kleen.org" ];
-    } // lib.genAttrs boronPublicAddresses (_: ["boron.auenheim.kleen.org"])
-      // lib.genAttrs europiumPublicAddresses (_: ["europium.kleen.org"])
-      // lib.genAttrs lanthanumPublicAddresses (_: ["lanthanum.kleen.org"])
-      // lib.genAttrs ceriumPublicAddresses (_: ["cerium.kleen.org"]);
+      "94.16.123.211" = [ "samarium.kleen.org" ];
+    } // mkHosts flake [ "boron" "europium" "lanthanum" "cerium" ];
 
     wireguard.interfaces = {
       europium = {

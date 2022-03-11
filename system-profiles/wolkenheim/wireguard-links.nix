@@ -1,5 +1,6 @@
 { config, lib, flake, hostName, pkgs, ...}:
 with import ./utils.nix { inherit lib flake; }; let
+  inherit (flake.inputs.utils.lib) getAllPublic lists attrsets mkHosts;
   inherit (config.networking.wolkenheim) fabric;
   normalizedLinks = normalize fabric.wg-links;
 
@@ -21,10 +22,8 @@ in {
       (l: linkListenPort (ip4Namespace fabric normalizedLinks l.linkId))
       (linksTo hostName normalizedLinks);
 
-    networking.hosts = lib.attrsets.listToAttrs (lib.lists.concatMap
-      (l: lib.lists.map
-        (a: lib.attrsets.nameValuePair a [(remote l).host])
-        (flake.nixosConfigurations.${(remote l).host}.config.system.publicAddresses))
+    networking.hosts = mkHosts flake (lists.map
+      (l: (remote l).host)
       (linksInvolving hostName normalizedLinks));
 
     networking.useNetworkd = true;

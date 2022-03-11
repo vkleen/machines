@@ -1,10 +1,11 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, flake, ... }: let
+  inherit (flake.inputs.utils.lib) mkV4 mkV6;
+in {
   networking.usePredictableInterfaceNames = false;
 
   system.publicAddresses = [
-    "172.104.139.29"
-    "2a01:7e01::f03c:92ff:fe12:a0f4"
+    (mkV4 "172.104.139.29")
+    (mkV6 "2a01:7e01::f03c:92ff:fe12:a0f4")
   ];
 
   networking = {

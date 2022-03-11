@@ -18,7 +18,7 @@ in
     };
 
     system.publicAddresses = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+      type = lib.types.listOf lib.types.attrs;
       default = [];
       description = ''
         Publicly routable IP addresses suitable for inclusion into networking.hosts

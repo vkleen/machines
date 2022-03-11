@@ -1,5 +1,6 @@
-{ flake, pkgs, lib, config, ... }:
-{
+{ flake, pkgs, lib, config, ... }: let
+  inherit (flake.inputs.utils.lib) lists;
+in {
   services.matrix-synapse = {
     enable = true;
     settings = {
@@ -181,7 +182,7 @@
     realm = "turn.kleen.org";
     cert = "/run/credentials/coturn.service/turn.kleen.org.pem";
     pkey = "/run/credentials/coturn.service/turn.kleen.org.key.pem";
-    relay-ips = config.system.publicAddresses;
+    relay-ips = lists.map (a: a.addr) config.system.publicAddresses;
     extraConfig = ''
       # ban private IP ranges
       no-multicast-peers

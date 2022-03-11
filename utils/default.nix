@@ -31,6 +31,7 @@ in rec {
     strings
     trivial
     lists
+    attrsets
     ;
   ints = import ./ints.nix { inherit lib; };
 
@@ -127,4 +128,22 @@ in rec {
     chars5678 = substring 4 4 machine_id;
   in assert 0 <= linkId && linkId <= ints.pow 2 48;
     "fe80:3e0e:b7ec:${linkId0-15}:${linkId16-31}:${linkId32-47}:${chars1234}:${chars5678}";
+
+  getPublic = type: flake: host: let
+    addresses = flake.nixosConfigurations.${host}.config.system.publicAddresses;
+  in lists.map (a: a.addr) (lists.filter (a: a.type == type) addresses);
+
+  getAllPublic = flake: host: let
+    addresses = flake.nixosConfigurations.${host}.config.system.publicAddresses;
+  in lists.map (a: a.addr) addresses;
+
+  getPublicV4 = getPublic "v4";
+  getPublicV6 = getPublic "v6";
+
+  mkV4 = a: { type = "v4"; addr = a; };
+  mkV6 = a: { type = "v6"; addr = a; };
+
+  mkHosts = flake: hosts: attrsets.listToAttrs (lists.concatMap
+    (host: lists.map (a: attrsets.nameValuePair a ["${host}.kleen.org"]) (getAllPublic flake host))
+    hosts);
 }

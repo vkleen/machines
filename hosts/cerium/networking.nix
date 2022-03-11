@@ -1,7 +1,7 @@
 { config, pkgs, lib, flake, ... }:
 let
   inherit (builtins) substring;
-  inherit (flake.inputs.utils.lib) private_address;
+  inherit (flake.inputs.utils.lib) private_address mkV4 mkV6;
   machine_id = config.environment.etc."machine-id".text;
 
   nft_ruleset = let
@@ -59,8 +59,8 @@ let
 
 in {
   system.publicAddresses = [
-    "45.32.154.225"
-    "2001:19f0:6c01:284a:5400:03ff:fec6:c9b0"
+    (mkV4 "45.32.154.225")
+    (mkV6 "2001:19f0:6c01:284a:5400:03ff:fec6:c9b0")
   ];
   
   environment.systemPackages = [

@@ -2,10 +2,8 @@
 let
   ppp_interface = "wan";
 
-  inherit (flake.inputs.utils.lib) private_address;
+  inherit (flake.inputs.utils.lib) private_address mkV4 mkV6 getPublicV6 lists mkHosts;
   machine_id = config.environment.etc."machine-id".text;
-
-  europiumPublicAddresses = flake.nixosConfigurations.europium.config.system.publicAddresses;
 
   nft_ruleset = let
     globalTcpPorts =
@@ -107,8 +105,8 @@ in {
     search auenheim.kleen.org
   '';
   system.publicAddresses = [
-    "45.77.54.162"
-    "2001:19f0:6c01:2bc5::1"
+    (mkV4 "45.77.54.162")
+    (mkV6 "2001:19f0:6c01:2bc5::1")
   ];
   networking = {
     useDHCP = false;
@@ -229,11 +227,8 @@ in {
     };
 
     hosts = {
-      "45.33.37.163"   = [ "plutonium.kleen.org" ];
       "94.16.123.211"  = [ "samarium.kleen.org" ];
-      "45.32.153.151" =  [ "lanthanum.kleen.org" ];
-      "45.32.154.225" =  [ "cerium.kleen.org" ];
-    } // lib.genAttrs europiumPublicAddresses (_: ["europium.kleen.org"]);
+    } // mkHosts flake [ "europium" ];
 
     wireguard.interfaces = {
       wg-europium = {
@@ -243,7 +238,7 @@ in {
         peers = [
           { publicKey = builtins.readFile ../../wireguard/europium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
-            endpoint = "europium.kleen.org:51820";
+            endpoint = "[${lists.head (getPublicV6 flake "europium")}]:51820";
             persistentKeepalive = 1;
           }
         ];

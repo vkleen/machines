@@ -1424,7 +1424,7 @@
         ]
       },
       "locked": {
-        "narHash": "sha256-bnAOw+XtBWe1I0vrW+5n5bihphXcszgkZYixOgNPJIM=",
+        "narHash": "sha256-xTBIxPHbvzjyv9KzdSLxMOwLzHL/lXg7JRgfYb58tA0=",
         "path": "./utils",
         "type": "path"
       },

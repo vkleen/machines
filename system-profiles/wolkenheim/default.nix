@@ -41,6 +41,7 @@ let
         timers.config = {
           hold-time = 9;
           keepalive-interval = 3;
+          connect-retry = 9;
         };
         afi-safis = [
           { config.afi-safi-name = "ipv4-unicast"; }

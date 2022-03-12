@@ -74,7 +74,7 @@ let
       chain postrouting {
         type filter hook postrouting priority mangle
         policy accept
-        oifname { wg-europium, lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } meta l4proto tcp tcp flags & (syn|rst) == syn tcp option maxseg size set rt mtu
+        oifname { wg-europium, freerange, lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } meta l4proto tcp tcp flags & (syn|rst) == syn tcp option maxseg size set rt mtu
       }
     }
     table ip nat {

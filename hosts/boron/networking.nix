@@ -250,7 +250,8 @@ in {
         peers = [
           { publicKey = "enMJtnjeb3AFY9v4OybvnM0Hvt4xZE0lPJ8exizfFHs=";
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
-            endpoint = "206.83.40.91:36745";
+            endpoint = "[2a0f:9400:fa0::91]:36745";
+            #endpoint = "206.83.40.91:36745";
           }
         ];
       };
@@ -794,6 +795,7 @@ in {
     settings = {
       server = {
         interface = [ "127.0.0.1" "10.172.100.1" "::1" "2001:19f0:6c01:2bc5::1" ];
+        prefer-ip6 = true;
         access-control = [ "10.172.100.0/24 allow" "127.0.0.0/24 allow" "::1/128 allow" "2001:19f0:6c01:2bc5::/64 allow" ];
         local-zone = ["100.172.10.in-addr.arpa. transparent"];
         domain-insecure = "100.172.10.in-addr.arpa.";

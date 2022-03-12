@@ -493,7 +493,6 @@ in {
         JoinsNamespaceOf = "netns@lte.service";
       };
       serviceConfig = {
-        PIDFile = "/run/lte-dhcp/pid";
         RuntimeDirectory = "lte-dhcp";
         Restart = "always";
         PrivateNetwork = true;

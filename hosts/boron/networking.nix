@@ -251,7 +251,6 @@ in {
           { publicKey = "enMJtnjeb3AFY9v4OybvnM0Hvt4xZE0lPJ8exizfFHs=";
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
             endpoint = "[2a0f:9400:fa0::91]:36745";
-            #endpoint = "206.83.40.91:36745";
           }
         ];
       };
@@ -446,14 +445,13 @@ in {
       preStart = ''
         ${pkgs.iproute}/bin/ip link add dev ltens type veth peer name lte
         ${pkgs.iproute}/bin/ip link set ltens up
-        ${pkgs.iproute}/bin/ip link set lte up
-        ${pkgs.iproute}/bin/ip link set ifb0 up
       '';
       script = ''
         ${pkgs.iproute}/bin/ip link set lte netns lte
         ${pkgs.iproute}/bin/ip link set ifb0 netns lte
 
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev lte up
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev ifb0 up
 
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 6500kbit burst 5kb latency 100ms
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev lte handle ffff: ingress

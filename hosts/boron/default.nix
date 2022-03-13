@@ -5,6 +5,7 @@
     ./networking.nix
     ./matrix-bifrost.nix
     ./heisenbridge.nix
+    ./prometheus
   ] ++ (with flake.nixosModules.systemProfiles; [
     initrd-all-crypto-modules
     latest-linux

@@ -12,6 +12,7 @@ in {
     services.prometheus = {
       enable = true;
       stateDir = "prometheus";
+      listenAddress = "127.0.0.1";
       exporters = {
         node = {
           enable = true;
@@ -49,6 +50,20 @@ in {
           relabel_configs = relabelHosts;
           scrape_interval = "5s";
         }
+        { job_name = "loki";
+          static_configs = [
+            { targets = ["localhost:${toString config.services.loki.configuration.server.http_listen_port}"]; }
+          ];
+          relabel_configs = relabelHosts;
+          scrape_interval = "1s";
+        }
+        { job_name = "promtail";
+          static_configs = [
+            { targets = ["localhost:${toString config.services.promtail.configuration.server.http_listen_port}"]; }
+          ];
+          relabel_configs = relabelHosts;
+          scrape_interval = "1s";
+        }
       ];
     };
     services.grafana = {
@@ -70,13 +85,99 @@ in {
       "grafana-admin-password".file = ../../../secrets/grafana/admin-password.age;
       "grafana-secret-key".file = ../../../secrets/grafana/secret-key.age;
     };
+
+    services.loki = {
+      enable = true;
+      configuration = {
+        auth_enabled = false;
+        server = {
+          http_listen_port = 9094;
+          grpc_listen_port = 9095;
+        };
+        common = {
+          path_prefix = config.services.loki.dataDir;
+          storage.filesystem = {
+            chunks_directory = "${config.services.loki.dataDir}/chunks";
+            rules_directory = "${config.services.loki.dataDir}/rules";
+          };
+          replication_factor = 1;
+          ring = {
+            instance_addr = "127.0.0.1";
+            kvstore = {
+              store = "inmemory";
+            };
+          };
+        };
+        ruler = {
+          enable_api = true;
+          storage = {
+            type = "local";
+            local.directory = "${config.services.loki.dataDir}/rules";
+          };
+          rule_path = "${config.services.loki.dataDir}/rules-temp";
+          remote_write = {
+            enabled = true;
+            client.url = "http://localhost:${builtins.toString config.services.prometheus.port}/api/v1/write";
+          };
+          ring.kvstore.store = "inmemory";
+        };
+        schema_config.configs = [
+          { from = "2022-01-01";
+            store = "boltdb-shipper";
+            object_store = "filesystem";
+            schema = "v11";
+            index = {
+              prefix = "index_";
+              period = "24h";
+            };
+          }
+        ];
+      };
+    };
+    services.promtail = {
+      enable = true;
+      configuration = {
+        server = {
+          http_listen_port = 9080;
+          grpc_listen_port = 0;
+        };
+        clients = [
+          { url = "http://localhost:${builtins.toString config.services.loki.configuration.server.http_listen_port}/loki/api/v1/push"; }
+        ];
+        scrape_configs = [
+          { job_name = "journal";
+            journal = {
+              json = true;
+              max_age = "12h";
+              path = "/var/log/journal";
+              labels = {
+                job = "systemd-journal";
+              };
+            };
+            relabel_configs = [
+              { source_labels = ["__journal__systemd_unit"];
+                target_label = "unit";
+              }
+              { source_labels = ["__journal__hostname"];
+                target_label = "nodename";
+              }
+            ];
+          }
+        ];
+      };
+    };
+
     fileSystems = {
-      "/var/lib/prometheus" = {
+      "/var/lib/${config.services.prometheus.stateDir}" = {
         device = "/persist/prometheus";
         options = [ "bind" ];
       };
-      "/var/lib/grafana" = {
+      "${config.services.grafana.dataDir}" = {
         device = "/persist/grafana";
+        options = [ "bind" ];
+      };
+      "${config.services.loki.dataDir}" = {
+        device = "/persist/loki";
         options = [ "bind" ];
       };
     };

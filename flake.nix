@@ -394,8 +394,12 @@
 
       installerProfiles = system:
         let nixpkgs-path = pkgset.${system}.path;
+            mkInstallerProfile = dir: path: {
+              imports = [ "${toString dir}/${path}" ];
+            };
         in mapAttrs (name: {path, output}: {
-                       profile = mkSystemProfile nixpkgs-path path "installer-${name}"; inherit output;
+                       profile = mkInstallerProfile nixpkgs-path path;
+                       inherit output;
                      })
           { cd-dvd = {
               path = "nixos/modules/installer/cd-dvd/installation-cd-minimal.nix";

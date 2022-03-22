@@ -25,12 +25,22 @@
     system = "x86_64-linux";
   };
 
-  nix.settings = {
+  nix = {
+    daemonCPUSchedPolicy = "batch";
+    daemonIOSchedClass = "idle";
+
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 30d";
+    };
+
+    settings = {
       max-jobs = 4;
       cores = 4;
       secret-key-files = "/persist/private/bohrium.1.sec";
       builders-use-substitutes = true;
       keep-outputs = true;
+    };
   };
 
   system.macnameNamespace = "auenheim.kleen.org";

@@ -497,7 +497,7 @@ in lib.mkMerge [{
     border-color=${colors.red}
     default-timeout=8000
     
-    [app-name=weechat]
+    [app-name=Element]
     ignore-timeout=1
     default-timeout=0
   '';

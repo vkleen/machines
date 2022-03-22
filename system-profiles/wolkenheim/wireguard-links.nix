@@ -1,6 +1,6 @@
 { config, lib, flake, hostName, pkgs, ...}:
 with import ./utils.nix { inherit lib flake; }; let
-  inherit (flake.inputs.utils.lib) getAllPublic lists attrsets mkHosts;
+  inherit (flake.inputs.utils.lib) getAllPublic lists attrsets mkHosts getPublicV4;
   inherit (config.networking.wolkenheim) fabric;
   normalizedLinks = normalize fabric.wg-links;
 
@@ -41,7 +41,7 @@ in {
               ../../wireguard + "/${(remote l).host}.pub"));
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
           } // lib.attrsets.optionalAttrs (linkIsFrom hostName l) {
-            endpoint = "${(remote l).host}.kleen.org:${builtins.toString (linkListenPort ip4Ns)}";
+            endpoint = "${lists.head (getPublicV4 flake (remote l).host)}:${builtins.toString (linkListenPort ip4Ns)}";
           })
         ];
         socketNamespace = if (local l).intf == "_"
@@ -62,7 +62,7 @@ in {
         in lib.attrsets.nameValuePair "40-${name l}" ({
           name = name l;
           address = [
-            "${linkLocal_address ip4Ns hostName}/24"
+            #"${linkLocal_address ip4Ns hostName}/24"
             "${linkLocal_address6 ip6Ns hostIds.${hostName}}/96" 
           ];
           linkConfig = {

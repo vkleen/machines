@@ -146,7 +146,6 @@ in {
     (lib.mkIf (localAS.announcePublic or false) {
       environment.etc = {
         "frr/staticd.conf".text = with localAS; ''
-          ip route ${public4} blackhole 254
           ip route 206.93.40.96 blackhole 254
           ipv6 route ${public6} blackhole 254
         '';
@@ -167,7 +166,6 @@ in {
         networks."40-public" = {
           name = "public";
           address = with localAS; [
-            public4
             "206.83.40.96/32"
           ];
           networkConfig = {

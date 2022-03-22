@@ -105,8 +105,8 @@ in {
     search auenheim.kleen.org
   '';
   system.publicAddresses = [
-    (mkV4 "45.77.54.162")
-    (mkV6 "2001:19f0:6c01:2bc5::1")
+    (mkV4 "100.64.101.37")
+    (mkV6 "2a06:e881:9008::1")
   ];
   networking = {
     useDHCP = false;
@@ -148,7 +148,8 @@ in {
           { address = "10.172.100.1"; prefixLength = 24; }
         ];
         ipv6.addresses = [
-          { address = "2001:19f0:6c01:2bc5::1"; prefixLength = 64; }
+          { address = "2a06:e881:9008::1"; prefixLength = 64; }
+          #{ address = "2001:19f0:6c01:2bc5::1"; prefixLength = 64; }
         ];
       };
       "apc" = {
@@ -453,7 +454,7 @@ in {
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev lte up
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev ifb0 up
 
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 6500kbit burst 5kb latency 100ms
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 6500kbit burst 100kb latency 50ms
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev lte handle ffff: ingress
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc filter add dev lte parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
       '';

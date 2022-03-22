@@ -21,7 +21,6 @@ let
         ];
         default-import-policy = "reject-route";
         export-policy-list = [
-          "replace-next-hop"
           "demote-lte"
 
           "vultr-prefixes"
@@ -76,6 +75,7 @@ let
     defined-sets.prefix-sets = [
       { prefix-set-name = "vultr-ipv6";
         prefix-list = [
+          { ip-prefix = "2a06:e881:9008::/48"; }
           { ip-prefix = "2001:19f0:6c01:2bc5::/64"; }
         ];
       }
@@ -116,13 +116,6 @@ let
     policy-definitions = [
       { name = "vultr-prefixes";
         statements = [
-          {
-            conditions.match-prefix-set = {
-              prefix-set = "vultr-ipv4";
-              match-set-options = "any";
-            };
-            actions.route-disposition = "accept-route";
-          }
           {
             conditions.match-prefix-set = {
               prefix-set = "vultr-ipv6";

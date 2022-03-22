@@ -5,16 +5,19 @@ with import ./utils.nix { inherit lib flake; }; let
   remote = linkRemote hostName;
   name = linkName hostName;
 
-  linkListenAddresses = lib.lists.map
+  linkListenAddresses4 = lib.lists.map
     (l: linkLocal_address (ip4Namespace fabric normalizedLinks l.linkId) hostName)
     (linksInvolving hostName normalizedLinks);
+  linkListenAddresses = lib.lists.map
+    (l: linkLocal_address6 l.linkId hostIds.${hostName})
+    (linksInvolving hostName normalizedLinks);
   makePeer = l: lib.attrsets.nameValuePair
-    "${linkLocal_address (ip4Namespace fabric normalizedLinks l.linkId) (remote l).host}"
+    "${name l}"
     {
-      name = name l;
+      address = "[${linkLocal_address6 l.linkId hostIds.${(remote l).host}}%${name l}]:3784";
       port = 3784;
       interval = l.bfdInterval or 100;
-      detectionMultiplier = 5;
+      detectionMultiplier = l.bfdDetectionMultiplier or 5;
     };
 
   bfdConfig = (pkgs.formats.yaml {}).generate "bfdd.yaml" {

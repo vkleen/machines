@@ -12,7 +12,6 @@ in {
   config = lib.mkIf (fabric.uplinks.${hostName}.type or "" == "bgp") {
     environment.etc = {
       "frr/staticd.conf".text = with localAS; ''
-        ip route 206.83.40.91/32 45.32.152.1
       '';
     };
     networking.gobgpd.credentialFile = fabric.uplinks.${hostName}.credentials;
@@ -42,8 +41,8 @@ in {
            };
          } // fabric.uplinks.${hostName}.extraGobgpNeighborConfig)
       ];
-      neighbors = [
-        { config = {
+      neighbors = 
+        (lib.optional (fabric.uplinks.${hostName} ? peer4) { config = {
             neighbor-address = fabric.uplinks.${hostName}.peer4;
             peer-group = "uplink";
             remove-private-as = "all";
@@ -51,8 +50,8 @@ in {
           afi-safis = [
             { config.afi-safi-name = "ipv4-unicast"; }
           ];
-        }
-        { config = {
+        }) ++
+        (lib.optional (fabric.uplinks.${hostName} ? peer6) { config = {
             neighbor-address = fabric.uplinks.${hostName}.peer6;
             peer-group = "uplink";
             remove-private-as = "all";
@@ -60,8 +59,8 @@ in {
           afi-safis = [
             { config.afi-safi-name = "ipv6-unicast"; }
           ];
-        }
-      ];
+        })
+      ;
       defined-sets.prefix-sets = [
         { prefix-set-name = "uplink-ipv4";
           prefix-list = lib.lists.map
@@ -82,7 +81,10 @@ in {
       ];
       defined-sets.neighbor-sets = [
         { neighbor-set-name = "uplink";
-          neighbor-info-list = [ fabric.uplinks.${hostName}.peer4 fabric.uplinks.${hostName}.peer6 ];
+          neighbor-info-list = let
+            uplinks = fabric.uplinks.${hostName};
+          in (lib.optional (uplinks ? peer4) uplinks.peer4) ++
+             (lib.optional (uplinks ? peer6) uplinks.peer6);
         }
       ];
       policy-definitions = [

@@ -38,17 +38,6 @@
       url = "github:vkleen/hledger";
       flake = false;
     };
-    neovim-flake = {
-      url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    neovim-nightly = {
-      url = "github:nix-community/neovim-nightly-overlay";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        neovim-flake.follows = "neovim-flake";
-      };
-    };
     alacritty-src = {
       url = "github:alacritty/alacritty";
       flake = false;
@@ -130,7 +119,7 @@
     };
 
     utils = {
-      url = path:./utils;
+      url = github:vkleen/machine-utils;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.macname.follows = "macname";
     };
@@ -160,8 +149,8 @@
       flake = false;
     };
 
-    neovim-subflake = {
-      url = path:./neovim;
+    neovim-configuration = {
+      url = github:vkleen/neovim-configuration;
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -330,9 +319,6 @@
           nixpkgs-wayland = lib.composeExtensions
             (onlySystems supportedSystems inputs.nixpkgs-wayland.overlay)
             self.overlays.i3status-rust;
-          neovim-nightly = onlySystems supportedSystems (final: prev: {
-            neovim-unwrapped = (inputs.neovim-nightly.overlay final prev).neovim-unwrapped;
-          });
           poetry2nix = inputs.poetry2nix.overlay;
           nix = forSystemsOverlay inputs.nix.overlay
                                   (   { "powerpc64le-linux" = inputs.nix-power9.overlay; }

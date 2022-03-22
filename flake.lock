@@ -255,21 +255,6 @@
         "type": "github"
       }
     },
-    "flake-utils_10": {
-      "locked": {
-        "lastModified": 1610051610,
-        "narHash": "sha256-U9rPz/usA1/Aohhk7Cmc2gBrEEKRzcW4nwPWMPwja4Y=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "3982c9903e93927c2164caa727cd3f6a0e6d14cc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "flake-utils_2": {
       "locked": {
         "lastModified": 1610051610,
@@ -347,21 +332,6 @@
     },
     "flake-utils_7": {
       "locked": {
-        "lastModified": 1644229661,
-        "narHash": "sha256-1YdnJAsNy69bpcjuoKdOYQX0YxZBiCYZo4Twxerqv7k=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "3cecb5b042f7f209c56ffd8371b2711a290ec797",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_8": {
-      "locked": {
         "lastModified": 1610051610,
         "narHash": "sha256-U9rPz/usA1/Aohhk7Cmc2gBrEEKRzcW4nwPWMPwja4Y=",
         "owner": "numtide",
@@ -375,13 +345,28 @@
         "type": "github"
       }
     },
-    "flake-utils_9": {
+    "flake-utils_8": {
       "locked": {
         "lastModified": 1638122382,
         "narHash": "sha256-sQzZzAbvKEqN9s0bzWuYmRaA03v40gaJ4+iL1LXjaeI=",
         "owner": "numtide",
         "repo": "flake-utils",
         "rev": "74f7e4319258e287b0f9cb95426c9853b282730b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_9": {
+      "locked": {
+        "lastModified": 1610051610,
+        "narHash": "sha256-U9rPz/usA1/Aohhk7Cmc2gBrEEKRzcW4nwPWMPwja4Y=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3982c9903e93927c2164caa727cd3f6a0e6d14cc",
         "type": "github"
       },
       "original": {
@@ -655,17 +640,15 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "plugins": [
-          "neovim-plugins"
-        ],
+        "plugins": "plugins",
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1647896500,
-        "narHash": "sha256-ySjewUc7daomnQqiKSFhQFojqVm0OmNigrTwfgJjdoM=",
+        "lastModified": 1647978385,
+        "narHash": "sha256-kAZMCJ4BWgT0fzs6RcIWTs/O4eBiEz4TqrzccmAR8Gg=",
         "owner": "vkleen",
         "repo": "neovim-configuration",
-        "rev": "55840c070b91ad9ea67fcab0cc195e9f223d3547",
+        "rev": "c6873b1f2659afec5b9d26f88e0db5ee021a518d",
         "type": "github"
       },
       "original": {
@@ -698,29 +681,6 @@
         "type": "github"
       }
     },
-    "neovim-flake_2": {
-      "inputs": {
-        "flake-utils": "flake-utils_7",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "dir": "contrib",
-        "lastModified": 1647946329,
-        "narHash": "sha256-uvQvyj0XS4pOIkpfApDaMFVWClmVpsTLQRQxvTJcBLA=",
-        "owner": "neovim",
-        "repo": "neovim",
-        "rev": "04d2476d3a47e6aabfe8290311a2d8c67fd5cc16",
-        "type": "github"
-      },
-      "original": {
-        "dir": "contrib",
-        "owner": "neovim",
-        "repo": "neovim",
-        "type": "github"
-      }
-    },
     "neovim-nightly": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -744,89 +704,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "neovim-nightly-overlay",
-        "type": "github"
-      }
-    },
-    "neovim-plugins": {
-      "inputs": {
-        "neovim-flake": [
-          "neovim-flake"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "utils": [
-          "utils"
-        ],
-        "vimplugin-aerial-nvim": "vimplugin-aerial-nvim",
-        "vimplugin-bufferline": "vimplugin-bufferline",
-        "vimplugin-clever-f": "vimplugin-clever-f",
-        "vimplugin-cmp-buffer": "vimplugin-cmp-buffer",
-        "vimplugin-cmp-cmdline": "vimplugin-cmp-cmdline",
-        "vimplugin-cmp-nvim-lsp": "vimplugin-cmp-nvim-lsp",
-        "vimplugin-cmp-nvim-lua": "vimplugin-cmp-nvim-lua",
-        "vimplugin-cmp-path": "vimplugin-cmp-path",
-        "vimplugin-cmp_luasnip": "vimplugin-cmp_luasnip",
-        "vimplugin-crates-nvim": "vimplugin-crates-nvim",
-        "vimplugin-direnv-vim": "vimplugin-direnv-vim",
-        "vimplugin-friendly-snippets": "vimplugin-friendly-snippets",
-        "vimplugin-fterm": "vimplugin-fterm",
-        "vimplugin-fzf-vim": "vimplugin-fzf-vim",
-        "vimplugin-gitsigns-nvim": "vimplugin-gitsigns-nvim",
-        "vimplugin-indent-blankline": "vimplugin-indent-blankline",
-        "vimplugin-lightspeed-nvim": "vimplugin-lightspeed-nvim",
-        "vimplugin-lsp-colors-nvim": "vimplugin-lsp-colors-nvim",
-        "vimplugin-lsp_signature": "vimplugin-lsp_signature",
-        "vimplugin-lspkind-nvim": "vimplugin-lspkind-nvim",
-        "vimplugin-lspsaga-nvim": "vimplugin-lspsaga-nvim",
-        "vimplugin-lualine": "vimplugin-lualine",
-        "vimplugin-luasnip": "vimplugin-luasnip",
-        "vimplugin-neorg": "vimplugin-neorg",
-        "vimplugin-nerdcommenter": "vimplugin-nerdcommenter",
-        "vimplugin-nftables": "vimplugin-nftables",
-        "vimplugin-null-ls-nvim": "vimplugin-null-ls-nvim",
-        "vimplugin-numb-nvim": "vimplugin-numb-nvim",
-        "vimplugin-nvim-autopairs": "vimplugin-nvim-autopairs",
-        "vimplugin-nvim-cmp": "vimplugin-nvim-cmp",
-        "vimplugin-nvim-colorizer": "vimplugin-nvim-colorizer",
-        "vimplugin-nvim-dap": "vimplugin-nvim-dap",
-        "vimplugin-nvim-dap-ui": "vimplugin-nvim-dap-ui",
-        "vimplugin-nvim-hlslens": "vimplugin-nvim-hlslens",
-        "vimplugin-nvim-lspconfig": "vimplugin-nvim-lspconfig",
-        "vimplugin-nvim-notify": "vimplugin-nvim-notify",
-        "vimplugin-nvim-scrollbar": "vimplugin-nvim-scrollbar",
-        "vimplugin-nvim-tree": "vimplugin-nvim-tree",
-        "vimplugin-nvim-treesitter": "vimplugin-nvim-treesitter",
-        "vimplugin-nvim-treesitter-context": "vimplugin-nvim-treesitter-context",
-        "vimplugin-nvim-ts-rainbow": "vimplugin-nvim-ts-rainbow",
-        "vimplugin-nvim-web-devicons": "vimplugin-nvim-web-devicons",
-        "vimplugin-plenary-nvim": "vimplugin-plenary-nvim",
-        "vimplugin-popup-nvim": "vimplugin-popup-nvim",
-        "vimplugin-rust-tools": "vimplugin-rust-tools",
-        "vimplugin-telescope-dap-nvim": "vimplugin-telescope-dap-nvim",
-        "vimplugin-telescope-fzf-nvim": "vimplugin-telescope-fzf-nvim",
-        "vimplugin-telescope-ghq": "vimplugin-telescope-ghq",
-        "vimplugin-telescope-lsp-handlers": "vimplugin-telescope-lsp-handlers",
-        "vimplugin-telescope-nvim": "vimplugin-telescope-nvim",
-        "vimplugin-telescope-zoxide": "vimplugin-telescope-zoxide",
-        "vimplugin-trouble-nvim": "vimplugin-trouble-nvim",
-        "vimplugin-vim-vsnip": "vimplugin-vim-vsnip",
-        "vimplugin-vim-vsnip-integ": "vimplugin-vim-vsnip-integ",
-        "vimplugin-which-key-nvim": "vimplugin-which-key-nvim"
-      },
-      "locked": {
-        "dir": "plugins",
-        "lastModified": 1647896500,
-        "narHash": "sha256-ySjewUc7daomnQqiKSFhQFojqVm0OmNigrTwfgJjdoM=",
-        "owner": "vkleen",
-        "repo": "neovim-configuration",
-        "rev": "55840c070b91ad9ea67fcab0cc195e9f223d3547",
-        "type": "github"
-      },
-      "original": {
-        "dir": "plugins",
-        "owner": "vkleen",
-        "repo": "neovim-configuration",
         "type": "github"
       }
     },
@@ -1161,6 +1038,92 @@
         "type": "github"
       }
     },
+    "plugins": {
+      "inputs": {
+        "neovim-flake": [
+          "neovim-configuration",
+          "neovim-flake"
+        ],
+        "nixpkgs": [
+          "neovim-configuration",
+          "nixpkgs"
+        ],
+        "utils": [
+          "neovim-configuration",
+          "utils"
+        ],
+        "vimplugin-aerial-nvim": "vimplugin-aerial-nvim",
+        "vimplugin-bufferline": "vimplugin-bufferline",
+        "vimplugin-clever-f": "vimplugin-clever-f",
+        "vimplugin-cmp-buffer": "vimplugin-cmp-buffer",
+        "vimplugin-cmp-cmdline": "vimplugin-cmp-cmdline",
+        "vimplugin-cmp-nvim-lsp": "vimplugin-cmp-nvim-lsp",
+        "vimplugin-cmp-nvim-lua": "vimplugin-cmp-nvim-lua",
+        "vimplugin-cmp-path": "vimplugin-cmp-path",
+        "vimplugin-cmp_luasnip": "vimplugin-cmp_luasnip",
+        "vimplugin-crates-nvim": "vimplugin-crates-nvim",
+        "vimplugin-direnv-vim": "vimplugin-direnv-vim",
+        "vimplugin-friendly-snippets": "vimplugin-friendly-snippets",
+        "vimplugin-fterm": "vimplugin-fterm",
+        "vimplugin-fzf-vim": "vimplugin-fzf-vim",
+        "vimplugin-gitsigns-nvim": "vimplugin-gitsigns-nvim",
+        "vimplugin-indent-blankline": "vimplugin-indent-blankline",
+        "vimplugin-lightspeed-nvim": "vimplugin-lightspeed-nvim",
+        "vimplugin-lsp-colors-nvim": "vimplugin-lsp-colors-nvim",
+        "vimplugin-lsp_signature": "vimplugin-lsp_signature",
+        "vimplugin-lspkind-nvim": "vimplugin-lspkind-nvim",
+        "vimplugin-lspsaga-nvim": "vimplugin-lspsaga-nvim",
+        "vimplugin-lualine": "vimplugin-lualine",
+        "vimplugin-luasnip": "vimplugin-luasnip",
+        "vimplugin-neorg": "vimplugin-neorg",
+        "vimplugin-nerdcommenter": "vimplugin-nerdcommenter",
+        "vimplugin-nftables": "vimplugin-nftables",
+        "vimplugin-null-ls-nvim": "vimplugin-null-ls-nvim",
+        "vimplugin-numb-nvim": "vimplugin-numb-nvim",
+        "vimplugin-nvim-autopairs": "vimplugin-nvim-autopairs",
+        "vimplugin-nvim-cmp": "vimplugin-nvim-cmp",
+        "vimplugin-nvim-colorizer": "vimplugin-nvim-colorizer",
+        "vimplugin-nvim-dap": "vimplugin-nvim-dap",
+        "vimplugin-nvim-dap-ui": "vimplugin-nvim-dap-ui",
+        "vimplugin-nvim-hlslens": "vimplugin-nvim-hlslens",
+        "vimplugin-nvim-lspconfig": "vimplugin-nvim-lspconfig",
+        "vimplugin-nvim-notify": "vimplugin-nvim-notify",
+        "vimplugin-nvim-scrollbar": "vimplugin-nvim-scrollbar",
+        "vimplugin-nvim-tree": "vimplugin-nvim-tree",
+        "vimplugin-nvim-treesitter": "vimplugin-nvim-treesitter",
+        "vimplugin-nvim-treesitter-context": "vimplugin-nvim-treesitter-context",
+        "vimplugin-nvim-ts-rainbow": "vimplugin-nvim-ts-rainbow",
+        "vimplugin-nvim-web-devicons": "vimplugin-nvim-web-devicons",
+        "vimplugin-plenary-nvim": "vimplugin-plenary-nvim",
+        "vimplugin-popup-nvim": "vimplugin-popup-nvim",
+        "vimplugin-rust-tools": "vimplugin-rust-tools",
+        "vimplugin-telescope-dap-nvim": "vimplugin-telescope-dap-nvim",
+        "vimplugin-telescope-fzf-nvim": "vimplugin-telescope-fzf-nvim",
+        "vimplugin-telescope-ghq": "vimplugin-telescope-ghq",
+        "vimplugin-telescope-lsp-handlers": "vimplugin-telescope-lsp-handlers",
+        "vimplugin-telescope-nvim": "vimplugin-telescope-nvim",
+        "vimplugin-telescope-zoxide": "vimplugin-telescope-zoxide",
+        "vimplugin-trouble-nvim": "vimplugin-trouble-nvim",
+        "vimplugin-vim-vsnip": "vimplugin-vim-vsnip",
+        "vimplugin-vim-vsnip-integ": "vimplugin-vim-vsnip-integ",
+        "vimplugin-which-key-nvim": "vimplugin-which-key-nvim"
+      },
+      "locked": {
+        "dir": "plugins",
+        "lastModified": 1647978385,
+        "narHash": "sha256-kAZMCJ4BWgT0fzs6RcIWTs/O4eBiEz4TqrzccmAR8Gg=",
+        "owner": "vkleen",
+        "repo": "neovim-configuration",
+        "rev": "c6873b1f2659afec5b9d26f88e0db5ee021a518d",
+        "type": "github"
+      },
+      "original": {
+        "dir": "plugins",
+        "owner": "vkleen",
+        "repo": "neovim-configuration",
+        "type": "github"
+      }
+    },
     "poetry2nix": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -1182,7 +1145,7 @@
     },
     "poetry2nix_2": {
       "inputs": {
-        "flake-utils": "flake-utils_8",
+        "flake-utils": "flake-utils_7",
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
@@ -1201,7 +1164,7 @@
     },
     "poetry2nix_3": {
       "inputs": {
-        "flake-utils": "flake-utils_10",
+        "flake-utils": "flake-utils_9",
         "nixpkgs": "nixpkgs_9"
       },
       "locked": {
@@ -1268,7 +1231,7 @@
     },
     "rmrl": {
       "inputs": {
-        "flake-utils": "flake-utils_9",
+        "flake-utils": "flake-utils_8",
         "nixpkgs": "nixpkgs_8",
         "poetry2nix": "poetry2nix_3"
       },
@@ -1310,8 +1273,6 @@
         "macname-power9": "macname-power9",
         "matrix-bifrost": "matrix-bifrost",
         "neovim-configuration": "neovim-configuration",
-        "neovim-flake": "neovim-flake_2",
-        "neovim-plugins": "neovim-plugins",
         "nix": "nix",
         "nix-power9": "nix-power9",
         "nix-riscv": "nix-riscv",

@@ -70,7 +70,6 @@ in
   "sourcehut/git-oauth-client-secret.age".publicKeys = [vkleen boron];
   "sourcehut/paste-oauth-client-secret.age".publicKeys = [vkleen boron];
   "sourcehut/webhooks-private-key.age".publicKeys = [vkleen boron];
-  "sourcehut/hut-config.age".publicKeys = [vkleen bohrium];
   "sourcehut/email-key.age".publicKeys = [vkleen boron];
 
   "uucp/id_ed25519.age".publicKeys = [vkleen bohrium boron];

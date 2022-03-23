@@ -1,11 +1,4 @@
-{ userName, pkgs, flake, lib, config, ...}: let
-  hut = pkgs.runCommand "hut-wrapper" {
-    buildInputs = [ pkgs.makeWrapper ];
-  }''
-    makeWrapper ${pkgs.hut}/bin/hut $out/bin/hut \
-      --add-flags "--config /run/agenix/hut"
-  '';
-in {
+{ userName, pkgs, flake, lib, config, ...}: {
   users.users.${userName} = {
     extraGroups =
       [ "network" "dialout" "audio" "video" "input" "wireshark" "adbusers" "bladerf" "kvm" "lp" ]
@@ -48,7 +41,15 @@ in {
           '';
         };
       }; }
-      { home.packages = [ pkgs.hut ]; }
+      { home.packages = [ pkgs.hut ];
+        xdg.configFile = {
+          "hut/config".text = ''
+            instance "sr.ht.kleen.org" {
+                access-token-cmd pass sr.ht.kleen.org/hut-token
+            }
+          '';
+        };
+      }
     ])
   );
   age.secrets."dptrp1" = {
@@ -57,10 +58,6 @@ in {
   };
   age.secrets."dptrp1.key" = {
     file = ../../secrets/dptrp1.key.age;
-    owner = "vkleen";
-  };
-  age.secrets."hut" = {
-    file = ../../secrets/sourcehut/hut-config.age;
     owner = "vkleen";
   };
 }

@@ -29,6 +29,8 @@ final: prev: {
   pcs = final.callPackage ./cluster/pcs.nix {};
   bfd = final.callPackage ./tools/networking/bfd {};
   bfdd = final.callPackage ./servers/misc/bfdd {};
+
+  hut = final.callPackage ./tools/misc/hut {};
 } // prev.lib.optionalAttrs (with prev.stdenv.targetPlatform; isx86_64 && isLinux)
   {
     #paper2remarkable = final.callPackage ./tools/remarkable/paper2remarkable/cli.nix {};

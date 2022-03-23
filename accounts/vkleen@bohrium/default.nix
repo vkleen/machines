@@ -1,4 +1,11 @@
-{ userName, pkgs, flake, lib, config, ...}: {
+{ userName, pkgs, flake, lib, config, ...}: let
+  hut = pkgs.runCommand "hut-wrapper" {
+    buildInputs = [ pkgs.makeWrapper ];
+  }''
+    makeWrapper ${pkgs.hut}/bin/hut $out/bin/hut \
+      --add-flags "--config /run/agenix/hut"
+  '';
+in {
   users.users.${userName} = {
     extraGroups =
       [ "network" "dialout" "audio" "video" "input" "wireshark" "adbusers" "bladerf" "kvm" "lp" ]
@@ -41,6 +48,7 @@
           '';
         };
       }; }
+      { home.packages = [ pkgs.hut ]; }
     ])
   );
   age.secrets."dptrp1" = {
@@ -49,6 +57,10 @@
   };
   age.secrets."dptrp1.key" = {
     file = ../../secrets/dptrp1.key.age;
+    owner = "vkleen";
+  };
+  age.secrets."hut" = {
+    file = ../../secrets/sourcehut/hut-config.age;
     owner = "vkleen";
   };
 }

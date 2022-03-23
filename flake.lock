@@ -477,6 +477,22 @@
         "type": "github"
       }
     },
+    "hut-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1647940690,
+        "narHash": "sha256-qbFyvZ4qdI9JHCq08GCT5stgr7SCgIQxKf0am4NnvV0=",
+        "ref": "master",
+        "rev": "9c42e4c6ac582bbace3d068296c15e809cce8f32",
+        "revCount": 249,
+        "type": "git",
+        "url": "https://git.sr.ht/~emersion/hut"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.sr.ht/~emersion/hut"
+      }
+    },
     "kicad-src": {
       "flake": false,
       "locked": {
@@ -1267,6 +1283,7 @@
         "gobgp-src": "gobgp-src",
         "hledger-src": "hledger-src",
         "home-manager": "home-manager",
+        "hut-src": "hut-src",
         "kicad-src": "kicad-src",
         "lego-src": "lego-src",
         "macname": "macname",

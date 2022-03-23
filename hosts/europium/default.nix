@@ -40,4 +40,15 @@
     enable = true;
     endpoint = "${boronWgAddress}:2342";
   };
+
+  services.sourcehut-proxy = let
+    boronWgAddress = "10.172.40.136";
+  in {
+    enable = true;
+    endpoints = {
+      git = "${boronWgAddress}:8081";
+      meta = "${boronWgAddress}:8082";
+      paste = "${boronWgAddress}:8083";
+    };
+  };
 }

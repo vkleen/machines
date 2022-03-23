@@ -64,4 +64,12 @@ in
 
   "grafana/admin-password.age".publicKeys = [vkleen boron];
   "grafana/secret-key.age".publicKeys = [vkleen boron];
+
+  "sourcehut/network-key.age".publicKeys = [vkleen boron];
+  "sourcehut/service-key.age".publicKeys = [vkleen boron];
+  "sourcehut/git-oauth-client-secret.age".publicKeys = [vkleen boron];
+  "sourcehut/paste-oauth-client-secret.age".publicKeys = [vkleen boron];
+  "sourcehut/webhooks-private-key.age".publicKeys = [vkleen boron];
+  "sourcehut/hut-config.age".publicKeys = [vkleen bohrium];
+  "sourcehut/email-key.age".publicKeys = [vkleen boron];
 }

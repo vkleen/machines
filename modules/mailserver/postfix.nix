@@ -57,7 +57,7 @@ in
     services.uucp = {
       enable = true;
       nodeName = config.networking.hostName;
-      remoteNodes = [ "bohrium" ];
+      remoteNodes = [ "bohrium" "boron" ];
       sshUser = {
         openssh.authorizedKeys.keys = [
           ''
@@ -83,11 +83,6 @@ in
       recipientDelimiter = "+-";
 
       destination = [ "localhost" "${fqdn}" ];
-
-      extraAliases = ''
-        vklee: vkleen
-        devnull: /dev/null
-      '';
 
       extraConfig =
       ''

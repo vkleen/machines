@@ -117,6 +117,10 @@
       url = "github:vkleen/lego?ref=zerossl-accounts";
       flake = false;
     };
+    hut-src = {
+      url = git+https://git.sr.ht/~emersion/hut;
+      flake = false;
+    };
 
     utils = {
       url = github:vkleen/machine-utils;
@@ -341,6 +345,7 @@
               frr-src
               gobgp-src
               hledger-src
+              hut-src
               kicad-src
               lego-src
               pacemaker-src

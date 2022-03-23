@@ -40,6 +40,13 @@ in {
     mailboxSizeLimit = 0;
   };
 
+  services.postfix = {
+    extraAliases = ''
+      vklee: vkleen
+      devnull: /dev/null
+    '';
+  };
+
   systemd.services.postfix = {
     after = [ "mailserver-certificates.target" ]
       ++ (lib.optional cfg.dkimSigning "opendkim.service");

@@ -33,6 +33,10 @@ in {
           forceSSL = true;
           locations."/" = {
             proxyPass = "http://${ep}";
+            extraConfig = ''
+              proxy_read_timeout 1d;
+              proxy_send_timeout 1d;
+            '';
           };
           extraConfig = ''
             access_log off;

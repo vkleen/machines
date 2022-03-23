@@ -2,9 +2,9 @@
   description = "VKleen's flakey nixos configuration";
 
   inputs = {
-    nixpkgs.url = "github:vkleen/nixpkgs/local";
-    nixpkgs-power9.url = "github:vkleen/nixpkgs/local-power9";
-    nixpkgs-riscv.url = "github:vkleen/nixpkgs/local-riscv";
+    nixpkgs.url = sourcehut:~vkleen/nixpkgs/local?host=git.sr.ht.kleen.org;
+    nixpkgs-power9.url = sourcehut:~vkleen/nixpkgs/local-power9?host=git.sr.ht.kleen.org;
+    nixpkgs-riscv.url = sourcehut:~vkleen/nixpkgs/local-riscv?host=git.sr.ht.kleen.org;
     nixpkgs-wayland = {
       url = "github:nix-community/nixpkgs-wayland";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,7 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs-power9";
     };
     freecad-src = {
-      url = "github:realthunder/FreeCAD?rev=ecadd72902e5eab3b44ecb25b30c3dbcafe67e5e";
+      url = github:realthunder/FreeCAD;
       flake = false;
     };
     freecad-assembly3-src = {
@@ -129,10 +129,10 @@
     };
 
     macname = {
-      url = "github:vkleen/macname";
+      url = git+https://git.sr.ht.kleen.org/~vkleen/macname;
     };
     macname-power9 = {
-      url = "github:vkleen/macname";
+      url = git+https://git.sr.ht.kleen.org/~vkleen/macname;
       inputs.nixpkgs.follows = "nixpkgs-power9";
     };
 

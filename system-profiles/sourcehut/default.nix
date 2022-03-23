@@ -103,6 +103,7 @@
 
       systemd.services = let
         mkServiceConfig = name: lib.nameValuePair "${name}" {
+          path = [ pkgs.gzip ];
           serviceConfig = let
             configIni = "/run/sourcehut/${name}/config.ini";
           in {

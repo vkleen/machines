@@ -394,17 +394,16 @@
     "freecad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1641125829,
-        "narHash": "sha256-32jriQhDD3eth/jSI0g3hQANB8m606rrOKNlTuEa390=",
+        "lastModified": 1647923178,
+        "narHash": "sha256-beIk+t2oxybHikGGLJfHZnZwpCaStO6+wIpyBM5f0tg=",
         "owner": "realthunder",
         "repo": "FreeCAD",
-        "rev": "ecadd72902e5eab3b44ecb25b30c3dbcafe67e5e",
+        "rev": "64efac6b6281456d938959396e3388f449ef9459",
         "type": "github"
       },
       "original": {
         "owner": "realthunder",
         "repo": "FreeCAD",
-        "rev": "ecadd72902e5eab3b44ecb25b30c3dbcafe67e5e",
         "type": "github"
       }
     },
@@ -581,15 +580,15 @@
       "locked": {
         "lastModified": 1645724130,
         "narHash": "sha256-GqdRiAUIbQ94pHvMUmIKpIL2rOUUWKFfTTo80bWpWkU=",
-        "owner": "vkleen",
-        "repo": "macname",
+        "ref": "master",
         "rev": "db05690b8a537be946f56a76e14491e678ce5085",
-        "type": "github"
+        "revCount": 22,
+        "type": "git",
+        "url": "https://git.sr.ht.kleen.org/~vkleen/macname"
       },
       "original": {
-        "owner": "vkleen",
-        "repo": "macname",
-        "type": "github"
+        "type": "git",
+        "url": "https://git.sr.ht.kleen.org/~vkleen/macname"
       }
     },
     "macname-power9": {
@@ -601,15 +600,15 @@
       "locked": {
         "lastModified": 1645724130,
         "narHash": "sha256-GqdRiAUIbQ94pHvMUmIKpIL2rOUUWKFfTTo80bWpWkU=",
-        "owner": "vkleen",
-        "repo": "macname",
+        "ref": "master",
         "rev": "db05690b8a537be946f56a76e14491e678ce5085",
-        "type": "github"
+        "revCount": 22,
+        "type": "git",
+        "url": "https://git.sr.ht.kleen.org/~vkleen/macname"
       },
       "original": {
-        "owner": "vkleen",
-        "repo": "macname",
-        "type": "github"
+        "type": "git",
+        "url": "https://git.sr.ht.kleen.org/~vkleen/macname"
       }
     },
     "macname_2": {
@@ -818,18 +817,20 @@
     },
     "nixpkgs-power9": {
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1646939803,
         "narHash": "sha256-q7BlGRvueB7vh3E5LZ/5e/FwW+bzVqsatvCcZvSntpM=",
-        "owner": "vkleen",
+        "owner": "~vkleen",
         "repo": "nixpkgs",
         "rev": "664d8c000b36dead9eec72717e17a5f278247143",
-        "type": "github"
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "ref": "local-power9",
         "repo": "nixpkgs",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "nixpkgs-regression": {
@@ -879,18 +880,20 @@
     },
     "nixpkgs-riscv": {
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1624210200,
         "narHash": "sha256-UYnqJruJDhKoE+9vyi7WiPXnvDQUvASL5uBXEvrxz+M=",
-        "owner": "vkleen",
+        "owner": "~vkleen",
         "repo": "nixpkgs",
         "rev": "41c0dda43a07e045cb9154c7f31d9a8e498a9007",
-        "type": "github"
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "ref": "local-riscv",
         "repo": "nixpkgs",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "nixpkgs-wayland": {
@@ -965,18 +968,20 @@
     },
     "nixpkgs_6": {
       "locked": {
-        "lastModified": 1647195783,
-        "narHash": "sha256-ZFu9fhFYsAJ+J1Zqza4v+psRl2F39e9OEE7LBiF5wjw=",
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "lastModified": 1648054744,
+        "narHash": "sha256-MDBnQ7MzPooo5Xe7CUWyKnzRIDgnR6DpZDs9bR3/MzQ=",
+        "owner": "~vkleen",
         "repo": "nixpkgs",
-        "rev": "c7a47eafd483808741346f6745081af0ba7b745e",
-        "type": "github"
+        "rev": "4758935177a8c8eec7ed6c85b35fcd1a3334c6b6",
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "ref": "local",
         "repo": "nixpkgs",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "nixpkgs_7": {

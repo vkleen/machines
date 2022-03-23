@@ -10,7 +10,7 @@ in {
       sshConfig = ''
         Host samarium
           Hostname samarium.kleen.org
-          IdentityFile /persist/uucp_ed25519
+          IdentityFile /run/agenix/uucp/id_ed25519
       '';
       sshHosts = ''
         samarium ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4wuOpHO+UmLG+D5xEQadJaeR5lm7FKmt22a2uysOYE
@@ -48,5 +48,9 @@ in {
         message_size_limit = "2048000000";
       };
     };
+  };
+  age.secrets."uucp/id_ed25519" = {
+    file = ../../secrets/uucp/id_ed25519.age;
+    owner = "uucp";
   };
 }

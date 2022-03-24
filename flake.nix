@@ -129,15 +129,15 @@
     };
 
     macname = {
-      url = git+https://git.sr.ht.kleen.org/~vkleen/macname;
+      url = sourcehut:~vkleen/macname?host=git.sr.ht.kleen.org;
     };
     macname-power9 = {
-      url = git+https://git.sr.ht.kleen.org/~vkleen/macname;
+      url = sourcehut:~vkleen/macname?host=git.sr.ht.kleen.org;
       inputs.nixpkgs.follows = "nixpkgs-power9";
     };
 
     bfd-monitor = {
-      url = "github:vkleen/bfd-monitor";
+      url = sourcehut:~vkleen/bfd-monitor?host=git.sr.ht.kleen.org;
     };
 
     matrix-bifrost = {

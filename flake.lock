@@ -43,17 +43,19 @@
         "poetry2nix": "poetry2nix"
       },
       "locked": {
-        "lastModified": 1646497325,
-        "narHash": "sha256-bkXDmzI23+hkVsp8nU//wERKIeP3CSboQWCH1xVuyGM=",
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "lastModified": 1648142503,
+        "narHash": "sha256-J2fFN9gCmRvx0UO+ONR/I4aBcG+T+q+IW3Y7UTVNhxs=",
+        "owner": "~vkleen",
         "repo": "bfd-monitor",
-        "rev": "ba80693f2e9791b04d2d95720b2a1a3ad4bdba53",
-        "type": "github"
+        "rev": "42930a3251370c8b4fbf2e96117636914d81cb2d",
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "repo": "bfd-monitor",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "bfd-src": {
@@ -578,17 +580,19 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1645724130,
         "narHash": "sha256-GqdRiAUIbQ94pHvMUmIKpIL2rOUUWKFfTTo80bWpWkU=",
-        "ref": "master",
+        "owner": "~vkleen",
+        "repo": "macname",
         "rev": "db05690b8a537be946f56a76e14491e678ce5085",
-        "revCount": 22,
-        "type": "git",
-        "url": "https://git.sr.ht.kleen.org/~vkleen/macname"
+        "type": "sourcehut"
       },
       "original": {
-        "type": "git",
-        "url": "https://git.sr.ht.kleen.org/~vkleen/macname"
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
+        "repo": "macname",
+        "type": "sourcehut"
       }
     },
     "macname-power9": {
@@ -598,17 +602,19 @@
         ]
       },
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1645724130,
         "narHash": "sha256-GqdRiAUIbQ94pHvMUmIKpIL2rOUUWKFfTTo80bWpWkU=",
-        "ref": "master",
+        "owner": "~vkleen",
+        "repo": "macname",
         "rev": "db05690b8a537be946f56a76e14491e678ce5085",
-        "revCount": 22,
-        "type": "git",
-        "url": "https://git.sr.ht.kleen.org/~vkleen/macname"
+        "type": "sourcehut"
       },
       "original": {
-        "type": "git",
-        "url": "https://git.sr.ht.kleen.org/~vkleen/macname"
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
+        "repo": "macname",
+        "type": "sourcehut"
       }
     },
     "macname_2": {

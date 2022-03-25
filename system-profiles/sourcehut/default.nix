@@ -134,6 +134,7 @@
           (mkServiceConfig "metasrht")
           (mkServiceConfig "metasrht-api")
           (mkServiceConfig "metasrht-webhooks")
+          (mkServiceConfig "metasrht-daily")
           (mkServiceConfigNoEmail "pastesrht")
           (mkServiceConfigNoEmail "pastesrht-api")
         ];

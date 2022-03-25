@@ -154,7 +154,7 @@
     };
 
     neovim-configuration = {
-      url = github:vkleen/neovim-configuration;
+      url = sourcehut:~vkleen/neovim-configuration?host=git.sr.ht.kleen.org;
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

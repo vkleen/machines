@@ -18,10 +18,7 @@
   nix.settings = {
     max-jobs = 4;
     cores = 1;
-    secret-key-files = "/run/agenix/samarium.2.sec";
   };
-
-  age.secrets."samarium.2.sec".file = ../../secrets/nix/samarium.2.sec.age;
 
   system.macnameNamespace = "wolkenheim.kleen.org";
 
@@ -45,6 +42,6 @@
       ".yggdrasil.li"
     ];
     logs = "https://www.gstatic.com/ct/log_list/v2/all_logs_list.json";
-    extraOptions = [ "-verbose" "-num_workers" "2" ];
+    extraOptions = [ "-verbose" "-num_workers" "4" ];
   };
 }

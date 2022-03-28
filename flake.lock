@@ -666,11 +666,11 @@
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1648245887,
-        "narHash": "sha256-GX68ewdsCcaCjsRrmjuZ0loDem4gsUfjSiE/H4/jhgM=",
+        "lastModified": 1648296732,
+        "narHash": "sha256-pQv5OCP6ldU4xUFJQfk8Scbrqsym0FaELNtl2ndzZ+g=",
         "owner": "~vkleen",
         "repo": "neovim-configuration",
-        "rev": "e18f551eab833fa4409199e1f421b7ab8758b2b8",
+        "rev": "b4d700bfb424bb3883d559dbc10aa01536e5c6e8",
         "type": "sourcehut"
       },
       "original": {

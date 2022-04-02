@@ -66,7 +66,7 @@ in {
             "${linkLocal_address6 ip6Ns hostIds.${hostName}}/96" 
           ];
           linkConfig = {
-            MTUBytes = "1412";
+            MTUBytes = "1400";
           };
           extraConfig = ''
             [Neighbor]

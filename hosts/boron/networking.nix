@@ -121,6 +121,10 @@ in {
         id = 30;
         interface = "eth0";
       };
+      "zte" = {
+        id = 33;
+        interface = "eth0";
+      };
       "apc" = {
         id = 31;
         interface = "eth0";
@@ -169,7 +173,11 @@ in {
         macAddress = "5a:1d:49:77:c9:26";
       };
       "lte-bridge" = {
+        useDHCP = true;
+      };
+      "zte" = {
         useDHCP = false;
+        ipv6.addresses = [];
       };
     };
 
@@ -222,7 +230,6 @@ in {
     };
 
     hosts = {
-      "94.16.123.211"  = [ "samarium.kleen.org" ];
     } // mkHosts flake [ "europium" ];
 
     wireguard.interfaces = {
@@ -463,7 +470,7 @@ in {
       script = pkgs.writeShellScript "udhcpc-dispatch" ''
         case $1 in
           bound|renew)
-            ${pkgs.iproute}/bin/ip addr add dev "$interface" "$ip"/"$subnet" ''${mtu:+mtu $mtu}
+            ${pkgs.iproute}/bin/ip addr add dev "$interface" "$ip"/"$subnet" mtu 1480
             ${pkgs.iproute}/bin/ip route replace 0.0.0.0/0 dev "$interface" via "$router"
             ;;
           deconfig)
@@ -753,6 +760,19 @@ in {
     networks."40-auenheim-mgmt" = {
       networkConfig = {
         LinkLocalAddressing = "no";
+      };
+    };
+    networks."40-zte" = {
+      networkConfig = {
+        LinkLocalAddressing = "no";
+      };
+    };
+    networks."40-lte-bridge" = {
+      networkConfig = {
+        LinkLocalAddressing = "no";
+      };
+      dhcpV4Config = {
+        UseRoutes = "no";
       };
     };
     networks."40-upstream-mgmt" = {

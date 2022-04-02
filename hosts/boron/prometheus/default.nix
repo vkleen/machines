@@ -7,6 +7,8 @@ let
       replacement = "boron";
     }
   ];
+
+  zteExporterPort = 9900;
 in {
   config = {
     services.prometheus = {
@@ -23,6 +25,38 @@ in {
           extraFlags = [
             "--collector.unit-whitelist=(lte-dhcp|pppd-telekom|corerad)\.service"
           ];
+        };
+        mikrotik = {
+          enable = true;
+          extraFlags = [ "-timeout=1s" "-tls=true" "-insecure=true" ];
+          configuration = {
+            devices = [
+              {
+                name = "lithium";
+                address = "192.168.88.1";
+                user = "prometheus";
+                password = "$MIKROTIK_PASSWORD";
+              }
+            ];
+            features = {
+              bgp = true;
+              capsman = true;
+              conntrack = true;
+              dhcpl = true;
+              dhcp = true;
+              firmware = true;
+              health = true;
+              ipsec = true;
+              lte = true;
+              monitor = true;
+              netwatch = true;
+              optics = true;
+              pools = true;
+              routes = true;
+              wlanif = true;
+              wlansta = true;
+            };
+          };
         };
       };
       globalConfig = {
@@ -64,6 +98,23 @@ in {
           relabel_configs = relabelHosts;
           scrape_interval = "1s";
         }
+        { job_name = "zte";
+          static_configs = [ 
+            { targets = ["localhost:${toString zteExporterPort}"]; }
+          ];
+          relabel_configs = [
+            { replacement = "telekom";
+              target_label = "instance";
+            }
+          ];
+          scrape_interval = "15s";
+        }
+        { job_name = "lithium";
+          static_configs = [
+            { targets = ["localhost:${toString config.services.prometheus.exporters.mikrotik.port}"]; }
+          ];
+          scrape_interval = "15s";
+        }
       ];
     };
     services.grafana = {
@@ -84,6 +135,8 @@ in {
     age.secrets = {
       "grafana-admin-password".file = ../../../secrets/grafana/admin-password.age;
       "grafana-secret-key".file = ../../../secrets/grafana/secret-key.age;
+      "zte-credentials".file = ../../../secrets/zte-credentials.age;
+      "lithium-prometheus-credentials".file = ../../../secrets/lithium-prometheus-credentials.age;
     };
 
     services.loki = {
@@ -165,6 +218,64 @@ in {
           }
         ];
       };
+    };
+
+    systemd.services."prometheus-zte-exporter@192.168.1.1" = {
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
+      serviceConfig = {
+        Restart = "always";
+        PrivateTmp = true;
+        WorkingDirectory = "/tmp";
+        DynamicUser = true;
+        CapabilityBoundingSet = [""];
+        DeviceAllow = [""];
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        NoNewPrivileges = true;
+        PrivateDevices = true;
+        ProtectClock = true;
+        ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectSystem = "strict";
+        RemoveIPC = true;
+        RestrictAddressFamilies = [ "AF_INET" "AF_INET6" ];
+        RestrictNamespaces = true;
+        RestrictRealtime = true;
+        RestrictSUIDSGID = true;
+        SystemCallArchitectures = "native";
+        UMask = "0077";
+
+        Type = "simple";
+        ExecStart = "${pkgs.zte-prometheus-exporter}/bin/zte-prometheus-exporter";
+        Environment = "ZTE_BASEURL=http://%I ZTE_HOSTNAME=localhost ZTE_PORT=${toString zteExporterPort}";
+        EnvironmentFile =  "/run/agenix/zte-credentials";
+      };
+    };
+
+    systemd.services."prometheus-mikrotik-exporter".serviceConfig = let
+      cfg = config.services.prometheus.exporters.mikrotik;
+      configFile = "${pkgs.writeText "mikrotik-exporter.json" (builtins.toJSON cfg.configuration)}";
+      finalConfigFile = "$RUNTIME_DIRECTORY/mikrotik-exporter.json";
+    in {
+      RuntimeDirectoryMode = "0700";
+      RuntimeDirectory = "prometheus-mikrotik-exporter";
+      LoadCredential = [
+        "credentials:/run/agenix/lithium-prometheus-credentials"
+      ];
+      ExecStart = lib.mkForce (pkgs.writeShellScript "prometheus-mikrotik-exporter-start" ''
+        umask 077
+        export $(xargs < "''${CREDENTIALS_DIRECTORY}"/credentials)
+        ${pkgs.envsubst}/bin/envsubst -i "${configFile}" > ${finalConfigFile}
+        exec ${pkgs.prometheus-mikrotik-exporter}/bin/mikrotik-exporter \
+          -config-file=${finalConfigFile} \
+          -port=${cfg.listenAddress}:${toString cfg.port} \
+          ${lib.concatStringsSep " " cfg.extraFlags}
+      '');
     };
 
     fileSystems = {

@@ -74,7 +74,6 @@ in {
     # nameservers = [ "10.172.100.1" ];
 
     hosts = {
-      "94.16.123.211" = [ "samarium.kleen.org" ];
     } // mkHosts flake [ "boron" "europium" "lanthanum" "cerium" ];
 
     wireguard.interfaces = {

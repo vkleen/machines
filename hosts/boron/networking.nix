@@ -453,6 +453,7 @@ in {
         ${pkgs.iproute}/bin/ip link set ifb0 netns lte
 
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev lte up
+        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev lte mtu 1480
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev ifb0 up
 
         ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 6500kbit burst 100kb latency 50ms
@@ -470,7 +471,7 @@ in {
       script = pkgs.writeShellScript "udhcpc-dispatch" ''
         case $1 in
           bound|renew)
-            ${pkgs.iproute}/bin/ip addr add dev "$interface" "$ip"/"$subnet" mtu 1480
+            ${pkgs.iproute}/bin/ip addr add dev "$interface" "$ip"/"$subnet"
             ${pkgs.iproute}/bin/ip route replace 0.0.0.0/0 dev "$interface" via "$router"
             ;;
           deconfig)

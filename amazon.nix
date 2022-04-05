@@ -12,6 +12,18 @@
     '';
   };
 
+  services.openssh = {
+    enable = true;
+  };
+  programs.mosh = {
+    enable = true;
+    withUtempter = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    git mosh
+  ];
+
   systemd.services.print-host-key.script = lib.mkForce
     ''
       # Print the host public key on the console so that the user

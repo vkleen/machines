@@ -5,5 +5,5 @@ in buildGoModule {
   name = "hut";
   version = "flake";
   inherit src;
-  vendorSha256 = "sha256-zdQvk0M1a+Y90pnhqIpKxLJnlVJqMoSycewTep2Oux4=";
+  vendorSha256 = "sha256-zdQvk0M1a+Y901nhqIpKxLJnlVJqMoSycewTep2Oux4=";
 }

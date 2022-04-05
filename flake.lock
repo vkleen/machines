@@ -551,11 +551,11 @@
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1649159517,
-        "narHash": "sha256-s8/Z7jf/8PzEV8ZFcTyB3QlJ0WvQZBp4pttRQFt/U9U=",
+        "lastModified": 1649159914,
+        "narHash": "sha256-1wgxwW9mVSN5r7LIfaxFyRFZ9ArFI7Xuzojuk7vdawQ=",
         "owner": "~vkleen",
         "repo": "macname",
-        "rev": "b68cefc68a3de8909c38d0a617c288af8b64c318",
+        "rev": "09a0d587ee1959465e9cdaacd1f6cba4c0678abc",
         "type": "sourcehut"
       },
       "original": {
@@ -573,11 +573,11 @@
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1649159517,
-        "narHash": "sha256-s8/Z7jf/8PzEV8ZFcTyB3QlJ0WvQZBp4pttRQFt/U9U=",
+        "lastModified": 1649159914,
+        "narHash": "sha256-1wgxwW9mVSN5r7LIfaxFyRFZ9ArFI7Xuzojuk7vdawQ=",
         "owner": "~vkleen",
         "repo": "macname",
-        "rev": "b68cefc68a3de8909c38d0a617c288af8b64c318",
+        "rev": "09a0d587ee1959465e9cdaacd1f6cba4c0678abc",
         "type": "sourcehut"
       },
       "original": {
@@ -592,11 +592,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1649159517,
-        "narHash": "sha256-s8/Z7jf/8PzEV8ZFcTyB3QlJ0WvQZBp4pttRQFt/U9U=",
+        "lastModified": 1649159914,
+        "narHash": "sha256-1wgxwW9mVSN5r7LIfaxFyRFZ9ArFI7Xuzojuk7vdawQ=",
         "owner": "vkleen",
         "repo": "macname",
-        "rev": "b68cefc68a3de8909c38d0a617c288af8b64c318",
+        "rev": "09a0d587ee1959465e9cdaacd1f6cba4c0678abc",
         "type": "github"
       },
       "original": {

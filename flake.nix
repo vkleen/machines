@@ -141,7 +141,11 @@
     };
 
     matrix-bifrost = {
-      url = "github:vkleen/matrix-bifrost";
+      url = sourcehut:~vkleen/matrix-bifrost?host=git.sr.ht.kleen.org;
+    };
+
+    rmrl = {
+      url = sourcehut:~vkleen/rmrl?host=git.sr.ht.kleen.org;
     };
 
     flake-compat = {

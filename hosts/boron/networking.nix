@@ -177,6 +177,9 @@ in {
       };
       "zte" = {
         useDHCP = false;
+        ipv4.addresses = [
+          { address = "192.168.1.2"; prefixLength = 24; }
+        ];
         ipv6.addresses = [];
       };
     };
@@ -200,8 +203,11 @@ in {
       allowPing = true;
       interfaces = {
         "auenheim" = {
-          allowedUDPPorts = [ 53 69 ];
+          allowedUDPPorts = [ 53 69 123 ];
           allowedTCPPorts = [ 53 69 8883 ];
+        };
+        "zte" = {
+          allowedUDPPorts = [ 123 ];
         };
       };
       extraCommands = ''

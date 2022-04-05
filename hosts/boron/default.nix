@@ -11,6 +11,7 @@
     latest-linux
     mosquitto
     no-coredump
+    ntp-server
     rmfakecloud
     sourcehut
     ssh

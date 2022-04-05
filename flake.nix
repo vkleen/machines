@@ -144,10 +144,6 @@
       url = "github:vkleen/matrix-bifrost";
     };
 
-    rmrl = {
-      url = "github:vkleen/rmrl";
-    };
-
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;

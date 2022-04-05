@@ -6,7 +6,4 @@
       allow
     '';
   };
-  networking.firewall = {
-    allowedUDPPorts = [ 123 ];
-  };
 }

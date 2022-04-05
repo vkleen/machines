@@ -47,7 +47,7 @@ in {
       trustedInterfaces = [ "wg0" ];
       allowPing = true;
       allowedTCPPorts = [ 80 443 ];
-      allowedUDPPorts = [ 51820 51821 51822 53 ];
+      allowedUDPPorts = [ 51820 51821 51822 53 123 ];
 
       extraCommands = ''
         ip46tables -D FORWARD -j nixos-fw-forward 2>/dev/null || true

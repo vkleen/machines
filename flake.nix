@@ -18,7 +18,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-rocm-power9 = {
-      url = "github:vkleen/nixos-rocm";
+      url = sourcehut:~vkleen/nixos-rocm?host=git.sr.ht.kleen.org;
       flake = false;
       inputs.nixpkgs.follows = "nixpkgs-power9";
     };
@@ -35,7 +35,7 @@
       flake = false;
     };
     hledger-src = {
-      url = "github:vkleen/hledger";
+      url = sourcehut:~vkleen/hledger?host=git.sr.ht.kleen.org;
       flake = false;
     };
     alacritty-src = {
@@ -43,7 +43,7 @@
       flake = false;
     };
     emoji-fzf = {
-      url = "github:vkleen/emoji-fzf";
+      url = sourcehut:~vkleen/emoji-fzf?host=git.sr.ht.kleen.org;
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix = {
@@ -67,11 +67,12 @@
       flake = false;
     };
     dptrp1-src = {
-      url = "github:vkleen/dpt-rp1-py/local";
+      url = sourcehut:~vkleen/dpt-rp1-py/local?host=git.sr.ht.kleen.org;
       flake = false;
     };
     poetry2nix = {
       url = "github:nix-community/poetry2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     rmapi-src = {
       url = "github:juruen/rmapi";
@@ -102,7 +103,7 @@
       flake = false;
     };
     bfd-src = {
-      url = "github:vkleen/bfd";
+      url = sourcehut:~vkleen/bfd?host=git.sr.ht.kleen.org;
       flake = false;
     };
     frr-src = {
@@ -114,22 +115,23 @@
       flake = false;
     };
     lego-src = {
-      url = "github:vkleen/lego?ref=zerossl-accounts";
+      url = sourcehut:~vkleen/lego/zerossl-accounts?host=git.sr.ht.kleen.org;
       flake = false;
     };
     hut-src = {
-      url = git+https://git.sr.ht/~emersion/hut;
+      url = sourcehut:~emersion/hut;
       flake = false;
     };
 
     utils = {
-      url = github:vkleen/machine-utils;
+      url = sourcehut:~vkleen/machine-utils?host=git.sr.ht.kleen.org;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.macname.follows = "macname";
     };
 
     macname = {
       url = sourcehut:~vkleen/macname?host=git.sr.ht.kleen.org;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     macname-power9 = {
       url = sourcehut:~vkleen/macname?host=git.sr.ht.kleen.org;
@@ -138,14 +140,19 @@
 
     bfd-monitor = {
       url = sourcehut:~vkleen/bfd-monitor?host=git.sr.ht.kleen.org;
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.poetry2nix.follows = "poetry2nix";
     };
 
     matrix-bifrost = {
       url = sourcehut:~vkleen/matrix-bifrost?host=git.sr.ht.kleen.org;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     rmrl = {
       url = sourcehut:~vkleen/rmrl?host=git.sr.ht.kleen.org;
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.poetry2nix.follows = "poetry2nix";
     };
 
     flake-compat = {
@@ -155,6 +162,7 @@
 
     neovim-configuration = {
       url = sourcehut:~vkleen/neovim-configuration?host=git.sr.ht.kleen.org;
+      inputs.utils.follows = "utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

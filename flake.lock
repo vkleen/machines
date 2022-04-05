@@ -39,8 +39,12 @@
     "bfd-monitor": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs",
-        "poetry2nix": "poetry2nix"
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "poetry2nix": [
+          "poetry2nix"
+        ]
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
@@ -61,17 +65,19 @@
     "bfd-src": {
       "flake": false,
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1647541058,
         "narHash": "sha256-vAsb9Ppi5d8xugJoWgXPl2W2tEQv3yUtvy83fqbxQUA=",
-        "owner": "vkleen",
+        "owner": "~vkleen",
         "repo": "bfd",
         "rev": "7ff51d0034b75740abb21e34de8b8465d372c911",
-        "type": "github"
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "repo": "bfd",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "cachix": {
@@ -141,41 +147,45 @@
     "dptrp1-src": {
       "flake": false,
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1634757419,
         "narHash": "sha256-HYbA54hDI+5pxpGIwkUIxG6/zDQfsc4OVu6wDVdoVBQ=",
-        "owner": "vkleen",
+        "owner": "~vkleen",
         "repo": "dpt-rp1-py",
         "rev": "f7cff4126e75b95d5a535c00685ffd69ca39246a",
-        "type": "github"
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "ref": "local",
         "repo": "dpt-rp1-py",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "emoji-fzf": {
       "inputs": {
         "crate2nix": "crate2nix",
-        "flake-utils": "flake-utils_3",
+        "flake-utils": "flake-utils_2",
         "nixpkgs": [
           "nixpkgs"
         ],
         "rust-overlay": "rust-overlay"
       },
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1635856394,
         "narHash": "sha256-KT37y+roWCeJ5TVkUqb1Bm0SOQJ1sqc6U0odUyTObpM=",
-        "owner": "vkleen",
+        "owner": "~vkleen",
         "repo": "emoji-fzf",
         "rev": "e2054345f634246317f200a8610810daf665ce96",
-        "type": "github"
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "repo": "emoji-fzf",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "eseries-src": {
@@ -259,21 +269,6 @@
     },
     "flake-utils_2": {
       "locked": {
-        "lastModified": 1648297722,
-        "narHash": "sha256-W+qlPsiZd8F3XkzXOzAoR+mpFqzm3ekQkJNa+PIh1BQ=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "0f8662f1319ad6abf89b3380dd2722369fc51ade",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_3": {
-      "locked": {
         "lastModified": 1634851050,
         "narHash": "sha256-N83GlSGPJJdcqhUxSCS/WwW5pksYf3VP1M13cDRTSVA=",
         "owner": "numtide",
@@ -287,13 +282,28 @@
         "type": "github"
       }
     },
-    "flake-utils_4": {
+    "flake-utils_3": {
       "locked": {
         "lastModified": 1623875721,
         "narHash": "sha256-A8BU7bjS5GirpAUv4QA+QnJ4CceLHkcXdRp4xITDB0s=",
         "owner": "numtide",
         "repo": "flake-utils",
         "rev": "f7e004a55b120c02ecb6219596820fcd32ca8772",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_4": {
+      "locked": {
+        "lastModified": 1644229661,
+        "narHash": "sha256-1YdnJAsNy69bpcjuoKdOYQX0YxZBiCYZo4Twxerqv7k=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3cecb5b042f7f209c56ffd8371b2711a290ec797",
         "type": "github"
       },
       "original": {
@@ -319,21 +329,6 @@
     },
     "flake-utils_6": {
       "locked": {
-        "lastModified": 1644229661,
-        "narHash": "sha256-1YdnJAsNy69bpcjuoKdOYQX0YxZBiCYZo4Twxerqv7k=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "3cecb5b042f7f209c56ffd8371b2711a290ec797",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_7": {
-      "locked": {
         "lastModified": 1648297722,
         "narHash": "sha256-W+qlPsiZd8F3XkzXOzAoR+mpFqzm3ekQkJNa+PIh1BQ=",
         "owner": "numtide",
@@ -347,28 +342,13 @@
         "type": "github"
       }
     },
-    "flake-utils_8": {
+    "flake-utils_7": {
       "locked": {
         "lastModified": 1638122382,
         "narHash": "sha256-sQzZzAbvKEqN9s0bzWuYmRaA03v40gaJ4+iL1LXjaeI=",
         "owner": "numtide",
         "repo": "flake-utils",
         "rev": "74f7e4319258e287b0f9cb95426c9853b282730b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_9": {
-      "locked": {
-        "lastModified": 1610051610,
-        "narHash": "sha256-U9rPz/usA1/Aohhk7Cmc2gBrEEKRzcW4nwPWMPwja4Y=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "3982c9903e93927c2164caa727cd3f6a0e6d14cc",
         "type": "github"
       },
       "original": {
@@ -445,17 +425,19 @@
     "hledger-src": {
       "flake": false,
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1626038664,
         "narHash": "sha256-8hz/P52DsBU+W9YojpF4NG7o+iQ3KO7+3oK0bvNr8kk=",
-        "owner": "vkleen",
+        "owner": "~vkleen",
         "repo": "hledger",
         "rev": "fb5b43dfb8ae8cf82b85291177f34a99e7a46edb",
-        "type": "github"
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "repo": "hledger",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "home-manager": {
@@ -481,17 +463,17 @@
     "hut-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1649093331,
-        "narHash": "sha256-RkjpwTVpNc/7+4o09vDl8khDxU1x1jh/riQwA+6HRMI=",
-        "ref": "master",
-        "rev": "1f72cdffa9b09c9424e975ac96a5f8d32374b2a6",
-        "revCount": 279,
-        "type": "git",
-        "url": "https://git.sr.ht/~emersion/hut"
+        "lastModified": 1649160155,
+        "narHash": "sha256-UMzXDTON1NxRZslKelcHwiT7aHcqbKUlZiFdbYbIWnU=",
+        "owner": "~emersion",
+        "repo": "hut",
+        "rev": "05e1985948232974212c3016ec819a4ebae10cde",
+        "type": "sourcehut"
       },
       "original": {
-        "type": "git",
-        "url": "https://git.sr.ht/~emersion/hut"
+        "owner": "~emersion",
+        "repo": "hut",
+        "type": "sourcehut"
       }
     },
     "kicad-src": {
@@ -513,18 +495,20 @@
     "lego-src": {
       "flake": false,
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1645875006,
         "narHash": "sha256-CayeWo9Dm534+l/zQf1E1JGxVP3twLBSyDwTcKTwXj0=",
-        "owner": "vkleen",
+        "owner": "~vkleen",
         "repo": "lego",
         "rev": "a424cd721953d3ed4e758dfafcde7d7b10405044",
-        "type": "github"
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "ref": "zerossl-accounts",
         "repo": "lego",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "lowdown-src": {
@@ -577,7 +561,9 @@
     },
     "macname": {
       "inputs": {
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
@@ -617,28 +603,12 @@
         "type": "sourcehut"
       }
     },
-    "macname_2": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_5"
-      },
-      "locked": {
-        "lastModified": 1649159914,
-        "narHash": "sha256-1wgxwW9mVSN5r7LIfaxFyRFZ9ArFI7Xuzojuk7vdawQ=",
-        "owner": "vkleen",
-        "repo": "macname",
-        "rev": "09a0d587ee1959465e9cdaacd1f6cba4c0678abc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vkleen",
-        "repo": "macname",
-        "type": "github"
-      }
-    },
     "matrix-bifrost": {
       "inputs": {
-        "flake-utils": "flake-utils_5",
-        "nixpkgs": "nixpkgs_4"
+        "flake-utils": "flake-utils_4",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
@@ -664,7 +634,9 @@
           "nixpkgs"
         ],
         "plugins": "plugins",
-        "utils": "utils"
+        "utils": [
+          "utils"
+        ]
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
@@ -684,7 +656,7 @@
     },
     "neovim-flake": {
       "inputs": {
-        "flake-utils": "flake-utils_6",
+        "flake-utils": "flake-utils_5",
         "nixpkgs": [
           "neovim-configuration",
           "nixpkgs"
@@ -801,32 +773,37 @@
     "nixos-rocm-power9": {
       "flake": false,
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1641132502,
         "narHash": "sha256-iHn4Y97djeZZeSMaWLkKZfxSVhn47eHuoShAfYaakqA=",
-        "owner": "vkleen",
+        "owner": "~vkleen",
         "repo": "nixos-rocm",
         "rev": "365c57cb939e5fe2262cd4f3607e8b2c62d9697b",
-        "type": "github"
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "repo": "nixos-rocm",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1649158400,
-        "narHash": "sha256-zifk5dGzYd7Plr1nbudIzwHJHXqXiddDlu6eId4PElg=",
-        "owner": "NixOS",
+        "host": "git.sr.ht.kleen.org",
+        "lastModified": 1649063286,
+        "narHash": "sha256-9TfNovgriRQbl7c0B1c0xM7TPzGu39LH6/rxeSZ5kGw=",
+        "owner": "~vkleen",
         "repo": "nixpkgs",
-        "rev": "0c7c76fa9e2f5c7b446c1182c79eabac08588392",
-        "type": "github"
+        "rev": "990f90394b7f2b47e7210c8705e8bbcd462cb139",
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "NixOS",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
+        "ref": "local",
         "repo": "nixpkgs",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "nixpkgs-power9": {
@@ -929,129 +906,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixpkgs-wayland",
-        "type": "github"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1649158400,
-        "narHash": "sha256-zifk5dGzYd7Plr1nbudIzwHJHXqXiddDlu6eId4PElg=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "0c7c76fa9e2f5c7b446c1182c79eabac08588392",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
-        "lastModified": 1649158400,
-        "narHash": "sha256-zifk5dGzYd7Plr1nbudIzwHJHXqXiddDlu6eId4PElg=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "0c7c76fa9e2f5c7b446c1182c79eabac08588392",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_4": {
-      "locked": {
-        "lastModified": 1649158400,
-        "narHash": "sha256-zifk5dGzYd7Plr1nbudIzwHJHXqXiddDlu6eId4PElg=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "0c7c76fa9e2f5c7b446c1182c79eabac08588392",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_5": {
-      "locked": {
-        "lastModified": 1649158400,
-        "narHash": "sha256-zifk5dGzYd7Plr1nbudIzwHJHXqXiddDlu6eId4PElg=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "0c7c76fa9e2f5c7b446c1182c79eabac08588392",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_6": {
-      "locked": {
-        "host": "git.sr.ht.kleen.org",
-        "lastModified": 1649063286,
-        "narHash": "sha256-9TfNovgriRQbl7c0B1c0xM7TPzGu39LH6/rxeSZ5kGw=",
-        "owner": "~vkleen",
-        "repo": "nixpkgs",
-        "rev": "990f90394b7f2b47e7210c8705e8bbcd462cb139",
-        "type": "sourcehut"
-      },
-      "original": {
-        "host": "git.sr.ht.kleen.org",
-        "owner": "~vkleen",
-        "ref": "local",
-        "repo": "nixpkgs",
-        "type": "sourcehut"
-      }
-    },
-    "nixpkgs_7": {
-      "locked": {
-        "lastModified": 1649158400,
-        "narHash": "sha256-zifk5dGzYd7Plr1nbudIzwHJHXqXiddDlu6eId4PElg=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "0c7c76fa9e2f5c7b446c1182c79eabac08588392",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_8": {
-      "locked": {
-        "lastModified": 1649176156,
-        "narHash": "sha256-LeDPoEpTPK6lHgDpucp2qFrcLtlOkuUtlztVQu+w4lY=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "433a6e3d409bfc4fbf7ddfc88d1d34d322a65c87",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_9": {
-      "locked": {
-        "lastModified": 1610729867,
-        "narHash": "sha256-bk/SBaBLqZX/PEqal27DMQwAHHl0dcZMp8NNksQr80s=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "04af07c659c6723a2259bb6bc00a47ec53330f20",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -1180,8 +1034,10 @@
     },
     "poetry2nix": {
       "inputs": {
-        "flake-utils": "flake-utils_2",
-        "nixpkgs": "nixpkgs_2"
+        "flake-utils": "flake-utils_6",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1648808959,
@@ -1189,44 +1045,6 @@
         "owner": "nix-community",
         "repo": "poetry2nix",
         "rev": "99c79568352799af09edaeefc858d337e6d9c56f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "poetry2nix",
-        "type": "github"
-      }
-    },
-    "poetry2nix_2": {
-      "inputs": {
-        "flake-utils": "flake-utils_7",
-        "nixpkgs": "nixpkgs_7"
-      },
-      "locked": {
-        "lastModified": 1648808959,
-        "narHash": "sha256-1KZuZ0yJ4j1cWvOvnyyy36xCTcG9+sNe2FDHOHnErQM=",
-        "owner": "nix-community",
-        "repo": "poetry2nix",
-        "rev": "99c79568352799af09edaeefc858d337e6d9c56f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "poetry2nix",
-        "type": "github"
-      }
-    },
-    "poetry2nix_3": {
-      "inputs": {
-        "flake-utils": "flake-utils_9",
-        "nixpkgs": "nixpkgs_9"
-      },
-      "locked": {
-        "lastModified": 1641641774,
-        "narHash": "sha256-uCUup7GEKgqisAh0nQig1J3gaMUWkD1/5gcwchz08b4=",
-        "owner": "nix-community",
-        "repo": "poetry2nix",
-        "rev": "4893be10026ddbbc1e5ce18fd88aa1866df3df19",
         "type": "github"
       },
       "original": {
@@ -1285,9 +1103,13 @@
     },
     "rmrl": {
       "inputs": {
-        "flake-utils": "flake-utils_8",
-        "nixpkgs": "nixpkgs_8",
-        "poetry2nix": "poetry2nix_3"
+        "flake-utils": "flake-utils_7",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "poetry2nix": [
+          "poetry2nix"
+        ]
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
@@ -1334,24 +1156,24 @@
         "nix-power9": "nix-power9",
         "nix-riscv": "nix-riscv",
         "nixos-rocm-power9": "nixos-rocm-power9",
-        "nixpkgs": "nixpkgs_6",
+        "nixpkgs": "nixpkgs",
         "nixpkgs-power9": "nixpkgs-power9",
         "nixpkgs-riscv": "nixpkgs-riscv",
         "nixpkgs-wayland": "nixpkgs-wayland",
         "pacemaker-src": "pacemaker-src",
         "pcs-src": "pcs-src",
-        "poetry2nix": "poetry2nix_2",
+        "poetry2nix": "poetry2nix",
         "power-assert-src": "power-assert-src",
         "rmapi-src": "rmapi-src",
         "rmfakecloud-src": "rmfakecloud-src",
         "rmrl": "rmrl",
         "test-unit-src": "test-unit-src",
-        "utils": "utils_2"
+        "utils": "utils"
       }
     },
     "rust-overlay": {
       "inputs": {
-        "flake-utils": "flake-utils_4",
+        "flake-utils": "flake-utils_3",
         "nixpkgs": [
           "emoji-fzf",
           "nixpkgs"
@@ -1389,30 +1211,6 @@
     },
     "utils": {
       "inputs": {
-        "macname": "macname_2",
-        "nixpkgs": [
-          "neovim-configuration",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "host": "git.sr.ht.kleen.org",
-        "lastModified": 1647895957,
-        "narHash": "sha256-Bny2AT3qDMeG2c6YrYzAbQlo8rikJRi5qmIB0yG2PCE=",
-        "owner": "~vkleen",
-        "repo": "machine-utils",
-        "rev": "166a316e252e4c5ae63ca10bdd7cb4170b42eb3c",
-        "type": "sourcehut"
-      },
-      "original": {
-        "host": "git.sr.ht.kleen.org",
-        "owner": "~vkleen",
-        "repo": "machine-utils",
-        "type": "sourcehut"
-      }
-    },
-    "utils_2": {
-      "inputs": {
         "macname": [
           "macname"
         ],
@@ -1421,17 +1219,19 @@
         ]
       },
       "locked": {
+        "host": "git.sr.ht.kleen.org",
         "lastModified": 1649159676,
         "narHash": "sha256-HLL3AQqMG6iMaNzkEtG3n+MbP8DOKsj6/MO+q3XrCJs=",
-        "owner": "vkleen",
+        "owner": "~vkleen",
         "repo": "machine-utils",
         "rev": "af714acdca27d243a07063eda67a3bcb97041390",
-        "type": "github"
+        "type": "sourcehut"
       },
       "original": {
-        "owner": "vkleen",
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
         "repo": "machine-utils",
-        "type": "github"
+        "type": "sourcehut"
       }
     },
     "vimplugin-aerial-nvim": {

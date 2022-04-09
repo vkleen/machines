@@ -394,11 +394,11 @@
       "flake": false,
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1626038664,
-        "narHash": "sha256-8hz/P52DsBU+W9YojpF4NG7o+iQ3KO7+3oK0bvNr8kk=",
+        "lastModified": 1649515163,
+        "narHash": "sha256-HCoNfvjQwzrX+q9c4qEPtkuhyZqkiFD48HZoZAXkHvQ=",
         "owner": "~vkleen",
         "repo": "hledger",
-        "rev": "fb5b43dfb8ae8cf82b85291177f34a99e7a46edb",
+        "rev": "451a1e3ac34ac5d90ae94ad929aae0791f686908",
         "type": "sourcehut"
       },
       "original": {

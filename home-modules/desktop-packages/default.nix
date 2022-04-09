@@ -48,7 +48,6 @@ in {
   imports = [ ./scripts.nix ];
 
   home.packages = with pkgs; [
-    calibre
     djvulibre
     evince
     firejail-element

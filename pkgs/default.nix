@@ -11,22 +11,15 @@ final: prev: {
 
   eseries = with final.python3Packages; toPythonApplication eseries;
 
-  power-assert = final.callPackage ./misc/power-assert {};
-  test-unit = final.callPackage ./misc/test-unit {};
-
   python3 = prev.python3.override {
     packageOverrides = pself: _: {
       eseries = pself.callPackage ./tools/misc/eseries {};
       docopt-subcommands = pself.callPackage ./development/python-modules/docopt-subcommands {};
-      dacite = pself.callPackage ./development/python-modules/dacite {};
       #paper2remarkable = pself.callPackage ./tools/remarkable/paper2remarkable {};
     };
   };
   python3Packages = final.python3.pkgs;
 
-  corosync = final.callPackage ./cluster/corosync.nix {};
-  pacemaker = final.callPackage ./cluster/pacemaker.nix {};
-  pcs = final.callPackage ./cluster/pcs.nix {};
   bfd = final.callPackage ./tools/networking/bfd {};
   bfdd = final.callPackage ./servers/misc/bfdd {};
 

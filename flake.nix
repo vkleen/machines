@@ -78,30 +78,6 @@
       url = "github:juruen/rmapi";
       flake = false;
     };
-    pacemaker-src = {
-      url = "github:ClusterLabs/pacemaker";
-      flake = false;
-    };
-    corosync-src = {
-      url = "github:corosync/corosync";
-      flake = false;
-    };
-    pcs-src = {
-      url = "github:ClusterLabs/pcs";
-      flake = false;
-    };
-    dacite-src = {
-      url = "github:konradhalas/dacite";
-      flake = false;
-    };
-    power-assert-src = {
-      url = "github:ruby/power_assert";
-      flake = false;
-    };
-    test-unit-src = {
-      url = "github:test-unit/test-unit";
-      flake = false;
-    };
     bfd-src = {
       url = sourcehut:~vkleen/bfd?host=git.sr.ht.kleen.org;
       flake = false;
@@ -344,8 +320,6 @@
             inherit (inputs)
               alacritty-src
               bfd-src
-              corosync-src
-              dacite-src
               dptrp1-src
               eseries-src
               freecad-assembly3-src
@@ -356,12 +330,8 @@
               hut-src
               kicad-src
               lego-src
-              pacemaker-src
-              pcs-src
-              power-assert-src
               rmapi-src
               rmfakecloud-src
-              test-unit-src
             ;
           };
         };

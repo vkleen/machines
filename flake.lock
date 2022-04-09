@@ -23,11 +23,11 @@
     "alacritty-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1649016524,
-        "narHash": "sha256-OU3W5QBVg8Q9T8yMmvKCMhZbX7ArJDZJJcfrD6l3cm8=",
+        "lastModified": 1649239599,
+        "narHash": "sha256-Ga2bPQztL4M1gYhNq1HNXCvP5s3fpBwHuJdPp1n25nw=",
         "owner": "alacritty",
         "repo": "alacritty",
-        "rev": "851dbc328efd9b212bb2c7b9caaf5763eb4e524b",
+        "rev": "673710487afac8596a9f18fea9e04aeada32c2be",
         "type": "github"
       },
       "original": {
@@ -96,22 +96,6 @@
         "type": "github"
       }
     },
-    "corosync-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1648740560,
-        "narHash": "sha256-o+OyCSxBhaoAn1NLk7OEVRzjztM8RAVvi90VDapre3g=",
-        "owner": "corosync",
-        "repo": "corosync",
-        "rev": "7b96a937df7ac2aed7889b64238152b3d1cea02b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "corosync",
-        "repo": "corosync",
-        "type": "github"
-      }
-    },
     "crate2nix": {
       "flake": false,
       "locked": {
@@ -125,22 +109,6 @@
       "original": {
         "owner": "kolloch",
         "repo": "crate2nix",
-        "type": "github"
-      }
-    },
-    "dacite-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1629809008,
-        "narHash": "sha256-C96SImtn8SKqgn3+BK0e3ZAegF4xmA8RVBCq9sSwIRs=",
-        "owner": "konradhalas",
-        "repo": "dacite",
-        "rev": "a7834ba2421f6c52be8cd0f787660940deb9fc5b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "konradhalas",
-        "repo": "dacite",
         "type": "github"
       }
     },
@@ -360,11 +328,11 @@
     "freecad-assembly3-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1649146904,
-        "narHash": "sha256-YbPDWHaZjsCksA8/P3nsCW7w5026RvpRY+ZRpfW9xFI=",
+        "lastModified": 1649300173,
+        "narHash": "sha256-2N0kc+7r11qwaUmV/qTJpdargH6sT148E5+JZvi6C9s=",
         "owner": "realthunder",
         "repo": "FreeCAD_assembly3",
-        "rev": "ceb238c3f13dbd66f10e8d846746e70df3f6d462",
+        "rev": "1d05e13540ac4cdedf3a382a6189bbf460150c3b",
         "type": "github"
       },
       "original": {
@@ -376,11 +344,11 @@
     "freecad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1649146675,
-        "narHash": "sha256-ErG30oTgGaQZXT1//vJ4/0aAL8Zbs+fKeV5EPQyDuTo=",
+        "lastModified": 1649379715,
+        "narHash": "sha256-P7FAAciQKYGz/c78/Y7/hGXTyv4UsyiUoXHlLbFjPPA=",
         "owner": "realthunder",
         "repo": "FreeCAD",
-        "rev": "56c59284784b03af911a0c7121410e84de6d50a2",
+        "rev": "49c51c4b88c5f876b1aca4fa22c96281e8b9ed86",
         "type": "github"
       },
       "original": {
@@ -409,11 +377,11 @@
     "gobgp-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1648856284,
-        "narHash": "sha256-/1oilugEZHNE+hhsoca4jr9PI5G3UhD02mRDif5jT7A=",
+        "lastModified": 1649343904,
+        "narHash": "sha256-idozSR6qgBG35Tf9RYr3gJw1t4LFcLyNdIK6+lX+Y9A=",
         "owner": "osrg",
         "repo": "gobgp",
-        "rev": "8f7f9558c88a22b3e94315a93096a60b206bf3c2",
+        "rev": "44065abbca9216ee68d6747287db64b5fdc63670",
         "type": "github"
       },
       "original": {
@@ -447,11 +415,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1649130493,
-        "narHash": "sha256-tp2UxeS1A5ESb+I/rh4GoD0DH7edOGdc2fsP6D8o27Y=",
+        "lastModified": 1649392573,
+        "narHash": "sha256-dCPEJZzExz2+i7AjUuViZUgHC+JXDlBBG/IzuSYWCh8=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "07b941f0c45ac4af6732d96f4cb6142824eee3df",
+        "rev": "f911ebbec927e8e9b582f2e32e2b35f730074cfc",
         "type": "github"
       },
       "original": {
@@ -479,11 +447,11 @@
     "kicad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1649141269,
-        "narHash": "sha256-KVzlQjfdSdTGodrW4wICo+ZYZmwncdG7fbkJ0vnetR4=",
+        "lastModified": 1649441582,
+        "narHash": "sha256-+GjoVa/J0rdhby0k/3YDzYG3dxfhNnlD2nnC1Nq9zoc=",
         "ref": "master",
-        "rev": "dc8556726b4628122b852ee9bd043ff66489600d",
-        "revCount": 32140,
+        "rev": "5bf163de80bb8b7e0a21de84f0af39d5a22f0631",
+        "revCount": 32163,
         "type": "git",
         "url": "https://gitlab.com/kicad/code/kicad.git"
       },
@@ -713,11 +681,11 @@
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1649152245,
-        "narHash": "sha256-BHYOCMScWZ1mpEF08Asr3utjApfcTzPyDXH2wkREBQA=",
+        "lastModified": 1649433387,
+        "narHash": "sha256-Mbu8Rs87dJz4LPMEQ5O8hUbz/mJIp2h3phSpSwCG58Q=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "ec90fc4d1f42db3c5e3c74dc186487d10a28c221",
+        "rev": "646af7325d93f98802b989f8a8e008a25f7a4788",
         "type": "github"
       },
       "original": {
@@ -735,11 +703,11 @@
         "nixpkgs-regression": "nixpkgs-regression_2"
       },
       "locked": {
-        "lastModified": 1649152245,
-        "narHash": "sha256-BHYOCMScWZ1mpEF08Asr3utjApfcTzPyDXH2wkREBQA=",
+        "lastModified": 1649433387,
+        "narHash": "sha256-Mbu8Rs87dJz4LPMEQ5O8hUbz/mJIp2h3phSpSwCG58Q=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "ec90fc4d1f42db3c5e3c74dc186487d10a28c221",
+        "rev": "646af7325d93f98802b989f8a8e008a25f7a4788",
         "type": "github"
       },
       "original": {
@@ -757,11 +725,11 @@
         "nixpkgs-regression": "nixpkgs-regression_3"
       },
       "locked": {
-        "lastModified": 1649152245,
-        "narHash": "sha256-BHYOCMScWZ1mpEF08Asr3utjApfcTzPyDXH2wkREBQA=",
+        "lastModified": 1649433387,
+        "narHash": "sha256-Mbu8Rs87dJz4LPMEQ5O8hUbz/mJIp2h3phSpSwCG58Q=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "ec90fc4d1f42db3c5e3c74dc186487d10a28c221",
+        "rev": "646af7325d93f98802b989f8a8e008a25f7a4788",
         "type": "github"
       },
       "original": {
@@ -896,48 +864,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1649143863,
-        "narHash": "sha256-ojYyIw4heZLjBPr/TAbpG72GjenHkX9EZGIJ9FoPCZY=",
+        "lastModified": 1649448983,
+        "narHash": "sha256-g44/emABOc/ZP6cbW0R64mTB7ooGOdwHJKa/OWoJaGw=",
         "owner": "nix-community",
         "repo": "nixpkgs-wayland",
-        "rev": "546850cb5693ef4526a06a1cd2d0f302b11188aa",
+        "rev": "95f371e4d16ba206ad99cd7fa8f352f9c2a6e83b",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "nixpkgs-wayland",
-        "type": "github"
-      }
-    },
-    "pacemaker-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1649103968,
-        "narHash": "sha256-1FtfZeoOSEilJTYY45ln9YNDGBp3yrMKlUupuqzErto=",
-        "owner": "ClusterLabs",
-        "repo": "pacemaker",
-        "rev": "51945807f3bea7f79428a447b1f0e471abc582b8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ClusterLabs",
-        "repo": "pacemaker",
-        "type": "github"
-      }
-    },
-    "pcs-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1648824635,
-        "narHash": "sha256-Arpz5dK84IAbC500xwnojGX0QLi1XcXFxEkIvEgCXNw=",
-        "owner": "ClusterLabs",
-        "repo": "pcs",
-        "rev": "50b5eeff40c7a31fdec011295da5e196bdc77e48",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ClusterLabs",
-        "repo": "pcs",
         "type": "github"
       }
     },
@@ -1053,22 +989,6 @@
         "type": "github"
       }
     },
-    "power-assert-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1643546216,
-        "narHash": "sha256-TdfpfIzHV7h42gqKUl6rcrK7BO+Co/lByHZZ6FKH/p8=",
-        "owner": "ruby",
-        "repo": "power_assert",
-        "rev": "9132517d1b5c22e6888bd352499573234b4bc51d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ruby",
-        "repo": "power_assert",
-        "type": "github"
-      }
-    },
     "rmapi-src": {
       "flake": false,
       "locked": {
@@ -1088,11 +1008,11 @@
     "rmfakecloud-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1648713441,
-        "narHash": "sha256-/LVfCEYzda6i0XSDpnUp48c6+L7fvfX16sOSn/dYG58=",
+        "lastModified": 1649326858,
+        "narHash": "sha256-6ydfEGfsonxpBrXoio9jl4pD9+ZkuRITczJUWh4GcUQ=",
         "owner": "ddvk",
         "repo": "rmfakecloud",
-        "rev": "2a46382a6df7547ce11f06b63fa91442e8824060",
+        "rev": "45c6bd097f3a7a86b0489b5f5f04ad2930b26960",
         "type": "github"
       },
       "original": {
@@ -1133,8 +1053,6 @@
         "alacritty-src": "alacritty-src",
         "bfd-monitor": "bfd-monitor",
         "bfd-src": "bfd-src",
-        "corosync-src": "corosync-src",
-        "dacite-src": "dacite-src",
         "dptrp1-src": "dptrp1-src",
         "emoji-fzf": "emoji-fzf",
         "eseries-src": "eseries-src",
@@ -1160,14 +1078,10 @@
         "nixpkgs-power9": "nixpkgs-power9",
         "nixpkgs-riscv": "nixpkgs-riscv",
         "nixpkgs-wayland": "nixpkgs-wayland",
-        "pacemaker-src": "pacemaker-src",
-        "pcs-src": "pcs-src",
         "poetry2nix": "poetry2nix",
-        "power-assert-src": "power-assert-src",
         "rmapi-src": "rmapi-src",
         "rmfakecloud-src": "rmfakecloud-src",
         "rmrl": "rmrl",
-        "test-unit-src": "test-unit-src",
         "utils": "utils"
       }
     },
@@ -1190,22 +1104,6 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "test-unit-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1646255348,
-        "narHash": "sha256-O5CmFlNfw87cT8TuzZZIJ3dOlFnL7HZBOAocmNX4uDU=",
-        "owner": "test-unit",
-        "repo": "test-unit",
-        "rev": "533de5e5d29208553be59413cf4b3ab0958eabf2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "test-unit",
-        "repo": "test-unit",
         "type": "github"
       }
     },

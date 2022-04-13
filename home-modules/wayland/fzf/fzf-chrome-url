@@ -37,7 +37,7 @@ function die() {
 }
 
 function chromium_running() {
-    @pgrep@ -f 'firejail.*chromium' >/dev/null
+    @pgrep@ -f 'chromium' >/dev/null
 }
 
 function _duckduckgo() {
@@ -70,8 +70,6 @@ esac
 
 if chromium_running; then
     @chromium-unwrapped@ --new-window "$("$_url_mod" "$cmd")"
-else
-    @chromium-browser@ --new-window "$("$_url_mod" "$cmd")"
 fi
 
 die 0

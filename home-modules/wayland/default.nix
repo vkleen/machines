@@ -147,17 +147,17 @@ let
     (builtins.readFile ./fzf/fzf-ff-url)
   );
 
-  # fzf-chrome-url-candidates = pkgs.writeScript "fzf-chrome-url-candidates" (builtins.replaceStrings
-  #   [ "@zsh@" "@sqlite3@" "@cat@" "@jq@" ]
-  #   [ "${pkgs.zsh}/bin/zsh" "${pkgs.sqlite}/bin/sqlite3" "${pkgs.coreutils}/bin/cat" "${pkgs.jq}/bin/jq" ]
-  #   (builtins.readFile ./fzf/fzf-chrome-url-candidates)
-  # );
+  fzf-chrome-url-candidates = pkgs.writeScript "fzf-chrome-url-candidates" (builtins.replaceStrings
+    [ "@zsh@" "@sqlite3@" "@cat@" "@jq@" ]
+    [ "${pkgs.zsh}/bin/zsh" "${pkgs.sqlite}/bin/sqlite3" "${pkgs.coreutils}/bin/cat" "${pkgs.jq}/bin/jq" ]
+    (builtins.readFile ./fzf/fzf-chrome-url-candidates)
+  );
 
-  # fzf-chrome-url = pkgs.writeScript "fzf-chrome-url" (builtins.replaceStrings
-  #   [ "@zsh@" "@fzf-chrome-url-candidates@" "@awk@" "@fzf@" "@grep@" "@pgrep@" "@tmux@" "@chromium-unwrapped@" "@chromium-browser@" ]
-  #   [ "${pkgs.zsh}/bin/zsh" "${fzf-chrome-url-candidates}" "${pkgs.gawk}/bin/awk" "${pkgs.fzf}/bin/fzf" "${pkgs.gnugrep}/bin/grep"  "${pkgs.procps}/bin/pgrep" "${pkgs.tmux}/bin/tmux" "${config.browser.chromium-unwrapped}/bin/chromium-browser"  "${config.browser.chromium}/bin/chromium" ]
-  #   (builtins.readFile ./fzf/fzf-chrome-url)
-  # );
+  fzf-chrome-url = pkgs.writeScript "fzf-chrome-url" (builtins.replaceStrings
+    [ "@zsh@" "@fzf-chrome-url-candidates@" "@awk@" "@fzf@" "@grep@" "@pgrep@" "@tmux@" "@chromium-unwrapped@" "@chromium-browser@" ]
+    [ "${pkgs.zsh}/bin/zsh" "${fzf-chrome-url-candidates}" "${pkgs.gawk}/bin/awk" "${pkgs.fzf}/bin/fzf" "${pkgs.gnugrep}/bin/grep"  "${pkgs.procps}/bin/pgrep" "${pkgs.tmux}/bin/tmux" "${config.browser.chromium-unwrapped}/bin/chromium-browser"  "${config.browser.chromium}/bin/chromium" ]
+    (builtins.readFile ./fzf/fzf-chrome-url)
+  );
 
   fzf-pass = pkgs.writeScript "fzf-pass" (builtins.replaceStrings
     [ "@zsh@" "@tmux@" "@pass@" "@head@" "@wl-copy@" "@fzf@" ]
@@ -371,6 +371,7 @@ in lib.mkMerge [{
         "${mod}+d" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-run}";
         "${mod}+Shift+p" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pass}";
         "${mod}+q" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-ff-url}";
+        "${mod}+w" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-chrome-url}";
         "${mod}+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-pdf}";
         "${mod}+Shift+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-paper}";
         "${mod}+Ctrl+o" = "exec ${scratch-terminal} --title \"scratchpad-fzf\" -e ${open-fzf} ${fzf-dpt}";

@@ -70,8 +70,6 @@ esac
 
 if firefox_running; then
     @firefox-unwrapped@ --new-window "$("$_url_mod" "$cmd")"
-else
-    @firefox@ --new-window "$("$_url_mod" "$cmd")"
 fi
 
 die 0

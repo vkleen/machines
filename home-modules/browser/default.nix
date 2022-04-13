@@ -8,11 +8,12 @@ let
   '';
 
   chromium-pkg = (pkgs.chromium.override {
-    # commandLineArgs = "--disk-cache-dir=/tmp/cache";
-    # commandLineArgs = "--disk-cache-dir=/tmp/cache --enable-features=UseOzonePlatform --ozone-platform=wayland";
-    # enableWideVine = true;
-    # enableVaapi = true;
+    commandLineArgs = "--disk-cache-dir=/tmp/cache";
+    enableWideVine = true;
   });
+  firejail-chromium = pkgs.writeShellScriptBin "chromium" ''
+    exec ${nixos.security.wrapperDir}/firejail --ignore=nodbus --whitelist="${config.home.homeDirectory}/dl" ${cfg.chromium-unwrapped}/bin/chromium-browser
+  '';
 
   foreflight-chromium = pkgs.writeShellScriptBin "foreflight" ''
     exec ${nixos.security.wrapperDir}/firejail --blacklist="${config.home.homeDirectory}/.config/chromium" --whitelist="${config.home.homeDirectory}/.foreflight" --ignore=nodbus ${cfg.chromium-unwrapped}/bin/chromium-browser --new-window --user-data-dir="${config.home.homeDirectory}/.foreflight" --disk-cache-dir=/tmp/cache "https://plan.foreflight.com"
@@ -27,6 +28,10 @@ in {
       default = firejail-firefox;
       type = lib.types.package;
     };
+    browser.chromium = lib.mkOption {
+      default = firejail-chromium;
+      type = lib.types.package;
+    };
     browser.firefox-unwrapped = lib.mkOption {
       default = firefox-pkg;
       type = lib.types.package;
@@ -37,17 +42,16 @@ in {
     };
   };
   config = {
-    # programs.chromium = {
-    #   enable = true;
-    #   package = firejail-chromium;
-    #   extensions = [
-    #     "cjpalhdlnbpafiamejdnhcphjbkeiagm"
-    #   ];
-    # };
+    programs.chromium = {
+      enable = true;
+      package = firejail-chromium;
+      extensions = [
+        "cjpalhdlnbpafiamejdnhcphjbkeiagm"
+      ];
+    };
 
     home.packages = [
       cfg.firefox
-      foreflight-chromium
       zoomy-chromium
     ];
   };

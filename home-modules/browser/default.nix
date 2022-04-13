@@ -44,7 +44,7 @@ in {
   config = {
     programs.chromium = {
       enable = true;
-      package = firejail-chromium;
+      package = chromium-pkg;
       extensions = [
         "cjpalhdlnbpafiamejdnhcphjbkeiagm"
       ];

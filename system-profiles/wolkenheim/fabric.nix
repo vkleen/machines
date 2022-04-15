@@ -23,8 +23,8 @@
   wg-links = {
     "boron" = {
       "dsl" = [
-        { to = "lanthanum"; bfdInterval = 100; bfdDetectionMultiplier = 4; }
-        { to = "cerium"; bfdInterval = 100; bfdDetectionMultiplier = 4; }
+        { to = "lanthanum"; bfdInterval = 200; bfdDetectionMultiplier = 4; }
+        { to = "cerium"; bfdInterval = 200; bfdDetectionMultiplier = 4; }
       ];
       "lte" = [
         { to = "lanthanum"; bfdInterval = 5000; }

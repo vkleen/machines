@@ -794,12 +794,12 @@ in {
     };
     networks."40-wg-europium" = {
       linkConfig = {
-        MTUBytes = "1332";
+        MTUBytes = "1320";
       };
     };
     networks."40-freerange" = {
       linkConfig = {
-        MTUBytes = "1332";
+        MTUBytes = "1320";
       };
     };
   };

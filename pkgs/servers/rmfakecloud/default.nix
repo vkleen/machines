@@ -14,7 +14,7 @@ let
     installPhase = "true";
     distPhase = "true";
 
-    outputHash = "sha256-Gw5XJ+0LXRPMA0yq5K6ZhlZgQ7OdBwyRO5Bsr/GvaUg=";
+    outputHash = "sha256-ZgenH65Ixp3DjmKrmgYwkrZasQqgZ2lZtzw4CEjEUlE=";
   };
 
   uiFiles = mkYarnPackage {

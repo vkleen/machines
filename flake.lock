@@ -1008,11 +1008,11 @@
     "rmfakecloud-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1649326858,
-        "narHash": "sha256-6ydfEGfsonxpBrXoio9jl4pD9+ZkuRITczJUWh4GcUQ=",
+        "lastModified": 1649890375,
+        "narHash": "sha256-UABlBrsub9jvh1rjTqdUgWDCtE/LAhiEAes4QBkVFdg=",
         "owner": "ddvk",
         "repo": "rmfakecloud",
-        "rev": "45c6bd097f3a7a86b0489b5f5f04ad2930b26960",
+        "rev": "0dfaf5f18d3b5119dabae173efce498f298e5f2e",
         "type": "github"
       },
       "original": {

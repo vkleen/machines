@@ -5,8 +5,8 @@
 
   nix = {
     package = pkgs.nixUnstable;
-    buildCores = 16;
-    maxJobs = 16;
+    buildCores = 36;
+    maxJobs = 36;
     extraOptions = ''
       experimental-features = nix-command flakes ca-derivations ca-references
     '';

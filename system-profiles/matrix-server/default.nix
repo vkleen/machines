@@ -32,7 +32,7 @@ in {
       max_upload_size = "500M";
       extraConfigFiles = [ "/run/agenix/synapse-registration" "/run/agenix/synapse-coturn" ];
       turn_uris = [
-        "turns:turn.kleen.org?transport=udp" "turns:turn.kleen.org?transport=tcp" 
+#        "turns:turn.kleen.org?transport=udp" "turns:turn.kleen.org?transport=tcp" 
         "turn:turn.kleen.org?transport=udp" "turn:turn.kleen.org?transport=tcp"
       ];
       turn_user_lifetime = "1h";

@@ -2,9 +2,7 @@
   AS = {
     "auenheim" = {
       announcePublic = true;
-      #public4 = "45.77.54.162/32";
       public6 = "2a06:e881:9008::/48";
-      #public6 = "2001:19f0:6c01:2bc5::/64";
     };
     "wolkenheim" = {
     };
@@ -54,7 +52,7 @@
       local-as = 210286;
       password = "$VULTR_BGP_PASSWORD";
       allowed-prefixes4 = [ ];
-      allowed-prefixes6 = [ "2001:19f0:6c01:2bc5::/64" "2a06:e881:9008::/48" ];
+      allowed-prefixes6 = [ "2a06:e881:9008::/48" ];
       peer6 = "2001:19f0:ffff::1";
       extraGobgpNeighborConfig = {
         ebgp-multihop.config = {

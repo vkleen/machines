@@ -2,10 +2,11 @@
   imports = [
     ./backup.nix
     ./hardware.nix
-    ./networking.nix
-    ./matrix-bifrost.nix
     ./heisenbridge.nix
+    ./matrix-bifrost.nix
+    ./networking.nix
     ./prometheus
+    ./pxe.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
     initrd-all-crypto-modules
     latest-linux

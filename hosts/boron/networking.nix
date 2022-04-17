@@ -153,7 +153,6 @@ in {
         ];
         ipv6.addresses = [
           { address = "2a06:e881:9008::1"; prefixLength = 64; }
-          #{ address = "2001:19f0:6c01:2bc5::1"; prefixLength = 64; }
         ];
       };
       "apc" = {
@@ -627,7 +626,7 @@ in {
                 hostname = "chlorine-boot";
                 option-data = [
                   { name = "conf-file";
-                    data = "tftp://boron.auenheim.kleen.org/chlorine/pxelinux.cfg";
+                    data = "http://boron.auenheim.kleen.org/chlorine/pxelinux.cfg";
                   }
                 ];
               }
@@ -732,7 +731,7 @@ in {
   };
 
   services.atftpd = {
-    enable = true;
+    enable = false;
     root = "/srv/tftp";
   };
 

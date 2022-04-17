@@ -759,11 +759,11 @@
     "nixpkgs": {
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1650060908,
-        "narHash": "sha256-XO7BcPsJRpXh1bmxpwAqwopKaSFERVWcH3wDMO2qqw0=",
+        "lastModified": 1650235906,
+        "narHash": "sha256-Cbsza4ZhBYVhtsVC7h0ySZSm8Ub68CYEYvl6/GQq2SM=",
         "owner": "~vkleen",
         "repo": "nixpkgs",
-        "rev": "44f7378ba9423e85412136093de35584daed731d",
+        "rev": "9b702f3e006390f249db043554d6efafc1471e14",
         "type": "sourcehut"
       },
       "original": {

@@ -60,6 +60,8 @@ in
         allowed-users = [ "@wheel" ];
         experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
         auto-optimise-store = true;
+        keep-outputs = true;
+        keep-derivations = true;
       };
       nixPath = [
         "nixpkgs=${flake.legacyPackages.${config.nixpkgs.system}.path}"

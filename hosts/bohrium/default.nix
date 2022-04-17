@@ -1,5 +1,6 @@
 { flake, config, hostName, ... }: {
   imports = [
+    ./graphical.nix
     ./hardware.nix
     ./networking.nix
   ] ++ (with flake.nixosModules.systemProfiles; [

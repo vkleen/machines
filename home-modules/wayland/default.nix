@@ -1,20 +1,8 @@
 { config, pkgs, nixos, lib, flake, ... }:
 let
-  start-sway = pkgs.writeShellScriptBin "start-sway" ''
-    # first import environment variables from the login manager
-    systemctl --user import-environment
-    # then start the service
-    exec systemctl --user start sway.service
-  '';
-
   get-swaysock = ''
     export SWAYSOCK=/run/user/$(${pkgs.coreutils}/bin/id -u)/sway-ipc.$(${pkgs.coreutils}/bin/id -u).$(${pkgs.procps}/bin/pgrep -f 'sway$').sock
     export WAYLAND_DISPLAY=wayland-1
-  '';
-
-  start-sway-service = pkgs.writeShellScript "start-sway" ''
-    unset WAYLAND_DISPLAY
-    exec ${pkgs.sway}/bin/sway
   '';
 
   start-waybar = pkgs.writeShellScript "start-waybar" ''
@@ -218,7 +206,6 @@ in lib.mkMerge [{
     grim wl-clipboard slurp brightnessctl
     libappindicator
     mako
-    start-sway
     get-random-bg-file sway-dpms
     vol
     update-fzf-paper
@@ -440,23 +427,17 @@ in lib.mkMerge [{
       seat * hide_cursor 5000
 
       focus_wrapping workspace
+
+      exec "/run/current-system/sw/bin/systemctl --user import-environment; /run/current-system/sw/bin/systemctl --user start sway-session.target"
     '';
   };
 
-  systemd.user.services.sway = {
+  systemd.user.targets.sway-session = {
     Unit = {
-      Description = "Sway - Wayland window manager";
-      Documentation = [ "man:sway(5)" ];
+      Description = "Sway compositor session";
       BindsTo = [ "graphical-session.target" ];
-      Wants = [ "graphical-session-pre.target" ];
-      After = [ "graphical-session-pre.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "${start-sway-service}";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
+      Wants = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
     };
   };
 

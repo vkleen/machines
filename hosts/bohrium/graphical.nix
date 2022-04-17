@@ -1,6 +1,6 @@
 { config, flake, lib, pkgs, ... }:
 let
-  greeter-sway-config = ''
+  greeter-sway-config = pkgs.writeText "sway-config" ''
     exec "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l; ${pkgs.sway}/bin/swaymsg exit"
     bindsym Mod4+shift+e exec ${pkgs.sway}/bin/swaynag \
       -t warning \

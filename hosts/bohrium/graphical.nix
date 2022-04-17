@@ -21,7 +21,6 @@ in {
       default_session = {
         #command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs.sway}/bin/sway";
         command = "${pkgs.sway}/bin/sway --config ${greeter-sway-config}";
-        user = "greeter";
       };
     };
   };

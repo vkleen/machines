@@ -38,7 +38,7 @@
     qucs
     eseries
 
-    pulseview
+    #pulseview
     dsview
     sigrok-cli
 

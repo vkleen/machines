@@ -1,1 +1,1 @@
-ssh://root@neodymium.kleen.org - /home/vkleen/.ssh/id_nix_build 2 - - - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUUvcnVqcm5za1R5NjZHUEJuS25XYndmNDVJN3BXRWpjWHlhUW9WSGdERzggcm9vdEBuZW9keW1pdW0K
+ssh://root@neodymium.kleen.org - /home/vkleen/.ssh/id_nix_build 2 - benchmark,kvm,recursive-nix,big-parallel,ca-derivations - c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUUvcnVqcm5za1R5NjZHUEJuS25XYndmNDVJN3BXRWpjWHlhUW9WSGdERzggcm9vdEBuZW9keW1pdW0K

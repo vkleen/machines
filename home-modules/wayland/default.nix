@@ -482,6 +482,10 @@ in lib.mkMerge [{
     [app-name=Element]
     ignore-timeout=1
     default-timeout=0
+
+    [app-name=Nheko]
+    ignore-timeout=1
+    default-timeout=0
   '';
 
   # systemd.user.services.clipman = {

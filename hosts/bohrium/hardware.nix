@@ -14,6 +14,7 @@
     "/persist/private/zfs" = null;
   };
   boot.loader.supportsInitrdSecrets = true;
+  boot.kernelParams = [ "mem_sleep_default=deep" ];
 
   boot.loader.efi = {
     canTouchEfiVariables = true;

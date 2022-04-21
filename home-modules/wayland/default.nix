@@ -401,7 +401,7 @@ in lib.mkMerge [{
       };
 
       input = {
-        "2:14:ETPS/2_Elantech_Touchpad" = {
+        "type:touchpad" = {
           accel_profile = "adaptive";
           pointer_accel = "1";
           tap = "enabled";
@@ -410,6 +410,11 @@ in lib.mkMerge [{
         };
         "*" = {
           xkb_options = "compose:ralt";
+        };
+      };
+      output = {
+        "eDP-1" = {
+          scale = "1";
         };
       };
       bars = [ ];
@@ -546,11 +551,11 @@ in lib.mkMerge [{
 
   xdg.configFile."kanshi/config".text = ''
     profile nomad {
-      output eDP-1 enable mode 1920x1080 position 0,0
+      output eDP-1 enable mode 2256x1504 position 0,0 scale 1
     }
     profile multi-dock {
-      output "Unknown ASUS PB27U 0x0000388B" enable mode 2560x1440 position 0,0
-      output "Samsung Electric Company S24E650 0x00005F51" enable mode 1920x1080 position 0,3000
+      output "Unknown ASUS PB27U 0x0000388B" enable mode 3840x2160 position 0,0 scale 1.35
+      output "Samsung Electric Company S24E650 0x00005F51" enable mode 1920x1080 position 0,3000 scale 1
       output eDP-1 disable
     }
   '';

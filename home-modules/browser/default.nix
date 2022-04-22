@@ -8,7 +8,7 @@ let
   '';
 
   chromium-pkg = (pkgs.chromium.override {
-    commandLineArgs = "--disk-cache-dir=/tmp/cache";
+    commandLineArgs = "--disk-cache-dir=/tmp/cache --use-gl=desktop";
     enableWideVine = true;
   });
   firejail-chromium = pkgs.writeShellScriptBin "chromium" ''
@@ -20,7 +20,7 @@ let
   '';
 
   zoomy-chromium = pkgs.writeShellScriptBin "zoomy-chromium" ''
-    ${cfg.chromium-unwrapped}/bin/chromium-browser --new-window --user-data-dir="${config.home.homeDirectory}/.zoomy" --disk-cache-dir=/tmp/cache "https://uni-due.zoom.us"
+    ${chromium-pkg}/bin/chromium --new-window --user-data-dir="${config.home.homeDirectory}/.zoomy" --disk-cache-dir=/tmp/cache "https://uni-due.zoom.us"
   '';
 in {
   options = {

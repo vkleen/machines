@@ -3,6 +3,7 @@
     ./graphical.nix
     ./hardware.nix
     ./networking.nix
+    ./power.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
     airplay-server
     desktop

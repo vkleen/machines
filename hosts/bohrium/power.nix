@@ -1,0 +1,4 @@
+{ ... }:
+{
+  services.upower.criticalPowerAction = "PowerOff";
+}

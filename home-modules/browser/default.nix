@@ -8,7 +8,7 @@ let
   '';
 
   chromium-pkg = (pkgs.chromium.override {
-    commandLineArgs = "--disk-cache-dir=/tmp/cache --use-gl=desktop --force-dark-mode --enable-features=WebUIDarkMode";
+    commandLineArgs = "--disk-cache-dir=/tmp/cache --force-dark-mode --enable-features=WebUIDarkMode";
     enableWideVine = true;
   });
   firejail-chromium = pkgs.writeShellScriptBin "chromium" ''

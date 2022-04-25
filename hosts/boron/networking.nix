@@ -38,8 +38,6 @@ let
           '')
           config.networking.firewall.interfaces)}
 
-        iifname { wg-europium } meta l4proto tcp tcp dport { ${builtins.toString config.services.rmfakecloud.port} } accept
-
         meta l4proto tcp tcp dport { ${lib.strings.concatStringsSep "," globalTcpPorts} } accept
         meta l4proto udp udp dport { ${lib.strings.concatStringsSep "," globalUdpPorts} } accept
 
@@ -74,7 +72,7 @@ let
       chain postrouting {
         type filter hook postrouting priority mangle
         policy accept
-        oifname { wg-europium, freerange, lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } meta l4proto tcp tcp flags & (syn|rst) == syn tcp option maxseg size set rt mtu
+        oifname { wg-europium, neodymium, freerange, lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } meta l4proto tcp tcp flags & (syn|rst) == syn tcp option maxseg size set rt mtu
       }
     }
     table ip nat {
@@ -89,6 +87,7 @@ let
         policy accept
 
         oifname { wg-europium } mark 0x1 masquerade
+        oifname { neodymium } mark 0x1 masquerade
         oifname { freerange } snat to 206.83.40.96
         oifname { lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } ip daddr != { 169.254.0.0/16 } snat to 45.77.54.162
       }
@@ -105,7 +104,7 @@ in {
     search auenheim.kleen.org
   '';
   system.publicAddresses = [
-    (mkV4 "100.64.101.37")
+#    (mkV4 "100.64.101.37")
     (mkV6 "2a06:e881:9008::1")
   ];
   networking = {
@@ -208,34 +207,17 @@ in {
         "zte" = {
           allowedUDPPorts = [ 123 ];
         };
+        "wg-europium" = {
+          allowedTCPPorts = [ config.services.rmfakecloud.port ];
+        };
+        "neodymium" = {
+          allowedTCPPorts = [ config.services.rmfakecloud.port ];
+        };
       };
-      extraCommands = ''
-        ip46tables -D FORWARD -j nixos-fw-forward 2>/dev/null || true
-        ip46tables -F nixos-fw-forward 2> /dev/null || true
-        ip46tables -X nixos-fw-forward 2> /dev/null || true
-
-        ip46tables -N nixos-fw-forward
-        ip46tables -A nixos-fw-forward -i auenheim -j ACCEPT
-        ip46tables -A nixos-fw-forward -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-
-        ip6tables -A nixos-fw-forward -p icmpv6 --icmpv6-type redirect -j DROP
-        ip6tables -A nixos-fw-forward -p icmpv6 --icmpv6-type 139 -j DROP
-        ip6tables -A nixos-fw-forward -p icmpv6 -j ACCEPT
-
-        ip46tables -A nixos-fw-forward -j DROP
-        ip46tables -A FORWARD -j nixos-fw-forward
-
-        ip46tables -A POSTROUTING -t mangle -o wg-europium -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
-      '';
-      extraStopCommands = ''
-        ip46tables -D FORWARD -j nixos-fw-forward 2>/dev/null || true
-        ip46tables -F nixos-fw-forward 2> /dev/null || true
-        ip46tables -X nixos-fw-forward 2> /dev/null || true
-      '';
     };
 
     hosts = {
-    } // mkHosts flake [ "europium" ];
+    } // mkHosts flake [ "europium" "neodymium" ];
 
     wireguard.interfaces = {
       wg-europium = {
@@ -250,17 +232,29 @@ in {
           }
         ];
       };
-      freerange = {
-        ips = [ "100.64.101.37/27" ];
-        privateKeyFile = "/run/agenix/freerange";
+      neodymium = {
+        ips = [ "10.172.50.136/24" ];
+        privateKeyFile = "/run/agenix/boron";
         allowedIPsAsRoutes = false;
         peers = [
-          { publicKey = "enMJtnjeb3AFY9v4OybvnM0Hvt4xZE0lPJ8exizfFHs=";
+          { publicKey = builtins.readFile ../../wireguard/neodymium.pub;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
-            endpoint = "[2a0f:9400:fa0::91]:36745";
+            endpoint = "[${lists.head (getPublicV6 flake "neodymium")}]:51820";
+            persistentKeepalive = 1;
           }
         ];
       };
+      #freerange = {
+      #  ips = [ "100.64.101.37/27" ];
+      #  privateKeyFile = "/run/agenix/freerange";
+      #  allowedIPsAsRoutes = false;
+      #  peers = [
+      #    { publicKey = "enMJtnjeb3AFY9v4OybvnM0Hvt4xZE0lPJ8exizfFHs=";
+      #      allowedIPs = [ "0.0.0.0/0" "::/0" ];
+      #      endpoint = "[2a0f:9400:fa0::91]:36745";
+      #    }
+      #  ];
+      #};
     };
 
     namespaces.enable = true;
@@ -796,11 +790,16 @@ in {
         MTUBytes = "1320";
       };
     };
-    networks."40-freerange" = {
+    networks."40-neodymium" = {
       linkConfig = {
         MTUBytes = "1320";
       };
     };
+    #networks."40-freerange" = {
+    #  linkConfig = {
+    #    MTUBytes = "1320";
+    #  };
+    #};
   };
 
   services.resolved = {

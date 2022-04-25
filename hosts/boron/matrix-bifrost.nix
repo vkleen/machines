@@ -109,6 +109,7 @@ in {
     users.groups.bifrost = {};
 
     networking.firewall.interfaces."wg-europium".allowedTCPPorts = [ 9555 ];
+    networking.firewall.interfaces."neodymium".allowedTCPPorts = [ 9555 ];
 
     fileSystems."/var/lib/matrix-bifrost" = {
       device = "/persist/matrix-bifrost";

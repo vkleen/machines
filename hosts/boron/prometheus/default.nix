@@ -132,6 +132,7 @@ in {
       "secret-key:/run/agenix/grafana-secret-key"
     ];
     networking.firewall.interfaces."wg-europium".allowedTCPPorts = [ config.services.grafana.port ];
+    networking.firewall.interfaces."neodymium".allowedTCPPorts = [ config.services.grafana.port ];
     age.secrets = {
       "grafana-admin-password".file = ../../../secrets/grafana/admin-password.age;
       "grafana-secret-key".file = ../../../secrets/grafana/secret-key.age;

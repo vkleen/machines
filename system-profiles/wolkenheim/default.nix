@@ -17,7 +17,6 @@ let
           "demote-lte"
           "vultr-prefixes"
           "default-route"
-          "accept-freerange-endpoint"
         ];
         default-import-policy = "reject-route";
         export-policy-list = [
@@ -284,7 +283,7 @@ in {
     networking.gobgpd.config = lib.mkForce boronGobgpConfig;
     environment.etc = {
       "frr/staticd.conf".text = ''
-        ip route 0.0.0.0/0 100.64.101.33
+        ip route 0.0.0.0/0 10.172.50.1
       '';
     };
   }) ];

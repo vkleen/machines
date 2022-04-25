@@ -7,7 +7,10 @@
   ] ++ (with flake.nixosModules.systemProfiles; [
     hostid
     latest-linux
+#    matrix-go-neb
+#    matrix-server
     no-coredump
+    ntp-server
     ssh
   ]);
 
@@ -43,5 +46,31 @@
     ];
     logs = "https://www.gstatic.com/ct/log_list/v2/all_logs_list.json";
     extraOptions = [ "-verbose" "-num_workers" "4" ];
+  };
+
+
+  services.rmfakecloud-proxy = let
+    boronWgAddress = "10.172.50.136";
+  in {
+    enable = true;
+    endpoint = "${boronWgAddress}:3000";
+  };
+
+  services.grafana-proxy = let
+    boronWgAddress = "10.172.50.136";
+  in {
+    enable = true;
+    endpoint = "${boronWgAddress}:2342";
+  };
+
+  services.sourcehut-proxy = let
+    boronWgAddress = "10.172.50.136";
+  in {
+    enable = true;
+    endpoints = {
+      git = "${boronWgAddress}:8081";
+      meta = "${boronWgAddress}:8082";
+      paste = "${boronWgAddress}:8083";
+    };
   };
 }

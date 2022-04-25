@@ -8,6 +8,7 @@
       owner = "@viktor:kleen.org";
     };
     networking.firewall.interfaces."wg-europium".allowedTCPPorts = [ config.services.heisenbridge.port ];
+    networking.firewall.interfaces."neodymium".allowedTCPPorts = [ config.services.heisenbridge.port ];
     fileSystems."/var/lib/heisenbridge" = {
       device = "/persist/heisenbridge";
       options = [ "bind" ];

@@ -7,6 +7,7 @@
         postgresql.enable = true;
         redis.enable = true;
         nginx.enable = true;
+        listenAddress = "127.0.0.1";
 
         git = {
           enable = true;
@@ -36,9 +37,9 @@
               smtp-from = "srht@kleen.org";
               error-to = "vkleen-srht@17220103.de";
               error-from = "srht@kleen.org";
-              pgp-privkey = "$CREDENTIALS_DIRECTORY/email-key";
-              pgp-pubkey = "${./email-key.pub}";
-              pgp-key-id = "CD7AD768C1B1344C96E7620BC6697B558070A133";
+              #pgp-privkey = "$CREDENTIALS_DIRECTORY/email-key";
+              #pgp-pubkey = "${./email-key.pub}";
+              #pgp-key-id = "CD7AD768C1B1344C96E7620BC6697B558070A133";
             };
             "git.sr.ht" = {
               oauth-client-id = "cb540e13154c59df";

@@ -375,7 +375,7 @@ in lib.mkMerge [{
         "XF86AudioNext" = "exec ${mpv-scripts}/bin/mpv-next";
         "XF86AudioPrev" = "exec ${mpv-scripts}/bin/mpv-prev";
 
-        "XF86Sleep" = "exec ${pkgs.systemd}/bin/loginctl lock-session";
+        "XF86AudioMedia" = "exec ${pkgs.systemd}/bin/loginctl lock-session";
 
         "${mod}+Ctrl+j" = "move workspace to output down";
         "${mod}+Ctrl+k" = "move workspace to output up";

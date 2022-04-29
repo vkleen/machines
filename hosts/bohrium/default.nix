@@ -2,6 +2,7 @@
   imports = [
     ./graphical.nix
     ./hardware.nix
+    ./libvirt.nix
     ./networking.nix
     ./power.nix
   ] ++ (with flake.nixosModules.systemProfiles; [

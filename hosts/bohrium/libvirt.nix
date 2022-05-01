@@ -16,4 +16,11 @@
       };
     };
   };
+
+  virtualisation.spiceUSBRedirection.enable = true;
+
+  fileSystems."/var/lib/libvirt" = {
+    device = "bohrium/local/libvirt";
+    fsType = "zfs";
+  };
 }

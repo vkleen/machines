@@ -24,18 +24,15 @@ in {
       "samarium.17220103.de"
       "kleen.org"
       "17220103.de"
-      "bouncy.email"
     ];
     virtualAliases = {
       "martin@kleen.org" = "martin.kleen@gmail.com";
       "tatjana@kleen.org" = "dr.kleen@t-online.de";
       "tatjana@samarium.kleen.org" = "dr.kleen@t-online.de";
-      "some@bouncy.email" = "some@nights.email";
       "@samarium.17220103.de" = "vkleen";
       "@neodymium.17220103.de" = "vkleen";
       "@kleen.org" = "vkleen";
       "@17220103.de" = "vkleen";
-      "@bouncy.email" = "vkleen";
     } // lib.genAttrs blockedSpam (_: "devnull");
     debug = false;
     messageSizeLimit = 0;

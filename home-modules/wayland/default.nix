@@ -554,7 +554,7 @@ in lib.mkMerge [{
       output eDP-1 enable mode 2256x1504 position 0,0 scale 1
     }
     profile multi-dock {
-      output "Unknown ASUS PB27U 0x0000388B" enable mode 3840x2160 position 0,0 scale 1.35
+      output "Unknown ASUS PB27U 0x0000388B" enable mode 2560x1440 position 0,0 scale 1
       output "Samsung Electric Company S24E650 0x00005F51" enable mode 1920x1080 position 0,3000 scale 1
       output eDP-1 disable
     }

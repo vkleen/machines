@@ -122,7 +122,7 @@ in {
     firewall = {
       enable = false;
       allowPing = true;
-      allowedTCPPorts = [ 25 80 443 ];
+      allowedTCPPorts = [ 25 80 443 6969 ];
       allowedUDPPorts = [ 51820 51821 51822 53 123 ];
     };
 

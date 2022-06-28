@@ -2,7 +2,7 @@
   description = "VKleen's flakey nixos configuration";
 
   inputs = {
-    nixpkgs.url = sourcehut:~vkleen/nixpkgs/local?host=git.sr.ht.kleen.org;
+    nixpkgs.url = sourcehut:~vkleen/nixpkgs/local-new?host=git.sr.ht.kleen.org;
     nixpkgs-power9.url = sourcehut:~vkleen/nixpkgs/local-power9?host=git.sr.ht.kleen.org;
     nixpkgs-riscv.url = sourcehut:~vkleen/nixpkgs/local-riscv?host=git.sr.ht.kleen.org;
     nixpkgs-wayland = {

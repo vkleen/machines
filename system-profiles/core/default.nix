@@ -106,5 +106,9 @@ in
         threshold = 1000;
       };
     };
+
+    documentation.nixos.enable = false;
+
+    system.stateVersion = "22.11";
   };
 }

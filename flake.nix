@@ -308,9 +308,9 @@
             (onlySystems supportedSystems inputs.nixpkgs-wayland.overlay)
             self.overlays.i3status-rust;
           poetry2nix = inputs.poetry2nix.overlay;
-          nix = forSystemsOverlay inputs.nix.overlay
-                                  (   { "powerpc64le-linux" = inputs.nix-power9.overlay; }
-                                   // { "riscv64-linux" = inputs.nix-riscv.overlay; }
+          nix = forSystemsOverlay inputs.nix.overlays.default
+                                  (   { "powerpc64le-linux" = inputs.nix-power9.overlays.default; }
+                                   // { "riscv64-linux" = inputs.nix-riscv.overlays.default; }
                                   );
           macname = forSystemsOverlay
             (_: _: {})

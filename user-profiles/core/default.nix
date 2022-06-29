@@ -26,6 +26,8 @@ in {
         _module.args.pkgs = lib.mkForce pkgs;
         _module.args.nixos = config;
         _module.args.flake = flake;
+
+        home.stateVersion = "22.11";
       };
     };
   };

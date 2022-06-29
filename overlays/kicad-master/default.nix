@@ -28,6 +28,7 @@ in {
     wxGTK31-gtk3 = wxGTK;
     inherit (final) python3;
     inherit wxPython;
+    extraPythonPath = [ final.python3.pkgs.kikit ];
   };
 
   kikit = with final.python3Packages; toPythonApplication kikit;

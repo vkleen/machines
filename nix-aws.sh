@@ -1,10 +1,14 @@
-#!/usr/bin/env cached-nix-shell
-#!nix-shell -i zsh
-#!nix-shell -p jq awscli2 zsh
+#!/usr/bin/env zsh
+
+
+
+#/usr/bin/env cached-nix-shell
+#nix-shell -i zsh
+#nix-shell -p jq awscli2 zsh
 
 # This might break in future revision of cached-nix-shell
 # Too lazy to report the bug
-shift
+#shift
 
 LAUNCH_TEMPLATE=nixos-build
 SERVER_ARCH=x86_64-linux,i686-linux

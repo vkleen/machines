@@ -33,6 +33,7 @@
     gerbv
     gtkwave
     kicad-master
+    kikit
     librepcb
     #ngspice
     qucs

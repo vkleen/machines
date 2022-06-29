@@ -429,6 +429,22 @@
         "url": "https://gitlab.com/kicad/code/kicad.git"
       }
     },
+    "kikit-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1656505890,
+        "narHash": "sha256-ZsU4U+WIyv3atDeLd8W6sQHySgcR0SIVvUiDPIUCPs0=",
+        "owner": "yaqwsx",
+        "repo": "KiKit",
+        "rev": "2c67454b04bcc2f5a1ee35294e344031b6bf7f7f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yaqwsx",
+        "repo": "KiKit",
+        "type": "github"
+      }
+    },
     "lego-src": {
       "flake": false,
       "locked": {
@@ -1015,6 +1031,7 @@
         "home-manager": "home-manager",
         "hut-src": "hut-src",
         "kicad-src": "kicad-src",
+        "kikit-src": "kikit-src",
         "lego-src": "lego-src",
         "macname": "macname",
         "macname-power9": "macname-power9",

@@ -58,6 +58,10 @@
       url = "github:ddvk/rmfakecloud";
       flake = false;
     };
+    kikit-src = {
+      url = "github:yaqwsx/KiKit";
+      flake = false;
+    };
     eseries-src = {
       url = "github:devbisme/eseries";
       flake = false;
@@ -322,6 +326,7 @@
               hledger-src
               hut-src
               kicad-src
+              kikit-src
               lego-src
               rmapi-src
               rmfakecloud-src

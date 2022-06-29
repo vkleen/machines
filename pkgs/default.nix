@@ -11,13 +11,13 @@ final: prev: {
 
   eseries = with final.python3Packages; toPythonApplication eseries;
 
-  python3 = prev.python3.override {
-    packageOverrides = pself: _: {
+  python3 = prev.python3.override (old: {
+    packageOverrides = final.lib.composeExtensions (old.packageOverrides or (_: _: {})) (pself: _: {
       eseries = pself.callPackage ./tools/misc/eseries {};
       docopt-subcommands = pself.callPackage ./development/python-modules/docopt-subcommands {};
       #paper2remarkable = pself.callPackage ./tools/remarkable/paper2remarkable {};
-    };
-  };
+    });
+  });
   python3Packages = final.python3.pkgs;
 
   bfd = final.callPackage ./tools/networking/bfd {};

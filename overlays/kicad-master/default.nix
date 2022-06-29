@@ -18,8 +18,7 @@ final: prev: let
     '';
   });
 in {
-  kicad-master = let
-  in (prev.kicad-unstable.override {
+  kicad-master = prev.kicad-unstable.override {
     srcs = {
       kicadVersion = "master";
       kicad = final.kicad-src;
@@ -29,5 +28,16 @@ in {
     wxGTK31-gtk3 = wxGTK;
     inherit (final) python3;
     inherit wxPython;
+  };
+
+  kikit = with final.python3Packages; toPythonApplication kikit;
+
+  python3 = prev.python3.override (old: {
+    packageOverrides = final.lib.composeExtensions (old.packageOverrides or (_: _: {})) (pself: _: {
+      kikit = pself.callPackage ./kikit.nix {
+        kicad = final.kicad-master.base;
+        inherit wxPython;
+      };
+    });
   });
 }

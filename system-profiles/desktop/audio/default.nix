@@ -102,9 +102,10 @@
       };
     }
     (lib.mkIf config.boot.wipeRoot {
-      systemd.tmpfiles.rules = [
-        "L /var/lib/bluetooth - - - - /persist/bluetooth"
-      ];
+      fileSystems."/var/lib/bluetooth" = {
+        device = "/persist/bluetooth";
+        options = [ "bind" ];
+      };
     })
   ]);
 }

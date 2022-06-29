@@ -5,10 +5,6 @@
     nixpkgs.url = sourcehut:~vkleen/nixpkgs/local-new?host=git.sr.ht.kleen.org;
     nixpkgs-power9.url = sourcehut:~vkleen/nixpkgs/local-power9?host=git.sr.ht.kleen.org;
     nixpkgs-riscv.url = sourcehut:~vkleen/nixpkgs/local-riscv?host=git.sr.ht.kleen.org;
-    nixpkgs-wayland = {
-      url = "github:nix-community/nixpkgs-wayland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -304,9 +300,6 @@
         recImport { dir = ./overlays; } //
         {
           pkgs = self.overlay;
-          nixpkgs-wayland = lib.composeExtensions
-            (onlySystems supportedSystems inputs.nixpkgs-wayland.overlay)
-            self.overlays.i3status-rust;
           poetry2nix = inputs.poetry2nix.overlay;
           nix = forSystemsOverlay inputs.nix.overlays.default
                                   (   { "powerpc64le-linux" = inputs.nix-power9.overlays.default; }

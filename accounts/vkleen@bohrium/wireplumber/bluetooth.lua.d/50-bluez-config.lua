@@ -1,3 +1,5 @@
+bluez_monitor.enabled = true
+
 rule = {
   matches = {
     {

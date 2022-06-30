@@ -1,11 +1,9 @@
 final: prev: {
   dpt-rp1-py = final.callPackage ./tools/misc/dpt-rp1-py {};
-  libspnav = final.callPackage ./development/libraries/libspnav {};
   pragmatapro = final.callPackage ./data/fonts/pragmatapro {};
   purple-plugins-prpl = final.callPackage ./applications/networking/instant-messengers/pidgin-plugins/purple-plugins-prpl {};
   qrcp = final.callPackage ./tools/misc/qrcp {};
   seamly2d = final.libsForQt5.callPackage ./misc/seamly2d {};
-  spacenavd = final.callPackage ./misc/spacenavd {};
   uuu = final.callPackage ./tools/misc/uuu {};
   rmfakecloud = final.callPackage ./servers/rmfakecloud {};
 

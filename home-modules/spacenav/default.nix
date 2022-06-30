@@ -40,7 +40,7 @@ let
   '';
 in {
   home.sessionVariables = {
-    SPNAV_SOCK_PATH = "${socket}";
+    SPNAV_SOCKET = "${socket}";
   };
 
   systemd.user.services.spacenavd = {

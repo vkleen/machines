@@ -416,17 +416,17 @@
     "kicad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1656392826,
-        "narHash": "sha256-sFnk8Gx1cXDWnqik9aIl19Ry2vsve3hsD8HmGJu3rFg=",
-        "ref": "master",
-        "rev": "ab9c42d4274a3c26b861110450bbdd7e60352001",
-        "revCount": 32815,
-        "type": "git",
-        "url": "https://gitlab.com/kicad/code/kicad.git"
+        "lastModified": 1656886616,
+        "narHash": "sha256-XEpgNPbMot24U+Iecb8rP6Oa6rxKJSDAg9IsWZJaWys=",
+        "owner": "vkleen",
+        "repo": "kicad",
+        "rev": "fe49e701585e3ae0527a3c46f89476cd953b01c2",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "https://gitlab.com/kicad/code/kicad.git"
+        "owner": "vkleen",
+        "repo": "kicad",
+        "type": "github"
       }
     },
     "kikit-src": {
@@ -744,11 +744,11 @@
     "nixpkgs": {
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1656627292,
-        "narHash": "sha256-kTWzbhly2hp7yuGOyEj0GC/xj+IjFCekSob6wtqI+N0=",
+        "lastModified": 1656892497,
+        "narHash": "sha256-GhDun8uEQveRjjQQX+pyMBziCtKHOCnmPzy8D/zRTFU=",
         "owner": "~vkleen",
         "repo": "nixpkgs",
-        "rev": "b3cd927f071779f03322554157699f3022926140",
+        "rev": "8d393dcc51cd3a7cedaf4fe8fffd3c765f9b23e5",
         "type": "sourcehut"
       },
       "original": {

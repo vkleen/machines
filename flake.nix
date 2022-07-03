@@ -27,7 +27,7 @@
       flake = false;
     };
     kicad-src = {
-      url = "git+https://gitlab.com/kicad/code/kicad.git";
+      url = github:vkleen/kicad;
       flake = false;
     };
     hledger-src = {

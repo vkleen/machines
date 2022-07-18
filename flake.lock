@@ -325,23 +325,6 @@
         "type": "github"
       }
     },
-    "frr-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1636343064,
-        "narHash": "sha256-hJcgLiPBxOE5QEh0RhtZhM3dOxFqW5H0TUjN+aP4qRk=",
-        "owner": "FRRouting",
-        "repo": "frr",
-        "rev": "1752bfdfc14409c667f10b7ee2c99b9014abb271",
-        "type": "github"
-      },
-      "original": {
-        "owner": "FRRouting",
-        "ref": "frr-8.1",
-        "repo": "frr",
-        "type": "github"
-      }
-    },
     "gobgp-src": {
       "flake": false,
       "locked": {
@@ -1025,7 +1008,6 @@
         "flake-compat": "flake-compat",
         "freecad-assembly3-src": "freecad-assembly3-src",
         "freecad-src": "freecad-src",
-        "frr-src": "frr-src",
         "gobgp-src": "gobgp-src",
         "hledger-src": "hledger-src",
         "home-manager": "home-manager",

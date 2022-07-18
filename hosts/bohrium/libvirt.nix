@@ -23,4 +23,8 @@
     device = "bohrium/local/libvirt";
     fsType = "zfs";
   };
+
+  systemd.services.libvirtd.path = let
+    cfg = config.virtualisation.libvirtd;
+  in [ cfg.qemu.package cfg.qemu.swtpm.package pkgs.virtiofsd ];
 }

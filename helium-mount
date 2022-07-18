@@ -8,11 +8,11 @@ usage_exit() {
 }
 
 do_mount() {
-  pass helium-usb | ssh helium.europium -- "cryptsetup open /dev/sda1 usb && mount /dev/mapper/usb /mnt/usb"
+  pass helium-usb | ssh helium -- "cryptsetup open /dev/sda1 usb && mount /dev/mapper/usb /mnt/usb"
 }
 
 do_umount() {
-  ssh helium.europium -- "umount /mnt/usb; cryptsetup close usb"
+  ssh helium -- "umount /mnt/usb; cryptsetup close usb"
 }
 
 if (( ${#} > 1 )); then

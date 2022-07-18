@@ -11,12 +11,15 @@
 
         git = {
           enable = true;
+          group = "sourcehut";
         };
         meta = {
           enable = true;
+          group = "sourcehut";
         };
         paste = {
           enable = true;
+          group = "sourcehut";
         };
 
         settings = lib.mkMerge ([ {
@@ -37,9 +40,9 @@
               smtp-from = "srht@kleen.org";
               error-to = "vkleen-srht@17220103.de";
               error-from = "srht@kleen.org";
-              #pgp-privkey = "$CREDENTIALS_DIRECTORY/email-key";
-              #pgp-pubkey = "${./email-key.pub}";
-              #pgp-key-id = "CD7AD768C1B1344C96E7620BC6697B558070A133";
+              pgp-privkey = "/run/agenix/sourcehut/email-key";
+              pgp-pubkey = "${./email-key.pub}";
+              pgp-key-id = "CD7AD768C1B1344C96E7620BC6697B558070A133";
             };
             "git.sr.ht" = {
               oauth-client-id = "cb540e13154c59df";
@@ -76,8 +79,7 @@
           listen = lib.mkForce [{ addr = "0.0.0.0"; port = 8081; }];
           forceSSL = lib.mkForce false;
         };
-        virtualHosts."meta.sr.ht.kleen.org" = {
-          listen = lib.mkForce [{ addr = "0.0.0.0"; port = 8082; }];
+        virtualHosts."meta.sr.ht.kleen.org" = { listen = lib.mkForce [{ addr = "0.0.0.0"; port = 8082; }];
           forceSSL = lib.mkForce false;
         };
         virtualHosts."paste.sr.ht.kleen.org" = {
@@ -115,6 +117,7 @@
             LoadCredential = [
               "email-key:/run/agenix/sourcehut/email-key"
             ];
+            BindReadOnlyPaths = [ "/run/agenix/sourcehut" ];
           };
         };
 
@@ -125,6 +128,7 @@
             ExecStartPre = lib.mkOrder 600 [("+" + pkgs.writeShellScript "${name}-remove-email-key" ''
               ${pkgs.gnused}/bin/sed -i -e '/^pgp-privkey/d' ${configIni}
             '')];
+            BindReadOnlyPaths = [ "/run/agenix/sourcehut" ];
           };
         };
       in lib.listToAttrs [
@@ -143,23 +147,33 @@
       age.secrets = {
         "sourcehut/network-key" = {
           file = ../../secrets/sourcehut/network-key.age;
-          owner = "root";
+          owner = "gitsrht";
+          group = "sourcehut";
+          mode = "0440";
         };
         "sourcehut/service-key" = {
           file = ../../secrets/sourcehut/service-key.age;
-          owner = "root";
+          owner = "gitsrht";
+          group = "sourcehut";
+          mode = "0440";
         };
         "sourcehut/git-oauth-client-secret" = {
           file = ../../secrets/sourcehut/git-oauth-client-secret.age;
-          owner = "root";
+          owner = "gitsrht";
+          group = "sourcehut";
+          mode = "0440";
         };
         "sourcehut/webhooks-private-key" = {
           file = ../../secrets/sourcehut/webhooks-private-key.age;
-          owner = "root";
+          owner = "gitsrht";
+          group = "sourcehut";
+          mode = "0440";
         };
         "sourcehut/email-key" = {
           file = ../../secrets/sourcehut/email-key.age;
-          owner = "root";
+          owner = "gitsrht";
+          group = "sourcehut";
+          mode = "0440";
         };
       };
     }

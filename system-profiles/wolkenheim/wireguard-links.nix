@@ -67,6 +67,7 @@ in {
           ];
           linkConfig = {
             MTUBytes = "1400";
+            RequiredForOnline = "no";
           };
           extraConfig = ''
             [Neighbor]

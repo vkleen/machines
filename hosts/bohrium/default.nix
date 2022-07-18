@@ -5,6 +5,7 @@
     ./libvirt.nix
     ./networking.nix
     ./power.nix
+    ./printer.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
     airplay-server
     desktop

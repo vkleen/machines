@@ -5,7 +5,6 @@ final: prev: {
   qrcp = final.callPackage ./tools/misc/qrcp {};
   seamly2d = final.libsForQt5.callPackage ./misc/seamly2d {};
   uuu = final.callPackage ./tools/misc/uuu {};
-  rmfakecloud = final.callPackage ./servers/rmfakecloud {};
 
   eseries = with final.python3Packages; toPythonApplication eseries;
 

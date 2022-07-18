@@ -116,6 +116,10 @@ in {
         id = 11;
         interface = "eth0";
       };
+      "forstheim" = {
+        id = 12;
+        interface = "eth0";
+      };
       "auenheim-mgmt" = {
         id = 30;
         interface = "eth0";
@@ -152,6 +156,14 @@ in {
         ];
         ipv6.addresses = [
           { address = "2a06:e881:9008::1"; prefixLength = 64; }
+        ];
+      };
+      "forstheim" = {
+        ipv4.addresses = [
+          { address = "10.172.12.1"; prefixLength = 24; }
+        ];
+        ipv6.addresses = [
+          { address = "2a06:e881:9008:000c::1"; prefixLength = 64; }
         ];
       };
       "apc" = {
@@ -649,6 +661,13 @@ in {
               { pool = "10.172.32.100 - 10.172.32.200"; }
             ];
           }
+          { subnet = "10.172.12.0/24";
+            interface = "forstheim";
+            ddns-send-updates = false;
+            pools = [
+              { pool = "10.172.12.100 - 10.172.12.200"; }
+            ];
+          }
         ];
       };
     };
@@ -755,6 +774,11 @@ in {
         LinkLocalAddressing = "no";
         LLDP = "yes";
         EmitLLDP = "yes";
+      };
+    };
+    networks."40-forstheim" = {
+      networkConfig = {
+        LinkLocalAddressing = "no";
       };
     };
     networks."40-auenheim-mgmt" = {

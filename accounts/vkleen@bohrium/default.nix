@@ -1,7 +1,7 @@
 { userName, pkgs, flake, lib, config, ...}: {
   users.users.${userName} = {
     extraGroups =
-      [ "network" "dialout" "audio" "video" "input" "wireshark" "adbusers" "bladerf" "kvm" "libvirtd" "lp" ]
+      [ "network" "dialout" "audio" "video" "input" "wireshark" "adbusers" "bladerf" "kvm" "libvirtd" "lp" "scanner" ]
       ++ lib.optional (lib.elem "jack" config.system.profiles) "jackaudio"
       ++ lib.optional (lib.elem "docker" config.system.profiles) "docker";
   };

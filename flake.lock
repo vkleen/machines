@@ -399,11 +399,11 @@
     "kicad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1656886616,
-        "narHash": "sha256-XEpgNPbMot24U+Iecb8rP6Oa6rxKJSDAg9IsWZJaWys=",
+        "lastModified": 1658152753,
+        "narHash": "sha256-vNgr6zrkExF6QvBIPXstLqvqo2O46OiNAGr+PWeE2HQ=",
         "owner": "vkleen",
         "repo": "kicad",
-        "rev": "fe49e701585e3ae0527a3c46f89476cd953b01c2",
+        "rev": "b81d0f70b9af6d5c34643e93f828b51dccc2a46e",
         "type": "github"
       },
       "original": {

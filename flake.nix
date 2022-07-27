@@ -82,10 +82,6 @@
       url = sourcehut:~vkleen/bfd?host=git.sr.ht.kleen.org;
       flake = false;
     };
-    frr-src = {
-      url = "github:FRRouting/frr?ref=frr-8.1";
-      flake = false;
-    };
     gobgp-src = {
       url = "github:osrg/gobgp";
       flake = false;
@@ -321,7 +317,6 @@
               eseries-src
               freecad-assembly3-src
               freecad-src
-              frr-src
               gobgp-src
               hledger-src
               hut-src

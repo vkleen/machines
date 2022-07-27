@@ -31,7 +31,7 @@ if {[llength $argv] == 1} {
 
 log_user 0
 
-spawn ssh -J helium.europium lead-mgmt
+spawn ssh lead-mgmt
 expect "root@lead:RE:0% "
 send "cli\r"
 expect "root@lead> "

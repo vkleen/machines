@@ -88,8 +88,8 @@ let
 
         oifname { wg-europium } mark 0x1 masquerade
         oifname { neodymium } mark 0x1 masquerade
+        oifname { forstheim } masquerade
         oifname { freerange } snat to 206.83.40.96
-        oifname { lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } ip daddr != { 169.254.0.0/16 } snat to 45.77.54.162
       }
     }
   '';
@@ -534,7 +534,7 @@ in {
         calculate-tee-times = true;
         interfaces-config = {
           interfaces = [
-            "auenheim" "ilo" "apc"
+            "auenheim" "ilo" "apc" "forstheim"
           ];
         };
         lease-database = {
@@ -585,11 +585,11 @@ in {
         ddns-override-no-update = true;
         ddns-replace-client-name = "always";
         ddns-generated-prefix = "noname";
-        ddns-qualifying-suffix = "auenheim.kleen.org";
         ddns-update-on-renew = true;
         subnet4 = [
           { subnet = "10.172.100.0/24";
             interface = "auenheim";
+            ddns-qualifying-suffix = "auenheim.kleen.org";
             ddns-send-updates = true;
             option-data = [
               { name = "domain-name-servers";
@@ -663,9 +663,16 @@ in {
           }
           { subnet = "10.172.12.0/24";
             interface = "forstheim";
-            ddns-send-updates = false;
+            ddns-qualifying-suffix = "forstheim.kleen.org";
+            ddns-send-updates = true;
             pools = [
               { pool = "10.172.12.100 - 10.172.12.200"; }
+            ];
+            reservations = [
+              { hw-address = "a8:93:4a:67:7c:c1";
+                ip-address = "10.172.12.2";
+                hostname = "forst";
+              }
             ];
           }
         ];
@@ -697,11 +704,27 @@ in {
                 }
               ];
             }
+            { name = "forstheim.kleen.org.";
+              dns-servers = [
+                { ip-address = "127.0.0.2";
+                  port = 53;
+                  key-name = "dhcp-tsig";
+                }
+              ];
+            }
           ];
         };
         reverse-ddns = {
           ddns-domains = [
             { name = "100.172.10.in-addr.arpa.";
+              dns-servers = [
+                { ip-address = "127.0.0.2";
+                  port = 53;
+                  key-name = "dhcp-tsig";
+                }
+              ];
+            }
+            { name = "12.172.10.in-addr.arpa.";
               dns-servers = [
                 { ip-address = "127.0.0.2";
                   port = 53;
@@ -851,6 +874,13 @@ in {
           stub-prime = false;
         }
         {
+          name = "forstheim.kleen.org.";
+          stub-addr = "127.0.0.2";
+          stub-first = true;
+          stub-no-cache = true;
+          stub-prime = false;
+        }
+        {
           name = "100.172.10.in-addr.arpa.";
           stub-addr = "127.0.0.2";
           stub-first = true;
@@ -904,7 +934,21 @@ in {
           zonefile-load: none
           journal-content: all
           acl: update_acl
+        - domain: forstheim.kleen.org
+          storage: /var/lib/knot/zones
+          module: [mod-onlinesign/explicit]
+          zonefile-sync: -1
+          zonefile-load: none
+          journal-content: all
+          acl: update_acl
         - domain: 100.172.10.in-addr.arpa
+          storage: /var/lib/knot/zones
+          dnssec-signing: off
+          zonefile-sync: -1
+          zonefile-load: none
+          journal-content: all
+          acl: update_acl
+        - domain: 12.172.10.in-addr.arpa
           storage: /var/lib/knot/zones
           dnssec-signing: off
           zonefile-sync: -1

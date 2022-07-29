@@ -1,4 +1,4 @@
-{ flake, config, hostName, modulesPath, pkgSources, pkgset, ... }: {
+{ flake, config, lib, hostName, modulesPath, pkgSources, pkgset, ... }: {
   imports = [
     ./backup.nix
     ./hardware.nix
@@ -40,4 +40,6 @@
       set_real_ip_from 10.172.40.1;
     '';
   };
+
+  environment.noXlibs = lib.mkForce false;
 }

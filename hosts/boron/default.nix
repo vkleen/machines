@@ -24,6 +24,11 @@
 
   nixpkgs = rec {
     system = "aarch64-linux";
+    overlays = [
+      (_: prev: {
+        zbar = prev.zbar.override { enableVideo = false; };
+      })
+    ];
   };
 
   nix.settings = {
@@ -42,4 +47,5 @@
   };
 
   environment.noXlibs = lib.mkForce false;
+
 }

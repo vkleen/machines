@@ -5,6 +5,7 @@
     ./heisenbridge.nix
     ./matrix-bifrost.nix
     ./networking.nix
+    ./paperless.nix
     ./prometheus
     ./pxe.nix
   ] ++ (with flake.nixosModules.systemProfiles; [

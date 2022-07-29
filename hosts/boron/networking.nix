@@ -88,7 +88,7 @@ let
 
         oifname { wg-europium } mark 0x1 masquerade
         oifname { neodymium } mark 0x1 masquerade
-        oifname { forstheim } masquerade
+        oifname { forstheim } mark 0x1 masquerade
         oifname { freerange } snat to 206.83.40.96
       }
     }

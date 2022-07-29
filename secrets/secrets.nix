@@ -75,4 +75,7 @@ in
 
   "zte-credentials.age".publicKeys = [vkleen boron];
   "lithium-prometheus-credentials.age".publicKeys = [vkleen boron];
+
+  "paperless/admin-pass.age".publicKeys = [vkleen boron];
+  "paperless/secret-key.age".publicKeys = [vkleen boron];
 }

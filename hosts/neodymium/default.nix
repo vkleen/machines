@@ -25,30 +25,6 @@
 
   system.macnameNamespace = "wolkenheim.kleen.org";
 
-  services.certspotter = {
-    watchList = [
-      ".kleen.org"
-      ".17220103.de"
-      ".bouncy.email"
-      ".as210286.net"
-      ".141.li"
-      ".dirty-haskell.org"
-      ".element.synapse.li"
-      ".kleen.li"
-      ".nights.email"
-      ".praseodym.org"
-      ".rheperire.org"
-      ".synapse.li"
-      ".turn.synapse.li"
-      ".webdav.141.li"
-      ".xmpp.li"
-      ".yggdrasil.li"
-    ];
-    logs = "https://www.gstatic.com/ct/log_list/v2/all_logs_list.json";
-    extraOptions = [ "-verbose" "-num_workers" "4" ];
-  };
-
-
   services.rmfakecloud-proxy = let
     boronWgAddress = "10.172.50.136";
   in {
@@ -72,5 +48,12 @@
       meta = "${boronWgAddress}:8082";
       paste = "${boronWgAddress}:8083";
     };
+  };
+
+  services.paperless-proxy = let
+    boronWgAddress = "10.172.50.136";
+  in {
+    enable = true;
+    endpoint = "${boronWgAddress}:58080";
   };
 }

@@ -11,6 +11,7 @@
         PAPERLESS_URL = "https://paperless.kleen.org";
         PAPERLESS_CONSUMER_RECURSIVE = "true";
         PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = "true";
+        PAPERLESS_CONSUMER_ENABLE_BARCODES = "true";
       };
     };
     systemd.services.paperless-scheduler.after = ["var-lib-paperless.mount"];

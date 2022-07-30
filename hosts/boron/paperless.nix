@@ -39,14 +39,14 @@
       };
     };
 
-    systemd.services.paperless-scheduler.preStart = lib.mkAfter ''
-      export PAPERLESS_SECRET_KEY=$(cat "${config.services.paperless.dataDir}/secret-key")
+    systemd.services.paperless-scheduler.script = lib.mkBefore ''
+      export PAPERLESS_SECRET_KEY=$(${pkgs.coreutils}/bin/cat "${config.services.paperless.dataDir}/secret-key")
     '';
-    systemd.services.paperless-consumer.preStart = lib.mkAfter ''
-      export PAPERLESS_SECRET_KEY=$(cat "${config.services.paperless.dataDir}/secret-key")
+    systemd.services.paperless-consumer.script = lib.mkBefore ''
+      export PAPERLESS_SECRET_KEY=$(${pkgs.coreutils}/bin/cat "${config.services.paperless.dataDir}/secret-key")
     '';
-    systemd.services.paperless-web.preStart = lib.mkAfter ''
-      export PAPERLESS_SECRET_KEY=$(cat "${config.services.paperless.dataDir}/secret-key")
+    systemd.services.paperless-web.script = lib.mkBefore ''
+      export PAPERLESS_SECRET_KEY=$(${pkgs.coreutils}/bin/cat "${config.services.paperless.dataDir}/secret-key")
     '';
 
     fileSystems."/var/lib/paperless" = {

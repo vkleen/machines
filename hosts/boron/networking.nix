@@ -223,7 +223,7 @@ in {
           allowedTCPPorts = [ config.services.rmfakecloud.port ];
         };
         "neodymium" = {
-          allowedTCPPorts = [ config.services.rmfakecloud.port ];
+          allowedTCPPorts = [ config.services.rmfakecloud.port config.services.paperless.port ];
         };
       };
     };

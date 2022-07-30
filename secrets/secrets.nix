@@ -78,4 +78,5 @@ in
 
   "paperless/admin-pass.age".publicKeys = [vkleen boron];
   "paperless/secret-key.age".publicKeys = [vkleen boron];
+  "paperless/client_cert.pem.age".publicKeys = [vkleen bohrium];
 }

@@ -3,12 +3,12 @@
   config = {
     services.paperless = {
       enable = true;
-      address = "localhost";
+      address = "10.172.50.136";
       port = 58080;
       passwordFile = "/run/agenix/paperless/admin-pass";
       extraConfig = {
         PAPERLESS_OCR_LANGUAGE = "deu+eng";
-        PAPERLESS_URL = "https://paperless.auenheim.kleen.org";
+        PAPERLESS_URL = "https://paperless.kleen.org";
         PAPERLESS_CONSUMER_RECURSIVE = "true";
         PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = "true";
       };

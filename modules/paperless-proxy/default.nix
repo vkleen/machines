@@ -35,10 +35,10 @@ in {
           extraConfig = ''
             access_log off;
 
-            if ($ssl_client_verify != "SUCCESS") { return 403; }
+            if ($ssl_client_verify != "SUCCESS") { return 403; break; }
             ssl_client_certificate ${../../secrets/paperless/client_ca.pem};
             ssl_verify_depth 2;
-            ssl_verify_client on;
+            ssl_verify_client optional;
           '';
         };
       };

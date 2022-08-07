@@ -1,0 +1,93 @@
+$ORIGIN kleen.org.
+$TTL 3600
+@ IN SOA ns.kleen.org. root.kleen.org. (
+  2022080501 ; serial
+  10800      ; refresh
+  3600       ; retry
+  604800     ; expire
+  3600       ; min TTL
+)
+                IN NS ns.kleen.org.
+                IN NS ns.inwx.de.
+                IN NS ns2.inwx.de.
+                IN NS ns3.inwx.de.
+
+; @ IN CAA 128 issue "letsencrypt.org; validationmethods=dns-01"
+; @ IN CAA 128 iodef "mailto:caa@kleen.org"
+
+ns              IN A 202.61.250.130
+ns              IN AAAA 2a03:4000:54:9b1::1
+
+@               IN A 202.61.250.130
+@               IN AAAA 2a03:4000:54:9b1::1
+@               IN MX 0 mail.kleen.org.
+@               IN TXT "v=spf1 a:mail.kleen.org -all"
+
+*               IN A 202.61.250.130
+*               IN AAAA 2a03:4000:54:9b1::1
+*               IN MX 0 mail.kleen.org.
+*               IN TXT "v=spf1 redirect=kleen.org"
+
+mail            IN A 202.61.250.130
+mail            IN AAAA 2a03:4000:54:9b1::25
+mail            IN MX 0 mail.kleen.org.
+mail            IN TXT "v=spf1 redirect=kleen.org"
+
+paperless       IN A    202.61.250.130
+paperless       IN AAAA 2a03:4000:54:9b1::1
+
+www             IN A    202.61.250.130
+www             IN AAAA 2a03:4000:54:9b1::1
+
+math            IN A    202.61.250.130
+math            IN AAAA 2a03:4000:54:9b1::1
+
+beta.math       IN A    202.61.250.130
+beta.math       IN AAAA 2a03:4000:54:9b1::1
+
+neodymium       IN A    202.61.250.130
+neodymium       IN AAAA 2a03:4000:54:9b1::1
+neodymium       IN MX 0 mail.kleen.org.
+neodymium       IN TXT "v=spf1 redirect=kleen.org"
+
+remarkable      IN A    172.104.139.29
+remarkable      IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+
+riot            IN A    172.104.139.29
+riot            IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+
+turn            IN A    172.104.139.29
+turn            IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+
+europium        IN A    172.104.139.29
+europium        IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+
+matrix          IN A    172.104.139.29
+matrix          IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+
+_matrix._tcp    IN SRV 10 0 443 europium.kleen.org.
+
+ejabberd        CNAME europium.kleen.org.
+
+git.sr.ht       CNAME europium.kleen.org.
+meta.sr.ht      CNAME europium.kleen.org.
+paste.sr.ht     CNAME europium.kleen.org.
+
+grafana         CNAME europium.kleen.org.
+
+muc.xmpp        CNAME europium.kleen.org.
+proxy.xmpp      CNAME europium.kleen.org.
+pubsub.xmpp     CNAME europium.kleen.org.
+xmpp            CNAME europium.kleen.org.
+
+_acme-challenge           IN NS ns.kleen.org.
+_acme-challenge.paperless IN NS ns.kleen.org.
+_acme-challenge.neodymium IN NS ns.kleen.org.
+
+auenheim IN DS 36295 15 2 0CD802657202738B7D16C9E514FCFBC103D4F325A34E560A2DB1E876C0823BDF
+auenheim IN NS boron.auenheim.kleen.org.
+
+mail._domainkey  IN TXT "v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCz/SAtvyVLQDrPGPQK1scyr88xP+AM+tYLh7Yhx48V+ojPBXAuLJMur1KEqTeCUSbN5x7DtvCPjHpjR9QbHg/DkPl+Udxo/cBMZgIALweD6tDOzBebHlQAPjxqCC924qDUx19XGKijDvPp9P+zixngaXiqpuHwuTEXEugM9reFqQIDAQAB"
+_dmarc           IN TXT "v=DMARC1;p=reject"
+_dmarc.neodymium IN TXT "v=DMARC1;p=reject"
+

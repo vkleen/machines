@@ -8,6 +8,8 @@
     ./paperless.nix
     ./prometheus
     ./pxe.nix
+    ./radicale.nix
+    ./tls
   ] ++ (with flake.nixosModules.systemProfiles; [
     initrd-all-crypto-modules
     latest-linux

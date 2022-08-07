@@ -100,8 +100,8 @@
 
       systemd.tmpfiles.rules = [
         # /var/log is owned by root
-        "f /var/log/gitsrht-update-hook 0644 ${config.services.sourcehut.git.user} ${config.services.sourcehut.git.user} -"
-        "f /var/log/gitsrht-shell 0644 ${config.services.sourcehut.git.user} ${config.services.sourcehut.git.user} -"
+        "f /var/log/gitsrht-update-hook 0644 ${config.services.sourcehut.git.user} ${config.services.sourcehut.git.group} -"
+        "f /var/log/gitsrht-shell 0644 ${config.services.sourcehut.git.user} ${config.services.sourcehut.git.group} -"
       ];
 
       systemd.services = let

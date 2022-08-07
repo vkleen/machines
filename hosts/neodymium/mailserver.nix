@@ -24,6 +24,8 @@ in {
       "samarium.17220103.de"
       "kleen.org"
       "17220103.de"
+      "as210286.net"
+      "zorn-encryption.org"
     ];
     virtualAliases = {
       "martin@kleen.org" = "martin.kleen@gmail.com";
@@ -33,6 +35,8 @@ in {
       "@neodymium.17220103.de" = "vkleen";
       "@kleen.org" = "vkleen";
       "@17220103.de" = "vkleen";
+      "@as210286.net" = "vkleen";
+      "@zorn-encryption.org" = "vkleen";
     } // lib.genAttrs blockedSpam (_: "devnull");
     debug = false;
     messageSizeLimit = 0;
@@ -61,22 +65,5 @@ in {
     after = [ "acme-certificates.target" ];
   };
 
-  services.nginx = {
-    enable = true;
-    virtualHosts."${cfg.fqdn}" = {
-      serverName = cfg.fqdn;
-      forceSSL = true;
-      enableACME = true;
-      http2 = false;
-      acmeRoot = "/var/lib/acme/acme-challenge";
-      locations."/".return = "404";
-    };
-  };
-
-  security.acme = {
-    acceptTerms = true;
-    defaults = {
-      email = "vkleen-acme@17220103.de";
-    };
-  };
+  security.acme.domains.${cfg.fqdn} = {};
 }

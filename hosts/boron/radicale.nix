@@ -14,17 +14,47 @@
       storage = {
         filesystem_folder = "/var/lib/radicale/collections";
       };
+      web = {
+        type = "none";
+      };
     };
   };
 
-  systemd.services.radicale = {
+  systemd.services.radicale = let
+    confFile = (pkgs.formats.ini {
+      listToValue = lib.concatMapStringsSep ", " (lib.generators.mkValueStringDefault { });
+    }).generate "radicale.conf" config.services.radicale.settings;
+
+    unitScript = pkgs.writeShellScript "radicale-start" ''
+      set -e
+      ${pkgs.python3Packages.gunicorn}/bin/gunicorn \
+        --bind=fd://3 \
+        --env RADICALE_CONFIG=${confFile} \
+        radicale:application
+    '';
+  in {
     after = ["var-lib-radicale.mount"];
+    requires = ["radicale.socket"];
     serviceConfig = {
-      IPAddressAllow = "localhost";
-      IPAddressDeny = "any";
+      RestrictAddressFamilies = lib.mkForce [ "AF_UNIX" ];
+      ExecStart = lib.mkForce "${unitScript}";
       LoadCredential = [
         "users:/run/agenix/radicale/users"
       ];
+      SystemCallFilter = [ "@setuid" ];
+    };
+    environment = {
+      PYTHONPATH = "${pkgs.radicale.pythonPath}:${pkgs.python3.pkgs.cffi}/${pkgs.python3.sitePackages}:${pkgs.radicale}/${pkgs.python3.sitePackages}";
+    };
+  };
+
+  systemd.sockets."radicale" = {
+    description = "Socket for radicale";
+    wantedBy = [ "nginx.service" "sockets.target" ];
+    listenStreams = [ "/run/nginx/radicale.sock" ];
+    socketConfig = {
+      SocketUser = config.services.nginx.user;
+      SocketMode = "0600";
     };
   };
 
@@ -48,6 +78,10 @@
     recommendedGzipSettings = true;
     recommendedProxySettings = true;
 
+    upstreams."radicale".servers = {
+      "unix:/run/nginx/radicale.sock" = {};
+    };
+
     virtualHosts."radicale.as210286.net" = {
       listen = lib.mkForce [
         { addr = "10.172.50.136"; port = 443; ssl = true; }
@@ -67,7 +101,7 @@
         ssl_verify_client optional;
       '';
       locations."/" = {
-        proxyPass = "http://localhost:5232";
+        proxyPass = "http://radicale/";
       };
     };
   };

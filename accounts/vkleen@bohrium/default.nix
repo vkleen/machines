@@ -50,6 +50,8 @@
           '';
         };
       }
+      (import ./vdirsyncer.nix)
+      (import ./khal.nix)
     ])
   );
   age.secrets."dptrp1" = {
@@ -58,6 +60,10 @@
   };
   age.secrets."dptrp1.key" = {
     file = ../../secrets/dptrp1.key.age;
+    owner = "vkleen";
+  };
+  age.secrets."radicale/client_cert.pem" = {
+    file = ../../secrets/radicale/client_cert.pem.age;
     owner = "vkleen";
   };
 }

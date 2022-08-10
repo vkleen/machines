@@ -96,6 +96,10 @@
       recommendedGzipSettings = true;
       recommendedProxySettings = true;
 
+      upstreams."paperless".servers = {
+        "unix:/run/nginx/paperless.sock" = {};
+      };
+
       virtualHosts."paperless.kleen.org" = {
         listen = lib.mkForce [
           { addr = "10.172.50.136"; port = 443; ssl = true; }
@@ -115,7 +119,7 @@
           ssl_verify_client optional;
         '';
         locations."/" = {
-          proxyPass = "http://unix:/run/nginx/paperless.sock";
+          proxyPass = "http://paperless/";
         };
       };
     };

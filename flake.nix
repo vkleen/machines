@@ -103,7 +103,6 @@
 
     macname = {
       url = sourcehut:~vkleen/macname?host=git.sr.ht.kleen.org;
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     macname-power9 = {
       url = sourcehut:~vkleen/macname?host=git.sr.ht.kleen.org;

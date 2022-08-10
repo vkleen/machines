@@ -497,17 +497,15 @@
     },
     "macname": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs"
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1656423970,
-        "narHash": "sha256-ZejAc82cYzNIZaDil55MET+4Hfs8t9t1NMq7Kz44HiU=",
+        "lastModified": 1660064211,
+        "narHash": "sha256-y5NxS5fOhkCrxSHdiz/xR4HVhzknIddzHCuANLOUGBc=",
         "owner": "~vkleen",
         "repo": "macname",
-        "rev": "a2d4ec7f5084a887b7cbbf2e111b46fe0278b7ea",
+        "rev": "324b7634fcefff017289287e8af5418e15a437b8",
         "type": "sourcehut"
       },
       "original": {
@@ -726,20 +724,17 @@
     },
     "nixpkgs": {
       "locked": {
-        "host": "git.sr.ht.kleen.org",
-        "lastModified": 1659177241,
-        "narHash": "sha256-64Bi+lrNOL+zmFXy2jjCEbw1TqewhiT5jbfnkxpt8eM=",
-        "owner": "~vkleen",
+        "lastModified": 1660061654,
+        "narHash": "sha256-QlwytzL2l6exY3NmXzXQHr6aWQJHfH/QCWnD/YMPNpc=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f861a75d44217fd36213ac02326814e6a9f014fe",
-        "type": "sourcehut"
+        "rev": "bbd9e0bfd03cfedaa17f9360daa2f39e613b40b2",
+        "type": "github"
       },
       "original": {
-        "host": "git.sr.ht.kleen.org",
-        "owner": "~vkleen",
-        "ref": "local",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "type": "sourcehut"
+        "type": "github"
       }
     },
     "nixpkgs-power9": {
@@ -822,6 +817,24 @@
         "host": "git.sr.ht.kleen.org",
         "owner": "~vkleen",
         "ref": "local-riscv",
+        "repo": "nixpkgs",
+        "type": "sourcehut"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "host": "git.sr.ht.kleen.org",
+        "lastModified": 1660144511,
+        "narHash": "sha256-BATFMyBRj0lXrQPsgn2SBciv9S8uIt64uTBcnINgdro=",
+        "owner": "~vkleen",
+        "repo": "nixpkgs",
+        "rev": "3a0706e7f0366d29a57ed9e3fa04875eb046e8d7",
+        "type": "sourcehut"
+      },
+      "original": {
+        "host": "git.sr.ht.kleen.org",
+        "owner": "~vkleen",
+        "ref": "local",
         "repo": "nixpkgs",
         "type": "sourcehut"
       }
@@ -1023,7 +1036,7 @@
         "nix-power9": "nix-power9",
         "nix-riscv": "nix-riscv",
         "nixos-rocm-power9": "nixos-rocm-power9",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "nixpkgs-power9": "nixpkgs-power9",
         "nixpkgs-riscv": "nixpkgs-riscv",
         "poetry2nix": "poetry2nix",

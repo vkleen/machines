@@ -23,13 +23,13 @@ let
       else null;
   in lib.filter (v: v != null) (lib.mapAttrsToList toKeyInfo (builtins.readDir dir));
 
-  mkZone = {domain, path ? (./zones + "/${reverseDomain domain}.soa"), acmeDomains ? [domain], addACLs ? {}}:
+  mkZone = {domain, path ? (./zones + "/${reverseDomain domain}.soa"), acmeDomains ? [domain], addACLs ? {}, template ? "inwx_zone"}:
     indentString "  " (let
       keys = acmeDomain: [(assert (config.age.secrets ? "dns/${acmeDomain}_acme"); "${acmeDomain}_acme_acl")]
                          ++ (addACLs.${acmeDomain} or []);
     in ''
       - domain: ${domain}
-        template: inwx_zone
+        template: ${template}
         ${lib.optionalString (acmeDomains != []) "acl: [local_acl, inwx_acl]"}
         file: ${path}
       ${strings.concatMapStringsSep "\n" (acmeDomain: ''
@@ -101,7 +101,10 @@ in {
           algorithm: rsasha256
           ksk-size: 4096
           zsk-size: 2048
-          zsk-lifetime: 30d
+          nsec3: on
+          nsec3-iterations: 0
+          ksk-lifetime: 360d
+          signing-threads: 2
           ksk-submission: validating-resolver
         - id: ed25519
           algorithm: ed25519
@@ -135,6 +138,17 @@ in {
           dnssec-policy: ed25519
           notify: [inwx_notify]
           acl: [inwx_acl]
+        - id: inwx_zone_de
+          storage: /var/lib/knot
+          zonefile-sync: -1
+          zonefile-load: difference-no-serial
+          serial-policy: dateserial
+          journal-content: all
+          semantic-checks: on
+          dnssec-signing: on
+          dnssec-policy: rsa2048
+          notify: [inwx_notify]
+          acl: [inwx_acl]
         - id: acme_zone
           storage: /var/lib/knot
           zonefile-sync: -1
@@ -155,6 +169,7 @@ in {
         }
         { domain = "17220103.de";
           acmeDomains = ["17220103.de" "${hostName}.17220103.de"];
+          template = "inwx_zone_de";
         }
         { domain = "zorn-encryption.org";
           acmeDomains = ["zorn-encryption.org"];

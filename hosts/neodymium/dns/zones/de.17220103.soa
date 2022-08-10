@@ -10,7 +10,7 @@ $TTL 3600
                 IN NS ns.17220103.de.
                 IN NS ns.inwx.de.
                 IN NS ns2.inwx.de.
-                IN NS ns3.inwx.de.
+                IN NS ns3.inwx.eu.
 
 ns              IN A 202.61.250.130
 ns              IN AAAA 2a03:4000:54:9b1::1

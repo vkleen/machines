@@ -10,7 +10,7 @@ $TTL 3600
         IN NS ns.as210286.net.
         IN NS ns.inwx.de.
         IN NS ns2.inwx.de.
-        IN NS ns3.inwx.de.
+        IN NS ns3.inwx.eu.
 
 ; @ IN CAA 128 issue "letsencrypt.org; validationmethods=dns-01"
 ; @ IN CAA 128 iodef "mailto:caa@as210286.net"

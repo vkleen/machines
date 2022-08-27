@@ -25,5 +25,4 @@ final: prev: {
   {
     #paper2remarkable = final.callPackage ./tools/remarkable/paper2remarkable/cli.nix {};
     udp2raw = final.callPackage ./applications/networking/udp2raw {};
-    uhk-agent = final.callPackage ./misc/uhk-agent {};
   }

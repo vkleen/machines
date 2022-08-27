@@ -131,7 +131,7 @@ let
 
   fzf-ff-url = pkgs.writeScript "fzf-ff-url" (builtins.replaceStrings
     [ "@zsh@" "@fzf-ff-url-candidates@" "@awk@" "@fzf@" "@grep@" "@pgrep@" "@tmux@" "@firefox-unwrapped@" "@firefox@" ]
-    [ "${pkgs.zsh}/bin/zsh" "${fzf-ff-url-candidates}" "${pkgs.gawk}/bin/awk" "${pkgs.fzf}/bin/fzf" "${pkgs.gnugrep}/bin/grep"  "${pkgs.procps}/bin/pgrep" "${pkgs.tmux}/bin/tmux" "${config.browser.firefox-unwrapped}/bin/firefox" "${config.browser.firefox}/bin/firefox" ]
+    [ "${pkgs.zsh}/bin/zsh" "${fzf-ff-url-candidates}" "${pkgs.gawk}/bin/awk" "${pkgs.fzf}/bin/fzf" "${pkgs.gnugrep}/bin/grep"  "${pkgs.procps}/bin/pgrep" "${pkgs.tmux}/bin/tmux" "${config.browser.firefox-unwrapped}/bin/firefox" "${config.browser.firefox-unwrapped}/bin/firefox" ]
     (builtins.readFile ./fzf/fzf-ff-url)
   );
 

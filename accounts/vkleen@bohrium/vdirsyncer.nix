@@ -18,6 +18,7 @@ let
         ["ude" "ude" "e6ecc05b-a76d-476b-bec9-280f2f6c0944"]
       ];
       metadata = ["color" "displayname"];
+      conflict_resolution = ["command" "vimdiff"];
     };
     "storage calendar_local" = {
       type = "filesystem";

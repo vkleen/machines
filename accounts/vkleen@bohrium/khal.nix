@@ -10,8 +10,8 @@ let
     show_all_days = True
     timedelta = 14d
     [locale]
-    default_timezone = UTC
-    local_timezone = UTC
+    default_timezone = Etc/UTC
+    local_timezone = Etc/UTC
     firstweekday = 0
     weeknumbers = left
     timeformat = %H:%M

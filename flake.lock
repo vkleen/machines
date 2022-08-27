@@ -740,11 +740,11 @@
     "nixpkgs-power9": {
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1649797912,
-        "narHash": "sha256-4v2zzEhQcNC5YLZAmlkUBZx2tFjJicypaFd2hTnSShU=",
+        "lastModified": 1661712972,
+        "narHash": "sha256-MKNYOQ6y8MYy9fdgGRMTNjsQBqYgoevjZWRJSu8tick=",
         "owner": "~vkleen",
         "repo": "nixpkgs",
-        "rev": "7b95f3bccda1e75e857813b71337968654ceb269",
+        "rev": "1a4a32e5c39006e38d2bf4bcdacd99050f3550c0",
         "type": "sourcehut"
       },
       "original": {

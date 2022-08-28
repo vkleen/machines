@@ -9,7 +9,7 @@
   boot.kernelParams = [ "console=hvc0" ];
   hardware.opengl = {
     enable = true;
-    extraPackages = with pkgs; [ rocm-opencl-icd ];
+    extraPackages = []; #with pkgs; [ rocm-opencl-icd ];
   };
 
   boot.kernelModules = [ "dm_snapshot" "dm_integrity" "powernv-cpufreq" ];

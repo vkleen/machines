@@ -34,7 +34,7 @@
     daemonIOSchedClass = "idle";
 
     gc = {
-      automatic = true;
+      automatic = false;
       options = "--delete-older-than 30d";
     };
 

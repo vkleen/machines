@@ -585,7 +585,7 @@ in lib.mkMerge [{
       "layer": "top",
       "modules-left": ["idle_inhibitor", "sway/workspaces", "sway/mode"],
       "modules-center": ["sway/window"],
-      "modules-right": ["network", "pulseaudio", "backlight", "battery", "cpu", "clock", "tray"],
+      "modules-right": ["network", "battery", "pulseaudio", "backlight", "cpu", "clock", "tray"],
       "sway/workspaces": {
         "disable-scroll": true
       },
@@ -648,7 +648,7 @@ in lib.mkMerge [{
                "max-length": 50
       },
       "cpu": {
-        "format": "{usage}%"
+        "format": "{usage: 3d}%"
       }
     }
   '';

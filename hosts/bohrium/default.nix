@@ -50,4 +50,6 @@
   system.macnameNamespace = "auenheim.kleen.org";
 
   services.lock-on-suspend.enable = true;
+
+  programs.adb.enable = true;
 }

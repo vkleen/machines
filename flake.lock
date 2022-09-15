@@ -296,11 +296,11 @@
     "freecad-assembly3-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1655712530,
-        "narHash": "sha256-rHOp+ZQNlMuhPuVa/RhmQ7QrranxMkgcXy+AoWmqg/o=",
+        "lastModified": 1658592593,
+        "narHash": "sha256-yf2AkMLUJ6BS+8bFxcoCZrQhsJjVNEjvO89RfXQlOIU=",
         "owner": "realthunder",
         "repo": "FreeCAD_assembly3",
-        "rev": "e9181b6ce25cbf017840a1a65bea525508b2bc21",
+        "rev": "9e16084614dff1db6b439bc85a9a67a535f6a4c1",
         "type": "github"
       },
       "original": {
@@ -312,15 +312,16 @@
     "freecad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1656337935,
-        "narHash": "sha256-8HyaVpZC/9H8vJ4EiFry2VLt3Vozr41D+iF4p8NM4Tk=",
+        "lastModified": 1662176637,
+        "narHash": "sha256-FXGykBiQJJ6G5y8j7DE23QM4CMi5+Jzwt9UCe2ZLIgo=",
         "owner": "realthunder",
         "repo": "FreeCAD",
-        "rev": "a3f7117c6b14820a959a425aaea894f606b0348b",
+        "rev": "56020b02d64b9bd850d1cdcfba8b91a2f1e4d830",
         "type": "github"
       },
       "original": {
         "owner": "realthunder",
+        "ref": "LinkDaily",
         "repo": "FreeCAD",
         "type": "github"
       }

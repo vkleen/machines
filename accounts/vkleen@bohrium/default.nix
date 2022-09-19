@@ -50,6 +50,9 @@
           '';
         };
       }
+      {
+        home.packages = [ pkgs.jrnl ];
+      }
       (import ./vdirsyncer.nix)
       (import ./khal.nix)
       (import ./todoman.nix)

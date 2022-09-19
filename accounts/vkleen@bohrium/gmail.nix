@@ -5,6 +5,7 @@ let
   syncScript = pkgs.writeShellScript "lieer-sync" ''
     ${pkgs.lieer}/bin/gmi sync --quiet
     ${pkgs.notmuch}/bin/notmuch tag +tweag 'path:tweag/**'
+    ${pkgs.notmuch}/bin/notmuch tag -inbox 'tag:sent'
   '';
 in {
   systemd.user.services.gmi = {

@@ -11,16 +11,12 @@ in {
       trustedInterfaces = [ "europium" ];
       allowPing = true;
       extraCommands = ''
-        ip6tables -A nixos-fw -p udp --dport 5353 -j nixos-fw-accept
-        iptables -A nixos-fw -p udp --dport 5353 -j nixos-fw-accept
-
-        iptables -I nixos-fw -s 94.16.123.211 -p tcp -m tcp --sport 8443 -j DROP
       '';
       extraStopCommands = ''
       '';
       logRefusedConnections = false;
 
-      allowedTCPPorts = [ 9998 9999 ];
+      allowedTCPPorts = [ ];
     };
 
     wlanInterfaces = {

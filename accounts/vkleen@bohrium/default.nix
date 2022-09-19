@@ -54,6 +54,7 @@
       (import ./khal.nix)
       (import ./todoman.nix)
       (import ./gmail.nix)
+      (import ./spotify.nix)
     ])
   );
   age.secrets."dptrp1" = {

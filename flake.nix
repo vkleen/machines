@@ -19,7 +19,8 @@
       inputs.nixpkgs.follows = "nixpkgs-power9";
     };
     freecad-src = {
-      url = github:realthunder/FreeCAD/LinkDaily;
+      #url = github:realthunder/FreeCAD/LinkDaily;
+      url = github:FreeCAD/FreeCAD;
       flake = false;
     };
     freecad-assembly3-src = {

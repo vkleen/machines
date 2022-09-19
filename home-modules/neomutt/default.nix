@@ -59,19 +59,21 @@ in {
     set sendmail = '${account.neomutt.sendMailCommand}'
     set use_envelope_from = yes
 
-    virtual-mailboxes "inbox" "notmuch://?query=tag:inbox" \
-                      "topo1" "notmuch://?query=tag:topo1" \
-                      "topo2" "notmuch://?query=tag:topo2" \
-                      "seminar" "notmuch://?query=tag:seminar and not tag:past" \
+    virtual-mailboxes "inbox" "notmuch://?query=tag:inbox and not tag:tweag" \
+                      "tweag inbox"  "notmuch://?query=tag:inbox and tag:tweag" \
                       "sent"  "notmuch://?query=tag:sent" \
-                      "flagged" "notmuch://?query=tag:flagged"
+                      "flagged" "notmuch://?query=tag:flagged" \
+                      "tweag"  "notmuch://?query=tag:tweag"
 
-    set from = '${account.address}'
-    set realname = '${account.realName}'
+    set real_name = '${account.realName}'
+    alternates ${lib.concatMapStringsSep " " (a: "'^${a}$'") account.aliases}
+    alternates '@17220103.de$' '@as210286.net$' '@zorn-encryption.org$'
+    set reverse_name = yes
     set spoolfile = inbox
     unset record
     set postponed = +draft
 
+    set mail_check = 1
     set mail_check_stats = yes
     set mail_check_stats_interval = 60
 
@@ -141,7 +143,7 @@ in {
         notmuch.enable = true;
         primary = true;
         address = "viktor@kleen.org";
-        aliases = [ "kleen@usc.edu" "viktor.kleen@uni-due.de" "yasc@yasc.org" "vkleen@17220103.de" ];
+        aliases = [ "kleen@usc.edu" "viktor.kleen@uni-due.de" "yasc@yasc.org" "vkleen@17220103.de" "viktor.kleen@tweag.io" ];
         realName = "Viktor Kleen";
         maildir = { path = "mail"; };
         gpg = {

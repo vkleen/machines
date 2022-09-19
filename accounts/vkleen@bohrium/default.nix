@@ -53,6 +53,7 @@
       (import ./vdirsyncer.nix)
       (import ./khal.nix)
       (import ./todoman.nix)
+      (import ./gmail.nix)
     ])
   );
   age.secrets."dptrp1" = {

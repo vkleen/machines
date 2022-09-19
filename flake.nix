@@ -94,6 +94,10 @@
       url = sourcehut:~emersion/hut;
       flake = false;
     };
+    lieer-src = {
+      url = github:gauteh/lieer;
+      flake = false;
+    };
 
     utils = {
       url = sourcehut:~vkleen/machine-utils?host=git.sr.ht.kleen.org;
@@ -322,6 +326,7 @@
               kicad-src
               kikit-src
               lego-src
+              lieer-src
               rmapi-src
               rmfakecloud-src
             ;

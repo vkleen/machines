@@ -448,6 +448,22 @@
         "type": "sourcehut"
       }
     },
+    "lieer-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1663127227,
+        "narHash": "sha256-43pAlrWWCpkzbuVkvD+cxT1eo0YhiITq3gKKoutb7OU=",
+        "owner": "gauteh",
+        "repo": "lieer",
+        "rev": "72c298abcd794f150bac6ec9614c231b0a153295",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gauteh",
+        "repo": "lieer",
+        "type": "github"
+      }
+    },
     "lowdown-src": {
       "flake": false,
       "locked": {
@@ -1029,6 +1045,7 @@
         "kicad-src": "kicad-src",
         "kikit-src": "kikit-src",
         "lego-src": "lego-src",
+        "lieer-src": "lieer-src",
         "macname": "macname",
         "macname-power9": "macname-power9",
         "matrix-bifrost": "matrix-bifrost",

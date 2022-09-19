@@ -20,6 +20,13 @@ let
       metadata = ["color" "displayname"];
       conflict_resolution = ["command" "vimdiff"];
     };
+    "pair tweag_pair" = {
+      a = "tweag";
+      b = "calendar_local";
+      collections = [
+        ["tweag" "viktor.kleen@tweag.io" "tweag" ]
+      ];
+    };
     "storage calendar_local" = {
       type = "filesystem";
       path = "${config.home.homeDirectory}/.calendar/";
@@ -31,6 +38,12 @@ let
       username = "vkleen";
       "password.fetch" = ["command" "pass" "radicale/vkleen"];
       auth_cert = "/run/agenix/radicale/client_cert.pem";
+    };
+    "storage tweag" = {
+      type = "google_calendar";
+      token_file = "${config.home.homeDirectory}/.vdirsyncer/google_token";
+      "client_id.fetch" = ["command" "pass" "vdirsyncer/client_id"];
+      "client_secret.fetch" = ["command" "pass" "vdirsyncer/client_secret"];
     };
   });
 in {

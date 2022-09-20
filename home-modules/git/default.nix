@@ -1,4 +1,4 @@
-{ pkgs, nixos, ... }:
+{ config, pkgs, nixos, ... }:
 let
   hub-wrapper = pkgs.writeShellScriptBin "hub" ''
     GITHUB_USER=vkleen GITHUB_TOKEN=$(${pkgs.gopass}/bin/gopass github/hub-token) ${pkgs.gitAndTools.hub}/bin/hub "$@"
@@ -29,11 +29,14 @@ in {
     userName = "Viktor Kleen";
     userEmail = "viktor@kleen.org";
     signing = {
-      key = "1FE9015A0610E43C74EFC813744138390330BB39";
+      key = "${config.home.homeDirectory}/.ssh/id_nitro_signing";
       signByDefault = true;
     };
     lfs.enable = true;
     extraConfig = {
+      gpg = {
+        format = "ssh";
+      };
       init = {
         defaultBranch = "main";
       };

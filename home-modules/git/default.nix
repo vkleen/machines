@@ -32,6 +32,7 @@ in {
       key = "1FE9015A0610E43C74EFC813744138390330BB39";
       signByDefault = true;
     };
+    lfs.enable = true;
     extraConfig = {
       init = {
         defaultBranch = "main";

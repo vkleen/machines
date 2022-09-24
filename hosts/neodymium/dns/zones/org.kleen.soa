@@ -18,8 +18,8 @@ $TTL 3600
 ns              IN A 202.61.250.130
 ns              IN AAAA 2a03:4000:54:9b1::1
 
-@               IN A 202.61.250.130
-@               IN AAAA 2a03:4000:54:9b1::1
+kleen.org.        IN A    172.104.139.29
+kleen.org.        IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
 @               IN MX 0 mail.kleen.org.
 @               IN TXT "v=spf1 a:mail.kleen.org -all"
 

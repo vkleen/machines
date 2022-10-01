@@ -590,11 +590,11 @@
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1656515310,
-        "narHash": "sha256-m5bV2UGfWeqlK0rm+/+pZA0utKuc10PC5rFt+K0+TT8=",
+        "lastModified": 1664452139,
+        "narHash": "sha256-PYR4etmp5mHCzFbC0MowmXdSftQivvyQHve3FJGE+B4=",
         "owner": "~vkleen",
         "repo": "neovim-configuration",
-        "rev": "fbd7cf58ac15c99efa285c015d95345d419982b1",
+        "rev": "b5b8c2474e427a95ceca24d65a0999ffa304ac12",
         "type": "sourcehut"
       },
       "original": {
@@ -924,6 +924,7 @@
         "vimplugin-telescope-ui-select": "vimplugin-telescope-ui-select",
         "vimplugin-telescope-zoxide": "vimplugin-telescope-zoxide",
         "vimplugin-trouble-nvim": "vimplugin-trouble-nvim",
+        "vimplugin-vim-nickel": "vimplugin-vim-nickel",
         "vimplugin-vim-vsnip": "vimplugin-vim-vsnip",
         "vimplugin-vim-vsnip-integ": "vimplugin-vim-vsnip-integ",
         "vimplugin-which-key-nvim": "vimplugin-which-key-nvim"
@@ -931,11 +932,11 @@
       "locked": {
         "dir": "plugins",
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1656515296,
-        "narHash": "sha256-jlw7d+mEQomQBrQvk1pwyAgaPzLSR358wtaoNWhZtlo=",
+        "lastModified": 1664442821,
+        "narHash": "sha256-Q7BmAEIRbk7X7zSQXjj0bR/idE5DY2BVF0yfHUHdY+A=",
         "owner": "~vkleen",
         "repo": "neovim-configuration",
-        "rev": "8747f84633ab4935abe09c07c91dff40355ff9a8",
+        "rev": "1c1cb2bb2f9c15af4cf55a975a7b42b7a6adb795",
         "type": "sourcehut"
       },
       "original": {
@@ -2002,6 +2003,22 @@
       "original": {
         "owner": "folke",
         "repo": "trouble.nvim",
+        "type": "github"
+      }
+    },
+    "vimplugin-vim-nickel": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1647439425,
+        "narHash": "sha256-eOxZECuK0yjtVc69+0CglSM54EesCSJ3xqwSEwrjI9I=",
+        "owner": "nickel-lang",
+        "repo": "vim-nickel",
+        "rev": "2f0f5f8ce2a8e719a5e39d7210ca914ae403374c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nickel-lang",
+        "repo": "vim-nickel",
         "type": "github"
       }
     },

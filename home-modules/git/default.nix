@@ -13,7 +13,7 @@ in {
     pkgs.ghq
     pkgs.glab
     pkgs.gitAndTools.git-crypt
-    pkgs.gitAndTools.gitRemoteGcrypt
+    pkgs.gitAndTools.git-remote-gcrypt
     pkgs.gitAndTools.lab
   ];
   xdg.configFile."lab/lab.toml".source = (pkgs.formats.toml{}).generate "lab.toml" {

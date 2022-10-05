@@ -1,11 +1,5 @@
 {config, nixos, pkgs, lib, ...}:
-let
-  cached-nix-shell = import (pkgs.fetchgit {
-    url = "https://github.com/xzfc/cached-nix-shell";
-    rev = "f34407cec7141971f55d453805935b47066f3eb8";
-    sha256 = "0qhwylacrnw2k3g9ndi0s7y6ymvrf74yhmq2jkd8xvqg5vk833h2";
-  }) { inherit pkgs; };
-in {
+{
   home.packages = with pkgs; [
     a2ps
     aspell
@@ -15,7 +9,6 @@ in {
     batctl
     bc
     borgbackup
-    cached-nix-shell
     dnsutils
     dos2unix
     entr

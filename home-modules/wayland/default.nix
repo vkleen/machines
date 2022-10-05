@@ -262,7 +262,7 @@ in lib.mkMerge [{
         "t" = "chat";
         "m" = "mail";
         "e" = "edit";
-        "z" = "zoom";
+        "z" = "cal";
       };
       switch-ws-keys = lib.mapAttrs' (k: n: lib.nameValuePair "${mod}+${k}" "workspace ${n}") ws;
       move-ws-keys = lib.mapAttrs' (k: n: lib.nameValuePair "${mod}+Shift+${k}" "move container to workspace ${n}") ws;

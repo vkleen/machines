@@ -1,7 +1,7 @@
 final: prev:
 {
-  uucp = wrapperDir: prev.uucp.overrideAttrs (_: {
-    configureFlags = "--with-newconfigdir=/etc/uucp";
+  uucp = wrapperDir: prev.uucp.overrideAttrs (o: {
+    configureFlags = (o.configureFlags or []) ++ [ "--with-newconfigdir=/etc/uucp" ];
     patches = [
       (final.writeText "mailprogram" ''
          policy.h | 2 +-

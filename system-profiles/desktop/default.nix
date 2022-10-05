@@ -23,7 +23,7 @@ let
   makeRangeEntry = {min,max}: "<range><int>${builtins.toString min}</int><int>${builtins.toString max}</int></range>";
 in {
   imports = [
-    ./sway ./audio ./bitlbee ./cups ./remarkable-cups ./rmapi ./vultr
+    ./sway ./audio ./cups ./remarkable-cups ./rmapi ./vultr
   ];
   hardware.opengl = {
     enable = true;
@@ -40,8 +40,7 @@ in {
     fonts = with pkgs; [
       inconsolata terminus_font ubuntu_font_family lmodern dejavu_fonts
       source-code-pro source-sans-pro source-serif-pro
-      source-han-serif-simplified-chinese source-han-serif-traditional-chinese
-      source-han-sans-simplified-chinese source-han-sans-simplified-chinese
+      source-han-serif
       corefonts
       noto-fonts noto-fonts-cjk
       noto-fonts-emoji
@@ -100,6 +99,6 @@ in {
   programs.dconf.enable = true;
   environment.noXlibs = lib.mkForce false;
   environment.systemPackages = with pkgs; [
-    gnome3.dconf-editor
+    gnome.dconf-editor
   ];
 }

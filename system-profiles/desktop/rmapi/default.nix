@@ -20,7 +20,7 @@ in {
 
   environment.systemPackages = [
     rmapi-wrapped
-    flake.inputs.rmrl.packages.${config.nixpkgs.system}.rmrl
+    #flake.inputs.rmrl.packages.${config.nixpkgs.system}.rmrl
     #(pkgs.paper2remarkable.override { rmapi = rmapi-wrapped; })
   ];
 }

@@ -23,11 +23,11 @@
     "alacritty-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1655734744,
-        "narHash": "sha256-qIp2zvvlOqJy/YS8hOd+RMjabgsJ3CEx8GdBgmGa5r4=",
+        "lastModified": 1664538542,
+        "narHash": "sha256-jqQoC8H9RPON9Ca7elvRSAnlKZga67A9XZwzS/oE3Qc=",
         "owner": "alacritty",
         "repo": "alacritty",
-        "rev": "6018590d7be62d3a5317f228571d353004da0220",
+        "rev": "e9ee8dcd9f53096a0096c01b5027d7584376cbd2",
         "type": "github"
       },
       "original": {
@@ -399,11 +399,11 @@
     "kicad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1658152753,
-        "narHash": "sha256-vNgr6zrkExF6QvBIPXstLqvqo2O46OiNAGr+PWeE2HQ=",
+        "lastModified": 1664815287,
+        "narHash": "sha256-jcox8tg+9N6p/zZ9fVPeTPqHmr9Z4fpKgSVkOkgjDn8=",
         "owner": "vkleen",
         "repo": "kicad",
-        "rev": "b81d0f70b9af6d5c34643e93f828b51dccc2a46e",
+        "rev": "2bfb8b1bf884fda1c90bde232e915f7920fcf3c6",
         "type": "github"
       },
       "original": {
@@ -840,11 +840,11 @@
     "nixpkgs_2": {
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1660144511,
-        "narHash": "sha256-BATFMyBRj0lXrQPsgn2SBciv9S8uIt64uTBcnINgdro=",
+        "lastModified": 1664807982,
+        "narHash": "sha256-uJMngBPGfxVioMMQ2AxqEQFFBOZQKInJyKI1Pv/PeTA=",
         "owner": "~vkleen",
         "repo": "nixpkgs",
-        "rev": "3a0706e7f0366d29a57ed9e3fa04875eb046e8d7",
+        "rev": "13419515c2a56e8a79a521a19ff5690ce5bc85c7",
         "type": "sourcehut"
       },
       "original": {

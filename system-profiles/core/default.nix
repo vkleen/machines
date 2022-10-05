@@ -44,7 +44,7 @@ in
         lzop
         mbuffer
         ripgrep
-        utillinux
+        util-linux
       ];
     };
 

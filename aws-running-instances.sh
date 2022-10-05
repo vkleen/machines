@@ -1,6 +1,4 @@
-#!/usr/bin/env cached-nix-shell
-#!nix-shell -i zsh
-#!nix-shell -p jq awscli zsh
+#!/usr/bin/env zsh
 
 for r in $(aws ec2 describe-regions | \
             jq -r '.Regions[] | .RegionName' \

@@ -200,7 +200,7 @@ in {
         root = "/run/containers/upstream";
         EXTRA_NSPAWN_FLAGS = "${mkBindFlags cfg.bindMounts}";
       };
-      path = [ pkgs.iproute pkgs.iptables ];
+      path = [ pkgs.iproute2 pkgs.iptables ];
 
       preStart = preStartScript;
       script = startScript;

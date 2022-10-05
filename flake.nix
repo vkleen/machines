@@ -305,10 +305,10 @@
         {
           pkgs = self.overlay;
           poetry2nix = inputs.poetry2nix.overlay;
-          nix = forSystemsOverlay inputs.nix.overlays.default
-                                  (   { "powerpc64le-linux" = inputs.nix-power9.overlays.default; }
-                                   // { "riscv64-linux" = inputs.nix-riscv.overlays.default; }
-                                  );
+          #nix = forSystemsOverlay inputs.nix.overlays.default
+          #                        (   { "powerpc64le-linux" = inputs.nix-power9.overlays.default; }
+          #                         // { "riscv64-linux" = inputs.nix-riscv.overlays.default; }
+          #                        );
           macname = forSystemsOverlay
             (_: _: {})
             (forAllSystems (system: _: _: { inherit (inputs.macname.packages."${system}") macname; })

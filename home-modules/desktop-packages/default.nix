@@ -16,14 +16,6 @@
     pavucontrol
     pinentry-gtk2
     streamlink
-    uhubctl
-    xorg.xbacklight
-    xorg.xinit
-    xorg.xkill
-    xorg.xmodmap
-    xorg.xprop
-    xsel
-    xterm
     yt-dlp
     yq
 
@@ -32,9 +24,9 @@
     geda
     gerbv
     gtkwave
-    kicad-master
-    kikit
-    librepcb
+    #kicad-master
+    #kikit
+    #librepcb
     #ngspice
     qucs
     eseries
@@ -45,15 +37,12 @@
 
     #cura-x11
     openscad
-    freecad-realthunder-x11
-    solvespace
+    #freecad-realthunder-x11
+    #solvespace
 
     dhall
 
     hledger
-
-    beancount
-    bean-add
 
     seamly2d
   ];

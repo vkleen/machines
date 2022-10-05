@@ -7,7 +7,7 @@ final: prev: {
     cargoDeps = drv.cargoDeps.overrideAttrs (_: {
       inherit src;
       patches = [];
-      outputHash = "sha256-9fC5NJbEKU7DVaXyGUOOUPdzurSL9qSRKB7PIXrpZDM=";
+      outputHash = "sha256-XFvZxehgIxQk3fZxZgE437Zs7dD2PyOdFcd6qgK48QU=";
     });
     passthru = drv.passthru // { inherit cargoDeps; };
 

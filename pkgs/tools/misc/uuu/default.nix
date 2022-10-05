@@ -1,4 +1,4 @@
-{ stdenv, cmake, bzip2, libzip, libusb, pkg-config, fetchgit }:
+{ stdenv, cmake, bzip2, libzip, libusb1, pkg-config, fetchgit }:
 let rev = "5e5fee80e1902415ca5e3545df271b94b02c05e9";
     version = "1.2.91";
 in stdenv.mkDerivation {
@@ -12,7 +12,7 @@ in stdenv.mkDerivation {
   };
 
   nativeBuildInputs = [ cmake pkg-config ];
-  buildInputs = [ bzip2 libzip libusb ];
+  buildInputs = [ bzip2 libzip libusb1 ];
 
   postConfigure = ''
     mkdir -p libuuu/gen

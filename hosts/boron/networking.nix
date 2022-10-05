@@ -396,7 +396,7 @@ in {
         "ppp/ip-up" = {
           text = ''
             #!${pkgs.runtimeShell}
-            ${pkgs.iproute}/bin/ip route add default via "$5" dev "${ppp_interface}" metric 512
+            ${pkgs.iproute2}/bin/ip route add default via "$5" dev "${ppp_interface}" metric 512
           '';
           mode = "0555";
         };
@@ -407,15 +407,15 @@ in {
     };
     netns = "wg_upstream";
     preStartScript = ''
-      ${pkgs.iproute}/bin/ip link add dev upstream-mgmt type veth peer name mgmt-veth
+      ${pkgs.iproute2}/bin/ip link add dev upstream-mgmt type veth peer name mgmt-veth
 
-      ${pkgs.iproute}/bin/ip link set telekom netns wg_upstream
-      ${pkgs.iproute}/bin/ip link set mgmt-veth netns wg_upstream
+      ${pkgs.iproute2}/bin/ip link set telekom netns wg_upstream
+      ${pkgs.iproute2}/bin/ip link set mgmt-veth netns wg_upstream
     '';
     postStopScript = ''
-      ${pkgs.iproute}/bin/ip netns exec wg_upstream ip link set telekom netns 1 || true
-      ${pkgs.iproute}/bin/ip link del upstream-mgmt || true
-      ${pkgs.iproute}/bin/ip link del upstream-lte || true
+      ${pkgs.iproute2}/bin/ip netns exec wg_upstream ip link set telekom netns 1 || true
+      ${pkgs.iproute2}/bin/ip link del upstream-mgmt || true
+      ${pkgs.iproute2}/bin/ip link del upstream-lte || true
     '';
 
     bindMounts = {
@@ -442,7 +442,7 @@ in {
         devpath="%i";
       };
       script =''
-        ${pkgs.iproute}/bin/ip link set dev "$(${pkgs.coreutils}/bin/basename "$devpath")" netns wg_upstream
+        ${pkgs.iproute2}/bin/ip link set dev "$(${pkgs.coreutils}/bin/basename "$devpath")" netns wg_upstream
       '';
     };
     "upstream-container" = {
@@ -456,38 +456,38 @@ in {
         RemainAfterExit = true;
       };
       preStart = ''
-        ${pkgs.iproute}/bin/ip link add dev ltens type veth peer name lte
-        ${pkgs.iproute}/bin/ip link set ltens up
+        ${pkgs.iproute2}/bin/ip link add dev ltens type veth peer name lte
+        ${pkgs.iproute2}/bin/ip link set ltens up
       '';
       script = ''
-        ${pkgs.iproute}/bin/ip link set lte netns lte
-        ${pkgs.iproute}/bin/ip link set ifb0 netns lte
+        ${pkgs.iproute2}/bin/ip link set lte netns lte
+        ${pkgs.iproute2}/bin/ip link set ifb0 netns lte
 
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev lte up
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev lte mtu 1480
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/ip link set dev ifb0 up
+        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/ip link set dev lte up
+        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/ip link set dev lte mtu 1480
+        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/ip link set dev ifb0 up
 
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev ifb0 root tbf rate 6500kbit burst 100kb latency 50ms
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc add dev lte handle ffff: ingress
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc filter add dev lte parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
+        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc qdisc add dev ifb0 root tbf rate 6500kbit burst 100kb latency 50ms
+        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc qdisc add dev lte handle ffff: ingress
+        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc filter add dev lte parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
       '';
       postStop = ''
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc filter del dev lte root
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc del dev lte ingress
-        ${pkgs.iproute}/bin/ip netns exec lte ${pkgs.iproute}/bin/tc qdisc del dev ifb0 root
-        ${pkgs.iproute}/bin/ip link del ltens || true
+        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc filter del dev lte root
+        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc qdisc del dev lte ingress
+        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc qdisc del dev ifb0 root
+        ${pkgs.iproute2}/bin/ip link del ltens || true
       '';
     };
     "lte-dhcp" = let
       script = pkgs.writeShellScript "udhcpc-dispatch" ''
         case $1 in
           bound|renew)
-            ${pkgs.iproute}/bin/ip addr add dev "$interface" "$ip"/"$subnet"
-            ${pkgs.iproute}/bin/ip route replace 0.0.0.0/0 dev "$interface" via "$router"
+            ${pkgs.iproute2}/bin/ip addr add dev "$interface" "$ip"/"$subnet"
+            ${pkgs.iproute2}/bin/ip route replace 0.0.0.0/0 dev "$interface" via "$router"
             ;;
           deconfig)
-            ${pkgs.iproute}/bin/ip -4 addr flush dev $interface
-            ${pkgs.iproute}/bin/ip -4 route flush dev $interface
+            ${pkgs.iproute2}/bin/ip -4 addr flush dev $interface
+            ${pkgs.iproute2}/bin/ip -4 route flush dev $interface
             ;;
           leasefail|nak)
             echo "$0: Could not obtain DHCP lease" >&2

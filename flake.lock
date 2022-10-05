@@ -590,11 +590,11 @@
       },
       "locked": {
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1664452139,
-        "narHash": "sha256-PYR4etmp5mHCzFbC0MowmXdSftQivvyQHve3FJGE+B4=",
+        "lastModified": 1665004329,
+        "narHash": "sha256-b/ziyUDF0ZAzqVaQoG9YflxLY/3vuh/odQG6fGYWA2U=",
         "owner": "~vkleen",
         "repo": "neovim-configuration",
-        "rev": "b5b8c2474e427a95ceca24d65a0999ffa304ac12",
+        "rev": "2f3d45569acb678ace4f95f75b70a9825e269406",
         "type": "sourcehut"
       },
       "original": {
@@ -932,11 +932,11 @@
       "locked": {
         "dir": "plugins",
         "host": "git.sr.ht.kleen.org",
-        "lastModified": 1664442821,
-        "narHash": "sha256-Q7BmAEIRbk7X7zSQXjj0bR/idE5DY2BVF0yfHUHdY+A=",
+        "lastModified": 1665004292,
+        "narHash": "sha256-KCJq/hVYkiXVE0OWg0fxCi/BoFf8pzYOqyZMEm23CR4=",
         "owner": "~vkleen",
         "repo": "neovim-configuration",
-        "rev": "1c1cb2bb2f9c15af4cf55a975a7b42b7a6adb795",
+        "rev": "94e9e9f7389f6a1cf4f0cc3cb2eae3a18d781dc9",
         "type": "sourcehut"
       },
       "original": {

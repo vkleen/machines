@@ -16,6 +16,7 @@ let
         ["tweag" "tweag" "8f44a71f-8eeb-40cb-b5a9-8ad54e76ae43"]
         ["aviation" "aviation" "81551ab6-0e80-4e26-8642-1152764dd3fe"]
         ["ude" "ude" "e6ecc05b-a76d-476b-bec9-280f2f6c0944"]
+        ["tweag-todo" "tweag-todo" "2c8784ea-687d-4b84-b44f-74fd6fa00f50"]
       ];
       metadata = ["color" "displayname"];
       conflict_resolution = ["command" "vimdiff"];
@@ -41,6 +42,7 @@ let
     };
     "storage tweag" = {
       type = "google_calendar";
+      read_only = true;
       token_file = "${config.home.homeDirectory}/.vdirsyncer/google_token";
       "client_id.fetch" = ["command" "pass" "vdirsyncer/client_id"];
       "client_secret.fetch" = ["command" "pass" "vdirsyncer/client_secret"];

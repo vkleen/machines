@@ -26,6 +26,7 @@ in {
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.git;
+    difftastic.enable = true;
     userName = "Viktor Kleen";
     userEmail = "viktor@kleen.org";
     signing = {
@@ -64,27 +65,6 @@ in {
       };
       ghq = {
         root = "~/src";
-      };
-    };
-    delta = {
-      enable = true;
-      options = {
-        features = "decorations line-numbers";
-        whitespace-error-style = "22 reverse";
-        plus-style = "syntax #003800";
-        minus-style = "syntax #3f0001";
-        decorations = {
-          commit-decoration-style = "bold yellow box ul";
-          file-stye = "bold yellow ul";
-          file-decoration-style = "none";
-          hunk-header-decoration-style = "cyan box ul";
-        };
-        line-numbers = {
-          line-numbers-left-style = "cyan";
-          line-numbers-right-style = "cyan";
-          line-numbers-minus-style = 124;
-          line-numbers-plus-style = 28;
-        };
       };
     };
     ignores = [ ".envrc" ".direnv" ];

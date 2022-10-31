@@ -344,19 +344,17 @@
     "hledger-src": {
       "flake": false,
       "locked": {
-        "host": "git.sr.ht.kleen.org",
-        "lastModified": 1649515163,
-        "narHash": "sha256-HCoNfvjQwzrX+q9c4qEPtkuhyZqkiFD48HZoZAXkHvQ=",
-        "owner": "~vkleen",
+        "lastModified": 1665189944,
+        "narHash": "sha256-ut3rto25v/3VRQ1fvEwwjPv7pw/vEqMjtzU9iOD/Vdg=",
+        "owner": "simonmichael",
         "repo": "hledger",
-        "rev": "451a1e3ac34ac5d90ae94ad929aae0791f686908",
-        "type": "sourcehut"
+        "rev": "25c9083d0dcbed80498b227b46a3e3a12b17315d",
+        "type": "github"
       },
       "original": {
-        "host": "git.sr.ht.kleen.org",
-        "owner": "~vkleen",
+        "owner": "simonmichael",
         "repo": "hledger",
-        "type": "sourcehut"
+        "type": "github"
       }
     },
     "home-manager": {

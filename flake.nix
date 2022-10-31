@@ -32,7 +32,7 @@
       flake = false;
     };
     hledger-src = {
-      url = sourcehut:~vkleen/hledger?host=git.sr.ht.kleen.org;
+      url = github:simonmichael/hledger;
       flake = false;
     };
     alacritty-src = {

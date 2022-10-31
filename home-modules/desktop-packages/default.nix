@@ -45,5 +45,7 @@
     hledger
 
     seamly2d
+
+    tmate
   ];
 }

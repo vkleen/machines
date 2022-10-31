@@ -89,6 +89,7 @@ let
         oifname { wg-europium } mark 0x1 masquerade
         oifname { neodymium } mark 0x1 masquerade
         oifname { forstheim } mark 0x1 masquerade
+        oifname { celluloid } mark 0x1 masquerade
         oifname { freerange } snat to 206.83.40.96
       }
     }
@@ -118,6 +119,10 @@ in {
       };
       "forstheim" = {
         id = 12;
+        interface = "eth0";
+      };
+      "celluloid" = {
+        id = 13;
         interface = "eth0";
       };
       "auenheim-mgmt" = {
@@ -164,6 +169,14 @@ in {
         ];
         ipv6.addresses = [
           { address = "2a06:e881:9008:000c::1"; prefixLength = 64; }
+        ];
+      };
+      "celluloid" = {
+        ipv4.addresses = [
+          { address = "10.172.13.1"; prefixLength = 24; }
+        ];
+        ipv6.addresses = [
+          { address = "2a06:e881:9008:000d::1"; prefixLength = 64; }
         ];
       };
       "apc" = {
@@ -534,7 +547,7 @@ in {
         calculate-tee-times = true;
         interfaces-config = {
           interfaces = [
-            "auenheim" "ilo" "apc" "forstheim"
+            "auenheim" "ilo" "apc" "forstheim" "celluloid"
           ];
         };
         lease-database = {
@@ -675,6 +688,14 @@ in {
               }
             ];
           }
+          { subnet = "10.172.13.0/24";
+            interface = "celluloid";
+            ddns-qualifying-suffix = "celluloid.kleen.org";
+            ddns-send-updates = true;
+            pools = [
+              { pool = "10.173.13.100 - 10.172.13.200"; }
+            ];
+          }
         ];
       };
     };
@@ -712,6 +733,14 @@ in {
                 }
               ];
             }
+            { name = "celluloid.kleen.org.";
+              dns-servers = [
+                { ip-address = "127.0.0.2";
+                  port = 53;
+                  key-name = "dhcp-tsig";
+                }
+              ];
+            }
           ];
         };
         reverse-ddns = {
@@ -725,6 +754,14 @@ in {
               ];
             }
             { name = "12.172.10.in-addr.arpa.";
+              dns-servers = [
+                { ip-address = "127.0.0.2";
+                  port = 53;
+                  key-name = "dhcp-tsig";
+                }
+              ];
+            }
+            { name = "13.172.10.in-addr.arpa.";
               dns-servers = [
                 { ip-address = "127.0.0.2";
                   port = 53;
@@ -800,6 +837,11 @@ in {
       };
     };
     networks."40-forstheim" = {
+      networkConfig = {
+        LinkLocalAddressing = "no";
+      };
+    };
+    networks."40-celluloid" = {
       networkConfig = {
         LinkLocalAddressing = "no";
       };
@@ -881,7 +923,28 @@ in {
           stub-prime = false;
         }
         {
+          name = "celluloid.kleen.org.";
+          stub-addr = "127.0.0.2";
+          stub-first = true;
+          stub-no-cache = true;
+          stub-prime = false;
+        }
+        {
           name = "100.172.10.in-addr.arpa.";
+          stub-addr = "127.0.0.2";
+          stub-first = true;
+          stub-no-cache = true;
+          stub-prime = false;
+        }
+        {
+          name = "12.172.10.in-addr.arpa.";
+          stub-addr = "127.0.0.2";
+          stub-first = true;
+          stub-no-cache = true;
+          stub-prime = false;
+        }
+        {
+          name = "13.172.10.in-addr.arpa.";
           stub-addr = "127.0.0.2";
           stub-first = true;
           stub-no-cache = true;
@@ -941,6 +1004,13 @@ in {
           zonefile-load: none
           journal-content: all
           acl: update_acl
+        - domain: celluloid.kleen.org
+          storage: /var/lib/knot/zones
+          module: [mod-onlinesign/explicit]
+          zonefile-sync: -1
+          zonefile-load: none
+          journal-content: all
+          acl: update_acl
         - domain: 100.172.10.in-addr.arpa
           storage: /var/lib/knot/zones
           dnssec-signing: off
@@ -949,6 +1019,13 @@ in {
           journal-content: all
           acl: update_acl
         - domain: 12.172.10.in-addr.arpa
+          storage: /var/lib/knot/zones
+          dnssec-signing: off
+          zonefile-sync: -1
+          zonefile-load: none
+          journal-content: all
+          acl: update_acl
+        - domain: 13.172.10.in-addr.arpa
           storage: /var/lib/knot/zones
           dnssec-signing: off
           zonefile-sync: -1

@@ -165,7 +165,7 @@ in {
           acmeDomains = ["as210286.net" "${hostName}.as210286.net" "radicale.as210286.net"];
         }
         { domain = "kleen.org";
-          acmeDomains = ["kleen.org" "paperless.kleen.org"];
+          acmeDomains = ["kleen.org" "paperless.kleen.org" "neodymium.kleen.org"];
         }
         { domain = "17220103.de";
           acmeDomains = ["17220103.de" "${hostName}.17220103.de"];

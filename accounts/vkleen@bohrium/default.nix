@@ -51,7 +51,7 @@
         };
       }
       {
-        home.packages = [ pkgs.jrnl ];
+        home.packages = [ pkgs.jrnl pkgs.helvum ];
       }
       (import ./vdirsyncer.nix)
       (import ./khal.nix)

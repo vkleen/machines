@@ -51,7 +51,7 @@
         };
       }
       {
-        home.packages = [ pkgs.jrnl pkgs.helvum ];
+        home.packages = [ pkgs.jrnl pkgs.helvum pkgs.nix-output-monitor ];
       }
       (import ./vdirsyncer.nix)
       (import ./khal.nix)

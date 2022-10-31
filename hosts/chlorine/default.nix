@@ -1,4 +1,4 @@
-{ flake, config, ... }: {
+{ flake, config, lib, pkgs, ... }: {
   imports = [
     ./hardware.nix
     ./networking.nix

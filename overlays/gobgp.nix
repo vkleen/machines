@@ -3,7 +3,7 @@ final: prev: {
     pname = "gobgpd";
     version = "flake";
     src = final.gobgp-src;
-    vendorSha256 = "sha256-hw2cyKJaLBmPRdF4D+GVcVCkTpIK0HZasbMyYfLef1w=";
+    vendorSha256 = "sha256-FxfER3THsA7NRuQKEdWQxgUN0SiNI00hGUMVD+3BaG4=";
 
     postConfigure = ''
       export CGO_ENABLED=0
@@ -20,7 +20,7 @@ final: prev: {
     pname = "gobgpd";
     version = "flake";
     src = final.gobgp-src;
-    vendorSha256 = "sha256-hw2cyKJaLBmPRdF4D+GVcVCkTpIK0HZasbMyYfLef1w=";
+    vendorSha256 = "sha256-FxfER3THsA7NRuQKEdWQxgUN0SiNI00hGUMVD+3BaG4=";
 
     postConfigure = ''
       export CGO_ENABLED=0

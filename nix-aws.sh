@@ -77,7 +77,7 @@ SSH_HOST_KEY=$(get_ssh_host_key)
 
 do_nix() {
   local cmdline=( "${@}" )
-  nix --option builders-use-substitutes true --builders "ssh://${SERVER} ${SERVER_ARCH} ${HOME}/.ssh/id_rsa 18 - benchmark,kvm,recursive-nix,big-parallel,ca-derivations - $(base64 -w0 <<<"$SSH_HOST_KEY")" "${cmdline[@]}"
+  "$DIR"/nom/bin/nom "${cmdline[@]}" --option builders-use-substitutes true --builders "ssh://${SERVER} ${SERVER_ARCH} ${HOME}/.ssh/id_rsa 18 - benchmark,kvm,recursive-nix,big-parallel,ca-derivations - $(base64 -w0 <<<"$SSH_HOST_KEY")"
 }
 
 do_ssh() {

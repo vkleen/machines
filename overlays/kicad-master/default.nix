@@ -1,5 +1,5 @@
 final: prev: let
-  wxGTK = final.wxGTK31.override {
+  wxGTK = final.wxGTK32.override {
     withGtk2 = false;
     withWebKit = true;
   };
@@ -25,7 +25,7 @@ in {
     };
     stable = false;
     doCheck = false;
-    wxGTK31-gtk3 = wxGTK;
+    wxGTK32 = wxGTK;
     inherit (final) python3;
     inherit wxPython;
     extraPythonPath = [ final.python3.pkgs.kikit ];

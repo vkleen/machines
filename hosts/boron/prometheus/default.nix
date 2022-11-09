@@ -23,7 +23,7 @@ in {
         systemd = {
           enable = true;
           extraFlags = [
-            "--collector.unit-whitelist=(lte-dhcp|pppd-telekom|corerad)\.service"
+            "--systemd.collector.unit-include=(lte-dhcp|pppd-telekom|corerad)\.service"
           ];
         };
         mikrotik = {

@@ -76,5 +76,6 @@ in {
       tlog =
         "log --stat --since='1 Day Ago' --graph --pretty=oneline --abbrev-commit --date=relative";
       rank = "shortlog -sn --no-merges";
+      recommit = "!git commit -eF $(git rev-parse --git-dir)/COMMIT_EDITMSG";
     };  };
 }

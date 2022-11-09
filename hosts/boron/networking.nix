@@ -547,7 +547,9 @@ in {
         calculate-tee-times = true;
         interfaces-config = {
           interfaces = [
-            "auenheim" "ilo" "apc" "forstheim" "celluloid"
+            "auenheim" "ilo" "apc" "forstheim"
+            #WHYYYYYY
+            #"celluloid"
           ];
         };
         lease-database = {

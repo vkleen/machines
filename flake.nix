@@ -99,6 +99,14 @@
       url = github:gauteh/lieer;
       flake = false;
     };
+    vdirsyncer-src = {
+      url = github:pimutils/vdirsyncer;
+      flake = false;
+    };
+    radicale-src = {
+      url = github:trougnouf/Radicale;
+      flake = false;
+    };
 
     utils = {
       url = sourcehut:~vkleen/machine-utils?host=git.sr.ht.kleen.org;
@@ -328,8 +336,10 @@
               kikit-src
               lego-src
               lieer-src
+              radicale-src
               rmapi-src
               rmfakecloud-src
+              vdirsyncer-src
             ;
           };
         };

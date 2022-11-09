@@ -328,11 +328,11 @@
     "gobgp-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1654207807,
-        "narHash": "sha256-kp1Gy8itmEQu/hTccx98mbkqRR3bQdS04yGTeQNrgag=",
+        "lastModified": 1667379228,
+        "narHash": "sha256-0LLAS0DI+w84ziGeF8Qm8k9L2euNtP3OXA0RTXLvNOg=",
         "owner": "osrg",
         "repo": "gobgp",
-        "rev": "52399b3c508b55d798611b508e8aa39fc88fb93a",
+        "rev": "9d89241c474f4510ea51ba4d14a41336b155d5a2",
         "type": "github"
       },
       "original": {
@@ -966,6 +966,20 @@
         "type": "github"
       }
     },
+    "radicale-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1658182533,
+        "narHash": "sha256-u08rqtP1dk44ShE4GymBQjYVNNksvAgeOLEQPFa5O8Q=",
+        "type": "git",
+        "url": "file:///home/vkleen/src/github.com/Kozea/radicale"
+      },
+      "original": {
+        "owner": "trougnouf",
+        "repo": "Radicale",
+        "type": "github"
+      }
+    },
     "rmapi-src": {
       "flake": false,
       "locked": {
@@ -1056,10 +1070,12 @@
         "nixpkgs-power9": "nixpkgs-power9",
         "nixpkgs-riscv": "nixpkgs-riscv",
         "poetry2nix": "poetry2nix",
+        "radicale-src": "radicale-src",
         "rmapi-src": "rmapi-src",
         "rmfakecloud-src": "rmfakecloud-src",
         "rmrl": "rmrl",
-        "utils": "utils_2"
+        "utils": "utils_2",
+        "vdirsyncer-src": "vdirsyncer-src"
       }
     },
     "rust-overlay": {
@@ -1122,6 +1138,20 @@
         "owner": "~vkleen",
         "repo": "machine-utils",
         "type": "sourcehut"
+      }
+    },
+    "vdirsyncer-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1667838111,
+        "narHash": "sha256-YBXgcdlCBEsdkWIfzWZs9FJZAwdrHZ+cqxhcNFEgHfE=",
+        "type": "git",
+        "url": "file:///home/vkleen/src/github.com/pimutils/vdirsyncer"
+      },
+      "original": {
+        "owner": "pimutils",
+        "repo": "vdirsyncer",
+        "type": "github"
       }
     },
     "vimplugin-aerial-nvim": {

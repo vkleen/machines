@@ -654,6 +654,12 @@ in {
               { hw-address = "50:65:f3:f0:aa:00";
                 client-classes = [ "boot-ipxe" ];
               }
+              { hw-address = "50:65:f3:f0:b0:78";
+                client-classes = [ "boot-ipxe" ];
+              }
+              { hw-address = "50:65:f3:f0:a6:e8";
+                client-classes = [ "boot-ipxe" ];
+              }
             ];
           }
           { subnet = "10.172.31.0/24";
@@ -690,14 +696,14 @@ in {
               }
             ];
           }
-          { subnet = "10.172.13.0/24";
-            interface = "celluloid";
-            ddns-qualifying-suffix = "celluloid.kleen.org";
-            ddns-send-updates = true;
-            pools = [
-              { pool = "10.173.13.100 - 10.172.13.200"; }
-            ];
-          }
+          #{ subnet = "10.172.13.0/24";
+          #  interface = "celluloid";
+          #  ddns-qualifying-suffix = "celluloid.kleen.org";
+          #  ddns-send-updates = true;
+          #  pools = [
+          #    { pool = "10.173.13.100 - 10.172.13.200"; }
+          #  ];
+          #}
         ];
       };
     };
@@ -805,9 +811,16 @@ in {
     owner = "root";
   };
 
-  services.atftpd = {
-    enable = false;
-    root = "/srv/tftp";
+  services.atftpd = let
+    ipxe-tree = pkgs.linkFarm "ipxe-tree" [
+      {
+        name = "ipxe";
+        path = "${flake.inputs.nixpkgs.legacyPackages.x86_64-linux.ipxe}/undionly.kpxe";
+      }
+    ];
+  in {
+    enable = true;
+    root = ipxe-tree;
   };
 
   services.corerad = {

@@ -25,6 +25,12 @@
           '';
           root = "/srv/tftp/chlorine/";
         };
+        "/actinium/" = {
+          extraConfig = ''
+            rewrite ^/actinium/(.*) /$1 break;
+          '';
+          root = "/srv/tftp/actinium/";
+        };
       };
     };
   };

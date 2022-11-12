@@ -575,7 +575,7 @@ in {
           { name = "actinium-ipxe";
             test = "option[77].hex == 'iPXE' and pkt4.mac == 0x5065f3f0aa00";
             next-server = "10.172.100.1";
-            boot-file-name = "actinium/netboot.ipxe";
+            boot-file-name = "http://boron.auenheim.kleen.org/actinium/netboot.ipxe";
           }
           { name = "boot-ipxe";
             option-data = [

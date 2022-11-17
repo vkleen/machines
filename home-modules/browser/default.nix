@@ -25,7 +25,7 @@ let
 in {
   options = {
     browser.firefox = lib.mkOption {
-      default = firejail-firefox;
+      default = firefox-pkg;
       type = lib.types.package;
     };
     browser.chromium = lib.mkOption {

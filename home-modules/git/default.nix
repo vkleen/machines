@@ -58,7 +58,7 @@ in {
         user = "vkleen";
       };
       merge = {
-        conflictStyle = "diff3";
+        conflictStyle = "zdiff3";
       };
       pull = {
         ff = "only";

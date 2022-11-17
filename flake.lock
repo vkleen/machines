@@ -47,19 +47,17 @@
         ]
       },
       "locked": {
-        "host": "git.sr.ht.kleen.org",
-        "lastModified": 1665226192,
-        "narHash": "sha256-FElIiZS2SeC1k0Gwlazffye6KM0gQ9X2y1lGs5jYrT8=",
-        "owner": "~vkleen",
+        "lastModified": 1668362788,
+        "narHash": "sha256-Z+IRiLSDUinw4XPnOrVZ+xaOpLtaFDiW3285pFMjR4Q=",
+        "owner": "vkleen",
         "repo": "bfd-monitor",
-        "rev": "831f4526b9fed2adde18180b328f83f956d4020e",
-        "type": "sourcehut"
+        "rev": "9f32623941e257a7922c7729c47135ff3c11790b",
+        "type": "github"
       },
       "original": {
-        "host": "git.sr.ht.kleen.org",
-        "owner": "~vkleen",
+        "owner": "vkleen",
         "repo": "bfd-monitor",
-        "type": "sourcehut"
+        "type": "github"
       }
     },
     "bfd-src": {
@@ -959,17 +957,17 @@
     },
     "poetry2nix": {
       "inputs": {
-        "flake-utils": "flake-utils_6",
+        "flake-utils": "flake-utils_8",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1665181333,
-        "narHash": "sha256-E4azJFaPj+S2Ge4ECOjVH5MNUEQoLDuHRtZH5wTWRmQ=",
+        "lastModified": 1668166239,
+        "narHash": "sha256-V3ak48Ei4wJ6PF45s6zukRahBG6NARwLyVmbppKysgk=",
         "owner": "nix-community",
         "repo": "poetry2nix",
-        "rev": "583b4ddef7da27afaa69a74de4d3cc7adb86a825",
+        "rev": "185c10c78a3943057c3eeb18511c968f205a26ac",
         "type": "github"
       },
       "original": {

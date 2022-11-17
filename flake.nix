@@ -123,7 +123,7 @@
     };
 
     bfd-monitor = {
-      url = sourcehut:~vkleen/bfd-monitor?host=git.sr.ht.kleen.org;
+      url = github:vkleen/bfd-monitor;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.poetry2nix.follows = "poetry2nix";
     };

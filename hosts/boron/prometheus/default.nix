@@ -124,8 +124,8 @@ in {
       protocol = "http";
       port = 2342;
       addr = "10.172.40.136";
-      security.adminPasswordFile = "/run/credentials/grafana.service/admin-password";
-      security.secretKeyFile = "/run/credentials/grafana.service/secret-key";
+      settings.security.admin_password = "$__file{/run/credentials/grafana.service/admin-password}";
+      settings.security.secretKeyFile = "$__file{/run/credentials/grafana.service/secret-key}";
     };
     systemd.services.grafana.serviceConfig.LoadCredential = [
       "admin-password:/run/agenix/grafana-admin-password"

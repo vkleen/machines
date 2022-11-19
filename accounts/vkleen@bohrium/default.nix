@@ -31,6 +31,7 @@
       weechat
       zathura
       zsh
+      foot
       { neovim-config.enable = true; }
       { xdg.configFile = {
         "wireplumber" = {

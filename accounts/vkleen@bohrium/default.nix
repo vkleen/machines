@@ -32,7 +32,7 @@
       zathura
       zsh
       foot
-      { neovim-config.enable = true; }
+      #{ neovim-config.enable = true; }
       { xdg.configFile = {
         "wireplumber" = {
           source = ./wireplumber;
@@ -52,7 +52,7 @@
         };
       }
       {
-        home.packages = [ pkgs.jrnl pkgs.helvum pkgs.nix-output-monitor ];
+        home.packages = [ pkgs.jrnl pkgs.helvum pkgs.nix-output-monitor pkgs.neovim-nightly pkgs.zig pkgs.rnix-lsp pkgs.nixpkgs-fmt ];
       }
       (import ./vdirsyncer.nix)
       (import ./khal.nix)

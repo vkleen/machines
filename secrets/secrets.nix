@@ -5,7 +5,8 @@ let
   boron = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBkRtSje5rDeMMd6wZFbQ1d9XlF9nqeRf40vZ8y+x1/J";
   cerium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILqPhc/mYvz9ZpcqXJmM/2YEnQ2WhEl3jwc11ZRKy8Jb";
   europium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIODkqoX3kRPftiOdRdpHutcIbbRGrMdkKlOpINa8AUQa";
-  lanthanum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBQlRlLUKTTjKrwzPD+djLIaWQ36aXUpPkKJcAULmey2";
+  #lanthanum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBQlRlLUKTTjKrwzPD+djLIaWQ36aXUpPkKJcAULmey2";
+  lanthanum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMRfboIyEm9otlsGyCH/zIsiGdq1aapnpMjnYG0/2qu6";
   neodymium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE/rujrnskTy66GPBnKnWbwf45I7pWEjcXyaQoVHgDG8";
 
   all-systems = [ bohrium boron europium lanthanum cerium ];
@@ -31,6 +32,12 @@ in
 
   "mosquitto/mqtt.key.age".publicKeys = [vkleen boron];
   "mosquitto/mqtt.pem.age".publicKeys = [vkleen boron];
+  "mosquitto/relayd-passwd.age".publicKeys = [vkleen boron];
+  "mosquitto/root-passwd.age".publicKeys = [vkleen boron];
+  "mosquitto/zigbee2mqtt-passwd.age".publicKeys = [vkleen boron];
+  "mosquitto/mqtt2prom-passwd.age".publicKeys = [vkleen boron];
+  "zigbee2mqtt.age".publicKeys = [vkleen boron];
+  "mqtt2prom.age".publicKeys = [vkleen boron];
 
   "rmfakecloud/jwtKey.age".publicKeys = [vkleen boron];
   "rmfakecloud/hwrAppKey.age".publicKeys = [vkleen boron];

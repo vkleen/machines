@@ -2,7 +2,7 @@
   description = "VKleen's flakey nixos configuration";
 
   inputs = {
-    nixpkgs.url = sourcehut:~vkleen/nixpkgs/local?host=git.sr.ht.kleen.org;
+    nixpkgs.url = github:vkleen/nixpkgs/local;
     nixpkgs-power9.url = sourcehut:~vkleen/nixpkgs/local-power9?host=git.sr.ht.kleen.org;
     nixpkgs-riscv.url = sourcehut:~vkleen/nixpkgs/local-riscv?host=git.sr.ht.kleen.org;
     home-manager = {
@@ -16,7 +16,6 @@
     nixos-rocm-power9 = {
       url = sourcehut:~vkleen/nixos-rocm?host=git.sr.ht.kleen.org;
       flake = false;
-      inputs.nixpkgs.follows = "nixpkgs-power9";
     };
     freecad-src = {
       #url = github:realthunder/FreeCAD/LinkDaily;
@@ -153,7 +152,7 @@
       url = github:nix-community/neovim-nightly-overlay;
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        noevim-flake.follows = "neovim-flake";
+        neovim-flake.follows = "neovim-flake";
       };
     };
     neovim-flake = {

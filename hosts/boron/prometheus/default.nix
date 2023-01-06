@@ -1,7 +1,8 @@
 { config, flake, pkgs, lib, ... }:
 let
   relabelHosts = [
-    { source_labels = ["__address__"];
+    {
+      source_labels = [ "__address__" ];
       target_label = "instance";
       regex = "localhost(:[0-9]+)?";
       replacement = "boron";
@@ -9,7 +10,8 @@ let
   ];
 
   zteExporterPort = 9900;
-in {
+in
+{
   config = {
     services.prometheus = {
       enable = true;
@@ -18,7 +20,7 @@ in {
       exporters = {
         node = {
           enable = true;
-          enabledCollectors = [];
+          enabledCollectors = [ ];
         };
         systemd = {
           enable = true;
@@ -63,55 +65,71 @@ in {
         evaluation_interval = "1s";
       };
       scrapeConfigs = [
-        { job_name = "prometheus";
+        {
+          job_name = "prometheus";
           static_configs = [
-            { targets = ["localhost:${builtins.toString config.services.prometheus.port}"]; }
+            { targets = [ "localhost:${builtins.toString config.services.prometheus.port}" ]; }
           ];
           relabel_configs = relabelHosts;
           scrape_interval = "1s";
         }
-        { job_name = "node";
+        {
+          job_name = "mqtt";
           static_configs = [
-            { targets = ["localhost:${toString config.services.prometheus.exporters.node.port}"]; }
+            { targets = [ "localhost:${builtins.toString config.services.prometheus.exporters.mqtt2prometheus.port}" ]; }
+          ];
+          relabel_configs = relabelHosts;
+          scrape_interval = "15s";
+        }
+        {
+          job_name = "node";
+          static_configs = [
+            { targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ]; }
           ];
           relabel_configs = relabelHosts;
           scrape_interval = "5s";
         }
-        { job_name = "systemd";
+        {
+          job_name = "systemd";
           static_configs = [
-            { targets = ["localhost:${toString config.services.prometheus.exporters.systemd.port}"]; }
+            { targets = [ "localhost:${toString config.services.prometheus.exporters.systemd.port}" ]; }
           ];
           relabel_configs = relabelHosts;
           scrape_interval = "5s";
         }
-        { job_name = "loki";
+        {
+          job_name = "loki";
           static_configs = [
-            { targets = ["localhost:${toString config.services.loki.configuration.server.http_listen_port}"]; }
+            { targets = [ "localhost:${toString config.services.loki.configuration.server.http_listen_port}" ]; }
           ];
           relabel_configs = relabelHosts;
           scrape_interval = "1s";
         }
-        { job_name = "promtail";
+        {
+          job_name = "promtail";
           static_configs = [
-            { targets = ["localhost:${toString config.services.promtail.configuration.server.http_listen_port}"]; }
+            { targets = [ "localhost:${toString config.services.promtail.configuration.server.http_listen_port}" ]; }
           ];
           relabel_configs = relabelHosts;
           scrape_interval = "1s";
         }
-        { job_name = "zte";
-          static_configs = [ 
-            { targets = ["localhost:${toString zteExporterPort}"]; }
+        {
+          job_name = "zte";
+          static_configs = [
+            { targets = [ "localhost:${toString zteExporterPort}" ]; }
           ];
           relabel_configs = [
-            { replacement = "telekom";
+            {
+              replacement = "telekom";
               target_label = "instance";
             }
           ];
           scrape_interval = "15s";
         }
-        { job_name = "lithium";
+        {
+          job_name = "lithium";
           static_configs = [
-            { targets = ["localhost:${toString config.services.prometheus.exporters.mikrotik.port}"]; }
+            { targets = [ "localhost:${toString config.services.prometheus.exporters.mikrotik.port}" ]; }
           ];
           scrape_interval = "15s";
         }
@@ -176,7 +194,8 @@ in {
           ring.kvstore.store = "inmemory";
         };
         schema_config.configs = [
-          { from = "2022-01-01";
+          {
+            from = "2022-01-01";
             store = "boltdb-shipper";
             object_store = "filesystem";
             schema = "v11";
@@ -199,7 +218,8 @@ in {
           { url = "http://localhost:${builtins.toString config.services.loki.configuration.server.http_listen_port}/loki/api/v1/push"; }
         ];
         scrape_configs = [
-          { job_name = "journal";
+          {
+            job_name = "journal";
             journal = {
               json = true;
               max_age = "12h";
@@ -209,10 +229,12 @@ in {
               };
             };
             relabel_configs = [
-              { source_labels = ["__journal__systemd_unit"];
+              {
+                source_labels = [ "__journal__systemd_unit" ];
                 target_label = "unit";
               }
-              { source_labels = ["__journal__hostname"];
+              {
+                source_labels = [ "__journal__hostname" ];
                 target_label = "nodename";
               }
             ];
@@ -229,8 +251,8 @@ in {
         PrivateTmp = true;
         WorkingDirectory = "/tmp";
         DynamicUser = true;
-        CapabilityBoundingSet = [""];
-        DeviceAllow = [""];
+        CapabilityBoundingSet = [ "" ];
+        DeviceAllow = [ "" ];
         LockPersonality = true;
         MemoryDenyWriteExecute = true;
         NoNewPrivileges = true;
@@ -254,30 +276,32 @@ in {
         Type = "simple";
         ExecStart = "${pkgs.zte-prometheus-exporter}/bin/zte-prometheus-exporter";
         Environment = "ZTE_BASEURL=http://%I ZTE_HOSTNAME=localhost ZTE_PORT=${toString zteExporterPort}";
-        EnvironmentFile =  "/run/agenix/zte-credentials";
+        EnvironmentFile = "/run/agenix/zte-credentials";
       };
     };
 
-    systemd.services."prometheus-mikrotik-exporter".serviceConfig = let
-      cfg = config.services.prometheus.exporters.mikrotik;
-      configFile = "${pkgs.writeText "mikrotik-exporter.json" (builtins.toJSON cfg.configuration)}";
-      finalConfigFile = "$RUNTIME_DIRECTORY/mikrotik-exporter.json";
-    in {
-      RuntimeDirectoryMode = "0700";
-      RuntimeDirectory = "prometheus-mikrotik-exporter";
-      LoadCredential = [
-        "credentials:/run/agenix/lithium-prometheus-credentials"
-      ];
-      ExecStart = lib.mkForce (pkgs.writeShellScript "prometheus-mikrotik-exporter-start" ''
-        umask 077
-        export $(xargs < "''${CREDENTIALS_DIRECTORY}"/credentials)
-        ${pkgs.envsubst}/bin/envsubst -i "${configFile}" > ${finalConfigFile}
-        exec ${pkgs.prometheus-mikrotik-exporter}/bin/mikrotik-exporter \
-          -config-file=${finalConfigFile} \
-          -port=${cfg.listenAddress}:${toString cfg.port} \
-          ${lib.concatStringsSep " " cfg.extraFlags}
-      '');
-    };
+    systemd.services."prometheus-mikrotik-exporter".serviceConfig =
+      let
+        cfg = config.services.prometheus.exporters.mikrotik;
+        configFile = "${pkgs.writeText "mikrotik-exporter.json" (builtins.toJSON cfg.configuration)}";
+        finalConfigFile = "$RUNTIME_DIRECTORY/mikrotik-exporter.json";
+      in
+      {
+        RuntimeDirectoryMode = "0700";
+        RuntimeDirectory = "prometheus-mikrotik-exporter";
+        LoadCredential = [
+          "credentials:/run/agenix/lithium-prometheus-credentials"
+        ];
+        ExecStart = lib.mkForce (pkgs.writeShellScript "prometheus-mikrotik-exporter-start" ''
+          umask 077
+          export $(xargs < "''${CREDENTIALS_DIRECTORY}"/credentials)
+          ${pkgs.envsubst}/bin/envsubst -i "${configFile}" > ${finalConfigFile}
+          exec ${pkgs.prometheus-mikrotik-exporter}/bin/mikrotik-exporter \
+            -config-file=${finalConfigFile} \
+            -port=${cfg.listenAddress}:${toString cfg.port} \
+            ${lib.concatStringsSep " " cfg.extraFlags}
+        '');
+      };
 
     fileSystems = {
       "/var/lib/${config.services.prometheus.stateDir}" = {

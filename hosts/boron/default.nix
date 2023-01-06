@@ -10,6 +10,7 @@
     ./pxe.nix
     ./radicale.nix
     ./tls
+    ./zigbee.nix
   ] ++ (with flake.nixosModules.systemProfiles; [
     initrd-all-crypto-modules
     latest-linux

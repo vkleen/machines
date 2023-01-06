@@ -40,6 +40,12 @@ _dmarc  IN TXT "v=DMARC1;p=reject"
 radicale       IN A 202.61.250.130
 radicale       IN AAAA 2a03:4000:54:9b1::1
 
+neodymium      IN A 202.61.250.130
+neodymium      IN AAAA 2a03:4000:54:9b1::1
+
+praseodymium   IN A 194.50.92.133
+praseodymium   IN AAAA 2a09:4c0:303:c232::5c85
+
 _acme-challenge IN NS ns.as210286.net.
 _acme-challenge.neodymium IN NS ns.as210286.net.
 _acme-challenge.radicale IN NS ns.as210286.net.

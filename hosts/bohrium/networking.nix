@@ -145,7 +145,7 @@ in {
   services.udev.packages = [ pkgs.crda ];
 
   services.udev.extraRules = ''
-    SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="d0:c0:bf:48:d8:e7", NAME:="eth-dock"
+    SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="98:fd:b4:9b:d9:89", NAME:="eth-dock"
     SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="00:e0:4c:68:01:b2", NAME:="eth-usb"
     SUBSYSTEM=="net", ATTRS{idVendor}=="04b3", ATTRS{idProduct}=="4010", ATTR{address}=="0a:85:21:7d:9d:62", NAME:="carbon"
   '';

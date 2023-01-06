@@ -4,6 +4,9 @@ let
   inherit (flake.inputs.utils.lib) private_address mkV4 mkV6;
   machine_id = config.environment.etc."machine-id".text;
 
+  public4 = "217.69.10.146";
+  public6 = "2001:19f0:6801:f4e:5400:04ff:fe3a:173f";
+
   nft_ruleset = let
     tcpPorts =
          lib.lists.map builtins.toString config.networking.firewall.allowedTCPPorts
@@ -59,8 +62,8 @@ let
 
 in {
   system.publicAddresses = [
-    (mkV4 "45.32.153.151")
-    (mkV6 "2001:19f0:6c01:21c1:5400:03ff:fec6:c9cd")
+    (mkV4 public4)
+    (mkV6 public6)
   ];
   
   environment.systemPackages = [
@@ -77,45 +80,24 @@ in {
       "enp1s0" = {
         useDHCP = true;
         ipv4.addresses = [ {
-          address = "45.32.153.151";
-          prefixLength = 22;
+          address = public4;
+          prefixLength = 23;
         } ];
         ipv6.addresses = [ {
-          address = "2001:19f0:6c01:21c1:5400:03ff:fec6:c9cd";
+          address = public6;
           prefixLength = 64;
         } ];
-      };
-      "enp6s0" = {
-        ipv4.addresses = [ {
-          address = private_address 32 machine_id;
-          prefixLength = 16;
-        } ];
-        mtu = 1450;
       };
     };
     firewall = {
       enable = false;
-      trustedInterfaces = [ "enp6s0" "boron-dsl" "boron-lte" ];
+      trustedInterfaces = [ "boron-dsl" "boron-lte" ];
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };
     nftables = {
       enable = true;
       ruleset = nft_ruleset;
-    };
-    wireguard.interfaces = {
-      europium = {
-        ips = [ "10.172.42.100/24" ];
-        privateKeyFile = "/run/agenix/lanthanum";
-        allowedIPsAsRoutes = false;
-        peers = [
-          { publicKey = builtins.readFile ../../wireguard/europium.pub;
-            allowedIPs = [ "0.0.0.0/0" "::/0" ];
-            endpoint = "europium.kleen.org:51822";
-            persistentKeepalive = 1;
-          }
-        ];
-      };
     };
   };
 
@@ -128,13 +110,13 @@ in {
       routes = [
         { routeConfig = {
             Destination = "2001:19f0:ffff::1/128";
-            PreferredSource = "2001:19f0:6c01:21c1:5400:03ff:fec6:c9cd";
+            PreferredSource = public6;
             Gateway = "_ipv6ra";
           };
         }
         { routeConfig = {
             Destination = "169.254.169.254";
-            PreferredSource = "45.32.153.151";
+            PreferredSource = public4;
             Gateway = "_dhcp4";
           };
         }
@@ -142,11 +124,6 @@ in {
       ipv6AcceptRAConfig = {
         UseAutonomousPrefix = "no";
         UseOnLinkPrefix = "no";
-      };
-    };
-    networks."40-enp6s0" = {
-      networkConfig = {
-        LinkLocalAddressing = "no";
       };
     };
   };

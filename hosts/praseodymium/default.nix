@@ -8,25 +8,16 @@
     no-coredump
     ntp-server
     ssh
+    wolkenheim
   ]);
 
   nixpkgs = rec {
     system = "x86_64-linux";
   };
 
-  nix = {
-    daemonCPUSchedPolicy = "batch";
-    daemonIOSchedClass = "idle";
-
-    gc = {
-      automatic = true;
-      options = "--delete-older-than 30d";
-    };
-
-    settings = {
-      max-jobs = 4;
-      cores = 1;
-    };
+  nix.settings = {
+    max-jobs = 4;
+    cores = 1;
   };
 
   system.macnameNamespace = "wolkenheim.kleen.org";

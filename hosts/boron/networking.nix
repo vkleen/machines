@@ -72,7 +72,7 @@ let
       chain postrouting {
         type filter hook postrouting priority mangle
         policy accept
-        oifname { wg-europium, neodymium, freerange, lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte } meta l4proto tcp tcp flags & (syn|rst) == syn tcp option maxseg size set rt mtu
+        oifname { wg-europium, neodymium, lanthanum-dsl, lanthanum-lte, cerium-dsl, cerium-lte, praseodymi-dsl, praseodymi-lte } meta l4proto tcp tcp flags & (syn|rst) == syn tcp option maxseg size set rt mtu
       }
     }
     table ip nat {
@@ -90,7 +90,6 @@ let
         oifname { neodymium } mark 0x1 masquerade
         oifname { forstheim } mark 0x1 masquerade
         oifname { celluloid } mark 0x1 masquerade
-        oifname { freerange } snat to 206.83.40.96
       }
     }
   '';
@@ -105,7 +104,6 @@ in {
     search auenheim.kleen.org
   '';
   system.publicAddresses = [
-#    (mkV4 "100.64.101.37")
     (mkV6 "2a06:e881:9008::1")
   ];
   networking = {
@@ -269,17 +267,6 @@ in {
           }
         ];
       };
-      #freerange = {
-      #  ips = [ "100.64.101.37/27" ];
-      #  privateKeyFile = "/run/agenix/freerange";
-      #  allowedIPsAsRoutes = false;
-      #  peers = [
-      #    { publicKey = "enMJtnjeb3AFY9v4OybvnM0Hvt4xZE0lPJ8exizfFHs=";
-      #      allowedIPs = [ "0.0.0.0/0" "::/0" ];
-      #      endpoint = "[2a0f:9400:fa0::91]:36745";
-      #    }
-      #  ];
-      #};
     };
 
     namespaces.enable = true;
@@ -290,17 +277,6 @@ in {
     owner = "0";
     group = "systemd-network";
   };
-  age.secrets.freerange = {
-    file = ../../secrets/wireguard/freerange.age;
-    mode = "0440";
-    owner = "0";
-    group = "systemd-network";
-  };
-
-  boot.kernelModules = [ "ifb" ];
-  boot.extraModprobeConfig = ''
-    options ifb numifbs=1
-  '';
 
   virtualisation.upstream-container = {
     enable = true;
@@ -323,19 +299,9 @@ in {
           enable = true;
           allowPing = true;
           extraCommands = ''
-            ip46tables -F FORWARD
-            ip46tables -A FORWARD -j DROP
-            iptables -I FORWARD 1 -o lte -d 192.168.88.1 -j ACCEPT
-            iptables -I FORWARD 2 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
           '';
           extraStopCommands = ''
           '';
-        };
-        nat = {
-          enable = false;
-          externalInterface = "lte-veth";
-          internalInterfaces = [ "mgmt-veth" ];
-          internalIPs = [ ];
         };
         inherit (config.networking) hosts;
       };
@@ -474,20 +440,11 @@ in {
       '';
       script = ''
         ${pkgs.iproute2}/bin/ip link set lte netns lte
-        ${pkgs.iproute2}/bin/ip link set ifb0 netns lte
 
         ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/ip link set dev lte up
         ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/ip link set dev lte mtu 1480
-        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/ip link set dev ifb0 up
-
-        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc qdisc add dev ifb0 root tbf rate 6500kbit burst 100kb latency 50ms
-        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc qdisc add dev lte handle ffff: ingress
-        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc filter add dev lte parent ffff: protocol all u32 match u32 0 0 action mirred egress redirect dev ifb0
       '';
       postStop = ''
-        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc filter del dev lte root
-        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc qdisc del dev lte ingress
-        ${pkgs.iproute2}/bin/ip netns exec lte ${pkgs.iproute2}/bin/tc qdisc del dev ifb0 root
         ${pkgs.iproute2}/bin/ip link del ltens || true
       '';
     };
@@ -534,10 +491,15 @@ in {
       after = [ "netns@lte.service" ];
       bindsTo = [ "netns@lte.service" ];
     };
+    "wireguard-praseodymi-lte" = {
+      after = [ "netns@lte.service" ];
+      bindsTo = [ "netns@lte.service" ];
+    };
   };
 
   networking.wireguard.interfaces."lanthanum-lte".socketNamespace = lib.mkForce "lte";
   networking.wireguard.interfaces."cerium-lte".socketNamespace = lib.mkForce "lte";
+  networking.wireguard.interfaces."praseodymi-lte".socketNamespace = lib.mkForce "lte";
 
   services.kea = {
     dhcp4 = {
@@ -899,11 +861,6 @@ in {
         MTUBytes = "1320";
       };
     };
-    #networks."40-freerange" = {
-    #  linkConfig = {
-    #    MTUBytes = "1320";
-    #  };
-    #};
   };
 
   services.resolved = {

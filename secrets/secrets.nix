@@ -5,11 +5,10 @@ let
   boron = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBkRtSje5rDeMMd6wZFbQ1d9XlF9nqeRf40vZ8y+x1/J";
   cerium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILqPhc/mYvz9ZpcqXJmM/2YEnQ2WhEl3jwc11ZRKy8Jb";
   europium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIODkqoX3kRPftiOdRdpHutcIbbRGrMdkKlOpINa8AUQa";
-  #lanthanum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBQlRlLUKTTjKrwzPD+djLIaWQ36aXUpPkKJcAULmey2";
   lanthanum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMRfboIyEm9otlsGyCH/zIsiGdq1aapnpMjnYG0/2qu6";
   neodymium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE/rujrnskTy66GPBnKnWbwf45I7pWEjcXyaQoVHgDG8";
 
-  all-systems = [ bohrium boron europium lanthanum cerium ];
+  praseodymium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuT1KROYFMIEW2ow9l3Ar91Ro8Es3NQo2li+lAXaBYi";
 in
 {
   "aws/credentials.age".publicKeys = [vkleen bohrium];
@@ -27,6 +26,7 @@ in
   "wireguard/nitrogen.age".publicKeys = [vkleen];
   "wireguard/freerange.age".publicKeys =[vkleen boron];
   "wireguard/neodymium.age".publicKeys =[vkleen neodymium];
+  "wireguard/praseodymium.age".publicKeys =[vkleen praseodymium];
 
   "nix/europium.1.sec.age".publicKeys = [vkleen europium];
 
@@ -63,6 +63,7 @@ in
 
   "wolkenheim/vultr-bgp-password-lanthanum.age".publicKeys = [vkleen lanthanum];
   "wolkenheim/vultr-bgp-password.age".publicKeys = [vkleen lanthanum cerium];
+  "wolkenheim/sbag-bgp-password.age".publicKeys = [vkleen praseodymium];
 
   "ejabberd-config-secrets.age".publicKeys = [vkleen boron europium];
   "bifrost-registration.age".publicKeys = [vkleen boron europium];

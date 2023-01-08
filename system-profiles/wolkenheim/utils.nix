@@ -17,8 +17,12 @@ rec {
   ASN = AS:
     4204871356 + (flake.inputs.macname.computeHash16 AS);
 
-  intfName = host: intf:
-    "${host}${lib.strings.optionalString (intf != "_") "-${intf}"}";
+  intfName = host: intf: let
+      maxLength = 15;
+      intfLength = lib.strings.stringLength intf;
+
+      limitedHost = lib.strings.substring 0 (maxLength - intfLength - 2) host;
+    in "${limitedHost}${lib.strings.optionalString (intf != "_") "-${intf}"}";
 
   linkName = host: l: intfName (linkRemote host l).host l.from.intf;
 

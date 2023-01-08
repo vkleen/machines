@@ -3,14 +3,14 @@
 {
   boot.initrd.availableKernelModules = [ ];
   boot.initrd.supportedFilesystems = [ "ext4" ];
-  boot.initrd.kernelModules = [ "virtio_scsi" "virtio_blk" "virtio_pci" ];
+  boot.initrd.kernelModules = [ "vmw_pvscsi" ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
   hardware.enableRedistributableFirmware = true;
 
   boot.loader.grub = {
     enable = true;
-    device = "/dev/vda";
+    device = "/dev/sda";
     copyKernels = true;
     fsIdentifier = "label";
   };
@@ -21,5 +21,13 @@
       options = [ "discard" "relatime" ];
     };
 
-  swapDevices = [];
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-label/boot";
+      fsType = "ext4";
+      options = [ "discard" "relatime" ];
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-label/swap"; }
+    ];
 }

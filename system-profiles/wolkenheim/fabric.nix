@@ -15,7 +15,7 @@
     "nitrogen" = { AS = "auenheim"; };
     "cerium" = { AS = "wolkenheim"; };
     "lanthanum" = { AS = "wolkenheim"; };
-    "samarium" = { AS = "netcup"; };
+    "praseodymium" = { AS = "wolkenheim"; };
   };
 
   wg-links = {
@@ -23,25 +23,14 @@
       "dsl" = [
         { to = "lanthanum"; bfdInterval = 200; bfdDetectionMultiplier = 4; }
         { to = "cerium"; bfdInterval = 200; bfdDetectionMultiplier = 4; }
+        { to = "praseodymium"; bfdInterval = 200; bfdDetectionMultiplier = 4; }
       ];
       "lte" = [
         { to = "lanthanum"; bfdInterval = 5000; }
         { to = "cerium"; bfdInterval = 5000; }
+        { to = "praseodymium"; bfdInterval = 5000; }
       ];
     };
-
-#    "nitrogen" = {
-#      "dsl" = [
-#        { to = "lanthanum"; }
-#        { to = "cerium"; }
-#        { to = "samarium"; }
-#      ];
-#      "lte" = [
-#        { to = "lanthanum"; }
-#        { to = "cerium"; }
-#        { to = "samarium"; }
-#      ];
-#    };
   };
 
   uplinks = let
@@ -61,9 +50,22 @@
         };
       };
     };
+
+    sbag-uplink = {
+      type = "bgp";
+      credentials = ../../secrets/wolkenheim/sbag-bgp-password.age;
+      remote-as = 58057;
+      local-as = 210286;
+      password = "$SBAG_BGP_PASSWORD";
+      allowed-prefixes4 = [ ];
+      allowed-prefixes6 = [ "2a06:e881:9008::/48" ];
+      peer6 = "2a09:4c0:303:c232::5cfa";
+      extraGobgpNeighborConfig = {};
+    };
   in {
     "lanthanum" = vultr-uplink;
     "cerium" = vultr-uplink;
+    "praseodymium" = sbag-uplink;
   };
 
   ip4NamespaceAllocation = {

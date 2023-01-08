@@ -17,7 +17,8 @@ in {
     };
   };
   config = lib.mkMerge [
-    { systemd.services.gobgpd = let # TODO: Add zebra dependency
+    (lib.mkIf cfg.enable {
+      systemd.services.gobgpd = let # TODO: Add zebra dependency
         configFile = (pkgs.formats.toml {}).generate "gobgpd.conf" cfg.config;
         finalConfigFile = "$RUNTIME_DIRECTORY/gobgpd.conf";
       in {
@@ -48,7 +49,7 @@ in {
       environment.systemPackages = [
         pkgs.gobgp
       ];
-    }
+    })
     (lib.mkIf (cfg.credentialFile != null) {
       age.secrets."gobgp-credentials".file = cfg.credentialFile;
     })

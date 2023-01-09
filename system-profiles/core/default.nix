@@ -59,7 +59,7 @@ in
         trusted-users = [ "root" "@wheel" ];
         allowed-users = [ "@wheel" ];
         experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
-        auto-optimise-store = true;
+        auto-optimise-store = false;
         keep-outputs = true;
         keep-derivations = true;
       };

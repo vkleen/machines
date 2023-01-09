@@ -44,6 +44,7 @@
       secret-key-files = "/persist/private/bohrium.1.sec";
       builders-use-substitutes = true;
       keep-outputs = true;
+      connect-timeout = 5;
     };
   };
 

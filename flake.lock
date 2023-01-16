@@ -442,11 +442,11 @@
     "kikit-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1656505890,
-        "narHash": "sha256-ZsU4U+WIyv3atDeLd8W6sQHySgcR0SIVvUiDPIUCPs0=",
+        "lastModified": 1673592180,
+        "narHash": "sha256-lSEG3dVpLNimevzT4CzZVN/xzpLVZkpL/fELt5y/PWs=",
         "owner": "yaqwsx",
         "repo": "KiKit",
-        "rev": "2c67454b04bcc2f5a1ee35294e344031b6bf7f7f",
+        "rev": "1b074ae492e10f4787f12049cdb61062d6cffbbf",
         "type": "github"
       },
       "original": {
@@ -826,20 +826,18 @@
     },
     "nixpkgs-power9": {
       "locked": {
-        "host": "git.sr.ht.kleen.org",
-        "lastModified": 1666632022,
-        "narHash": "sha256-UuBxNmnh6fPLIN+1lmgToa5qRVn3wMDm8bicTX/bJhk=",
-        "owner": "~vkleen",
+        "lastModified": 1673382183,
+        "narHash": "sha256-PdZ8+t8dl7FNhIIE128jKfEOE7U1WiwZdHAsAnHIJlA=",
+        "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "869f326839b1b4d05663365ffb22e1fcc5fd82e3",
-        "type": "sourcehut"
+        "rev": "bfacb5609416df32e0c28255d4169d8a233f7a7c",
+        "type": "github"
       },
       "original": {
-        "host": "git.sr.ht.kleen.org",
-        "owner": "~vkleen",
+        "owner": "vkleen",
         "ref": "local-power9",
         "repo": "nixpkgs",
-        "type": "sourcehut"
+        "type": "github"
       }
     },
     "nixpkgs-regression": {
@@ -926,11 +924,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1672523589,
-        "narHash": "sha256-2ZdnOMmrdBwaMyVkcI6nHUhO2PmY1xQq8ttYZLrhUdc=",
+        "lastModified": 1673865045,
+        "narHash": "sha256-+NisUk8+ybCJf+D0ipPaHNMT/gFC0QG9PJIlnKugMNM=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "138878dc9000d32abfd8c99532641c3775e24bfc",
+        "rev": "6cc9d1ab7b6fba3e29d5f423031cc8e1d73dbbf0",
         "type": "github"
       },
       "original": {

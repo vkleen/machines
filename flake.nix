@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = github:vkleen/nixpkgs/local;
-    nixpkgs-power9.url = sourcehut:~vkleen/nixpkgs/local-power9?host=git.sr.ht.kleen.org;
+    nixpkgs-power9.url = github:vkleen/nixpkgs/local-power9;
     nixpkgs-riscv.url = sourcehut:~vkleen/nixpkgs/local-riscv?host=git.sr.ht.kleen.org;
     home-manager = {
       url = "github:nix-community/home-manager";

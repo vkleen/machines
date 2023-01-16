@@ -1,7 +1,21 @@
-{ lib, kikit-src, buildPythonPackage, fetchPypi, fetchFromGitHub,
-  numpy, shapely, click, markdown2, commentjson, prettytable,
-  wcwidth, pypng, ply, kicad, versioneer,
-  wxPython
+{ lib
+, kikit-src
+, buildPythonPackage
+, fetchPypi
+, fetchFromGitHub
+, numpy
+, shapely
+, click
+, markdown2
+, commentjson
+, prettytable
+, wcwidth
+, pypng
+, ply
+, kicad
+, versioneer
+, setuptools
+, wxPython
 }:
 let
   pymeta3 = buildPythonPackage rec {
@@ -48,6 +62,7 @@ let
       sha256 = "sha256-XVsXgvLVFfxrRXDwdZO7oi7LPozN2XiYeXCK9NTx4Qs=";
     };
     doCheck = false;
+    buildInputs = [ setuptools ];
   };
 
   euclid3 = buildPythonPackage rec {
@@ -73,15 +88,16 @@ let
 
   pcbnewTransition = buildPythonPackage rec {
     pname = "pcbnewTransition";
-    version = "0.2.0";
+    version = "0.3.2";
     src = fetchPypi {
       inherit pname version;
-      sha256 = "sha256-y3Ug56xvCAGiNwJeyTe1rOQni7gd16+yegSxdwcMfLU=";
+      sha256 = "sha256-UVJ4+psNmsNB1penBxVLHcOP0F8+O6O4M7i7+IrGKQs=";
     };
     buildInputs = [ versioneer ];
     doCheck = false;
   };
-in buildPythonPackage rec {
+in
+buildPythonPackage rec {
   pname = "kikit";
   version = "master";
 

@@ -17,7 +17,7 @@ in {
   xdg.configFile."neomutt/neomuttrc".text = ''
     set header_cache = "${config.xdg.cacheHome}/neomutt/headers/"
     set message_cachedir = "${config.xdg.cacheHome}/neomutt/messages/"
-    set editor = "${pkgs.neovim-nightly}/bin/nvim"
+    set editor = "${pkgs.neovim}/bin/nvim"
     set tmpdir = "/run/user/${builtins.toString nixos.users.users.vkleen.uid}"
     set implicit_autoview = yes
 

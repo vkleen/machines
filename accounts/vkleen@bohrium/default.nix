@@ -1,4 +1,4 @@
-{ userName, pkgs, flake, lib, config, ...}: {
+{ userName, pkgs, flake, lib, config, ... }: {
   users.users.${userName} = {
     extraGroups =
       [ "network" "dialout" "audio" "video" "input" "wireshark" "adbusers" "bladerf" "kvm" "libvirtd" "lp" "scanner" ]
@@ -18,10 +18,9 @@
       git
       gnupg
       gpg-agent
-      kitty
       mpv
       neomutt
-      flake.inputs.neovim-configuration.homeManagerModules.${config.nixpkgs.system}.neovim-config
+      # flake.inputs.neovim-configuration.homeManagerModules.${config.nixpkgs.system}.neovim-config
       pass
       redshift
       spacenav
@@ -33,16 +32,19 @@
       zsh
       foot
       #{ neovim-config.enable = true; }
-      { xdg.configFile = {
-        "wireplumber" = {
-          source = ./wireplumber;
-          recursive = true;
-          onChange = ''
-            ${pkgs.systemd}/bin/systemctl --user try-restart wireplumber
-          '';
+      {
+        xdg.configFile = {
+          "wireplumber" = {
+            source = ./wireplumber;
+            recursive = true;
+            onChange = ''
+              ${pkgs.systemd}/bin/systemctl --user try-restart wireplumber
+            '';
+          };
         };
-      }; }
-      { home.packages = [ pkgs.hut ];
+      }
+      {
+        home.packages = [ pkgs.hut ];
         xdg.configFile = {
           "hut/config".text = ''
             instance "sr.ht.kleen.org" {
@@ -52,7 +54,15 @@
         };
       }
       {
-        home.packages = [ pkgs.jrnl pkgs.helvum pkgs.nix-output-monitor pkgs.neovim-nightly pkgs.zig pkgs.rnix-lsp pkgs.nixpkgs-fmt ];
+        home.packages = [
+          pkgs.jrnl
+          # pkgs.helvum
+          pkgs.nix-output-monitor
+          pkgs.neovim
+          pkgs.zig
+          pkgs.rnix-lsp
+          pkgs.nixpkgs-fmt
+        ];
       }
       (import ./vdirsyncer.nix)
       (import ./khal.nix)

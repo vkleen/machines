@@ -5,7 +5,7 @@ final: prev: {
 
     src = final.rmapi-src;
 
-    vendorSha256 = "sha256-gu+BU2tL/xZ7D6lZ1ueO/9IB9H3NNm4mloCZaGqZskU=";
+    vendorSha256 = "sha256-Id2RaiSxthyR6egDQz2zulbSZ4STRTaA3yQIr6Mx9kg=";
 
     doCheck = false;
   };

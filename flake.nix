@@ -86,10 +86,6 @@
       url = "github:osrg/gobgp";
       flake = false;
     };
-    lego-src = {
-      url = sourcehut:~vkleen/lego/zerossl-accounts?host=git.sr.ht.kleen.org;
-      flake = false;
-    };
     hut-src = {
       url = sourcehut:~emersion/hut;
       flake = false;
@@ -104,6 +100,10 @@
     };
     radicale-src = {
       url = github:trougnouf/Radicale;
+      flake = false;
+    };
+    jrnl-src = {
+      url = github:jrnl-org/jrnl;
       flake = false;
     };
 
@@ -147,13 +147,6 @@
       url = sourcehut:~vkleen/neovim-configuration?host=git.sr.ht.kleen.org;
       inputs.utils.follows = "utils";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    neovim-nightly = {
-      url = github:nix-community/neovim-nightly-overlay;
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        neovim-flake.follows = "neovim-flake";
-      };
     };
     neovim-flake = {
       url = github:neovim/neovim?dir=contrib;
@@ -327,7 +320,6 @@
           #                        (   { "powerpc64le-linux" = inputs.nix-power9.overlays.default; }
           #                         // { "riscv64-linux" = inputs.nix-riscv.overlays.default; }
           #                        );
-          neovim-nightly = inputs.neovim-nightly.overlay;
           macname = forSystemsOverlay
             (_: _: {})
             (forAllSystems (system: _: _: { inherit (inputs.macname.packages."${system}") macname; })
@@ -343,14 +335,16 @@
               gobgp-src
               hledger-src
               hut-src
+              jrnl-src
               kicad-src
               kikit-src
-              lego-src
               lieer-src
               radicale-src
               rmapi-src
               rmfakecloud-src
               vdirsyncer-src
+
+              neovim-flake
             ;
           };
         };

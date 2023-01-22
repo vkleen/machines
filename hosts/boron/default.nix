@@ -18,7 +18,6 @@
     no-coredump
     ntp-server
     rmfakecloud
-    sourcehut
     ssh
     uucp-email
     wolkenheim

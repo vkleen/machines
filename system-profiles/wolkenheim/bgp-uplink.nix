@@ -42,15 +42,15 @@ in {
          } // fabric.uplinks.${hostName}.extraGobgpNeighborConfig)
       ];
       neighbors = 
-        (lib.optional (fabric.uplinks.${hostName} ? peer4) { config = {
-            neighbor-address = fabric.uplinks.${hostName}.peer4;
-            peer-group = "uplink";
-            remove-private-as = "all";
-          };
-          afi-safis = [
-            { config.afi-safi-name = "ipv4-unicast"; }
-          ];
-        }) ++
+        # (lib.optional (fabric.uplinks.${hostName} ? peer4) { config = {
+        #     neighbor-address = fabric.uplinks.${hostName}.peer4;
+        #     peer-group = "uplink";
+        #     remove-private-as = "all";
+        #   };
+        #   afi-safis = [
+        #     { config.afi-safi-name = "ipv4-unicast"; }
+        #   ];
+        # }) ++
         (lib.optional (fabric.uplinks.${hostName} ? peer6) { config = {
             neighbor-address = fabric.uplinks.${hostName}.peer6;
             peer-group = "uplink";
@@ -80,8 +80,8 @@ in {
         { neighbor-set-name = "uplink";
           neighbor-info-list = let
             uplinks = fabric.uplinks.${hostName};
-          in (lib.optional (uplinks ? peer4) uplinks.peer4) ++
-             (lib.optional (uplinks ? peer6) uplinks.peer6);
+          # in (lib.optional (uplinks ? peer4) uplinks.peer4) ++
+          in (lib.optional (uplinks ? peer6) uplinks.peer6);
         }
       ];
       policy-definitions = [

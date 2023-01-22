@@ -3,7 +3,7 @@ let
 
   bohrium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHEPgawj3/wTcdUHhCXUAWE69oevE+bDNvxNoSzPIeOM";
   boron = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBkRtSje5rDeMMd6wZFbQ1d9XlF9nqeRf40vZ8y+x1/J";
-  cerium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILqPhc/mYvz9ZpcqXJmM/2YEnQ2WhEl3jwc11ZRKy8Jb";
+  cerium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINyb8FvtvGdZPCWreikvDNfqEYCjqjj8AWkSWGTy7MmI";
   europium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIODkqoX3kRPftiOdRdpHutcIbbRGrMdkKlOpINa8AUQa";
   lanthanum = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMRfboIyEm9otlsGyCH/zIsiGdq1aapnpMjnYG0/2qu6";
   neodymium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE/rujrnskTy66GPBnKnWbwf45I7pWEjcXyaQoVHgDG8";

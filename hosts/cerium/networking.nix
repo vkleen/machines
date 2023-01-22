@@ -4,8 +4,8 @@ let
   inherit (flake.inputs.utils.lib) private_address mkV4 mkV6;
   machine_id = config.environment.etc."machine-id".text;
 
-  public4 = "45.32.154.225";
-  public6 = "2001:19f0:6c01:284a:5400:03ff:fec6:c9b0";
+  public4 = "95.179.251.177";
+  public6 = "2001:19f0:6c01:9af:5400:04ff:fe47:eee0";
 
   nft_ruleset = let
     tcpPorts =
@@ -81,24 +81,17 @@ in {
         useDHCP = true;
         ipv4.addresses = [ {
           address = public4;
-          prefixLength = 22;
+          prefixLength = 23;
         } ];
         ipv6.addresses = [ {
           address = public6;
           prefixLength = 64;
         } ];
       };
-      "enp6s0" = {
-        ipv4.addresses = [ {
-          address = private_address 32 machine_id;
-          prefixLength = 16;
-        } ];
-        mtu = 1450;
-      };
     };
     firewall = {
       enable = false;
-      trustedInterfaces = [ "enp6s0" "boron-dsl" "boron-lte" ];
+      trustedInterfaces = [ "boron-dsl" "boron-lte" ];
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
     };

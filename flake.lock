@@ -325,11 +325,11 @@
     "freecad-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1673909459,
-        "narHash": "sha256-PUBfKTG7AB1QzbyyR1++oamLbmw19IV3laI2FCT+kJg=",
+        "lastModified": 1674401355,
+        "narHash": "sha256-+2db32kLdoCsH00w3vrwnbs3pYhO5Sr+W6GnydpRM1Y=",
         "owner": "FreeCAD",
         "repo": "FreeCAD",
-        "rev": "a51026413d9cc1e1bb67f91c4ea4f30d2aadeb7f",
+        "rev": "d81f1f015ee6d0a080ab3ca728512ebc147636d9",
         "type": "github"
       },
       "original": {
@@ -357,11 +357,11 @@
     "hledger-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1673733894,
-        "narHash": "sha256-pnFFpMuarFJ34Qqnb7UDV7nPYtVmzS/ezRZB8eO+SWI=",
+        "lastModified": 1674332498,
+        "narHash": "sha256-rm3UmbTx+5sSLv77YUrNDIZKHdzOnNH2uy6pjTrDhd0=",
         "owner": "simonmichael",
         "repo": "hledger",
-        "rev": "b15d8d214daa493844d9d2af486d30d387d13792",
+        "rev": "eff29ac10d4bf53ad6ca58f0b32faa818c48dfca",
         "type": "github"
       },
       "original": {
@@ -442,11 +442,11 @@
     "kikit-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1673766764,
-        "narHash": "sha256-BhLO3fBfSLEpfUvfT7fskKaRMXUbd2+WDK3iN7sVeos=",
+        "lastModified": 1674290647,
+        "narHash": "sha256-zx1mS2M4L6BF4Mf3guvz00ZeQPZ8a5GxQ2DGKoswhzA=",
         "owner": "yaqwsx",
         "repo": "KiKit",
-        "rev": "ee62cf7fe96261214f05332c99c90946275da330",
+        "rev": "a5415f2e948486dfd5ee54b1f635e2a659d4bfbc",
         "type": "github"
       },
       "original": {
@@ -881,11 +881,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1673865045,
-        "narHash": "sha256-+NisUk8+ybCJf+D0ipPaHNMT/gFC0QG9PJIlnKugMNM=",
+        "lastModified": 1674409011,
+        "narHash": "sha256-hPXh1mxjoWPpFkeNKrGUTG+2P37/vOBCJME79RI4eqc=",
         "owner": "vkleen",
         "repo": "nixpkgs",
-        "rev": "6cc9d1ab7b6fba3e29d5f423031cc8e1d73dbbf0",
+        "rev": "205947aeb1bfb5f31d8bc9013de1c407863f417f",
         "type": "github"
       },
       "original": {
@@ -1011,13 +1011,12 @@
     "radicale-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1673909462,
-        "narHash": "sha256-u08rqtP1dk44ShE4GymBQjYVNNksvAgeOLEQPFa5O8Q=",
-        "ref": "refs/heads/trougnouf/master",
-        "rev": "908f537005bb0b541c145dcd2b65375d4ffe9f0d",
-        "revCount": 2101,
-        "type": "git",
-        "url": "file:///home/vkleen/src/github.com/Kozea/radicale"
+        "lastModified": 1658182533,
+        "narHash": "sha256-VEAB2x5PREh2YEfudDlu+zfFX7Gcq35MoeJNFXUc53g=",
+        "owner": "trougnouf",
+        "repo": "Radicale",
+        "rev": "f4a87afab7b08e0eebe3e9f66b40f2ada7499730",
+        "type": "github"
       },
       "original": {
         "owner": "trougnouf",
@@ -1189,13 +1188,12 @@
     "vdirsyncer-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1673909408,
-        "narHash": "sha256-yslBfgxvNn+yhhPmf1egRYIMMix9N39U7bMnxezLLRo=",
-        "ref": "refs/heads/main",
-        "rev": "8bdeb3a768f0ea8775816d9c1cd3763264c89d1e",
-        "revCount": 2288,
-        "type": "git",
-        "url": "file:///home/vkleen/src/github.com/pimutils/vdirsyncer"
+        "lastModified": 1673624252,
+        "narHash": "sha256-COKGwkGxmTxel3qXaUGkKT+U769sTOqtRjNG+HnOH7Q=",
+        "owner": "pimutils",
+        "repo": "vdirsyncer",
+        "rev": "0045b238004b33b2305620e3530a4e750fbd1f90",
+        "type": "github"
       },
       "original": {
         "owner": "pimutils",

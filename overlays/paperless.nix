@@ -22,23 +22,7 @@ final: prev: {
       };
     in
     prev.paperless-ngx.overrideAttrs (o: rec {
-      # inherit (o) pname;
-      # version = "1.10.2";
-      # src = final.fetchurl {
-      #   url = "https://github.com/paperless-ngx/paperless-ngx/releases/download/v${version}/${pname}-v${version}.tar.xz";
-      #   hash = "sha256-uOrRHHNqIYsDbzKcA7EsYZjadpLyAB4Ks+PU+BNsTWE=";
-      # };
-
       patches = [ ./paperless-lobotomize-classifier.patch ];
-
-      # propagatedBuildInputs = o.propagatedBuildInputs ++ (with python.pkgs.pythonPackages; [
-      #   celery
-      #   django-celery-results
-      #   rapidfuzz
-      # ]);
-      #
-      # nativeBuildInputs = (o.nativeBuildInputs or [ ]) ++ [ final.gettext ];
-
       installCheckPhase = ":";
     });
 }

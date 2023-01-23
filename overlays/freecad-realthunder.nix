@@ -1,13 +1,13 @@
 final: prev: let
   py_slvs = final.python3Packages.buildPythonPackage rec {
     pname = "py-slvs";
-    version = "1.0.1";
+    version = "1.0.3";
     src = final.fetchFromGitHub {
       owner = "realthunder";
       repo = "slvs_py";
-      rev = "ba17e8c1015554812acf73ac8fdab9ebd8e15653";
+      rev = "c94979b0204a63f26683c45ede1136a2a99cb365";
       fetchSubmodules = true;
-      sha256 = "sha256-YbBFYOunAdV2nUa8RtnkjonCFXKvnnAZsnkyOvI0cVA=";
+      sha256 = "sha256-bOdTmSMAA0QIRlcIQHkrnDH2jGjGJqs2i5Xaxu2STMU=";
     };
 
     nativeBuildInputs = with final; with final.python3Packages; [ cmake swig scikit-build setuptools ];
@@ -16,6 +16,7 @@ final: prev: let
   };
 
 in prev.lib.onlySystems prev.lib.supportedSystems {
+  inherit py_slvs;
   freecad-realthunder = prev.freecad.overrideAttrs (o: {
     version = "realthunder";
     src = final.freecad-src;

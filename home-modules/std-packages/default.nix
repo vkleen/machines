@@ -5,7 +5,7 @@
     aspell
     aspellDicts.de
     aspellDicts.en
-    awscli
+    awscli2
     batctl
     bc
     borgbackup

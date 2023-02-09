@@ -1,6 +1,7 @@
 {config, nixos, pkgs, lib, ...}:
 {
   home.packages = [ pkgs.helix ];
+  home.sessionVariables.EDITOR = "${pkgs.helix}/bin/hx";
   xdg.configFile."helix/config.toml".source = (pkgs.formats.toml {}).generate "config.toml" {
     theme = "nord";
     editor = {

@@ -31,6 +31,7 @@
       zathura
       zsh
       foot
+      helix
       #{ neovim-config.enable = true; }
       {
         xdg.configFile = {

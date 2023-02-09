@@ -152,6 +152,10 @@
       url = github:neovim/neovim?dir=contrib;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    helix = {
+      url = github:helix-editor/helix;
+    };
   };
 
   outputs = { self, ...}@inputs:
@@ -324,6 +328,12 @@
             (_: _: {})
             (forAllSystems (system: _: _: { inherit (inputs.macname.packages."${system}") macname; })
              // { "powerpc64le-linux" = _: _: { inherit (inputs.macname-power9.packages."powerpc64le-linux") macname; }; });
+
+          helix = forSystemsOverlay
+            (_: _: {})
+            (forAllSystems (system: _: _: {
+              inherit (inputs.helix.packages.${system}) helix;
+            }));
           sources = final: prev: {
             inherit (inputs)
               alacritty-src

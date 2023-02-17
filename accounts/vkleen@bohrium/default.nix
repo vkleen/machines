@@ -61,7 +61,7 @@
           pkgs.nix-output-monitor
           pkgs.neovim
           pkgs.zig
-          pkgs.rnix-lsp
+          pkgs.nil
           pkgs.nixpkgs-fmt
         ];
       }

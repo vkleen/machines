@@ -22,7 +22,7 @@ esac
 set -e
 
 DIR=${0:a:h}
-AWS=(aws --region eu-central-1)
+AWS=(aws --region eu-west-1)
 
 launch-spot-request() {
     "$AWS[@]" ec2 run-instances \
@@ -51,7 +51,7 @@ terminate-instance() {
 
 build_cmdline=( "${@}" )
 
-nix "${build_cmdline[@]}" && exit
+# nix "${build_cmdline[@]}" && exit
 
 cleanup() {
     terminate-instance "$INSTANCE"
@@ -77,7 +77,7 @@ SSH_HOST_KEY=$(get_ssh_host_key)
 
 do_nix() {
   local cmdline=( "${@}" )
-  "$DIR"/nom/bin/nom "${cmdline[@]}" --option builders-use-substitutes true --builders "ssh://${SERVER} ${SERVER_ARCH} ${HOME}/.ssh/id_rsa 18 - benchmark,kvm,recursive-nix,big-parallel,ca-derivations - $(base64 -w0 <<<"$SSH_HOST_KEY")"
+  nom "${cmdline[@]}" --option builders-use-substitutes true --builders "ssh://${SERVER} ${SERVER_ARCH} ${HOME}/.ssh/id_rsa 18 - benchmark,kvm,recursive-nix,big-parallel,ca-derivations - $(base64 -w0 <<<"$SSH_HOST_KEY")"
 }
 
 do_ssh() {

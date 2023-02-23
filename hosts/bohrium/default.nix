@@ -1,4 +1,4 @@
-{ flake, config, hostName, ... }: {
+{ flake, config, lib, pkgs, hostName, ... }: {
   imports = [
     ./graphical.nix
     ./hardware.nix
@@ -25,7 +25,7 @@
     zfs
   ]);
 
-  nixpkgs = rec {
+  nixpkgs = {
     system = "x86_64-linux";
   };
 
@@ -52,4 +52,6 @@
   services.lock-on-suspend.enable = true;
 
   programs.adb.enable = true;
+
+  programs.nix-ld.enable = true;
 }

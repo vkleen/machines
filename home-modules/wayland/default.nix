@@ -253,8 +253,8 @@ in lib.mkMerge [{
     systemdIntegration = false;
     config = let
       mod = "Mod4";
-      terminal = "${pkgs.alacritty}/bin/alacritty";
-      scratch-terminal = "${pkgs.alacritty}/bin/alacritty";
+      terminal = "${pkgs.foot}/bin/foot";
+      scratch-terminal = "${pkgs.foot}/bin/foot";
       ws = lib.genAttrs (map (i: "${builtins.toString i}") (lib.range 1 9)) (n: n) // {
         "0" = "10";
         "1" = "web";

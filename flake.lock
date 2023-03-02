@@ -491,8 +491,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1675967697,
-        "narHash": "sha256-3VFaTF83QmYlRkWl0NlZS6o/st5iqJmS/TOHeAfC7Rs=",
+        "lastModified": 1677189155,
+        "narHash": "sha256-e+TRyRqptflBpOfmJ/+3L5gl0kcmeS95ojFgvG0sjzY=",
+        "ref": "refs/heads/nickel-update",
+        "rev": "5e8783fab7144443c0deffb3debd6c34a2f52112",
+        "revCount": 4152,
         "type": "git",
         "url": "file:///home/vkleen/src/github.com/helix-editor/helix"
       },

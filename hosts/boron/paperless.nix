@@ -15,9 +15,6 @@
         GUNICORN_CMD_ARGS = "--bind=fd://3";
       };
     };
-    systemd.services.paperless-scheduler.after = ["var-lib-paperless.mount"];
-    systemd.services.paperless-consumer.after = ["var-lib-paperless.mount"];
-    systemd.services.paperless-web.after = ["var-lib-paperless.mount"];
 
     age.secrets."paperless/admin-pass" = {
       file = ../../secrets/paperless/admin-pass.age;
@@ -41,32 +38,72 @@
       };
     };
 
-    systemd.services.paperless-scheduler = {
-      script = lib.mkBefore ''
+    systemd.services.paperless-scheduler = let 
+      script = (pkgs.writeShellScriptBin "paperless-scheduler-start" ''
+        set -e
         export PAPERLESS_SECRET_KEY=$(${pkgs.coreutils}/bin/cat "${config.services.paperless.dataDir}/secret-key")
-      '';
-      wantedBy = lib.mkForce [];
+        ${config.services.paperless.package}/bin/celery --app paperless beat --loglevel INFO
+      '').overrideAttrs (_: {
+        name = "unit-script-paperless-scheduler-start";
+      });
+    in {
+      after = ["var-lib-paperless.mount"];
       serviceConfig = {
+        ExecStart = lib.mkForce "${script}/bin/paperless-scheduler-start";
         RestrictAddressFamilies = lib.mkForce [ "AF_UNIX" ];
       };
     };
-    systemd.services.paperless-consumer = {
-      script = lib.mkBefore ''
+
+    systemd.services.paperless-task-queue = let 
+      script = (pkgs.writeShellScriptBin "paperless-task-queue-start" ''
+        set -e
         export PAPERLESS_SECRET_KEY=$(${pkgs.coreutils}/bin/cat "${config.services.paperless.dataDir}/secret-key")
-      '';
+        ${config.services.paperless.package}/bin/celery --app paperless worker --loglevel INFO
+      '').overrideAttrs (_: {
+        name = "unit-script-paperless-task-queue-start";
+      });
+    in {
+      after = ["var-lib-paperless.mount"];
       serviceConfig = {
+        ExecStart = lib.mkForce "${script}/bin/paperless-task-queue-start";
         RestrictAddressFamilies = lib.mkForce [ "AF_UNIX" ];
       };
     };
-    systemd.services.paperless-web = {
-      script = lib.mkBefore ''
+
+
+    systemd.services.paperless-consumer = let 
+      script = (pkgs.writeShellScriptBin "paperless-consumer-start" ''
+        set -e
         export PAPERLESS_SECRET_KEY=$(${pkgs.coreutils}/bin/cat "${config.services.paperless.dataDir}/secret-key")
-      '';
+        ${config.services.paperless.package}/bin/paperless-ngx document_consumer
+      '').overrideAttrs (_: {
+        name = "unit-script-paperless-consumer-start";
+      });
+    in {
+      after = ["var-lib-paperless.mount"];
+      serviceConfig = {
+        ExecStart = lib.mkForce "${script}/bin/paperless-consumer-start";
+        RestrictAddressFamilies = lib.mkForce [ "AF_UNIX" ];
+      };
+    };
+
+
+    systemd.services.paperless-web = let
+      script = (pkgs.writeShellScriptBin "paperless-web-start" ''
+        set -e
+        export PAPERLESS_SECRET_KEY=$(${pkgs.coreutils}/bin/cat "${config.services.paperless.dataDir}/secret-key")
+        ${config.services.paperless.package.python.pkgs.gunicorn}/bin/gunicorn \
+          -c ${config.services.paperless.package}/lib/paperless-ngx/gunicorn.conf.py paperless.asgi:application
+      '').overrideAttrs (_: {
+        name = "unit-script-paperless-web-start";
+      });
+    in {
+      after = ["var-lib-paperless.mount"];
       requires = [ "paperless-web.socket" ];
       serviceConfig = {
+        ExecStart = lib.mkForce "${script}/bin/paperless-web-start";
         AmbientCapabilities = lib.mkForce "";
         CapabilityBoundingSet = lib.mkForce "";
-        SystemCallFilter = [ "mbind" ];
         RestrictAddressFamilies = lib.mkForce [ "AF_UNIX" ];
       };
     };

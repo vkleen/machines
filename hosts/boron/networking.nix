@@ -113,44 +113,44 @@ in {
     vlans = {
       "auenheim" = {
         id = 11;
-        interface = "eth0";
+        interface = "end0";
       };
       "forstheim" = {
         id = 12;
-        interface = "eth0";
+        interface = "end0";
       };
       "celluloid" = {
         id = 13;
-        interface = "eth0";
+        interface = "end0";
       };
       "auenheim-mgmt" = {
         id = 30;
-        interface = "eth0";
+        interface = "end0";
       };
       "zte" = {
         id = 33;
-        interface = "eth0";
+        interface = "end0";
       };
       "apc" = {
         id = 31;
-        interface = "eth0";
+        interface = "end0";
       };
       "ilo" = {
         id = 32;
-        interface = "eth0";
+        interface = "end0";
       };
       "lte-if" = {
         id = 8;
-        interface = "eth0";
+        interface = "end0";
       };
       "telekom" = {
         id = 7;
-        interface = "eth0";
+        interface = "end0";
       };
     };
 
     interfaces = {
-      "eth0" = {
+      "end0" = {
         useDHCP = false;
       };
       "auenheim" = {
@@ -782,7 +782,7 @@ in {
     ];
   in {
     enable = true;
-    root = ipxe-tree;
+    root = "/srv/tftp/chlorine-debrick";
   };
 
   services.corerad = {
@@ -806,7 +806,7 @@ in {
   };
 
   systemd.network = {
-    networks."40-eth0" = {
+    networks."40-end0" = {
       networkConfig = {
         LinkLocalAddressing = "no";
         LLDP = "yes";

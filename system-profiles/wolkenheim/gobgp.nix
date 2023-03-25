@@ -5,6 +5,10 @@ in {
   options = {
     networking.gobgpd = {
       enable = lib.mkEnableOption "GoBGP dameon";
+      configFile = lib.mkOption {
+        description = "GoBGP configuration file";
+        default = (pkgs.formats.toml {}).generate "gobgpd.conf" cfg.config;
+      };
       config = lib.mkOption {
         description = "GoBGP configuration";
         type = (pkgs.formats.toml {}).type;
@@ -19,7 +23,7 @@ in {
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
       systemd.services.gobgpd = let # TODO: Add zebra dependency
-        configFile = (pkgs.formats.toml {}).generate "gobgpd.conf" cfg.config;
+        configFile = cfg.configFile;
         finalConfigFile = "$RUNTIME_DIRECTORY/gobgpd.conf";
       in {
         wantedBy = [ "multi-user.target" ];

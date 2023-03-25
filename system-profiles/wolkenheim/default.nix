@@ -288,7 +288,236 @@ in
       system.build.uncheckedIp4NamespaceMap = uncheckedIp4NamespaceMap wolkenheimFabric (normalize wolkenheimFabric.links);
     }
     (lib.mkIf (hostName == "boron") {
-      networking.gobgpd.config = lib.mkForce boronGobgpConfig;
+      networking.gobgpd.configFile = lib.mkForce (pkgs.writeText "gobgpd.conf" ''
+        [[neighbors]]
+        [neighbors.config]
+        neighbor-interface = "lanthanum-dsl"
+        peer-group = "wolkenheim"
+        
+        [[neighbors]]
+        [neighbors.config]
+        neighbor-interface = "lanthanum-lte"
+        peer-group = "wolkenheim"
+        
+        [[neighbors]]
+        [neighbors.config]
+        neighbor-interface = "cerium-dsl"
+        peer-group = "wolkenheim"
+        
+        [[neighbors]]
+        [neighbors.config]
+        neighbor-interface = "cerium-lte"
+        peer-group = "wolkenheim"
+        
+        [[neighbors]]
+        [neighbors.config]
+        neighbor-interface = "praseodymi-dsl"
+        peer-group = "wolkenheim"
+        
+        [[neighbors]]
+        [neighbors.config]
+        neighbor-interface = "praseodymi-lte"
+        peer-group = "wolkenheim"
+        
+        [[peer-groups]]
+        [[peer-groups.afi-safis]]
+        [peer-groups.afi-safis.config]
+        afi-safi-name = "ipv6-unicast"
+        
+        [peer-groups.config]
+        peer-group-name = "wolkenheim"
+        
+        [peer-groups.timers.config]
+        connect-retry = 9
+        hold-time = 9
+        keepalive-interval = 3
+        
+        [[policy-definitions]]
+        name = "vultr-prefixes"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions]
+        route-disposition = "accept-route"
+        
+        [policy-definitions.statements.conditions.match-prefix-set]
+        match-set-options = "any"
+        prefix-set = "vultr-ipv6"
+        
+        [[policy-definitions]]
+        name = "demote-lte"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions.bgp-actions.set-as-path-prepend]
+        as = "last-as"
+        repeat-n = 1
+        
+        [policy-definitions.statements.conditions.match-neighbor-set]
+        match-set-options = "any"
+        neighbor-set = "cerium-lte"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions.bgp-actions.set-as-path-prepend]
+        as = "last-as"
+        repeat-n = 1
+        
+        [policy-definitions.statements.conditions.match-neighbor-set]
+        match-set-options = "any"
+        neighbor-set = "lanthanum-lte"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions.bgp-actions.set-as-path-prepend]
+        as = "last-as"
+        repeat-n = 1
+        
+        [policy-definitions.statements.conditions.match-neighbor-set]
+        match-set-options = "any"
+        neighbor-set = "praseodymi-lte"
+        
+        [[policy-definitions]]
+        name = "default-route"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions.bgp-actions]
+        set-med = 0
+        
+        [policy-definitions.statements.conditions.match-prefix-set]
+        match-set-options = "any"
+        prefix-set = "default-ipv6"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions]
+        route-disposition = "accept-route"
+        
+        [policy-definitions.statements.conditions]
+        [policy-definitions.statements.conditions.match-neighbor-set]
+        match-set-options = "any"
+        neighbor-set = "lanthanum-dsl"
+        
+        [policy-definitions.statements.conditions.match-prefix-set]
+        match-set-options = "any"
+        prefix-set = "default-ipv6"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions]
+        route-disposition = "accept-route"
+        
+        [policy-definitions.statements.conditions]
+        [policy-definitions.statements.conditions.match-neighbor-set]
+        match-set-options = "any"
+        neighbor-set = "lanthanum-lte"
+        
+        [policy-definitions.statements.conditions.match-prefix-set]
+        match-set-options = "any"
+        prefix-set = "default-ipv6"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions]
+        route-disposition = "accept-route"
+        
+        [policy-definitions.statements.conditions]
+        [policy-definitions.statements.conditions.match-neighbor-set]
+        match-set-options = "any"
+        neighbor-set = "cerium-dsl"
+        
+        [policy-definitions.statements.conditions.match-prefix-set]
+        match-set-options = "any"
+        prefix-set = "default-ipv6"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions]
+        route-disposition = "accept-route"
+        
+        [policy-definitions.statements.conditions]
+        [policy-definitions.statements.conditions.match-neighbor-set]
+        match-set-options = "any"
+        neighbor-set = "cerium-lte"
+        
+        [policy-definitions.statements.conditions.match-prefix-set]
+        match-set-options = "any"
+        prefix-set = "default-ipv6"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions]
+        route-disposition = "accept-route"
+        
+        [policy-definitions.statements.conditions]
+        [policy-definitions.statements.conditions.match-neighbor-set]
+        match-set-options = "any"
+        neighbor-set = "praseodymi-dsl"
+        
+        [policy-definitions.statements.conditions.match-prefix-set]
+        match-set-options = "any"
+        prefix-set = "default-ipv6"
+        
+        [[policy-definitions.statements]]
+        [policy-definitions.statements.actions]
+        route-disposition = "accept-route"
+        
+        [policy-definitions.statements.conditions]
+        [policy-definitions.statements.conditions.match-neighbor-set]
+        match-set-options = "any"
+        neighbor-set = "praseodymi-lte"
+        
+        [policy-definitions.statements.conditions.match-prefix-set]
+        match-set-options = "any"
+        prefix-set = "default-ipv6"
+        
+        [defined-sets]
+        [[defined-sets.neighbor-sets]]
+        neighbor-info-list = ["fe80:3e0e:b7ec:a2f6:16a3:5034:d409:3b73"]
+        neighbor-set-name = "lanthanum-dsl"
+        
+        [[defined-sets.neighbor-sets]]
+        neighbor-info-list = ["fe80:3e0e:b7ec:2cf1:bb2b:4a18:d409:3b73"]
+        neighbor-set-name = "lanthanum-lte"
+        
+        [[defined-sets.neighbor-sets]]
+        neighbor-info-list = ["fe80:3e0e:b7ec:40a3:179e:4e98:f674:4af5"]
+        neighbor-set-name = "cerium-dsl"
+        
+        [[defined-sets.neighbor-sets]]
+        neighbor-info-list = ["fe80:3e0e:b7ec:ab7d:1c68:9c48:f674:4af5"]
+        neighbor-set-name = "cerium-lte"
+        
+        [[defined-sets.neighbor-sets]]
+        neighbor-info-list = ["fe80:3e0e:b7ec:8617:f669:ddd1:74fb:b602"]
+        neighbor-set-name = "praseodymi-dsl"
+        
+        [[defined-sets.neighbor-sets]]
+        neighbor-info-list = ["fe80:3e0e:b7ec:c3fe:3727:8019:74fb:b602"]
+        neighbor-set-name = "praseodymi-lte"
+        
+        [[defined-sets.prefix-sets]]
+        prefix-set-name = "vultr-ipv6"
+        [[defined-sets.prefix-sets.prefix-list]]
+        ip-prefix = "2a06:e881:9008::/48"
+        
+        [[defined-sets.prefix-sets]]
+        prefix-set-name = "default-ipv6"
+        [[defined-sets.prefix-sets.prefix-list]]
+        ip-prefix = "::/0"
+        
+        [global]
+        [global.apply-policy.config]
+        default-export-policy = "reject-route"
+        default-import-policy = "reject-route"
+        export-policy-list = ["demote-lte", "vultr-prefixes"]
+        import-policy-list = ["demote-lte", "vultr-prefixes", "default-route"]
+        
+        [global.config]
+        as = 4204906373
+        port = -1
+        router-id = "10.0.114.197"
+        
+        [global.use-multiple-paths.config]
+        enabled = true
+        
+        [zebra.config]
+        enabled = true
+        redistribute-route-type-list = ["static", "directly-connected"]
+        url = "unix:///run/frr/zserv.api"
+        version = 6
+      '');
       environment.etc = {
         "frr/staticd.conf".text = ''
           ip route 0.0.0.0/0 10.172.50.1

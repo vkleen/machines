@@ -5,7 +5,7 @@
 
   boot.kernelParams = [ "console=hvc0" ];
   hardware.opengl = {
-    enable = false;
+    enable = true;
     extraPackages = [ ]; #with pkgs; [ rocm-opencl-icd ];
   };
 

@@ -1,0 +1,61 @@
+{ pkgs, lib, ... }:
+{
+
+  home.packages = lib.attrValues {
+    inherit (pkgs)
+      a2ps
+      bc
+      borgbackup
+      dnsutils
+      entr
+      exiftool
+      expect
+      fd
+      file
+      gdrive
+      htop
+      inetutils
+      iperf
+      iw
+      ldns
+      linode-cli
+      lrzsz
+      lshw
+      lsof
+      lsscsi
+      magic-wormhole
+      man-pages
+      mbuffer
+      mercurial
+      nix-index
+      nix-prefetch-github
+      nix-prefetch-scripts
+      nox
+      parallel
+      pciutils
+      picocom
+      poppler_utils
+      psmisc
+      pv
+      pwgen
+      qpdf
+      qrcp
+      radare2
+      rsync
+      sanoid
+      sc-im
+      skim
+      socat
+      sqlite
+      s-tui
+      tree
+      tsocks
+      unzip
+      usb-modeswitch
+      usbutils
+      w3m
+      wavemon
+      yq
+      ;
+  };
+}

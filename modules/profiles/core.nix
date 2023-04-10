@@ -34,7 +34,7 @@
     environment.etc."machine-id".text = config.system.machineId;
 
     nixpkgs = {
-      overlays = lib.attrValues inputs.self.overlays;
+      overlays = lib.attrValuesRecursive inputs.self.overlays;
       hostPlatform = lib.mkDefault (lib.systems.elaborate system.hostPlatform);
     };
     system.build.nixpkgs = pkgs;

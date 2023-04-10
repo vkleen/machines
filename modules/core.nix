@@ -1,4 +1,4 @@
-{ config, lib, system, inputs, ... }:
+{ config, lib, system, inputs, pkgs, ... }:
 {
   options = {
     system.publicAddresses = lib.mkOption {
@@ -21,14 +21,30 @@
       '';
     };
   };
-  config = {
-    networking = {
-      hostName = system.hostName;
-      hostId = builtins.substring 0 8 config.system.machineId;
-    };
+  config = lib.mkMerge [
+    {
+      networking = {
+        hostName = system.hostName;
+        hostId = builtins.substring 0 8 config.system.machineId;
+      };
 
-    system.machineId = system.computeHostId config.system.macnameNamespace config.networking.hostName;
+      system.machineId = system.computeHostId config.system.macnameNamespace config.networking.hostName;
 
-    environment.etc."machine-id".text = config.system.machineId;
-  };
+      environment.etc."machine-id".text = config.system.machineId;
+
+      nixpkgs = {
+        overlays = lib.attrValues inputs.self.overlays;
+        hostPlatform = lib.mkDefault (lib.systems.elaborate system.hostPlatform);
+      };
+      system.build.nixpkgs = pkgs;
+    }
+
+    # (lib.mkIf (system.hostPlatform == "powerpc64le-linux") {
+    #   nixpkgs.hostPlatform = lib.recursiveUpdate
+    #     (lib.systems.elaborate system.hostPlatform)
+    #     {
+    #       linux-kernel.target = "zImage";
+    #     };
+    # })
+  ];
 }

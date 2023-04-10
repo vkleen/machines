@@ -1,6 +1,7 @@
 { pkgs, lib, config, ... }:
 let
-  kernelPackages = pkgs.linuxKernel.packageAliases.linux_latest.extend
+  # kernelPackages = pkgs.linuxKernel.packageAliases.linux_latest.extend
+  kernelPackages = pkgs.zfsUnstable.latestCompatibleLinuxPackages.extend
     (final: prev: lib.optionalAttrs pkgs.stdenv.hostPlatform.isPower64 {
       kernel = lib.makeOverridable
         (args:

@@ -6,6 +6,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     macname.url = "github:vkleen/macname";
+    home-manager.url = "github:nix-community/home-manager";
   };
 
   outputs = inputs:
@@ -31,7 +32,7 @@
                 };
               }
               specialArgs;
-            inherit modules;
+            modules = [ inputs.self.nixosModules.profiles.core ] ++ modules;
           }
         );
     in
@@ -73,9 +74,12 @@
                     }
                   ] ++ lib.attrValues {
                     inherit (inputs.self.nixosModules)
-                      core;
-                    inherit (inputs.self.nixosModules.profiles)
-                      chrony doas nix latest-linux;
+                      chrony
+                      doas
+                      latest-linux
+                      nix
+                      ssh
+                      ;
                   };
               };
             };

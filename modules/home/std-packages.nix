@@ -13,10 +13,12 @@
       fd
       file
       gdrive
+      git
       htop
       inetutils
       iperf
       iw
+      jq
       ldns
       linode-cli
       lrzsz

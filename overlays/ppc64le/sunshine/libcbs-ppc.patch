@@ -1,0 +1,12 @@
+diff --git a/cmake/ffmpeg_cbs.cmake b/cmake/ffmpeg_cbs.cmake
+index fe6ae6b..ec3aa42 100644
+--- a/cmake/ffmpeg_cbs.cmake
++++ b/cmake/ffmpeg_cbs.cmake
+@@ -55,6 +55,7 @@ execute_process(
+ # Headers needed to link for Sunshine
+ configure_file(${AVCODEC_GENERATED_SRC_PATH}/arm/mathops.h ${CBS_INCLUDE_PATH}/arm/mathops.h COPYONLY)
+ configure_file(${AVCODEC_GENERATED_SRC_PATH}/x86/mathops.h ${CBS_INCLUDE_PATH}/x86/mathops.h COPYONLY)
++configure_file(${AVCODEC_GENERATED_SRC_PATH}/ppc/mathops.h ${CBS_INCLUDE_PATH}/ppc/mathops.h COPYONLY)
+ configure_file(${AVCODEC_GENERATED_SRC_PATH}/av1.h ${CBS_INCLUDE_PATH}/av1.h COPYONLY)
+ configure_file(${AVCODEC_GENERATED_SRC_PATH}/cbs_av1.h ${CBS_INCLUDE_PATH}/cbs_av1.h COPYONLY)
+ configure_file(${AVCODEC_GENERATED_SRC_PATH}/cbs_bsf.h ${CBS_INCLUDE_PATH}/cbs_bsf.h COPYONLY)

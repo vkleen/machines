@@ -24,27 +24,30 @@
   imports = [
     inputs.home-manager.nixosModules.home-manager
   ];
-  config = {
-    networking = {
-      hostName = system.hostName;
-      hostId = builtins.substring 0 8 config.system.machineId;
-    };
-
-    system.machineId = system.computeHostId config.system.macnameNamespace config.networking.hostName;
-    environment.etc."machine-id".text = config.system.machineId;
-
-    nixpkgs = {
-      overlays = lib.attrValuesRecursive inputs.self.overlays;
-      hostPlatform = lib.mkDefault (lib.systems.elaborate system.hostPlatform);
-    };
-    system.build.nixpkgs = pkgs;
-
-    home-manager = {
-      useGlobalPkgs = true;
-      useUserPackages = true;
-      extraSpecialArgs = {
-        inherit inputs;
+  config = lib.mkMerge [
+    {
+      networking = {
+        hostName = system.hostName;
+        hostId = builtins.substring 0 8 config.system.machineId;
       };
-    };
-  };
+
+      system.machineId = system.computeHostId config.system.macnameNamespace config.networking.hostName;
+      environment.etc."machine-id".text = config.system.machineId;
+
+      nixpkgs = {
+        overlays = lib.attrValuesRecursive inputs.self.overlays;
+        hostPlatform = lib.mkDefault (lib.systems.elaborate system.hostPlatform);
+        config.allowUnsupportedSystem = true;
+      };
+      system.build.nixpkgs = pkgs;
+
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        extraSpecialArgs = {
+          inherit inputs;
+        };
+      };
+    }
+  ];
 }

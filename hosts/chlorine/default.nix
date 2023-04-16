@@ -23,12 +23,16 @@ mkNixosConfig {
         forceImportAll = false;
       };
     }
+    {
+      systemd.services.nix-daemon.environment.TMPDIR = "/nix/tmp";
+    }
   ] ++ lib.attrValues {
     inherit (inputs.self.nixosModules)
       chrony
       doas
       latest-linux
       nix
+      nix-monitored
       ssh
       zram
       ;

@@ -39,7 +39,16 @@
     {
       inherit lib;
       nixosModules = lib.findModules ./modules;
-      overlays = lib.mapAttrsRecursive (_: v: import v) (lib.findModules ./overlays);
+      overlays = lib.mapAttrsRecursive (_: v: import v) (lib.findModules ./overlays) // {
+        nixpkgsFun = (final: prev: {
+          nixpkgsFun = newArgs:
+            import "${inputs.nixpkgs}" ({
+              localSystem = final.stdenv.buildPlatform;
+              inherit (final) config;
+              overlays = lib.attrValuesRecursive inputs.self.overlays;
+            } // newArgs);
+        });
+      };
     } // lib.foreach platforms (buildPlatform: {
       packages.${buildPlatform} = (lib.flip lib.mapAttrs inputs.self.nixosConfigurations (_: nixos:
         (nixos.override { inherit buildPlatform; }).config.system.build.toplevel

@@ -1,0 +1,96 @@
+diff -Naur a/libavcodec/arm/mathops.h b/libavcodec/arm/mathops.h
+--- a/libavcodec/arm/mathops.h	2023-04-16 16:55:04.600855311 +0000
++++ b/libavcodec/arm/mathops.h	2023-04-16 16:55:14.020714135 +0000
+@@ -23,7 +23,7 @@
+ #define AVCODEC_ARM_MATHOPS_H
+ 
+ #include <stdint.h>
+-#include "config.h"
++#include "cbs/config.h"
+ #include "libavutil/common.h"
+ 
+ #if HAVE_INLINE_ASM
+diff -Naur a/libavcodec/mathops.h b/libavcodec/mathops.h
+--- a/libavcodec/mathops.h	2023-04-16 16:55:04.807852209 +0000
++++ b/libavcodec/mathops.h	2023-04-16 16:55:14.020714135 +0000
+@@ -25,7 +25,7 @@
+ #include <stdint.h>
+ 
+ #include "libavutil/common.h"
+-#include "config.h"
++#include "cbs/config.h"
+ 
+ #define MAX_NEG_CROP 1024
+ 
+diff -Naur a/libavcodec/ppc/mathops.h b/libavcodec/ppc/mathops.h
+--- a/libavcodec/ppc/mathops.h	2023-04-16 16:55:04.732853333 +0000
++++ b/libavcodec/ppc/mathops.h	2023-04-16 16:55:21.403603488 +0000
+@@ -24,7 +24,7 @@
+ #define AVCODEC_PPC_MATHOPS_H
+ 
+ #include <stdint.h>
+-#include "config.h"
++#include "cbs/config.h"
+ #include "libavutil/common.h"
+ 
+ #if HAVE_PPC4XX
+diff -Naur a/libavcodec/x86/mathops.h b/libavcodec/x86/mathops.h
+--- a/libavcodec/x86/mathops.h	2023-04-16 16:55:04.804852254 +0000
++++ b/libavcodec/x86/mathops.h	2023-04-16 16:55:14.021714120 +0000
+@@ -22,7 +22,7 @@
+ #ifndef AVCODEC_X86_MATHOPS_H
+ #define AVCODEC_X86_MATHOPS_H
+ 
+-#include "config.h"
++#include "cbs/config.h"
+ 
+ #include "libavutil/common.h"
+ #include "libavutil/x86/asm.h"
+diff -Naur a/libavutil/arm/intmath.h b/libavutil/arm/intmath.h
+--- a/libavutil/arm/intmath.h	2023-04-16 16:55:04.977849661 +0000
++++ b/libavutil/arm/intmath.h	2023-04-16 16:55:14.021714120 +0000
+@@ -23,7 +23,7 @@
+ 
+ #include <stdint.h>
+ 
+-#include "config.h"
++#include "cbs/config.h"
+ #include "libavutil/attributes.h"
+ 
+ #if HAVE_INLINE_ASM
+diff -Naur a/libavutil/intmath.h b/libavutil/intmath.h
+--- a/libavutil/intmath.h	2023-04-16 16:55:05.089847982 +0000
++++ b/libavutil/intmath.h	2023-04-16 16:55:14.021714120 +0000
+@@ -23,7 +23,7 @@
+ 
+ #include <stdint.h>
+ 
+-#include "config.h"
++#include "cbs/config.h"
+ #include "attributes.h"
+ 
+ #if ARCH_ARM
+diff -Naur a/libavutil/x86/asm.h b/libavutil/x86/asm.h
+--- a/libavutil/x86/asm.h	2023-04-16 16:55:05.088847997 +0000
++++ b/libavutil/x86/asm.h	2023-04-16 16:55:14.021714120 +0000
+@@ -22,7 +22,7 @@
+ #define AVUTIL_X86_ASM_H
+ 
+ #include <stdint.h>
+-#include "config.h"
++#include "cbs/config.h"
+ 
+ typedef struct xmm_reg { uint64_t a, b; } xmm_reg;
+ typedef struct ymm_reg { uint64_t a, b, c, d; } ymm_reg;
+diff -Naur a/libavutil/x86/intmath.h b/libavutil/x86/intmath.h
+--- a/libavutil/x86/intmath.h	2023-04-16 16:55:05.088847997 +0000
++++ b/libavutil/x86/intmath.h	2023-04-16 16:55:14.021714120 +0000
+@@ -30,7 +30,7 @@
+ #include <immintrin.h>
+ #endif
+ #endif
+-#include "config.h"
++#include "cbs/config.h"
+ 
+ #if HAVE_FAST_CLZ
+ #if (defined(__INTEL_COMPILER) && (__INTEL_COMPILER>=1216)) || defined(_MSC_VER)

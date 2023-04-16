@@ -6,6 +6,7 @@
       a2ps
       bc
       borgbackup
+      btop
       dnsutils
       entr
       exiftool

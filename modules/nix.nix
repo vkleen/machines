@@ -7,6 +7,7 @@
       experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
       trusted-users = [ "root" "@wheel" ];
       flake-registry = "";
+      auto-allocate-uids = true;
     };
     gc = {
       automatic = true;

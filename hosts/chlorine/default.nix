@@ -26,6 +26,9 @@ mkNixosConfig {
     {
       systemd.services.nix-daemon.environment.TMPDIR = "/nix/tmp";
     }
+    {
+      hardware.uinput.enable = true;
+    }
   ] ++ lib.attrValues {
     inherit (inputs.self.nixosModules)
       chrony
@@ -41,6 +44,6 @@ mkNixosConfig {
       root;
 
     inherit (inputs.self.nixosModules.accounts.vkleen)
-      core workstation;
+      core workstation graphical;
   };
 }

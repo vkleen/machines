@@ -9,9 +9,6 @@ let
             kernel = prev.kernel.override args;
           in
           kernel.overrideAttrs (o: {
-            # buildFlags = o.buildFlags ++ [ "modules" "zImage" ];
-            # installFlags = o.installFlags ++ [ "KBUILD_IMAGE=$(boot)/zImage" ];
-            # installTargets = [ "install" ];
             postFixup = (o.postFixup or "") + ''
               xz --stdout $out/vmlinux > vmlinux.xz
               mv vmlinux.xz $out/vmlinux
@@ -22,5 +19,6 @@ let
     });
 in
 {
-  boot = { inherit kernelPackages; };
+  # boot = { inherit kernelPackages; };
+  boot.kernelPackages = pkgs.power9LinuxPackages;
 }

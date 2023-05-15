@@ -44,6 +44,7 @@
       qpdf
       qrcp
       radare2
+      ripgrep
       rsync
       sanoid
       sc-im

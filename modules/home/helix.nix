@@ -20,6 +20,9 @@
     editor.indent-guides = {
       render = true;
     };
+    editor.lsp = {
+      display-messages = true;
+    };
     keys.normal = {
       q = "move_prev_word_start";
       Q = "move_prev_long_word_start";
@@ -29,6 +32,16 @@
 
   xdg.configFile."helix/languages.toml".source = (pkgs.formats.toml { }).generate "languages.toml" {
     language = [
+      {
+        name = "nickel";
+        auto-format = true;
+        auto-pairs = {
+          "(" = ")";
+          "{" = "}";
+          "[" = "]";
+          "\"" = "\"";
+        };
+      }
       {
         name = "nix";
         auto-format = true;
@@ -54,7 +67,7 @@
             overrideCommand = [ "cargo" "clippy" "--workspace" "--message-format=json" "--all-targets" "--all-features" ];
           };
           cargo = {
-            allFeatures = true;
+            features = "all";
           };
         };
       }

@@ -49,5 +49,10 @@
         };
       };
     }
+    (lib.mkIf (system.hostPlatform == "powerpc64le-linux") {
+      nixpkgs.hostPlatform = lib.recursiveUpdate (lib.systems.elaborate system.hostPlatform) {
+        linux-kernel.target = "vmlinux.strip.gz";
+      };
+    })
   ];
 }

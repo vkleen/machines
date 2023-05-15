@@ -1,24 +1,22 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, system, inputs, ... }:
 let
-  # kernelPackages = pkgs.linuxKernel.packageAliases.linux_latest.extend
-  kernelPackages = pkgs.zfsUnstable.latestCompatibleLinuxPackages.extend
-    (final: prev: lib.optionalAttrs pkgs.stdenv.hostPlatform.isPower64 {
-      kernel = lib.makeOverridable
-        (args:
-          let
-            kernel = prev.kernel.override args;
-          in
-          kernel.overrideAttrs (o: {
-            postFixup = (o.postFixup or "") + ''
-              xz --stdout $out/vmlinux > vmlinux.xz
-              mv vmlinux.xz $out/vmlinux
-            '';
-            inherit (kernel) passthru;
-          }))
-        { };
-    });
+  # kernelPackages = pkgs.zfsUnstable.latestCompatibleLinuxPackages;
+  # kernelPackages = pkgs.linuxPackages_latest;
+  debug_linux =
+    pkgs.buildLinux {
+      version = "6.3.0-debug";
+      modDirVersion = "6.3.0";
+
+      src = inputs.debug-linux;
+
+      kernelPatches = [ ];
+      extraMeta.branch = "6.3";
+    };
+  kernelPackages = pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor debug_linux);
 in
 {
-  # boot = { inherit kernelPackages; };
-  boot.kernelPackages = pkgs.power9LinuxPackages;
+  boot.kernelPackages =
+    if system.hostPlatform == "powerpc64le-linux"
+    then pkgs.mkPower9LinuxPackages kernelPackages
+    else kernelPackages;
 }

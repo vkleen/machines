@@ -6,7 +6,11 @@
   boot.kernelParams = [ "console=hvc0" ];
   hardware.opengl = {
     enable = true;
-    extraPackages = [ ]; #with pkgs; [ rocm-opencl-icd ];
+    extraPackages = [
+      pkgs.rocm-opencl-icd
+      pkgs.rocm-opencl-runtime
+      pkgs.hip
+    ];
   };
 
   boot.kernelModules = [ "dm_snapshot" "dm_integrity" "powernv-cpufreq" ];
@@ -16,6 +20,10 @@
     "nvme"
   ];
   boot.extraModulePackages = [ ];
+
+  boot.extraModprobeConfig = ''
+    options amdgpu ignore_crat=1
+  '';
 
   boot.initrd.luks = {
     devices = {

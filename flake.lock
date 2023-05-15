@@ -1,5 +1,18 @@
 {
   "nodes": {
+    "debug-linux": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1682276572,
+        "narHash": "sha256-yHCWdltFk4yFj0y7s8ntneZZNqCIFajKyCSp6Mb+Bgc=",
+        "type": "git",
+        "url": "file:///home/vkleen/linux"
+      },
+      "original": {
+        "id": "debug-linux",
+        "type": "indirect"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -193,12 +206,10 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1681564655,
-        "narHash": "sha256-8Foef1tVtYc3dEMuVVdNoDbAvRY5Ad1g58Pt1GwStjc=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "ab82a89414ddc48f9eda40bcd9bfd600b1546bae",
-        "type": "github"
+        "lastModified": 1682451676,
+        "narHash": "sha256-MP8aCEvaPHhHIrQr/8pLYsIo5unE5ZmlZGv9SFBw8lY=",
+        "type": "git",
+        "url": "file:///home/vkleen/nixpkgs"
       },
       "original": {
         "owner": "nixos",
@@ -239,6 +250,7 @@
     },
     "root": {
       "inputs": {
+        "debug-linux": "debug-linux",
         "home-manager": "home-manager",
         "macname": "macname",
         "nix-monitored": "nix-monitored",

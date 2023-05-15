@@ -4,7 +4,7 @@
     settings = {
       auto-optimise-store = true;
       preallocate-contents = false;
-      experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
+      experimental-features = [ "nix-command" "flakes" "ca-derivations" "auto-allocate-uids" ];
       trusted-users = [ "root" "@wheel" ];
       flake-registry = "";
       auto-allocate-uids = true;

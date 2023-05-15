@@ -7,6 +7,9 @@
     };
     macname.url = "github:vkleen/macname";
     home-manager.url = "github:nix-community/home-manager";
+    debug-linux = {
+      flake = false;
+    };
   };
 
   outputs = inputs:

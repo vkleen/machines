@@ -1,8 +1,8 @@
-{ lib, inputs, ... }:
+{ ... }:
 {
   users.users.vkleen = {
     group = "users";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
     createHome = true;
     home = "/home/vkleen";
     isNormalUser = true;

@@ -16,18 +16,24 @@ mkNixosConfig {
       };
     }
     {
-      boot.supportedFilesystems = [ "zfs" ];
-      boot.zfs = {
-        enableUnstable = true;
-        forceImportRoot = false;
-        forceImportAll = false;
-      };
+      # boot.supportedFilesystems = [ "zfs" ];
+      # boot.zfs = {
+      #   enableUnstable = true;
+      #   forceImportRoot = false;
+      #   forceImportAll = false;
+      # };
     }
     {
       systemd.services.nix-daemon.environment.TMPDIR = "/nix/tmp";
     }
     {
       hardware.uinput.enable = true;
+    }
+    {
+      virtualisation.docker = {
+        enable = true;
+        enableOnBoot = false;
+      };
     }
   ] ++ lib.attrValues {
     inherit (inputs.self.nixosModules)

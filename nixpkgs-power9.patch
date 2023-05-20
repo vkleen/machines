@@ -1,0 +1,21 @@
+diff --git a/pkgs/development/compilers/llvm/rocm/llvm.nix b/pkgs/development/compilers/llvm/rocm/llvm.nix
+index 6092bc1a9fc..5b6f6449162 100644
+--- a/pkgs/development/compilers/llvm/rocm/llvm.nix
++++ b/pkgs/development/compilers/llvm/rocm/llvm.nix
+@@ -19,7 +19,7 @@
+ , python3Packages
+ , buildDocs ? true
+ , buildMan ? true
+-, buildTests ? true
++, buildTests ? !stdenv.targetPlatform.isPower64
+ , targetName ? "llvm"
+ , targetDir ? "llvm"
+ , targetProjects ? [ ]
+@@ -47,6 +47,7 @@ let
+   llvmNativeTarget =
+     if stdenv.isx86_64 then "X86"
+     else if stdenv.isAarch64 then "AArch64"
++    else if stdenv.targetPlatform.isPower64 then "PowerPC"
+     else throw "Unsupported ROCm LLVM platform";
+   inferNativeTarget = t: if t == "NATIVE" then llvmNativeTarget else t;
+   llvmTargetsToBuild' = [ "AMDGPU" ] ++ builtins.map inferNativeTarget llvmTargetsToBuild;

@@ -5,10 +5,13 @@
       url = "github:ners/nix-monitored";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    macname.url = "github:vkleen/macname";
-    home-manager.url = "github:nix-community/home-manager";
-    debug-linux = {
-      flake = false;
+    macname = {
+      url = "github:vkleen/macname";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager/17198cf5ae27af5b647c7dac58d935a7d0dbd189";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -25,10 +28,30 @@
           , specialArgs ? { }
           , modules
           , ...
-          }: inputs.nixpkgs.lib.nixosSystem {
+          }:
+          let
+            nixpkgs-patched = inputs.nixpkgs.legacyPackages.${buildPlatform}.applyPatches {
+              name = "nixpkgs";
+              src = inputs.nixpkgs;
+              patches = [ ./nixpkgs-power9.patch ];
+            };
+            nixpkgs-power9 = inputs.nixpkgs.lib.fix (self:
+              (import "${nixpkgs-patched}/flake.nix").outputs {
+                inherit self;
+              });
+
+            nixpkgs =
+              if hostPlatform != "powerpc64le-linux"
+              then inputs.nixpkgs
+              else nixpkgs-power9;
+          in
+          nixpkgs.lib.nixosSystem {
             specialArgs = lib.recursiveUpdate
               {
-                inherit inputs lib;
+                inherit lib;
+                inputs = inputs // {
+                  inherit nixpkgs;
+                };
                 system = {
                   inherit hostName hostPlatform;
                   computeHostId = inputs.macname.computeHostId.${buildPlatform};
@@ -42,16 +65,7 @@
     {
       inherit lib;
       nixosModules = lib.findModules ./modules;
-      overlays = lib.mapAttrsRecursive (_: v: import v) (lib.findModules ./overlays) // {
-        nixpkgsFun = (final: prev: {
-          nixpkgsFun = newArgs:
-            import "${inputs.nixpkgs}" ({
-              localSystem = final.stdenv.buildPlatform;
-              inherit (final) config;
-              overlays = lib.attrValuesRecursive inputs.self.overlays;
-            } // newArgs);
-        });
-      };
+      overlays = lib.mapAttrsRecursive (_: v: import v) (lib.findModules ./overlays);
     } // lib.foreach platforms (buildPlatform: {
       packages.${buildPlatform} = (lib.flip lib.mapAttrs inputs.self.nixosConfigurations (_: nixos:
         (nixos.override { inherit buildPlatform; }).config.system.build.toplevel
@@ -99,7 +113,11 @@
         ))
       )
       {
-        nixosConfigurations = lib.mapAttrsRecursive (_: v: import v { inherit mkNixosConfig lib inputs; })
+        nixosConfigurations = lib.mapAttrsRecursive
+          (_: v: import v {
+            inherit mkNixosConfig lib;
+            inherit (inputs) self;
+          })
           (lib.findModules ./hosts);
       };
 }

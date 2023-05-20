@@ -13,6 +13,21 @@
     ];
   };
 
+  boot.kernelPatches = [
+    {
+      name = "chlorine-amdkfd-numa-hack";
+      patch = ./chlorine-amdkfd-numa-hack.patch;
+    }
+    {
+      name = "debug-enable";
+      patch = null;
+      extraConfig = ''
+        EXPERT y
+        KERNEL_DEBUG y
+      '';
+    }
+  ];
+
   boot.kernelModules = [ "dm_snapshot" "dm_integrity" "powernv-cpufreq" ];
   powerManagement.cpuFreqGovernor = "schedutil";
 
@@ -20,10 +35,6 @@
     "nvme"
   ];
   boot.extraModulePackages = [ ];
-
-  boot.extraModprobeConfig = ''
-    options amdgpu ignore_crat=1
-  '';
 
   boot.initrd.luks = {
     devices = {

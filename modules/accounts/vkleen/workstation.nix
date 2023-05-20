@@ -8,5 +8,13 @@
       std-packages
       zsh
       ;
+    # lib-module = ({ lib, ... }: {
+    #   options = {
+    #     debug.lib = lib.mkOption { };
+    #   };
+    #   config = {
+    #     debug = { inherit lib; };
+    #   };
+    # });
   });
 }

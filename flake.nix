@@ -35,10 +35,11 @@
               src = inputs.nixpkgs;
               patches = [ ./nixpkgs-power9.patch ];
             };
-            nixpkgs-power9 = inputs.nixpkgs.lib.fix (self:
-              (import "${nixpkgs-patched}/flake.nix").outputs {
-                inherit self;
-              });
+            nixpkgs-power9 = inputs.nixpkgs.lib.fix
+              (self:
+                (import "${nixpkgs-patched}/flake.nix").outputs {
+                  inherit self;
+                }) // { outPath = "${nixpkgs-patched}"; };
 
             nixpkgs =
               if hostPlatform != "powerpc64le-linux"

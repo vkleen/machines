@@ -14,9 +14,9 @@
       options = "--delete-older-than 30d";
       dates = "monthly";
     };
-    # registry.nixpkgs.flake = inputs.nixpkgs;
-    # nixPath = lib.mkForce [
-    #   "nixpkgs=${inputs.nixpkgs}"
-    # ];
+    registry.nixpkgs.flake = inputs.nixpkgs;
+    nixPath = lib.mkForce [
+      "nixpkgs=${inputs.nixpkgs.outPath}"
+    ];
   };
 }

@@ -13,6 +13,5 @@ final: prev: {
           cp ${./prefetch-npm-deps/Cargo.toml} Cargo.toml
           cp ${./prefetch-npm-deps/Cargo.lock} Cargo.lock
         '';
-        nativeBuildInputs = o.nativeBuildInputs or [ ] ++ [ final.breakpointHook ];
       });
 }

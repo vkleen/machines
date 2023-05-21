@@ -17,6 +17,7 @@ sha2 = "0.10.6"
 tempfile = "3.3.0"
 ureq = { version = "2.5.0" }
 url = { version = "2.3.1", features = ["serde"] }
+walkdir = "2.3.2"
 
 [patch.crates-io]
 ring = { git = "https://github.com/vkleen/ring", rev = "8e99b867f0451ccf58bd664ec6589249c6be5224" }

@@ -15,8 +15,8 @@
 
   boot.kernelPatches = [
     {
-      name = "chlorine-amdkfd-numa-hack";
-      patch = ./chlorine-amdkfd-numa-hack.patch;
+      name = "chlorine-amdkfd-numa-hack-6.1";
+      patch = ./chlorine-amdkfd-numa-hack-6.1.patch;
     }
     {
       name = "debug-enable";

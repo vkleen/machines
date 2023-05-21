@@ -1,0 +1,24 @@
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
+index 8bfdfd062ff6..28ab638238bf 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
+@@ -2206,8 +2206,17 @@ static int kfd_fill_gpu_direct_io_link_to_cpu(int *avail_size,
+ #ifdef CONFIG_NUMA
+ 	if (kdev->pdev->dev.numa_node == NUMA_NO_NODE)
+ 		sub_type_hdr->proximity_domain_to = 0;
+-	else
+-		sub_type_hdr->proximity_domain_to = kdev->pdev->dev.numa_node;
++	else {
++		int numa_node = kdev->pdev->dev.numa_node;
++		switch(numa_node) {
++			case 8:
++				sub_type_hdr->proximity_domain_to = 1;
++				break;
++			default:
++				sub_type_hdr->proximity_domain_to = numa_node;
++				break;
++		}
++	}
+ #else
+ 	sub_type_hdr->proximity_domain_to = 0;
+ #endif

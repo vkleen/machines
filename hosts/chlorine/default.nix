@@ -16,12 +16,12 @@ mkNixosConfig {
       };
     }
     {
-      # boot.supportedFilesystems = [ "zfs" ];
-      # boot.zfs = {
-      #   enableUnstable = true;
-      #   forceImportRoot = false;
-      #   forceImportAll = false;
-      # };
+      boot.supportedFilesystems = [ "zfs" ];
+      boot.zfs = {
+        enableUnstable = true;
+        forceImportRoot = false;
+        forceImportAll = false;
+      };
     }
     {
       systemd.services.nix-daemon.environment.TMPDIR = "/nix/tmp";

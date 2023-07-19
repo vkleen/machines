@@ -1,7 +1,6 @@
-{ mkNixosConfig, lib, self, ... }:
-mkNixosConfig {
-  hostName = "chlorine";
-  hostPlatform = "powerpc64le-linux";
+{ lib, inputs, ... }:
+lib.nixosConfig {
+  hostCpu = "powerpc64le";
   modules = [
     {
       system.macnameNamespace = "auenheim.kleen.org";
@@ -36,7 +35,7 @@ mkNixosConfig {
       };
     }
   ] ++ lib.attrValues {
-    inherit (self.nixosModules)
+    inherit (inputs.self.nixosModules)
       chrony
       doas
       latest-linux
@@ -46,10 +45,10 @@ mkNixosConfig {
       zram
       ;
 
-    inherit (self.nixosModules.accounts)
+    inherit (inputs.self.nixosModules.accounts)
       root;
 
-    inherit (self.nixosModules.accounts.vkleen)
+    inherit (inputs.self.nixosModules.accounts.vkleen)
       core workstation graphical;
   };
 }

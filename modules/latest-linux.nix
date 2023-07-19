@@ -4,7 +4,7 @@ let
 in
 {
   boot.kernelPackages =
-    if system.hostPlatform == "powerpc64le-linux"
+    if system.hostCpu == "powerpc64le"
     then pkgs.mkPower9LinuxPackages kernelPackages
     else kernelPackages;
 }

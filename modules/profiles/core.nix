@@ -27,7 +27,7 @@
   config = lib.mkMerge [
     {
       networking = {
-        hostName = system.hostName;
+        hostName = system.name;
         hostId = builtins.substring 0 8 config.system.machineId;
       };
 
@@ -36,10 +36,9 @@
 
       nixpkgs = {
         overlays = lib.attrValuesRecursive inputs.self.overlays;
-        hostPlatform = lib.mkDefault (lib.systems.elaborate system.hostPlatform);
+        hostPlatform = lib.mkDefault (lib.systems.elaborate "${system.hostCpu}-linux");
         config.allowUnsupportedSystem = true;
       };
-      system.build.nixpkgs = pkgs;
 
       home-manager = {
         useGlobalPkgs = true;
@@ -49,8 +48,8 @@
         };
       };
     }
-    (lib.mkIf (system.hostPlatform == "powerpc64le-linux") {
-      nixpkgs.hostPlatform = lib.recursiveUpdate (lib.systems.elaborate system.hostPlatform) {
+    (lib.mkIf (system.hostCpu == "powerpc64le") {
+      nixpkgs.hostPlatform = lib.recursiveUpdate (lib.systems.elaborate "${system.hostCpu}-linux") {
         linux-kernel.target = "vmlinux.strip.gz";
       };
     })

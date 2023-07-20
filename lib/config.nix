@@ -1,14 +1,7 @@
 { inputs, lib, ... }:
 {
-  nixosConfig = lib.makeOverridable (
-    { name ? null
-    , hostCpu
-    , evalCpu ? hostCpu
-    , modules
-    , formats ? [ "toplevel" ]
-    }@args:
-    rec {
-      inherit name formats hostCpu evalCpu;
+  nixpkgs = { hostCpu, evalCpu ? hostCpu }:
+    let
       hostPlatform = "${hostCpu}-linux";
       evalPlatform = "${evalCpu}-linux";
       nixpkgs =
@@ -27,6 +20,21 @@
           {
             "powerpc64le" = nixpkgs-power9;
           }."${hostPlatform}" or inputs.nixpkgs;
+    in
+    nixpkgs;
+
+  nixosConfig = lib.makeOverridable (
+    { name ? null
+    , hostCpu
+    , evalCpu ? hostCpu
+    , modules
+    , formats ? [ "toplevel" ]
+    }@args:
+    rec {
+      inherit name formats hostCpu evalCpu;
+      hostPlatform = "${hostCpu}-linux";
+      evalPlatform = "${evalCpu}-linux";
+      nixpkgs = lib.nixpkgs { inherit hostCpu evalCpu; };
       specialArgs = {
         inherit lib;
         inputs = inputs // {

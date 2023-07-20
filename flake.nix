@@ -13,6 +13,15 @@
       url = "github:nix-community/home-manager/17198cf5ae27af5b647c7dac58d935a7d0dbd189";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    crane = {
+      url = "github:ipetkov/crane";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -68,32 +77,52 @@
       inherit lib;
       nixosModules = lib.findModules ./modules;
       overlays = lib.mapAttrsRecursive (_: v: import v) (lib.findModules ./overlays);
-    } // lib.foreach cpus (evalCpu: {
-      packages."${evalCpu}-linux" = (
-        lib.foreach (lib.attrValues installers)
-          (installer: lib.foreach (lib.attrNames formats) (format: {
-            "${formatAttribute "installer-${installer.hostCpu}" format}" = (build (installer.override {
-              formats = [ format ];
-              inherit evalCpu;
-              modules = installer.modules ++ [ formats.${format} ];
-            })).config.system.build.${format};
-          }))
-
-      ) //
-      (
-        lib.foreach (lib.attrValues hosts)
-          (host: lib.foreach (host.formats ++ [ "pkgs" ]) (format: {
-            "${formatAttribute host.name format}" = (build (host.override {
-              inherit evalCpu;
-              modules = host.modules ++ [ formats.${format} ];
-            })).config.system.build.${format};
-          }))
-      ) // {
-        inherit (inputs.macname.packages."${evalCpu}-linux") macname;
-      };
-    }) //
-    {
       nixosConfigurations = lib.mapAttrs build
         (installers // hosts);
-    };
+    } // lib.foreach cpus (evalCpu:
+      let
+        overlays = lib.attrValuesRecursive inputs.self.overlays;
+        pkgs = import (lib.nixpkgs { hostCpu = evalCpu; }).outPath {
+          system = "${evalCpu}-linux";
+          config = { };
+          inherit overlays;
+        };
+        tools = f: lib.flip lib.mapAttrsRecursive (lib.findModules ./tools)
+          (_: v: f (import v {
+            inherit inputs lib pkgs;
+            system = "${evalCpu}-linux";
+          }));
+      in
+      {
+        packages."${evalCpu}-linux" = (
+          lib.foreach (lib.attrValues installers)
+            (installer: lib.foreach (lib.attrNames formats) (format: {
+              "${formatAttribute "installer-${installer.hostCpu}" format}" = (build (installer.override {
+                formats = [ format ];
+                inherit evalCpu;
+                modules = installer.modules ++ [ formats.${format} ];
+              })).config.system.build.${format};
+            }))
+
+        ) //
+        (
+          lib.foreach (lib.attrValues hosts)
+            (host: lib.foreach (host.formats ++ [ "pkgs" ]) (format: {
+              "${formatAttribute host.name format}" = (build (host.override {
+                inherit evalCpu;
+                modules = host.modules ++ [ formats.${format} ];
+              })).config.system.build.${format};
+            }))
+        ) // {
+          tools = tools (v: v.package) // {
+            inherit (inputs.macname.packages."${evalCpu}-linux") macname;
+          };
+        };
+
+        devShells."${evalCpu}-linux" = tools (v: v.devShell) // {
+          default = pkgs.mkShell {
+            packages = [ pkgs.nixpkgs-fmt ];
+          };
+        };
+      });
 }

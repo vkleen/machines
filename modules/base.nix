@@ -7,17 +7,17 @@ in
     trilby = inputs.self.nixosModules.trilby;
   in
   [
+    profiles.hostid
+    profiles.nix
+    profiles.ssh
+    profiles.sudo-rs
+    profiles.users
     trilby.profiles.console
     trilby.profiles.documentation
     trilby.profiles.getty
     trilby.profiles.kernel
-    trilby.profiles.ssh
     trilby.profiles.zram
     trilby.profiles.zsh
-    profiles.nix
-    profiles.hostid
-    profiles.sudo-rs
-    profiles.users
   ];
 
   options = {

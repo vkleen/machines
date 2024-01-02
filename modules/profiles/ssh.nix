@@ -3,7 +3,7 @@
   imports = with inputs.self.nixosModules; [
     trilby.profiles.ssh
   ];
-  config = lib.mkIf (config.boot.wipeRoot or false) {
+  config = lib.mkIf config.boot.wipeRoot {
     services.openssh.hostKeys = [
       {
         path = "/persist/ssh/ssh_host_ed25519_key";

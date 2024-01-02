@@ -11,7 +11,6 @@ rec {
     modules = with inputs.self.nixosModules; [
       workstation
       profiles.zfs
-      profiles.wipe-root
       profiles.wireshark
       profiles.forst
     ] ++ (with (lib.findModules ./.); [

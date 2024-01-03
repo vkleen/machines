@@ -10,7 +10,6 @@
     boot.initrd.kernelModules = [ "kvm-intel" ];
 
     boot.loader.supportsInitrdSecrets = true;
-    boot.kernelParams = [ "mem_sleep_default=deep" ];
 
     boot.loader.efi = {
       canTouchEfiVariables = true;

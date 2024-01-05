@@ -19,7 +19,7 @@
       WantedBy = [ "hyprland-session.target" ];
     };
     Service = {
-      Type = "simple";
+      Type = "forking";
       ExecStart = lib.getExe pkgs.wpaperd;
       RestartSec = 5;
       Restart = "always";

@@ -1,13 +1,13 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs, inputs, ... }:
 {
   imports = with inputs.self.nixosModules.home; [
+    cursor
     dconf
     direnv
     firefox
     git
     gpg-agent
     helix
-    redshift
     starship
     tmux
     xdg
@@ -31,6 +31,7 @@
       noti
       pavucontrol
       pinentry-gtk2
+      ripgrep
       streamlink
       tmate
       yq

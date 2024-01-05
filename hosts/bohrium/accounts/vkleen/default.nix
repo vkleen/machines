@@ -1,7 +1,8 @@
 { config, lib, inputs, ... }:
 {
   users.users.vkleen = {
-    extraGroups = lib.filter (g: config.users.groups ? g) [
+    extraGroups = [
+      #lib.filter (g: config.users.groups ? g) [
       "network"
       "dialout"
       "audio"
@@ -23,8 +24,11 @@
     foot
     workstation
   ] ++ (with (lib.findModules ./.); [
+    blueman-applet
+    fuzzel
     git
     gmail
+    hyprland
     mpv
     neomutt
     packages

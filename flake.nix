@@ -109,11 +109,11 @@
           devShells.${buildPlatform} = {
             default = pkgs.mkShell {
               packages = [
-                pkgs.nixUnstable
                 pkgs.nixpkgs-fmt
                 pkgs.age
                 inputs.agenix-rekey.packages.${buildPlatform}.agenix-rekey
                 inputs.macname.packages.${buildPlatform}.macname
+                (pkgs.python3.withPackages (ps: with ps; [ matplotlib ]))
               ];
             };
           };

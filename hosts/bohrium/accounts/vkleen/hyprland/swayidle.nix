@@ -1,15 +1,25 @@
 { lib, pkgs, ... }:
+let
+  do-lock = pkgs.writeScript "do-lock" ''
+    #!${lib.getExe pkgs.zsh}
+    FILE=(~/wallpapers/*.jpg(Noe{'REPLY=$RANDOM,$RANDOM'}[1,1]))
+    exec ${lib.getExe pkgs.swaylock} -fF -i "$FILE"
+  '';
+in
 {
   services.swayidle = {
     enable = true;
     timeouts = [
-      { timeout = 600; command = "${lib.getExe pkgs.swaylock} -fF"; }
-      { timeout = 1200; command = "${lib.getExe' pkgs.hyprland "hyprctl"} dispatch dpms off"; }
+      { timeout = 600; command = "${do-lock}"; }
+      {
+        timeout = 1200;
+        command = "${lib.getExe' pkgs.hyprland "hyprctl"} dispatch dpms off";
+        resumeCommand = "${lib.getExe' pkgs.hyprland "hyprctl"} dispatch dpms on";
+      }
     ];
     events = [
-      { event = "before-sleep"; command = "${lib.getExe pkgs.swaylock} -fF"; }
-      { event = "lock"; command = "${lib.getExe pkgs.swaylock} -fF"; }
-      { event = "resume"; command = "${lib.getExe' pkgs.hyprland "hyprctl"} dispatch dpms on"; }
+      { event = "before-sleep"; command = "${do-lock}"; }
+      { event = "lock"; command = "${do-lock}"; }
     ];
     systemdTarget = "hyprland-session.target";
   };

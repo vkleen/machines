@@ -6,12 +6,15 @@
   ];
 
   nix = {
-    monitored.enable = true;
+    monitored = {
+      enable = true;
+      notify = false;
+    };
     settings = {
       auto-optimise-store = true;
       preallocate-contents = false;
       auto-allocate-uids = true;
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" ];
       trusted-users = [ "root" "@wheel" "@admin" ];
     };
     gc = {

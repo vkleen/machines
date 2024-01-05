@@ -26,12 +26,21 @@
   ];
 
   environment.variables.VDPAU_DRIVER = "va_gl";
-  environment.systemPackages = [ pkgs.fw-ectool ];
+  environment.systemPackages = [ pkgs.fw-ectool pkgs.framework-system-tools ];
 
-  services.udev.extraRules = ''
-    # Fix headphone noise when on powersave
-    # https://community.frame.work/t/headphone-jack-intermittent-noise/5246/55
-    SUBSYSTEM=="pci", ATTR{vendor}=="0x8086", ATTR{device}=="0xa0e0", ATTR{power/control}="on"
-  '';
+  services.udev = {
+    extraRules = ''
+      # Fix headphone noise when on powersave
+      # https://community.frame.work/t/headphone-jack-intermittent-noise/5246/55
+      SUBSYSTEM=="pci", ATTR{vendor}=="0x8086", ATTR{device}=="0xa0e0", ATTR{power/control}="on"
+    '';
+    extraHwdb = ''
+      evdev:name:PIXA3854:00 093A:0274 Touchpad:dmi:*svnFramework:*pnLaptop**
+       EVDEV_ABS_00=::8
+       EVDEV_ABS_01=::11
+       EVDEV_ABS_35=::8
+       EVDEV_ABS_36=::11
+    '';
+  };
   services.upower.criticalPowerAction = "PowerOff";
 }

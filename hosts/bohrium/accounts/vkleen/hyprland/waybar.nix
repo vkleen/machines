@@ -1,7 +1,8 @@
 { lib, pkgs, ... }:
 let
-  colors = import ./colors.nix {};
-in {
+  colors = import ./colors.nix { };
+in
+{
   programs.waybar = {
     enable = true;
     systemd = {
@@ -14,7 +15,7 @@ in {
         position = "top";
         modules-left = [ "idle_inhibitor" "hyprland/workspaces" "hyprland/submap" ];
         modules-center = [ "clock" ];
-        modules-right = ["battery" "wireplumber" "backlight" "tray" ];
+        modules-right = [ "battery" "wireplumber" "backlight" "tray" ];
         "idle_inhibitor" = {
           format = "{icon}";
           format-icons = {
@@ -52,6 +53,7 @@ in {
         };
         "clock" = {
           format = "{:%d-%m %H:%M %Z}";
+          tooltip-format = "<tt><small>{calendar}</small></tt>";
           calendar = {
             mode = "year";
             mode-mon-col = 3;
@@ -59,11 +61,11 @@ in {
             on-scroll = 1;
             on-click-right = "mode";
             format = {
-              months =     "<span color='#ffead3'><b>{}</b></span>";
-              days =       "<span color='#ecc6d9'><b>{}</b></span>";
-              weeks =      "<span color='#99ffdd'><b>W{}</b></span>";
-              weekdays =   "<span color='#ffcc66'><b>{}</b></span>";
-              today =      "<span color='#ff6699'><b><u>{}</u></b></span>";
+              months = "<span color='#ffead3'><b>{}</b></span>";
+              days = "<span color='#ecc6d9'><b>{}</b></span>";
+              weeks = "<span color='#99ffdd'><b>W{}</b></span>";
+              weekdays = "<span color='#ffcc66'><b>{}</b></span>";
+              today = "<span color='#ff6699'><b><u>{}</u></b></span>";
             };
           };
           actions = {
@@ -110,7 +112,7 @@ in {
           text-shadow: inherit;
       }
 
-      #workspaces button.focused {
+      #workspaces button.active {
           background-color: ${colors.blue};
           color: ${colors.br_black};
       }

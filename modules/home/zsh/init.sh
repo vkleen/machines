@@ -21,6 +21,15 @@ bindkey '\e[F'    end-of-line        # xterm
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
+bindkey "^B" backward-delete-char
+bindkey "^H" backward-char
+bindkey "^L" forward-char
+bindkey "^K" up-line-or-search
+bindkey "^J" down-line-or-search
+bindkey "^O" clear-screen
+
 bindkey "^[[A" history-substring-search-up
 bindkey "^[[B" history-substring-search-down
 

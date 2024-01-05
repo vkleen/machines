@@ -19,7 +19,7 @@
 
     wlanInterfaces = {
       "wlan0" = {
-        device = "wlp1s0";
+        device = "wlp170s0";
       };
     };
 
@@ -54,7 +54,7 @@
     };
   };
 
-  systemd.services.supplicant-wlan0.partOf = lib.mkForce [];
+  systemd.services.supplicant-wlan0.partOf = lib.mkForce [ ];
 
   systemd.network = {
     networks."40-eth-dock" = {

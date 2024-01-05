@@ -14,14 +14,75 @@ let
       exec ${lib.getExe pkgs.tmux} new-session -t ${session} \; set-option destroy-unattached off
     fi
   '';
-in {
-  imports = with (lib.findModules ./.); [
-    mako
-    kanshi
-    waybar
-    random-background
-    swayidle
-  ];
+
+  switch-window = pkgs.writeShellApplication
+    {
+      name = "switch-window";
+      runtimeInputs = with pkgs; [
+        fuzzel
+        hyprland
+        gojq
+      ];
+      text = ''
+        state="$(hyprctl -j clients)"
+        active_window="$(hyprctl -j activewindow)"
+
+        current_addr="$(echo "$active_window" | gojq -r '.address')"
+
+        window="$(echo "$state" |
+            gojq -r '.[] | select(.monitor != -1 ) | "\(.title)\t\(.workspace.name)\t\(.address)"' |
+            fuzzel --dmenu)"
+
+        addr="$(echo "$window" | awk -F $'\t' '{print $3}')"
+        ws="$(echo "$window" | awk -F $'\t' '{print $2}')"
+
+        if [[ "$addr" = "$current_addr" ]]; then
+            exit 0
+        fi
+
+        fullscreen_on_same_ws="$(echo "$state" | gojq -r ".[] | select(.fullscreen == true) | select(.workspace.name == \"$ws\") | .address")"
+
+        if [[ "$window" != "" ]]; then
+            if [[ "$fullscreen_on_same_ws" == "" ]]; then
+                hyprctl dispatch focuswindow address:"''${addr}"
+            else
+                # If we want to focus app_A and app_B is fullscreen on the same workspace,
+                # app_A will get focus, but app_B will remain on top.
+                # This monstrosity is to make sure app_A will end up on top instead.
+                # XXX: doesn't handle fullscreen 0, but I don't care.
+                hyprctl --batch "dispatch focuswindow address:''${fullscreen_on_same_ws}; dispatch fullscreen 1; dispatch focuswindow address:''${addr}; dispatch fullscreen 1"
+            fi
+        fi
+      '';
+    };
+
+  fuzzel-pass = pkgs.writeShellApplication
+    {
+      name = "fuzzel-pass";
+      runtimeInputs = with pkgs; [
+        fuzzel
+        gopass
+        wtype
+      ];
+      text = ''
+        password=$(gopass list -f | fuzzel --dmenu --log-level=warning)
+        [[ -n "$password" ]] || exit 0
+
+        gopass show -o "$password" | wtype -s 100 -
+      '';
+    };
+in
+{
+  imports = with (lib.findModules ./.);
+    [
+      hyprdim
+      kanshi
+      mako
+      random-background
+      swayidle
+      waybar
+      redshift
+    ];
   config = {
     home.packages = with pkgs; [
       grim
@@ -29,22 +90,28 @@ in {
       slurp
       brightnessctl
     ];
-  
+
     wayland.windowManager.hyprland = {
       enable = true;
       settings = {
         monitor = [
+          "eDP-1,preferred,auto,1"
           ",preferred,auto,auto"
         ];
         input = {
           kb_layout = "us";
           kb_options = "compose:ralt";
           follow_mouse = 0;
-          accel_profile = "adaptive";
           touchpad = {
             natural_scroll = true;
             drag_lock = true;
           };
+        };
+        "device:pixa3854:00-093a:0274-touchpad" = {
+          accel_profile = "custom 0.2144477506 0.000 0.512 1.025 1.794 2.565 3.336 4.175 5.346 6.517 7.688 8.859 10.029 11.200 12.371 13.542 14.713 15.884 17.054 18.225 20.645";
+          sensitivity = 0.0;
+          natural_scroll = true;
+          drag_lock = true;
         };
         general = {
           gaps_in = 2;
@@ -57,7 +124,7 @@ in {
           no_border_on_floating = false;
         };
         decoration = {
-          rounding = 0;
+          rounding = 10;
           drop_shadow = false;
           shadow_range = 4;
           shadow_render_power = 3;
@@ -67,26 +134,48 @@ in {
           };
         };
         animations = {
-          enabled = false;
+          enabled = true;
+          bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+          animation = [
+            "windows, 1, 2, myBezier"
+            "windowsOut, 1, 2, default, popin 80%"
+            "border, 1, 10, default"
+            "borderangle, 1, 8, default"
+            "fade, 1, 2, default"
+            "workspaces, 1, 2, default"
+          ];
         };
         master = {
           orientation = "left";
         };
 
+        windowrulev2 = [
+          "nomaximizerequest, class:.*"
+        ];
+
         "$mainMod" = "SUPER";
       };
       extraConfig = ''
+        bind = $mainMod SHIFT, X, exit
         bind = $mainMod SHIFT, Q, killactive
-        bind = $mainMod, F, fullscreen,
+        bind = $mainMod, F, fullscreen, 1
+        bind = $mainMod SHIFT, F, fullscreen, 0
 
         bind = $mainMod, H, movefocus, l
         bind = $mainMod, J, movefocus, d
         bind = $mainMod, K, movefocus, u
         bind = $mainMod, L, movefocus, r
-        bind = $mainMod SHIFT, H, movewindow, l
-        bind = $mainMod SHIFT, J, movewindow, d
-        bind = $mainMod SHIFT, K, movewindow, u
-        bind = $mainMod SHIFT, L, movewindow, r
+        bind = $mainMod SHIFT, H, movewindoworgroup, l
+        bind = $mainMod SHIFT, J, movewindoworgroup, d
+        bind = $mainMod SHIFT, K, movewindoworgroup, u
+        bind = $mainMod SHIFT, L, movewindoworgroup, r
+
+        bind = $mainMod CONTROL, H, moveintogroup, l
+        bind = $mainMod CONTROL, J, moveintogroup, d
+        bind = $mainMod CONTROL, K, moveintogroup, u
+        bind = $mainMod CONTROL, L, moveintogroup, r
+        bind = $mainMod CONTROL, SPACE, togglegroup
+        bind = $mainMod, TAB, changegroupactive, f
 
         bind = $mainMod, 1, workspace, 1
         bind = $mainMod, 2, workspace, 2
@@ -109,7 +198,28 @@ in {
         bind = $mainMod SHIFT, 9, movetoworkspace, 9
         bind = $mainMod SHIFT, 0, movetoworkspace, 10
 
-        bind = $mainMod, Return, exec ${terminal} -e ${open-tmux "persistent"}
+        bind = $mainMod SHIFT CONTROL, H, movecurrentworkspacetomonitor, l
+        bind = $mainMod SHIFT CONTROL, J, movecurrentworkspacetomonitor, d
+        bind = $mainMod SHIFT CONTROL, K, movecurrentworkspacetomonitor, u
+        bind = $mainMod SHIFT CONTROL, L, movecurrentworkspacetomonitor, r
+
+        bind = $mainMod, GRAVE, workspace, name:vid
+        bind = $mainMod SHIFT, GRAVE, movetoworkspace, name:vid
+
+        bind = $mainMod, T, workspace, name:chat
+        bind = $mainMod SHIFT, T, movetoworkspace, name:chat
+
+        bind = $mainMod, W, exec, ${lib.getExe switch-window}
+
+        bind = $mainMod SHIFT, SPACE, togglefloating
+
+        bind = $mainMod SHIFT, P, exec, ${lib.getExe fuzzel-pass}
+
+        bind = $mainMod, Return, exec, ${terminal} -e ${open-tmux "persistent"}
+        bind = $mainMod SHIFT, Return, exec, ${terminal}
+
+        bindm = $mainMod, mouse:272, movewindow
+        bindm = $mainMod, mouse:273, resizewindow
       '';
     };
   };

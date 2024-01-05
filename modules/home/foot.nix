@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ ... }:
 {
   programs.foot = {
     enable = true;
@@ -6,7 +6,7 @@
     settings = {
       main = {
         term = "xterm-256color";
-        font = "PragmataPro Liga:size=7";
+        font = "PragmataPro Mono Liga:size=12";
       };
       scrollback = {
         lines = 0;

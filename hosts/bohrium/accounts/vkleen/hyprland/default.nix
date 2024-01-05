@@ -95,7 +95,7 @@ in
       enable = true;
       settings = {
         monitor = [
-          "eDP-1,preferred,auto,1"
+          "eDP-1,preferred,auto,1.0"
           ",preferred,auto,auto"
         ];
         input = {
@@ -114,7 +114,7 @@ in
           drag_lock = true;
         };
         general = {
-          gaps_in = 2;
+          gaps_in = 5;
           gaps_out = 0;
           border_size = 1;
           "col.active_border" = "rgba(${colors.blue}ff)";
@@ -122,6 +122,13 @@ in
 
           layout = "master";
           no_border_on_floating = false;
+
+          cursor_inactive_timeout = 1;
+        };
+        misc = {
+          vfr = true;
+          vrr = 1;
+          new_window_takes_over_fullscreen = 1;
         };
         decoration = {
           rounding = 10;

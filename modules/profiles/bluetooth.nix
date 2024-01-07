@@ -2,6 +2,7 @@
 {
   config = lib.mkMerge [
     {
+      environment.systemPackages = [ pkgs.bluetuith ];
       hardware.bluetooth = {
         enable = true;
         settings = {
@@ -16,7 +17,6 @@
           };
         };
       };
-      services.blueman.enable = true;
     }
     (lib.mkIf config.boot.wipeRoot {
       environment.persistence."/persist".directories = [

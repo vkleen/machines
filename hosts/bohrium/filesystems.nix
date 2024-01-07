@@ -76,6 +76,11 @@
     fsType = "zfs";
   };
 
+  fileSystems."/var/lib/libvirt" = {
+    device = "bohrium/local/libvirt";
+    fsType = "zfs";
+  };
+
   swapDevices = [
     { device = "/dev/mapper/bohrium-swap"; }
   ];

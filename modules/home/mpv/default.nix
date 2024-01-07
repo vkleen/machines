@@ -1,4 +1,4 @@
-{ pkgs, config, lib, nixosConfig, ... }:
+{ pkgs, config, lib, ... }:
 let
   mpv-socket = config.mpv.ipc-socket;
   socat = lib.getExe pkgs.socat;

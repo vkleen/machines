@@ -24,7 +24,6 @@
     foot
     workstation
   ] ++ (with (lib.findModules ./.); [
-    blueman-applet
     fuzzel
     git
     gmail

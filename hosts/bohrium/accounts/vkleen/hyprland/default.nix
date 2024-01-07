@@ -20,8 +20,9 @@ let
       name = "switch-window";
       runtimeInputs = with pkgs; [
         fuzzel
-        hyprland
+        gawk
         gojq
+        hyprland
       ];
       text = ''
         state="$(hyprctl -j clients)"
@@ -31,7 +32,7 @@ let
 
         window="$(echo "$state" |
             gojq -r '.[] | select(.monitor != -1 ) | "\(.title)\t\(.workspace.name)\t\(.address)"' |
-            fuzzel --dmenu)"
+            fuzzel --log-level=warning --dmenu)"
 
         addr="$(echo "$window" | awk -F $'\t' '{print $3}')"
         ws="$(echo "$window" | awk -F $'\t' '{print $2}')"
@@ -71,6 +72,48 @@ let
         gopass show -o "$password" | wtype -s 100 -
       '';
     };
+
+  fuzzel-pdf = pkgs.writeShellApplication
+    {
+      name = "fuzzel-pdf";
+      runtimeInputs = with pkgs; [
+        fuzzel
+        ripgrep
+        zathura
+      ];
+      text = ''
+        prefix=(~/dl ~/books)
+        function _do_select() {
+          rg -0 --files --sortr=modified --iglob '*.{pdf,djvu}' "''${prefix[@]}" \
+            | fuzzel --log-level=warning --dmenu0
+        }
+
+        file=$(_do_select)
+        exec zathura "$file"
+      '';
+    };
+
+  ff-url-candidates = pkgs.writeScriptBin "ff-url-candidates" ''
+    #!${lib.getExe pkgs.zsh}
+    _profile="$1"
+    function do_sqlite() {
+      ${lib.getExe pkgs.sqlite} -separator $'\t' "$1" #| tr '\n' '\0'      
+    }
+    TMPPREFIX=''${XDG_RUNTIME_DIR:-/tmp/}/ff-url-candidates
+    do_sqlite =(< ''${_profile}/places.sqlite) <<EOF
+    select url, title from (select url, title, max(last_visit_date) as last_visit_date from moz_places group by url) t order by last_visit_date desc
+    EOF
+  '';
+
+  ff-url = pkgs.writeScriptBin "ff-url" ''
+    #!${lib.getExe pkgs.zsh}
+    setopt EXTENDED_GLOB
+    _profile_=( ~/.mozilla/firefox/*.default )
+    _profile="''${_profile_[1]}"
+    ${lib.getExe ff-url-candidates} "$_profile" \
+      | ${lib.getExe pkgs.rofi} -dmenu \
+      | ${lib.getExe pkgs.gawk} 'BEGIN {FS="\t"; OFS="\t"}; {print $1}'
+  '';
 in
 {
   imports = with (lib.findModules ./.);
@@ -89,6 +132,7 @@ in
       wl-clipboard
       slurp
       brightnessctl
+      hyprnome
     ];
 
     wayland.windowManager.hyprland = {
@@ -128,7 +172,7 @@ in
         misc = {
           vfr = true;
           vrr = 1;
-          new_window_takes_over_fullscreen = 1;
+          new_window_takes_over_fullscreen = 2;
         };
         decoration = {
           rounding = 10;
@@ -177,12 +221,14 @@ in
         bind = $mainMod SHIFT, K, movewindoworgroup, u
         bind = $mainMod SHIFT, L, movewindoworgroup, r
 
-        bind = $mainMod CONTROL, H, moveintogroup, l
-        bind = $mainMod CONTROL, J, moveintogroup, d
-        bind = $mainMod CONTROL, K, moveintogroup, u
-        bind = $mainMod CONTROL, L, moveintogroup, r
-        bind = $mainMod CONTROL, SPACE, togglegroup
-        bind = $mainMod, TAB, changegroupactive, f
+        bind = $mainMod, N, movefocus, l
+        bind = $mainMod, E, movefocus, d
+        bind = $mainMod, I, movefocus, u
+        bind = $mainMod, O, movefocus, r
+        bind = $mainMod SHIFT, N, movewindoworgroup, l
+        bind = $mainMod SHIFT, E, movewindoworgroup, d
+        bind = $mainMod SHIFT, I, movewindoworgroup, u
+        bind = $mainMod SHIFT, O, movewindoworgroup, r
 
         bind = $mainMod, 1, workspace, 1
         bind = $mainMod, 2, workspace, 2
@@ -205,10 +251,17 @@ in
         bind = $mainMod SHIFT, 9, movetoworkspace, 9
         bind = $mainMod SHIFT, 0, movetoworkspace, 10
 
+        bind = $mainMod CONTROL, H, exec, ${lib.getExe pkgs.hyprnome} --previous
+        bind = $mainMod CONTROL, L, exec, ${lib.getExe pkgs.hyprnome}
+
         bind = $mainMod SHIFT CONTROL, H, movecurrentworkspacetomonitor, l
         bind = $mainMod SHIFT CONTROL, J, movecurrentworkspacetomonitor, d
         bind = $mainMod SHIFT CONTROL, K, movecurrentworkspacetomonitor, u
         bind = $mainMod SHIFT CONTROL, L, movecurrentworkspacetomonitor, r
+        bind = $mainMod SHIFT CONTROL, N, movecurrentworkspacetomonitor, l
+        bind = $mainMod SHIFT CONTROL, E, movecurrentworkspacetomonitor, d
+        bind = $mainMod SHIFT CONTROL, I, movecurrentworkspacetomonitor, u
+        bind = $mainMod SHIFT CONTROL, O, movecurrentworkspacetomonitor, r
 
         bind = $mainMod, GRAVE, workspace, name:vid
         bind = $mainMod SHIFT, GRAVE, movetoworkspace, name:vid
@@ -224,6 +277,8 @@ in
 
         bind = $mainMod, Return, exec, ${terminal} -e ${open-tmux "persistent"}
         bind = $mainMod SHIFT, Return, exec, ${terminal}
+
+        bind = $mainMod, P, exec, ${lib.getExe fuzzel-pdf}
 
         bindm = $mainMod, mouse:272, movewindow
         bindm = $mainMod, mouse:273, resizewindow

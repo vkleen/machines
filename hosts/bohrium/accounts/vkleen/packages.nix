@@ -65,6 +65,6 @@
     wavemon
     yq
     zig
-
+    tio
   ];
 }

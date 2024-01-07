@@ -30,7 +30,6 @@
       libnotify
       noti
       pavucontrol
-      pinentry-gtk2
       ripgrep
       streamlink
       tmate

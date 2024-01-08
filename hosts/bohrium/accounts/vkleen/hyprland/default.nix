@@ -140,12 +140,12 @@ in
       settings = {
         monitor = [
           "eDP-1,preferred,auto,1.0"
-          ",preferred,auto,auto"
+          ",preferred,auto,1.0"
         ];
         input = {
           kb_layout = "us";
           kb_options = "compose:ralt";
-          follow_mouse = 0;
+          follow_mouse = 2;
           touchpad = {
             natural_scroll = true;
             drag_lock = true;

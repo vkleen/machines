@@ -110,7 +110,7 @@ in
     bind  index,pager @        compose-to-sender
 
     macro index \\ "<vfolder-from-query>"
-    macro index,pager A "<modify-tags-then-hide>-unread -inbox\n<sync-mailbox>"
+    macro index,pager a "<modify-tags-then-hide>-unread -inbox\n<sync-mailbox>"
     bind index,pager + entire-thread
     bind index,pager y modify-tags
     bind index,pager X change-vfolder

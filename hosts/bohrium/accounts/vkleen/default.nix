@@ -3,20 +3,21 @@
   users.users.vkleen = {
     extraGroups = [
       #lib.filter (g: config.users.groups ? g) [
-      "network"
-      "dialout"
-      "audio"
-      "video"
-      "input"
-      "wireshark"
       "adbusers"
+      "audio"
       "bladerf"
+      "camera"
+      "dialout"
+      "docker"
+      "input"
+      "jackaudio"
       "kvm"
       "libvirtd"
       "lp"
+      "network"
       "scanner"
-      "jackaudio"
-      "docker"
+      "video"
+      "wireshark"
     ];
   };
 

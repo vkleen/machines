@@ -17,6 +17,8 @@
     services.usbmuxd.enable = true;
     security.rtkit.enable = true;
 
+    programs.gphoto2.enable = true;
+
     nix = {
       daemonCPUSchedPolicy = "idle";
       daemonIOSchedClass = "idle";

@@ -9,6 +9,7 @@
     batctl
     bc
     borgbackup
+    darktable
     dnsutils
     dos2unix
     entr
@@ -56,6 +57,7 @@
     socat
     sqlite
     s-tui
+    tio
     tree
     tsocks
     unzip
@@ -65,6 +67,5 @@
     wavemon
     yq
     zig
-    tio
   ];
 }

@@ -270,6 +270,15 @@ in
         bind = $mainMod, T, workspace, name:chat
         bind = $mainMod SHIFT, T, movetoworkspace, name:chat
 
+        bind = $mainMod, A, workspace, name:cal
+        bind = $mainMod SHIFT, A, movetoworkspace, name:cal
+
+        bind = $mainMod, S, workspace, name:s
+        bind = $mainMod SHIFT, S, movetoworkspace, name:s
+
+        bind = $mainMod, D, workspace, name:d
+        bind = $mainMod SHIFT, D, movetoworkspace, name:d
+
         bind = $mainMod, W, exec, ${lib.getExe switch-window}
 
         bind = $mainMod SHIFT, SPACE, togglefloating

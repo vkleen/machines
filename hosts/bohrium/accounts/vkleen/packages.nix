@@ -12,6 +12,7 @@
     darktable
     dnsutils
     dos2unix
+    entangle
     entr
     exiftool
     expect

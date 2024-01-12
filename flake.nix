@@ -10,6 +10,12 @@
       url = "github:oddlama/agenix-rekey";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    libgphoto2 = {
+      url = "github:gphoto/libgphoto2";
+      flake = false;
+    };
+    hyprland.url = "github:hyprwm/hyprland";
   };
 
   outputs = inputs:

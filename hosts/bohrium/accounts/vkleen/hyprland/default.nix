@@ -207,7 +207,8 @@ in
         "$mainMod" = "SUPER";
       };
       extraConfig = ''
-        bind = $mainMod SHIFT, X, exit
+        bind = $mainMod SHIFT, X, exec, ${lib.getExe pkgs.wlogout}
+        bind = $mainMod SHIFT CONTROL, X, exit
         bind = $mainMod SHIFT, Q, killactive
         bind = $mainMod, F, fullscreen, 1
         bind = $mainMod SHIFT, F, fullscreen, 0

@@ -104,6 +104,9 @@ in
     bind index,pager \CJ sidebar-next
     bind index,pager \CK sidebar-prev
     bind index,pager \CL sidebar-open
+    bind index,pager \CE sidebar-next
+    bind index,pager \CI sidebar-prev
+    bind index,pager \CO sidebar-open
 
     bind  index       <Return> display-message
     bind  index,pager R        group-reply

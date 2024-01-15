@@ -1,10 +1,22 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 let
   inherit (lib.hm.gvariant) mkUint32;
   inherit (lib) mkDefault;
 in
 {
+  gtk = {
+    enable = true;
+    theme = {
+      package = pkgs.gnome.gnome-themes-extra;
+      name = "Adwaita-dark";
+    };
+    iconTheme = {
+      package = pkgs.gnome.adwaita-icon-theme;
+      name = "Adwaita";
+    };
+  };
+
   dconf = {
     enable = true;
     settings =
@@ -17,7 +29,6 @@ in
                 font-antialiasing = "grayscale";
                 font-hinting = "full";
                 gtk-im-module = "gtk-im-context-simple";
-                gtk-theme = "Adwaita-dark";
                 color-scheme = "prefer-dark";
                 monospace-font-name = "PragmataPro Mono Liga 11";
               };

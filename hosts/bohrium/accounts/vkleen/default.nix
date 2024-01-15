@@ -1,4 +1,4 @@
-{ config, lib, inputs, ... }:
+{ lib, inputs, ... }:
 {
   users.users.vkleen = {
     extraGroups = [
@@ -33,6 +33,7 @@
     neomutt
     packages
     pass
+    taskwarrior
     wireplumber
     {
       home.stateVersion = "24.05";

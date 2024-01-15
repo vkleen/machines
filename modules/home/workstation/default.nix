@@ -21,6 +21,7 @@
       djvulibre
       evince
       gnupg
+      grit
       gsettings-desktop-schemas
       hledger
       i3status

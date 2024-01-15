@@ -1,4 +1,4 @@
-{ config, pkgs, nixosConfig, lib, ... }:
+{ config, pkgs, lib, ... }:
 let
   workingDir = "${config.home.homeDirectory}/mail/tweag";
 

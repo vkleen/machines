@@ -5,6 +5,7 @@
     dconf
     direnv
     firefox
+    fish
     git
     gpg-agent
     helix

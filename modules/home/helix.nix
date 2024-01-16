@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 {
   home.packages = [ pkgs.helix pkgs.marksman ];
   home.sessionVariables.EDITOR = "${lib.getExe pkgs.helix}";

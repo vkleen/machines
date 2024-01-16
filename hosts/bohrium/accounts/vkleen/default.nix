@@ -33,7 +33,6 @@
     neomutt
     packages
     pass
-    taskwarrior
     wireplumber
     {
       home.stateVersion = "24.05";

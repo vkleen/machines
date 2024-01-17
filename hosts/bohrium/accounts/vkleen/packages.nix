@@ -55,7 +55,7 @@
     sanoid
     skim
     socat
-    sqlite
+    sqlite-interactive
     s-tui
     tree
     tsocks

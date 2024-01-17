@@ -33,5 +33,18 @@
         src = pkgs.fishPlugins.fzf-fish.src;
       }
     ];
+
+    shellInit = ''
+      set -U fish_greeting "🐟"
+      bind \ch backward-char
+      bind \cj history-search-forward
+      bind \ck history-search-backward
+      bind \cl forward-char
+      bind \co clear-screen
+    '';
+
+    functions = {
+      fish_command_not_found = "__fish_default_command_not_found_handler $argv";
+    };
   };
 }

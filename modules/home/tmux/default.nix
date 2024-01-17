@@ -2,7 +2,7 @@
 {
   home.file.".tmux.conf".text = ''
     set -g exit-unattached off
-    set -g default-shell ${lib.getExe pkgs.zsh}
+    set -g default-shell ${lib.getExe pkgs.fish}
     set -g allow-rename off
 
     set -g base-index 1

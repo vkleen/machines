@@ -19,6 +19,7 @@
   hardware.cpu.intel.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
   hardware.acpilight.enable = true;
+  hardware.opengl.enable = true;
   hardware.opengl.extraPackages = [
     pkgs.intel-vaapi-driver
     pkgs.libvdpau-va-gl
@@ -43,4 +44,6 @@
     '';
   };
   services.upower.criticalPowerAction = "PowerOff";
+
+  programs.nix-ld.enable = true;
 }

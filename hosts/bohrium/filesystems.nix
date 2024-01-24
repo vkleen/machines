@@ -14,9 +14,11 @@
   #   zfs create -p -o mountpoint=legacy -o utf8only=on -o acltype=posixacl -o xattr=sa -o atime=off -o compression=lz4 bohrium/local/nix
   #   zfs create -p -o mountpoint=legacy -o utf8only=on -o acltype=posixacl -o xattr=sa -o atime=off -o compression=lz4 bohrium/safe/home
   #   zfs create -p -o mountpoint=legacy -o utf8only=on -o acltype=posixacl -o xattr=sa -o atime=off -o compression=lz4 bohrium/safe/persist
+  #   zfs create -p -o mountpoint=legacy -o acltype=posixacl -o xattr=sa -o atime=off -o compression=lz4 bohrium/safe/yt
   #   zfs create -o refreservation=1G -o mountpoint=none bohrium/local/reserved
 
   #   zfs set com.sun:auto-snapshot=true bohrium/safe
+  #   zfs set com.sun:auto-snapshot=false bohrium/safe/yt
   boot.initrd.luks = {
     devices = {
       "bohrium-swap" = {
@@ -80,6 +82,11 @@
     device = "bohrium/local/libvirt";
     fsType = "zfs";
   };
+
+  # fileSystems."/home/vkleen/yt" = {
+  #   device = "bohrium/safe/yt";
+  #   fsType = "Zfs";
+  # };
 
   swapDevices = [
     { device = "/dev/mapper/bohrium-swap"; }

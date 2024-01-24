@@ -9,6 +9,7 @@
     batctl
     bc
     borgbackup
+    darktable
     dnsutils
     dos2unix
     entangle
@@ -44,6 +45,7 @@
     parallel
     pciutils
     picocom
+    playerctl
     poppler_utils
     psmisc
     pv
@@ -57,6 +59,7 @@
     socat
     sqlite-interactive
     s-tui
+    tio
     tree
     tsocks
     unzip
@@ -66,6 +69,5 @@
     wavemon
     yq
     zig
-    tio
   ];
 }

@@ -202,6 +202,7 @@ in
 
         windowrulev2 = [
           "nomaximizerequest, class:.*"
+          "noinitialfocus, class:.*"
         ];
 
         "$mainMod" = "SUPER";

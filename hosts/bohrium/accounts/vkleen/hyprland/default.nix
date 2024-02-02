@@ -181,7 +181,8 @@ in
           shadow_render_power = 3;
           "col.shadow" = "rgba(1a1a1aee)";
           blur = {
-            enabled = false;
+            enabled = true;
+            size = 4;
           };
         };
         animations = {
@@ -201,14 +202,20 @@ in
         };
 
         windowrulev2 = [
-          "nomaximizerequest, class:.*"
-          "noinitialfocus, class:.*"
+          "nomaximizerequest,class:.*"
+          "noinitialfocus,class:^(?!Rofi$).*$"
+          "idleinhibit focus,class:^(mpv)$"
+        ];
+
+        layerrule = [
+          "blur, ^(gtk-layer-shell)$"
+          "blur, ^(launcher)$"
         ];
 
         "$mainMod" = "SUPER";
       };
       extraConfig = ''
-        bind = $mainMod SHIFT, X, exec, ${lib.getExe pkgs.wlogout}
+        bind = $mainMod SHIFT, X, exec, ${lib.getExe pkgs.wlogout} -p layer-shell
         bind = $mainMod SHIFT CONTROL, X, exit
         bind = $mainMod SHIFT, Q, killactive
         bind = $mainMod, F, fullscreen, 1
@@ -282,6 +289,7 @@ in
 
         bind = $mainMod, W, exec, ${lib.getExe switch-window}
 
+        bind = $mainMod, SPACE, cyclenext, floating
         bind = $mainMod SHIFT, SPACE, togglefloating
 
         bind = $mainMod SHIFT, P, exec, ${lib.getExe fuzzel-pass}

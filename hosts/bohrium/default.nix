@@ -17,13 +17,14 @@ rec {
       profiles.iio
     ] ++ (with (lib.findModules ./.); [
       age
-      tweaks
-      interception-tools
-      uucp-email
       boot
-      tweaks
-      networking
       filesystems
+      interception-tools
+      networking
+      rmapi
+      tweaks
+      tweaks
+      uucp-email
     ])
     ++ (lib.attrValues (lib.findModules ../../accounts))
     ++ (lib.attrValues (lib.findModules ./accounts));

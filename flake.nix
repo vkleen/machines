@@ -1,7 +1,11 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    trilby.url = "github:ners/trilby";
+    trilby = {
+      url = "github:ners/trilby";
+      inputs.nixpkgs-unstable.follows = "nixpkgs";
+      inputs."nixpkgs-23.11".follows = "nixpkgs";
+    };
     macname.url = "github:vkleen/macname";
     nix-monitored.url = "github:ners/nix-monitored";
     impermanence.url = "github:nix-community/impermanence";
@@ -112,6 +116,7 @@
         in
         {
           formatter.${buildPlatform} = pkgs.nixpkgs-fmt;
+          packages.${buildPlatform}."pkgs-${buildPlatform}" = pkgs;
           devShells.${buildPlatform} = {
             default = pkgs.mkShell {
               packages = [

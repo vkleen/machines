@@ -6,13 +6,7 @@
     zsh-completions
   ];
 
-  programs.bat = {
-    enable = true;
-    config = {
-      theme = "ansi";
-      pager = "less -FR";
-    };
-  };
+  programs.bat.enable = true;
 
   programs.zsh = {
     enable = true;

@@ -6,13 +6,7 @@
     fd
   ];
 
-  programs.bat = {
-    enable = true;
-    config = {
-      theme = "ansi";
-      pager = "less -FR";
-    };
-  };
+  programs.bat.enable = true;
 
   programs.fish = {
     enable = true;

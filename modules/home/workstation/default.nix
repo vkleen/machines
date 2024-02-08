@@ -1,6 +1,7 @@
 { pkgs, inputs, ... }:
 {
   imports = with inputs.self.nixosModules.home; [
+    bat
     cursor
     dconf
     direnv

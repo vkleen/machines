@@ -1,4 +1,4 @@
-{ lib, inputs, ... }:
+{ pkgs, lib, inputs, ... }:
 
 with builtins;
 with lib;
@@ -10,5 +10,8 @@ with lib;
   programs.nixvim = {
     enable = true;
     luaLoader.enable = true;
+    viAlias = true;
+    vimAlias = true;
+    extraPackages = [ pkgs.delta ];
   };
 }

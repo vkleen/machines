@@ -14,6 +14,10 @@
       url = "github:oddlama/agenix-rekey";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     libgphoto2 = {
       url = "github:gphoto/libgphoto2";

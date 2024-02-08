@@ -24,6 +24,7 @@
   home-manager.users.vkleen = lib.mkMerge (with inputs.self.nixosModules.home; [
     foot
     workstation
+    neovim
   ] ++ (with (lib.findModules ./.); [
     fuzzel
     git
@@ -31,6 +32,8 @@
     hyprland
     mpv
     neomutt
+    neovide
+    neovim
     packages
     pass
     wireplumber

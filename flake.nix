@@ -15,7 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "github:vkleen/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -24,6 +24,7 @@
       flake = false;
     };
     hyprland.url = "github:hyprwm/hyprland";
+    hyprlang.url = "github:hyprwm/hyprlang";
   };
 
   outputs = inputs:
@@ -81,10 +82,18 @@
       { inherit lib; }
 
       {
-        agenix-rekey = inputs.agenix-rekey.configure {
-          userFlake = inputs.self;
-          nodes = inputs.self.nixosConfigurations;
-        };
+        agenix-rekey = inputs.agenix-rekey.configure
+          {
+            userFlake = inputs.self;
+            nodes = inputs.self.nixosConfigurations;
+            pkgs = lib.foreach platforms
+              (system: {
+                "${system}" = lib.pkgsFor {
+                  buildPlatform = system;
+                  hostPlatform = system;
+                };
+              });
+          };
       }
 
       {

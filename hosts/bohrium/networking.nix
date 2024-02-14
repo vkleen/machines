@@ -60,13 +60,14 @@
     networks."40-eth-dock" = {
       networkConfig.PrimarySlave = true;
     };
+    networks."40-eth-usb" = {
+      networkConfig.PrimarySlave = true;
+    };
   };
 
   services.resolved = {
     llmnr = "false";
   };
-
-  services.udev.packages = [ pkgs.crda ];
 
   services.udev.extraRules = ''
     SUBSYSTEM=="net", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="8153", ATTR{address}=="98:fd:b4:9b:d9:89", NAME:="eth-dock"

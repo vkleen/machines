@@ -3,7 +3,7 @@ let
   do-lock = pkgs.writeScript "do-lock" ''
     #!${lib.getExe pkgs.zsh}
     FILE=(~/wallpapers/*.jpg(Noe{'REPLY=$RANDOM,$RANDOM'}[1,1]))
-    exec ${lib.getExe pkgs.swaylock} -fF -i "$FILE"
+    exec ${lib.getExe pkgs.swaylock-effects} -fF -i "$FILE" --fade-in 0.5 --grace 5
   '';
 in
 {

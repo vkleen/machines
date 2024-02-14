@@ -2,14 +2,14 @@
 {
   imports = with inputs.self.nixosModules; [
     base
-    trilby.profiles.pipewire
-    trilby.profiles.plymouth
-    trilby.profiles.virtualisation
-    profiles.tuigreet
+    profiles.bluetooth
+    profiles.fonts
     profiles.gnome-keyring
     profiles.hyprland
-    profiles.fonts
-    profiles.bluetooth
+    profiles.tuigreet
+    profiles.virtualisation
+    trilby.profiles.pipewire
+    trilby.profiles.plymouth
   ];
   config = {
     programs.dconf.enable = true;

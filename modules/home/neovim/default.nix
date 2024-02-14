@@ -13,5 +13,6 @@ with lib;
     viAlias = true;
     vimAlias = true;
     extraPackages = [ pkgs.delta ];
+    enableMan = false;
   };
 }

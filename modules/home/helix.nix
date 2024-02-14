@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 {
-  home.packages = [ pkgs.helix pkgs.marksman ];
+  home.packages = [ pkgs.helix ];
   home.sessionVariables.EDITOR = "${lib.getExe pkgs.helix}";
   xdg.configFile."helix/config.toml".source = (pkgs.formats.toml { }).generate "config.toml" {
     theme = "base16_default_dark";

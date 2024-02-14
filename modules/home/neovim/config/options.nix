@@ -54,7 +54,6 @@ in
       magic = true;
 
       ttyfast = true;
-      lazyredraw = true;
 
       grepprg = "${lib.getExe pkgs.ripgrep} --vimgrep --no-heading";
       grepformat = "%f:%l:%c:%m,%f:%l:%m";

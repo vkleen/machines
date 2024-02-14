@@ -33,6 +33,10 @@ in
           action = "find_files";
           desc = "Files";
         };
+        "<leader>b" = {
+          action = "buffers";
+          desc = "Buffers";
+        };
       };
     };
     keymaps = [

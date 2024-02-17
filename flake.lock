@@ -722,15 +722,15 @@
         "pre-commit-hooks": "pre-commit-hooks_2"
       },
       "locked": {
-        "lastModified": 1707938670,
-        "narHash": "sha256-bjkJOF9LK9QTSuuhdhGCIUUic4+Nmw7mFK0a008D50I=",
-        "owner": "vkleen",
+        "lastModified": 1707950964,
+        "narHash": "sha256-OBa0nQ+q4iUs16KRd+i6I+/5taWCHMw79dIMV1xkM5E=",
+        "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "b00c7741646c4cef377818e8bd3f82634e83011d",
+        "rev": "183eac72a9f0ae0032239510d89dbc474b180d33",
         "type": "github"
       },
       "original": {
-        "owner": "vkleen",
+        "owner": "nix-community",
         "repo": "nixvim",
         "type": "github"
       }

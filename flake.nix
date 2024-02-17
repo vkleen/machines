@@ -15,7 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "github:vkleen/nixvim";
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -129,7 +129,7 @@
         in
         {
           formatter.${buildPlatform} = pkgs.nixpkgs-fmt;
-          packages.${buildPlatform}."pkgs-${buildPlatform}" = pkgs;
+          packages.${buildPlatform}.pkgs = pkgs;
           devShells.${buildPlatform} = {
             default = pkgs.mkShell {
               packages = [

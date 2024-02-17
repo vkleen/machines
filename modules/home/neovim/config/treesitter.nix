@@ -114,7 +114,7 @@ in
       };
     };
     treesitter-context = {
-      enable = true;
+      enable = false;
     };
     rainbow-delimiters = {
       enable = true;

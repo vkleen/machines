@@ -19,7 +19,6 @@
 
   config = {
     home.packages = with pkgs; [
-      dhall
       djvulibre
       evince
       gnupg

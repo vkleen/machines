@@ -133,6 +133,7 @@
           devShells.${buildPlatform} =
             let
               agenix-pkgs = pkgs.extend inputs.agenix-rekey.overlays.default;
+              macname-pkgs = pkgs.extend inputs.macname.overlays.default;
             in
             {
               default = pkgs.mkShell {
@@ -140,7 +141,7 @@
                   pkgs.nixpkgs-fmt
                   pkgs.age
                   agenix-pkgs.agenix-rekey
-                  inputs.macname.packages.${buildPlatform}.macname
+                  macname-pkgs.macname
                   (pkgs.python3.withPackages (ps: with ps; [ matplotlib ]))
                 ];
               };

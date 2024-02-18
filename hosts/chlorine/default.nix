@@ -15,7 +15,9 @@ rec {
       profiles.iio
     ] ++ (with (lib.findModules ./.); [
       age
+      boot
       filesystems
+      networking
       tweaks
     ])
     ++ (lib.attrValues (lib.findModules ../../accounts))

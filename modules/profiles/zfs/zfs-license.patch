@@ -1,0 +1,13 @@
+diff --git a/META b/META
+index 9776223b8..f843af327 100644
+--- a/META
++++ b/META
+@@ -4,7 +4,7 @@ Branch:        1.0
+ Version:       2.1.99
+ Release:       1
+ Release-Tags:  relext
+-License:       CDDL
++License:       GPL
+ Author:        OpenZFS
+ Linux-Maximum: 5.13
+ Linux-Minimum: 3.10

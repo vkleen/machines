@@ -25,6 +25,8 @@
     workstation
     #neovim
   ] ++ (with (lib.findModules ./.); [
+    #neovim 
+    packages
     {
       home.stateVersion = "24.05";
       manual.manpages.enable = lib.mkForce false;

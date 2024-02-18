@@ -23,9 +23,9 @@
   home-manager.users.vkleen = lib.mkMerge (with inputs.self.nixosModules.home; [
     foot
     workstation
-    #neovim
+    neovim
   ] ++ (with (lib.findModules ./.); [
-    #neovim 
+    neovim
     packages
     {
       home.stateVersion = "24.05";

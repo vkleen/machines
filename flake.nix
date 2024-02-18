@@ -82,18 +82,18 @@
       { inherit lib; }
 
       {
-        agenix-rekey = inputs.agenix-rekey.configure
-          {
-            userFlake = inputs.self;
-            nodes = inputs.self.nixosConfigurations;
-            pkgs = lib.foreach platforms
-              (system: {
-                "${system}" = lib.pkgsFor {
-                  buildPlatform = system;
-                  hostPlatform = system;
-                };
-              });
-          };
+        agenix-rekey = lib.foreach platforms (system: {
+          apps.${system} = lib.genAttrs [ "edit" "generate" "rekey" ] (app:
+            import "${inputs.agenix-rekey}/apps/${app}.nix" {
+              userFlake = inputs.self;
+              nodes = inputs.self.nixosConfigurations;
+              pkgs = lib.pkgsFor {
+                buildPlatform = system;
+                hostPlatform = system;
+              };
+            }
+          );
+        });
       }
 
       {

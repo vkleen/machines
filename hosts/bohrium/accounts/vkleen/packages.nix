@@ -9,6 +9,7 @@
     batctl
     bc
     borgbackup
+    btop
     darktable
     dnsutils
     dos2unix
@@ -38,9 +39,9 @@
     mercurial
     nil
     nix-index
-    nixpkgs-fmt
     nix-prefetch-github
     nix-prefetch-scripts
+    nixpkgs-fmt
     nox
     parallel
     pciutils
@@ -54,11 +55,11 @@
     qrcp
     radare2
     rsync
+    s-tui
     sanoid
     skim
     socat
     sqlite-interactive
-    s-tui
     tio
     tree
     tsocks

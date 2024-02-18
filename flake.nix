@@ -130,17 +130,21 @@
         {
           formatter.${buildPlatform} = pkgs.nixpkgs-fmt;
           packages.${buildPlatform}.pkgs = pkgs;
-          devShells.${buildPlatform} = {
-            default = pkgs.mkShell {
-              packages = [
-                pkgs.nixpkgs-fmt
-                pkgs.age
-                inputs.agenix-rekey.packages.${buildPlatform}.agenix-rekey
-                inputs.macname.packages.${buildPlatform}.macname
-                (pkgs.python3.withPackages (ps: with ps; [ matplotlib ]))
-              ];
+          devShells.${buildPlatform} =
+            let
+              agenix-pkgs = pkgs.extend inputs.agenix-rekey.overlays.default;
+            in
+            {
+              default = pkgs.mkShell {
+                packages = [
+                  pkgs.nixpkgs-fmt
+                  pkgs.age
+                  agenix-pkgs.agenix-rekey
+                  inputs.macname.packages.${buildPlatform}.macname
+                  (pkgs.python3.withPackages (ps: with ps; [ matplotlib ]))
+                ];
+              };
             };
-          };
         }
       ))
     ];

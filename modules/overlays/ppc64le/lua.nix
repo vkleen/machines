@@ -1,7 +1,7 @@
 { ... }:
 final: prev: {
   luajit = final.luajit_openresty;
-  luajit_2_1 = builtins.trace "luajit_2_1" final.luajit_openresty;
+  luajit_2_1 = final.luajit_openresty;
   luajit_openresty = (prev.luajit_openresty.override {
     self = final.luajit_openresty;
   }).overrideAttrs (o: rec {
@@ -18,16 +18,4 @@ final: prev: {
       badPlatforms = [ ];
     };
   });
-
-  test_lua = final.luajit_2_1.withPackages (ps: with ps; [
-    lpeg
-    luabitop
-    mpack
-    luv
-    coxpcall
-    busted
-    luafilesystem
-    penlight
-    inspect
-  ]);
 }

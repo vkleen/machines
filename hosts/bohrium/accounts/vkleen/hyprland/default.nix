@@ -151,12 +151,6 @@ in
             drag_lock = true;
           };
         };
-        "device:pixa3854:00-093a:0274-touchpad" = {
-          accel_profile = "custom 0.2144477506 0.000 0.512 1.025 1.794 2.565 3.336 4.175 5.346 6.517 7.688 8.859 10.029 11.200 12.371 13.542 14.713 15.884 17.054 18.225 20.645";
-          sensitivity = 0.0;
-          natural_scroll = true;
-          drag_lock = true;
-        };
         general = {
           gaps_in = 5;
           gaps_out = 0;
@@ -202,7 +196,7 @@ in
         };
 
         windowrulev2 = [
-          "nomaximizerequest,class:.*"
+          "suppressevent maximize,class:.*"
           "noinitialfocus,class:^(?!Rofi$).*$"
           "idleinhibit focus,class:^(mpv)$"
         ];
@@ -215,6 +209,14 @@ in
         "$mainMod" = "SUPER";
       };
       extraConfig = ''
+        device {
+          name = pixa3854:00-093a:0274-touchpad
+          accel_profile = custom 0.2144477506 0.000 0.512 1.025 1.794 2.565 3.336 4.175 5.346 6.517 7.688 8.859 10.029 11.200 12.371 13.542 14.713 15.884 17.054 18.225 20.645
+          sensitivity = 0.0
+          natural_scroll = true
+          drag_lock = true
+        }
+
         bind = $mainMod SHIFT, X, exec, ${lib.getExe pkgs.wlogout} -p layer-shell
         bind = $mainMod SHIFT CONTROL, X, exit
         bind = $mainMod SHIFT, Q, killactive

@@ -1,7 +1,8 @@
-{ pkgs, ... }:
+{ ... }:
 {
   home.packages = [
-    pkgs.neovide
+    # llvm 16 crashes while compiling libskia...
+    #pkgs.neovide
   ];
 
   programs.nixvim.extraConfigLua = /*lua*/ ''

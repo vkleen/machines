@@ -90,7 +90,7 @@ in
     treesitter-refactor = {
       enable = true;
       highlightCurrentScope = {
-        enable = true;
+        enable = false;
       };
       highlightDefinitions = {
         enable = false;

@@ -25,6 +25,7 @@
     };
     hyprland.url = "github:hyprwm/hyprland";
     hyprlang.url = "github:hyprwm/hyprlang";
+    hypridle.url = "github:hyprwm/hypridle";
   };
 
   outputs = inputs:

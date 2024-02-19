@@ -1,7 +1,4 @@
-{ pkgs, lib, inputs, ... }:
-let
-  inherit (inputs.nixvim.lib.x86_64-linux) helpers;
-in
+{ config, pkgs, lib, ... }:
 {
   programs.nixvim = {
     globals.mapleader = " ";
@@ -18,13 +15,13 @@ in
       updatetime = 100;
 
       undofile = true;
-      undodir = helpers.mkRaw ''vim.fn.stdpath("state") .. "/undo/"'';
+      undodir = config.nixvim.helpers.mkRaw ''vim.fn.stdpath("state") .. "/undo/"'';
 
       backup = true;
-      backupdir = helpers.mkRaw ''vim.fn.stdpath("state") .. "/backup/"'';
+      backupdir = config.nixvim.helpers.mkRaw ''vim.fn.stdpath("state") .. "/backup/"'';
 
       swapfile = true;
-      directory = helpers.mkRaw ''vim.fn.stdpath("state") .. "/swap/"'';
+      directory = config.nixvim.helpers.mkRaw ''vim.fn.stdpath("state") .. "/swap/"'';
 
       backspace = "indent,eol,start";
 

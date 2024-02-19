@@ -1,7 +1,4 @@
-{ inputs, ... }:
-let
-  inherit (inputs.nixvim.lib.x86_64-linux) helpers;
-in
+{ config, ... }:
 {
   programs.nixvim = {
     plugins.telescope = {
@@ -43,13 +40,13 @@ in
       {
         mode = "n";
         key = "<leader>fb";
-        action = helpers.mkRaw /*lua*/"require('telescope').extensions.file_browser.file_browser";
+        action = config.nixvim.helpers.mkRaw /*lua*/"require('telescope').extensions.file_browser.file_browser";
         options.desc = "File browser";
       }
       {
         mode = "n";
         key = "<leader>u";
-        action = helpers.mkRaw /*lua*/"require('telescope').extensions.undo.undo";
+        action = config.nixvim.helpers.mkRaw /*lua*/"require('telescope').extensions.undo.undo";
         options.desc = "Undo";
       }
     ];

@@ -32,7 +32,6 @@
     hyprland
     mpv
     neomutt
-    neovide
     neovim
     packages
     pass

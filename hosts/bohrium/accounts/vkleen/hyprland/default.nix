@@ -119,12 +119,12 @@ in
   imports = with (lib.findModules ./.);
     [
       hyprdim
+      hypridle
       kanshi
       mako
       random-background
-      swayidle
-      waybar
       redshift
+      waybar
     ];
   config = {
     home.packages = with pkgs; [

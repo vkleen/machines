@@ -5,4 +5,6 @@
   hardware.firmware = [
     pkgs.firmwareLinuxNonfree
   ];
+
+  nix.settings.keep-outputs = true;
 }

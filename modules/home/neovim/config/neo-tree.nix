@@ -12,7 +12,7 @@
       } // v)
       {
         "<leader>ft" = {
-          action = ":Neotree<CR>";
+          action = ":Neotree reveal<CR>";
           options = {
             desc = "Neotree";
             silent = true;

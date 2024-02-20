@@ -1,4 +1,4 @@
-{ trilby, inputs, lib, ... }:
+{ inputs, lib, ... }:
 
 {
   imports = [
@@ -6,6 +6,7 @@
   ];
 
   nix = {
+    channel.enable = false;
     monitored = {
       enable = true;
       notify = false;

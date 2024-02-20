@@ -7,6 +7,8 @@ with lib;
     inputs.nixvim.homeManagerModules.nixvim
   ] ++ attrValues (findModules ./config);
 
+  home.packages = [ pkgs.neovim-remote ];
+
   programs.nixvim = {
     enable = true;
     luaLoader.enable = true;

@@ -1,0 +1,12 @@
+diff '--color=auto' -Naur webkitgtk-2.42.5.orig/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp webkitgtk-2.42.5/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
+--- webkitgtk-2.42.5.orig/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp	2024-02-05 08:47:20.499900800 +0000
++++ webkitgtk-2.42.5/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp	2024-02-19 23:51:59.844948557 +0000
+@@ -336,8 +336,6 @@
+     UNUSED_VARIABLE(t2);
+     UNUSED_VARIABLE(t3);
+     UNUSED_VARIABLE(t5);
+-    UNUSED_VARIABLE(t6);
+-    UNUSED_VARIABLE(t7);
+ 
+     struct StackPointerScope {
+         StackPointerScope(CLoopStack& stack)

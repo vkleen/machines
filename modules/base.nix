@@ -18,7 +18,6 @@ in
     trilby.profiles.getty
     trilby.profiles.kernel
     trilby.profiles.zram
-    trilby.profiles.zsh
   ];
 
   options = {
@@ -29,7 +28,7 @@ in
 
     system.publicAddresses = lib.mkOption {
       type = lib.types.listOf lib.types.attrs;
-      default = [];
+      default = [ ];
       description = ''
         Publicly routable IP addresses suitable for inclusion into networking.hosts
       '';

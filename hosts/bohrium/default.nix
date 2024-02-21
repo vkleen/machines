@@ -23,7 +23,6 @@ rec {
       networking
       rmapi
       tweaks
-      tweaks
       uucp-email
     ])
     ++ (lib.attrValues (lib.findModules ../../accounts))

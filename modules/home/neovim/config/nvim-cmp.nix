@@ -9,6 +9,7 @@
       "<C-u>" = "cmp.mapping.scroll_docs(-4)";
       "<C-d>" = "cmp.mapping.scroll_docs(4)";
     };
+    snippet.expand = "luasnip";
     sources = [
       { name = "nvim_lsp"; }
       { name = "dap"; }

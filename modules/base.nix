@@ -37,7 +37,7 @@ in
 
   config = {
     networking.hostName = trilby.name;
-    system.macnameNamespace = "auenheim.kleen.org";
+    system.macnameNamespace = lib.mkDefault "auenheim.kleen.org";
 
     system.nixos = lib.mkMerge [
       {

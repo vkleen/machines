@@ -1,0 +1,39 @@
+$ORIGIN zorn-encryption.org.
+$TTL 3600
+@ IN SOA ns.zorn-encryption.org. root.zorn-encryption.org. (
+  2022080601 ; serial
+  10800      ; refresh
+  3600       ; retry
+  604800     ; expire
+  3600       ; min TTL
+)
+                IN NS ns.zorn-encryption.org.
+                IN NS ns.inwx.de.
+                IN NS ns2.inwx.de.
+                IN NS ns3.inwx.eu.
+
+ns              IN A 202.61.250.130
+ns              IN AAAA 2a03:4000:54:9b1::1
+
+@               IN CAA 128 issue "letsencrypt.org; validationmethods=dns-01"
+@               IN CAA 128 iodef "mailto:caa@zorn-encryption.org"
+
+@               IN A 202.61.250.130
+@               IN AAAA 2a03:4000:54:9b1::1
+@               IN MX 0 mail.zorn-encryption.org.
+@               IN TXT "v=spf1 a:mail.zorn-encryption.org -all"
+
+*               IN A 202.61.250.130
+*               IN AAAA 2a03:4000:54:9b1::1
+*               IN MX 0 mail.zorn-encryption.org.
+*               IN TXT "v=spf1 redirect=zorn-encryption.org"
+
+mail            IN A 202.61.250.130
+mail            IN AAAA 2a03:4000:54:9b1::25
+mail            IN MX 0 mail.zorn-encryption.org
+mail            IN TXT "v=spf1 redirect=zorn-encryption.org"
+
+_dmarc          IN TXT "v=DMARC1; p=reject"
+
+_acme-challenge IN NS ns.zorn-encryption.org.
+

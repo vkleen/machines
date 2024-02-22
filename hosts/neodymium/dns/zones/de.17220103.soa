@@ -1,0 +1,46 @@
+$ORIGIN 17220103.de.
+$TTL 3600
+@ IN SOA ns.17220103.de. root.17220103.de. (
+  2022080601 ; serial
+  10800      ; refresh
+  3600       ; retry
+  604800     ; expire
+  3600       ; min TTL
+)
+                IN NS ns.17220103.de.
+                IN NS ns.inwx.de.
+                IN NS ns2.inwx.de.
+                IN NS ns3.inwx.eu.
+
+ns              IN A 202.61.250.130
+ns              IN AAAA 2a03:4000:54:9b1::1
+
+@               IN A 202.61.250.130
+@               IN AAAA 2a03:4000:54:9b1::1
+@               IN MX 0 mail.17220103.de.
+@               IN TXT "v=spf1 a:mail.17220103.de -all"
+
+*               IN A 202.61.250.130
+*               IN AAAA 2a03:4000:54:9b1::1
+*               IN MX 0 mail.17220103.de.
+*               IN TXT "v=spf1 redirect=17220103.de"
+
+neodymium       IN A    202.61.250.130
+neodymium       IN AAAA 2a03:4000:54:9b1::1
+neodymium       IN MX 0 mail.17220103.de
+neodymium       IN TXT "v=spf1 redirect=17220103.de"
+
+mail            IN A 202.61.250.130
+mail            IN AAAA 2a03:4000:54:9b1::25
+mail            IN MX 0 mail.17220103.de
+mail            IN TXT "v=spf1 redirect=17220103.de"
+
+mail._domainkey.neodymium IN TXT "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDsLwWVocA+/jT8660RGKbn3VYAZQ1MhtG8p1cFkdXAFHdW2WUEU4KMMDkeZSlzwvbWOgnfsDG72BivuT9bL/uyhu/PDjD3scjRSinbSrh2VEyGngRomyCxCKY+qX6GcvNjAXCkcmjUJ7rMu/NSrumFEZBtqjOPGaXz785rSHxTawIDAQAB"
+mail._domainkey           IN TXT "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDXvNjLjjZwM5NPJ9b6R0bwSao1CSsAFD8Zd1UizrcB13MUIPWFBbYtxSpWqOp8UxPyrRAT/DadD6RD41WAjFH6RvfrXzYEz+jPk14KkA3q3o5WZNQgF56W4gcJrOLXqLBTr5RnJXvOH5tOXv8evs5es/3BRNDH/sstX1JrETnJcQIDAQAB"
+
+_dmarc           IN TXT "v=DMARC1; p=reject"
+_dmarc.neodymium IN TXT "v=DMARC1; p=reject"
+
+_acme-challenge           IN NS ns.17220103.de.
+_acme-challenge.neodymium IN NS ns.17220103.de.
+

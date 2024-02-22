@@ -57,6 +57,9 @@
               config.age.rekey.masterIdentities = [ ./secrets/vkleen.age ];
             }
           ] ++ args.modules;
+          specialArgs = {
+            inherit inputs lib;
+          } // args.specialArgs;
         });
       });
       platforms = builtins.attrNames inputs.nixpkgs.legacyPackages;
@@ -78,9 +81,14 @@
           lib.setFunctionArgs
             (args: module (args // { inputs = wrappedTrilbyInputs; }))
             (lib.functionArgs module);
+
+      utils = lib.pipe ./utils [
+        lib.findModules
+        (lib.mapAttrsRecursive (_: f: import f { inherit inputs lib; }))
+      ];
     in
     lib.recursiveConcat [
-      { inherit lib; }
+      { inherit lib utils; }
 
       {
         agenix-rekey = lib.foreach platforms (system: {

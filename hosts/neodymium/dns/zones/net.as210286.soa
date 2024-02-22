@@ -1,0 +1,51 @@
+$ORIGIN as210286.net.
+$TTL 3600
+@ IN SOA ns.as210286.net. root.as210286.net. (
+  2022080504 ; serial
+  10800      ; refresh
+  3600       ; retry
+  604800     ; expire
+  3600       ; min TTL
+)
+        IN NS ns.as210286.net.
+        IN NS ns.inwx.de.
+        IN NS ns2.inwx.de.
+        IN NS ns3.inwx.eu.
+
+; @ IN CAA 128 issue "letsencrypt.org; validationmethods=dns-01"
+; @ IN CAA 128 iodef "mailto:caa@as210286.net"
+
+ns      IN A 202.61.250.130
+ns      IN AAAA 2a03:4000:54:9b1::1
+
+@       IN A 202.61.250.130
+@       IN AAAA 2a03:4000:54:9b1::1
+@       IN MX 0 mail.as210286.net.
+@       IN TXT "v=spf1 a:mail.as210286.net -all"
+
+*       IN A 202.61.250.130
+*       IN AAAA 2a03:4000:54:9b1::1
+*       IN MX 0 mail.as210286.net.
+*       IN TXT "v=spf1 redirect=as210286.net"
+
+mail    IN A 202.61.250.130
+mail    IN AAAA 2a03:4000:54:9b1::25
+mail    IN MX 0 mail.as210286.net.
+mail    IN TXT "v=spf1 redirect=as210286.net"
+
+mail._domainkey IN TXT "v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDM0aM1WCXNmjY46xWT1IJonTu9OUlZ7kzVB+pv65Yoi21JMVfUIdKFKyN55tuB4E14h8dwCADCHHodGUoQttVZ5mQZdl+mF5MPF9Ylrbinuk5Jbf2n3SfobGoYkeuGf/u8m88QwICpypXF3CgkRP09Rb94P4rQtMD03pOAf86dzwIDAQAB"
+
+_dmarc  IN TXT "v=DMARC1;p=reject"
+
+radicale       IN A 202.61.250.130
+radicale       IN AAAA 2a03:4000:54:9b1::1
+
+neodymium      IN A 202.61.250.130
+neodymium      IN AAAA 2a03:4000:54:9b1::1
+
+praseodymium   IN A 194.50.92.133
+praseodymium   IN AAAA 2a09:4c0:303:c232::5c85
+
+_acme-challenge IN NS ns.as210286.net.
+_acme-challenge.neodymium IN NS ns.as210286.net.
+_acme-challenge.radicale IN NS ns.as210286.net.

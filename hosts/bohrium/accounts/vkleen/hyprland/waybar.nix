@@ -32,8 +32,9 @@ in
             warning = 30;
             criticial = 15;
           };
+          interval = 10;
           full-at = 100;
-          format = "{time} {capacity}%{icon}";
+          format = "{time} {power:.2}W {capacity}%{icon}";
           format-charging = "{time} {capacity}%";
           format-full = "{icon}";
           format-icons = [ "" "" "" "" "" "" "" "" "" "" ];

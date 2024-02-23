@@ -24,7 +24,6 @@ rec {
       rmapi
       tweaks
       uucp-email
-      wireguard
     ])
     ++ (lib.attrValues (lib.findModules ../../accounts))
     ++ (lib.attrValues (lib.findModules ./accounts));

@@ -40,20 +40,25 @@ rec {
     assert 0 <= linkId && linkId <= ints.pow 2 48;
     "fe80:3e0e:b7ec:${linkId0-15}:${linkId16-31}:${linkId32-47}:${chars1234}:${chars5678}";
 
-  getPublic = type: flake: host:
+  getPublic = type: host:
     let
-      addresses = flake.nixosConfigurations.${host}.config.system.publicAddresses;
+      addresses = inputs.self.nixosConfigurations.${host}.config.system.publicAddresses;
     in
     lib.lists.map (a: a.addr) (lib.lists.filter (a: a.type == type) addresses);
 
-  getAllPublic = flake: host:
+  getPrimaryPublic = type: host:
+    lib.lists.head (getPublic type host);
+
+  getAllPublic = host:
     let
-      addresses = flake.nixosConfigurations.${host}.config.system.publicAddresses;
+      addresses = inputs.self.nixosConfigurations.${host}.config.system.publicAddresses;
     in
     lib.lists.map (a: a.addr) addresses;
 
   getPublicV4 = getPublic "v4";
   getPublicV6 = getPublic "v6";
+  getPrimaryPublicV4 = getPrimaryPublic "v4";
+  getPrimaryPublicV6 = getPrimaryPublic "v6";
 
   mkV4 = a: { type = "v4"; addr = a; };
   mkV6 = a: { type = "v6"; addr = a; };

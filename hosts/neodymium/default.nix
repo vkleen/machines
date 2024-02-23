@@ -16,9 +16,15 @@ rec {
       boot
       filesystems
       networking
-    ])
-    ++ (lib.attrValues (lib.findModules ../../accounts));
+      ({ ... }: {
+        imports = [ "${inputs.nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix" ];
+        virtualisation.graphics = false;
+        virtualisation.restrictNetwork = true;
+      })
+    ]);
+    # ++ (lib.attrValues (lib.findModules ../../accounts));
     specialArgs.trilby = trilbyConfig;
   };
-  output = system.config.system.build.toplevel;
+  # output = system.config.system.build.toplevel;
+  output = system.config.system.build.vm;
 }

@@ -8,13 +8,13 @@
       private = ./private.age;
     };
     networking.wireguard.interfaces = {
-      boron = {
+      bohrium = {
         ips = [ "10.172.50.1/24" ];
         privateKeyFile = config.age.secrets.wolkenheim-wireguard.path;
         listenPort = 51820;
         peers = [
           {
-            publicKey = inputs.self.utils.wireguard.keys.bohrium.public;
+            publicKey = inputs.self.utils.wireguard.bohrium.public;
             allowedIPs = [ "10.172.50.132/32" ];
           }
           # {

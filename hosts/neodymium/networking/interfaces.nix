@@ -1,10 +1,10 @@
 { inputs, ... }:
 let
-  inherit (inputs.self.utils) mkV4 mkV6;
-
+  inherit (inputs.self.utils.nix) mkV4 mkV6;
 in
 {
   system.publicAddresses = [
+    (mkV4 "202.61.250.130")
     (mkV4 "188.68.45.180")
     (mkV6 "2a03:4000:54:9b1::1")
   ];
@@ -23,26 +23,28 @@ in
       interface = "ens3";
     };
     interfaces = {
-      "ens3".ipv4.addresses = [
-        {
-          address = "202.61.250.130";
-          prefixLength = 22;
-        }
-        {
-          address = "188.68.45.180";
-          prefixLength = 32;
-        }
-      ];
-      "ens3".ipv6.addresses = [
-        {
-          address = "2a03:4000:54:9b1::1";
-          prefixLength = 64;
-        }
-        {
-          address = "2a03:4000:54:9b1::25";
-          prefixLength = 64;
-        }
-      ];
+      "eth0" = {
+        ipv4.addresses = [
+          {
+            address = "202.61.250.130";
+            prefixLength = 22;
+          }
+          {
+            address = "188.68.45.180";
+            prefixLength = 32;
+          }
+        ];
+        ipv6.addresses = [
+          {
+            address = "2a03:4000:54:9b1::1";
+            prefixLength = 64;
+          }
+          {
+            address = "2a03:4000:54:9b1::25";
+            prefixLength = 64;
+          }
+        ];
+      };
     };
   };
 }

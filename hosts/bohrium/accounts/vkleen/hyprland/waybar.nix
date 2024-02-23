@@ -35,8 +35,8 @@ in
           interval = 10;
           full-at = 100;
           format = "{time} {power:.2}W {capacity}%{icon}";
-          format-charging = "{time} {capacity}%";
-          format-full = "{icon}";
+          format-charging = "{time} {power:.2}W {capacity}%";
+          format-full = "{power:.2}W {icon}";
           format-icons = [ "" "" "" "" "" "" "" "" "" "" ];
           format-time = "{H}:{M:02}";
         };

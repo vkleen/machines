@@ -15,6 +15,7 @@
       "lp"
       "network"
       "scanner"
+      "uinput"
       "video"
       "wireshark"
     ];
@@ -27,6 +28,7 @@
   ] ++ (with (lib.findModules ./.); [
     neovim
     packages
+    sway
     {
       home.stateVersion = "24.05";
       manual.manpages.enable = lib.mkForce false;

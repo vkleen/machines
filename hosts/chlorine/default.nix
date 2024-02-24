@@ -19,6 +19,7 @@ rec {
       filesystems
       networking
       tweaks
+      uinput
     ])
     ++ (lib.attrValues (lib.findModules ../../accounts))
     ++ (lib.attrValues (lib.findModules ./accounts));

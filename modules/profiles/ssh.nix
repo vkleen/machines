@@ -7,7 +7,7 @@
         settings.PasswordAuthentication = lib.mkDefault false;
       };
     }
-    (lib.mkIf config.boot.wipeRoot {
+    (lib.mkIf config.boot.wipeRoot.enable {
       services.openssh.hostKeys = [
         {
           path = "/persist/ssh/ssh_host_ed25519_key";

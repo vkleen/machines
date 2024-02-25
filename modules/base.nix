@@ -13,7 +13,6 @@ in
     profiles.sudo-rs
     profiles.users
     profiles.wipe-root
-    trilby.profiles.console
     trilby.profiles.documentation
     trilby.profiles.getty
     trilby.profiles.kernel

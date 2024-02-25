@@ -4,7 +4,7 @@
     inputs.self.nixosModules.profiles.initrd-all-crypto-modules
   ];
   config = {
-    boot.wipeRoot = true;
+    boot.wipeRoot.enable = true;
 
     boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
     boot.initrd.kernelModules = [ "kvm-intel" ];

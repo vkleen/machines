@@ -44,10 +44,12 @@
               })
               overlaySrcs;
           in
-          import trilby.nixpkgs {
+          import trilby.nixpkgs ({
             inherit overlays;
             system = trilby.hostPlatform;
-          };
+          } // final.optionalAttrs (trilby.hostPlatform == "powerpc64le-linux") {
+            config.allowUnsupportedSystem = true;
+          });
 
         nixosSystem = args: prev.nixosSystem (args // {
           modules = [

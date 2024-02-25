@@ -6,6 +6,7 @@ final: prev: {
         disabledTestPaths = o.disabledTestPaths ++ [
           "tests/greendns_test.py"
           "tests/socket_test.py"
+          "tests/greenio_test.py"
         ];
       });
     })

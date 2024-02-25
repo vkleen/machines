@@ -10,16 +10,16 @@ rec {
   system = lib.nixosSystem {
     modules = with inputs.self.nixosModules; [
       base
-    ] ++ (with (lib.findModules ./.); [
-      boot
-    ])
-    #++ (lib.attrValues (lib.findModules ../../accounts));
+      server
+    ]
+    ++ lib.findModulesList ./.
     ++ (lib.attrValues (lib.findModules ./accounts));
+    #++ (lib.attrValues (lib.findModules ../../accounts));
     specialArgs = {
       inherit inputs lib;
       trilby = trilbyConfig;
     };
   };
-  output = system.config.system.build.ipxeTree;
+  output = system.config.system.build;
 }
 

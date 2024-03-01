@@ -11,6 +11,7 @@
 
   config = {
     home.packages = with pkgs; [
+      btop
       gnupg
       ripgrep
       tmate

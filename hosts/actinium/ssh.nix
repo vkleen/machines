@@ -1,6 +1,6 @@
 { inputs, lib, ... }:
 {
-  disabledModules = [ inputs.nixosModules.profiles.ssh ];
+  disabledModules = [ inputs.self.nixosModules.profiles.ssh ];
   config = {
     services.openssh = {
       enable = true;

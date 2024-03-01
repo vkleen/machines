@@ -16,7 +16,6 @@
         ${config.system.build.kernel}/${config.system.boot.loader.kernelFile} \
         --initrd=${config.system.build.initialRamdisk}/initrd \
         --command-line "init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}"
-      ${lib.getExe' pkgs.kexec-tools "kexec"} -e
     '';
 
     system.build.ipxeTree = pkgs.linkFarm "ipxe-tree" [

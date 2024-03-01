@@ -6,7 +6,7 @@
   config = {
     boot.kernelParams = [ "console=hvc0" ];
 
-    boot.wipeRoot = lib.mkForce false;
+    boot.wipeRoot.enable = lib.mkForce false;
 
     system.build.installBootloader = lib.mkForce false;
     boot.loader.grub.enable = false;

@@ -56,7 +56,10 @@
             inputs.agenix.nixosModules.default
             inputs.agenix-rekey.nixosModules.default
             {
-              config.age.rekey.masterIdentities = [ ./secrets/vkleen.age ];
+              config.age.rekey = {
+                masterIdentities = [ ./secrets/vkleen.age ];
+                storageMode = "derivation";
+              };
             }
           ] ++ args.modules;
           specialArgs = {
@@ -98,6 +101,7 @@
             import "${inputs.agenix-rekey}/apps/${app}.nix" {
               userFlake = inputs.self;
               nodes = inputs.self.nixosConfigurations;
+              agePackage = p: p.rage;
               pkgs = lib.pkgsFor {
                 buildPlatform = system;
                 hostPlatform = system;

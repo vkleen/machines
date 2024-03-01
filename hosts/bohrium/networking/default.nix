@@ -20,14 +20,14 @@
       };
 
       wlanInterfaces = {
-        "wlan0" = {
+        "wlan1" = {
           device = "wlp170s0";
         };
       };
 
       bonds = {
         "lan" = {
-          interfaces = [ "wlan0" "eth-dock" "eth-usb" ];
+          interfaces = [ "wlan0" "wlan1" "eth-dock" "eth-usb" ];
           driverOptions = {
             miimon = "1000";
             mode = "active-backup";

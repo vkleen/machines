@@ -18,7 +18,7 @@
         };
       };
     }
-    (lib.mkIf config.boot.wipeRoot {
+    (lib.mkIf config.boot.wipeRoot.enable {
       environment.persistence."/persist".directories = [
         "/var/lib/bluetooth"
       ];

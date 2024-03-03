@@ -55,12 +55,13 @@
           modules = [
             inputs.agenix.nixosModules.default
             inputs.agenix-rekey.nixosModules.default
-            {
+            ({ config, ... }: {
               config.age.rekey = {
                 masterIdentities = [ ./secrets/vkleen.age ];
-                storageMode = "derivation";
+                localStorageDir = ./secrets/rekeyed/${config.networking.hostName};
+                storageMode = "local";
               };
-            }
+            })
           ] ++ args.modules;
           specialArgs = {
             inherit inputs lib;

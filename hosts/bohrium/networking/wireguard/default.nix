@@ -1,7 +1,7 @@
-{ config, inputs, trilby, ... }:
+{ config, inputs, trilby, wolkenheim, ... }:
 let
-  inherit (inputs.self.utils.nix) getPrimaryPublicV4;
-  inherit (inputs.self.utils) wireguard;
+  inherit (wolkenheim.nix) getPrimaryPublicV4;
+  inherit (wolkenheim) wireguard;
 in
 {
   imports = [ inputs.self.nixosModules.profiles.wireguard ];

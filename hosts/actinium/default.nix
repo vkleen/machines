@@ -7,7 +7,7 @@ let
   };
 in
 rec {
-  system = lib.nixosSystem {
+  system = lib.nixosSystem trilbyConfig {
     modules = with inputs.self.nixosModules; [
       base
       server
@@ -15,10 +15,6 @@ rec {
     ++ lib.findModulesList ./.
     ++ (lib.attrValues (lib.findModules ./accounts));
     #++ (lib.attrValues (lib.findModules ../../accounts));
-    specialArgs = {
-      inherit inputs lib;
-      trilby = trilbyConfig;
-    };
   };
   output = system.config.system.build;
 }

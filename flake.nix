@@ -26,6 +26,15 @@
     hyprland.url = "github:hyprwm/hyprland";
     hyprlang.url = "github:hyprwm/hyprlang";
     hypridle.url = "github:hyprwm/hypridle";
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    crane = {
+      url = "github:ipetkov/crane";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -51,7 +60,7 @@
             config.allowUnsupportedSystem = true;
           });
 
-        nixosSystem = args: prev.nixosSystem (args // {
+        nixosSystem = trilby: args: prev.nixosSystem (args // {
           modules = [
             inputs.agenix.nixosModules.default
             inputs.agenix-rekey.nixosModules.default
@@ -64,8 +73,9 @@
             })
           ] ++ args.modules;
           specialArgs = {
-            inherit inputs lib;
-          } // args.specialArgs;
+            inherit inputs lib trilby;
+            wolkenheim = inputs.self.packages.${trilby.hostPlatform}.utils;
+          } // (args.specialArgs or { });
         });
       });
       platforms = builtins.attrNames inputs.nixpkgs.legacyPackages;
@@ -87,14 +97,9 @@
           lib.setFunctionArgs
             (args: module (args // { inputs = wrappedTrilbyInputs; }))
             (lib.functionArgs module);
-
-      utils = lib.pipe ./utils [
-        lib.findModules
-        (lib.mapAttrsRecursive (_: f: import f { inherit inputs lib; }))
-      ];
     in
     lib.recursiveConcat [
-      { inherit lib utils; }
+      { inherit lib; }
 
       {
         agenix-rekey = lib.foreach platforms (system: {
@@ -142,10 +147,17 @@
             inherit buildPlatform;
             hostPlatform = buildPlatform;
           };
+
+          utils = lib.pipe ./utils [
+            lib.findModules
+            (lib.mapAttrsRecursive (_: f: import f { inherit inputs lib pkgs; }))
+          ];
         in
         {
           formatter.${buildPlatform} = pkgs.nixpkgs-fmt;
-          packages.${buildPlatform}.pkgs = pkgs;
+          packages.${buildPlatform} = {
+            inherit pkgs utils;
+          };
           devShells.${buildPlatform} =
             let
               agenix-pkgs = pkgs.extend inputs.agenix-rekey.overlays.default;
@@ -153,13 +165,14 @@
             in
             {
               default = pkgs.mkShell {
+                inputsFrom = [ utils.wolkenheim-secrets ];
                 packages = [
                   pkgs.nixpkgs-fmt
                   pkgs.age
                   agenix-pkgs.agenix-rekey
                   macname-pkgs.macname
                   (pkgs.python3.withPackages (ps: with ps; [ matplotlib ]))
-                ];
+                ] ++ utils.wolkenheim-secrets.shellInputs;
               };
             };
         }

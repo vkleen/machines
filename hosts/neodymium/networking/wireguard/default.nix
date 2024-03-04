@@ -1,4 +1,4 @@
-{ config, inputs, ... }:
+{ config, inputs, wolkenheim, ... }:
 {
   imports = [ inputs.self.nixosModules.profiles.wireguard ];
   config = {
@@ -14,7 +14,7 @@
         listenPort = 51820;
         peers = [
           {
-            publicKey = inputs.self.utils.wireguard.bohrium.public;
+            publicKey = wolkenheim.wireguard.bohrium.public;
             allowedIPs = [ "10.172.50.132/32" ];
           }
           # {

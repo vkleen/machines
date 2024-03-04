@@ -7,7 +7,7 @@ let
   };
 in
 rec {
-  system = lib.nixosSystem {
+  system = lib.nixosSystem trilbyConfig {
     modules = with inputs.self.nixosModules; [
       server
       profiles.wolkenheim
@@ -23,7 +23,6 @@ rec {
       })
     ]);
     # ++ (lib.attrValues (lib.findModules ../../accounts));
-    specialArgs.trilby = trilbyConfig;
   };
   # output = system.config.system.build.toplevel;
   output = system.config.system.build.vm;

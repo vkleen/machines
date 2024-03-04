@@ -1,6 +1,6 @@
-{ inputs, ... }:
+{ wolkenheim, ... }:
 let
-  inherit (inputs.self.utils.nix) mkV4 mkV6;
+  inherit (wolkenheim.nix) mkV4 mkV6;
 in
 {
   system.publicAddresses = [

@@ -10,7 +10,7 @@
 
       boot.supportedFilesystems = [ "zfs" ];
       boot.zfs = {
-        enableUnstable = true;
+        package = pkgs.zfs_unstable;
         forceImportRoot = false;
         forceImportAll = false;
       };
@@ -26,10 +26,10 @@
     }
     (lib.mkIf (trilby.hostSystem.cpu.name == "powerpc64le") {
       boot.zfs.removeLinuxDRM = true;
-      boot.kernelPackages = lib.mkOverride 99 ((pkgs.zfsUnstable.override {
+      boot.kernelPackages = lib.mkOverride 99 ((pkgs.zfs_unstable.override {
         removeLinuxDRM = true;
       }).latestCompatibleLinuxPackages.extend (kfinal: kprev: {
-        zfsUnstable = kprev.zfsUnstable.overrideAttrs (o: {
+        zfs_unstable = kprev.zfs_unstable.overrideAttrs (o: {
           patches = o.patches or [ ] ++ [ ./zfs-license.patch ];
         });
       }));

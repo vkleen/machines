@@ -3,10 +3,11 @@ final: prev: {
   pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
     (pfinal: pprev: {
       eventlet = pprev.eventlet.overridePythonAttrs (o: {
-        disabledTestPaths = o.disabledTestPaths ++ [
-          "tests/greendns_test.py"
-          "tests/socket_test.py"
-          "tests/greenio_test.py"
+        disabledTests = o.disabledTests or [ ] ++ [
+          "test_clear"
+          "test_noraise_dns_tcp"
+          "test_raise_dns_tcp"
+          "test_dns_methods_are_green"
         ];
       });
     })

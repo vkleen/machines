@@ -9,7 +9,6 @@ in
 rec {
   system = lib.nixosSystem trilbyConfig {
     modules = with inputs.self.nixosModules; [
-      base
       server
     ]
     ++ lib.findModulesList ./.

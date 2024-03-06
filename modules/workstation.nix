@@ -1,7 +1,6 @@
 { inputs, ... }:
 {
   imports = with inputs.self.nixosModules; [
-    base
     profiles.bluetooth
     profiles.fonts
     profiles.gnome-keyring

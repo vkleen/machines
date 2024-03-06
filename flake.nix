@@ -62,6 +62,7 @@
 
         nixosSystem = trilby: args: prev.nixosSystem (args // {
           modules = [
+            inputs.self.nixosModules.base
             inputs.agenix.nixosModules.default
             inputs.agenix-rekey.nixosModules.default
             ({ config, ... }: {

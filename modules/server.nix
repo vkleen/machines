@@ -1,18 +1,13 @@
 { inputs, ... }:
 {
-  imports = with inputs.self.nixosModules; [
-    base
+  boot.vesa = false;
+
+  boot.kernelParams = [
+    "panic=1"
+    "boot.panic_on_fail"
   ];
-  config = {
-    boot.vesa = false;
 
-    boot.kernelParams = [
-      "panic=1"
-      "boot.panic_on_fail"
-    ];
+  systemd.enableEmergencyMode = false;
 
-    systemd.enableEmergencyMode = false;
-
-    boot.loader.grub.splashImage = null;
-  };
+  boot.loader.grub.splashImage = null;
 }

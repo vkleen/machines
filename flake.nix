@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     trilby = {
       url = "github:ners/trilby";
       inputs.nixpkgs-unstable.follows = "nixpkgs";

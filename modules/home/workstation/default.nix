@@ -10,6 +10,7 @@
     git
     gpg-agent
     helix
+    ssh-agent
     starship
     tmux
     xdg

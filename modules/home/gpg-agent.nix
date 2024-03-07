@@ -6,12 +6,9 @@ let
   '';
 in
 {
-  home.packages = [
-    pkgs.rofi
-  ];
   services.gpg-agent = {
     enable = true;
-    enableSshSupport = true;
+    enableSshSupport = false;
     enableExtraSocket = true;
     enableScDaemon = false;
     extraConfig = ''

@@ -5,7 +5,7 @@ with lib;
 {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
-  ] ++ attrValues (findModules ./config);
+  ] ++ (findModulesList ./config);
 
   home.packages = [ pkgs.neovim-remote ];
 

@@ -23,9 +23,27 @@
       url = "github:gphoto/libgphoto2";
       flake = false;
     };
-    hyprland.url = "github:hyprwm/hyprland";
-    hyprlang.url = "github:hyprwm/hyprlang";
-    hypridle.url = "github:hyprwm/hypridle";
+
+    waybar = {
+      url = "github:Alexays/waybar";
+      flake = false;
+    };
+
+    hyprlang = {
+      url = "github:hyprwm/hyprlang";
+    };
+    hyprcursor = {
+      url = "github:hyprwm/hyprcursor";
+      inputs.hyprlang.follows = "hyprlang";
+    };
+    hypridle = {
+      url = "github:hyprwm/hypridle";
+      inputs.hyprlang.follows = "hyprlang";
+    };
+    hyprland = {
+      url = "github:hyprwm/hyprland";
+      inputs.hyprlang.follows = "hyprlang";
+    };
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";

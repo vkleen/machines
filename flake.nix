@@ -4,7 +4,6 @@
     trilby = {
       url = "github:ners/trilby";
       inputs.nixpkgs-unstable.follows = "nixpkgs";
-      inputs."nixpkgs-23.11".follows = "nixpkgs";
     };
     macname.url = "github:vkleen/macname";
     nix-monitored.url = "github:ners/nix-monitored";

@@ -16,6 +16,16 @@
     options snd_hda_intel power_save=1
   '';
 
+  boot.kernelPatches = [
+    {
+      name = "qnx6fs-support";
+      patch = null;
+      extraConfig = ''
+        QNX6FS_FS m
+      '';
+    }
+  ];
+
   hardware.cpu.intel.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
   hardware.acpilight.enable = true;

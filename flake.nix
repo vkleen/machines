@@ -1,8 +1,9 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/master";
     trilby = {
       url = "github:ners/trilby";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-unstable.follows = "nixpkgs";
     };
     macname.url = "github:vkleen/macname";
@@ -20,11 +21,6 @@
 
     libgphoto2 = {
       url = "github:gphoto/libgphoto2";
-      flake = false;
-    };
-
-    waybar = {
-      url = "github:Alexays/waybar";
       flake = false;
     };
 

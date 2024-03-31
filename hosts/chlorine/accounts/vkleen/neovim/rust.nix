@@ -6,6 +6,6 @@
       rustAnalyzerPackage = null;
     };
     crates-nvim.enable = true;
-    nvim-cmp.sources = [ { name = "crates"; } ];
+    cmp.settings.sources = [{ name = "crates"; }];
   };
 }

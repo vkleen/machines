@@ -21,24 +21,15 @@
     ];
   };
 
-  home-manager.users.vkleen = lib.mkMerge (with inputs.self.nixosModules.home; [
-    foot
-    workstation
-    neovim
-  ] ++ (with (lib.findModules ./.); [
-    fuzzel
-    git
-    gmail
-    hyprland
-    mpv
-    neomutt
-    neovim
-    packages
-    pass
-    wireplumber
-    {
+  home-manager.users.vkleen = lib.mkMerge
+    (with inputs.self.nixosModules.home; [
+      foot
+      workstation
+      neovim
+    ]
+    ++ lib.findModulesList ./.
+    ++ [{
       home.stateVersion = "24.05";
       manual.manpages.enable = lib.mkForce false;
-    }
-  ]));
+    }]);
 }

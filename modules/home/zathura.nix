@@ -2,7 +2,7 @@
 {
   options = {
     zathura.pkg = lib.mkOption {
-      default = (pkgs.zathuraPkgs.override { useMupdf = false; }).zathuraWrapper;
+      default = pkgs.zathuraPkgs.zathuraWrapper;
       type = lib.types.package;
     };
   };

@@ -26,6 +26,12 @@
       options = [ "compress=zstd,subvol=root" ];
     };
 
+  fileSystems."/home" = {
+    device = "/dev/mapper/nvme";
+    fsType = "btrfs";
+    options = [ "compress=zstd,subvol=home" ];
+  };
+
   fileSystems."/persist" = {
     device = "/dev/mapper/nvme";
     neededForBoot = true;

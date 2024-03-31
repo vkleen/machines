@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = [ pkgs.ceph ];
+  # environment.systemPackages = [ pkgs.ceph ];
 
   services.ceph = {
     enable = false;

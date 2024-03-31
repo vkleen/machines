@@ -9,20 +9,13 @@ in
 rec {
   system = lib.nixosSystem trilbyConfig {
     modules = with inputs.self.nixosModules; [
-      server
+      workstation
+      profiles.wireshark
+      profiles.iio
     ]
-    # ++ [
-    #   ({ config, modulesPath, ... }: {
-    #     imports = [ "${modulesPath}/installer/netboot/netboot.nix" ];
-    #     config = {
-    #       boot.kernelParams = [ "console=ttyS0" ];
-    #       boot.uki.settings.UKI.Initrd = "${config.system.build.netbootRamdisk}/initrd";
-    #     };
-    #   })
-    # ]
     ++ lib.findModulesList ./.
-    ++ (lib.attrValues (lib.findModules ./accounts));
-    # ++ (lib.attrValues (lib.findModules ../../accounts));
+    ++ (lib.findModulesList ./accounts)
+    ++ (lib.attrValues (lib.findModules ../../accounts));
   };
   output = system.pkgs.linkFarm "uranium" [
     {

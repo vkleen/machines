@@ -1,5 +1,6 @@
 { pkgs, lib, ... }:
 {
+  vkleen-tmux.update-environment = lib.mkForce [ ];
   wayland.windowManager.sway = {
     enable = true;
     config =

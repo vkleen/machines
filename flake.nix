@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     trilby = {
       url = "github:ners/trilby";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,6 +38,11 @@
     hyprland = {
       url = "github:hyprwm/hyprland";
       inputs.hyprlang.follows = "hyprlang";
+    };
+
+    hyprdim = {
+      url = "github:donovanglover/hyprdim";
+      flake = false;
     };
 
     rust-overlay = {

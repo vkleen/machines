@@ -4,35 +4,37 @@
     plugins.telescope = {
       enable = true;
       extensions = {
-        file_browser = {
+        file-browser = {
           enable = true;
-          useFd = true;
-          hijackNetrw = true;
+          settings = {
+            use_fd = true;
+            hijack_netrw = true;
+          };
         };
         fzf-native = {
           enable = true;
-          caseMode = "smart_case";
+          settings.case_mode = "smart_case";
         };
         ui-select = {
           enable = true;
         };
         undo = {
           enable = true;
-          useDelta = true;
+          settings.use_delta = true;
         };
       };
       keymaps = {
         "<leader>fg" = {
           action = "live_grep";
-          desc = "Grep";
+          options.desc = "Grep";
         };
         "<leader>ff" = {
           action = "find_files";
-          desc = "Files";
+          options.desc = "Files";
         };
         "<leader>b" = {
           action = "buffers";
-          desc = "Buffers";
+          options.desc = "Buffers";
         };
       };
     };

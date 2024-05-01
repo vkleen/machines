@@ -6,7 +6,7 @@
       register = "unnamedplus";
       providers.wl-copy.enable = true;
     };
-    options = {
+    opts = {
       shell = lib.getExe pkgs.bash;
 
       mouse = "a";

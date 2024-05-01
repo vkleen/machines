@@ -6,5 +6,8 @@
       hyprlang = final.hyprlang;
     };
     waybar = prev.waybar.override { hyprland = final.hyprland; };
+    hyprdrim = prev.hyprdim.overrideAttrs (o: {
+      src = inputs.hypdrim;
+    });
   })
 ]

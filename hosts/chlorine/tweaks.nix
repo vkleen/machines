@@ -23,4 +23,6 @@
   environment.systemPackages = [
     pkgs.sunshine
   ];
+
+  virtualisation.podman.enable = lib.mkForce false;
 }

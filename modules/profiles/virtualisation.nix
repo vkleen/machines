@@ -45,7 +45,6 @@ in
       environment.systemPackages = with pkgs; [
         fuse-overlayfs
         # libguestfs # XXX: re-enable this once ocaml 5.2 is released and in nixpkgs
-        podman-compose
         spice-vdagent
         swtpm
       ];

@@ -21,6 +21,7 @@
     file
     gdrive
     gitRepo
+    hledger
     htop
     inetutils
     iperf
@@ -37,6 +38,7 @@
     man-pages
     mbuffer
     mercurial
+    moonlight-qt
     nil
     nix-index
     nix-prefetch-github

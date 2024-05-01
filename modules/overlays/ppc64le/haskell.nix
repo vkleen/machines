@@ -10,6 +10,9 @@ final: prev: {
     packageOverrides = hfinal: hprev: {
       servant = final.haskell.lib.doJailbreak hprev.servant;
       servant-server = final.haskell.lib.doJailbreak hprev.servant-server;
+
+      # The fast-logger test suite either hangs or takes foreeeeeever with large numbers of cores
+      fast-logger = final.haskell.lib.dontCheck hprev.fast-logger;
     };
   };
 

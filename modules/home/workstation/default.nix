@@ -24,7 +24,6 @@
       evince
       gnupg
       gsettings-desktop-schemas
-      hledger
       i3status
       imagemagick
       imv

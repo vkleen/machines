@@ -17,6 +17,7 @@
       auto-allocate-uids = true;
       experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" ];
       trusted-users = [ "root" "@wheel" "@admin" ];
+      flake-registry = lib.mkForce "";
     };
     gc = {
       automatic = true;

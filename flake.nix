@@ -36,7 +36,7 @@
       inputs.hyprlang.follows = "hyprlang";
     };
     hyprland = {
-      url = "github:hyprwm/hyprland";
+      url = "github:hyprwm/hyprland/v0.39.1";
       inputs.hyprlang.follows = "hyprlang";
     };
 

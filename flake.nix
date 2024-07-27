@@ -1,10 +1,12 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager";
     trilby = {
       url = "github:ners/trilby";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-unstable.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
     macname.url = "github:vkleen/macname";
     nix-monitored.url = "github:ners/nix-monitored";
@@ -29,10 +31,6 @@
     };
     hyprcursor = {
       url = "github:hyprwm/hyprcursor";
-      inputs.hyprlang.follows = "hyprlang";
-    };
-    hypridle = {
-      url = "github:hyprwm/hypridle";
       inputs.hyprlang.follows = "hyprlang";
     };
     hyprland = {

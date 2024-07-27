@@ -47,6 +47,7 @@ in
         # libguestfs # XXX: re-enable this once ocaml 5.2 is released and in nixpkgs
         spice-vdagent
         swtpm
+        virtiofsd
       ];
 
       boot.kernelModules = lib.mkIf

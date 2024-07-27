@@ -15,16 +15,8 @@ rec {
       profiles.wireshark
       profiles.forst
       profiles.iio
-    ] ++ (with (lib.findModules ./.); [
-      age
-      boot
-      filesystems
-      interception-tools
-      networking
-      rmapi
-      tweaks
-      uucp-email
-    ])
+    ]
+    ++ lib.findModulesList ./.
     ++ (lib.attrValues (lib.findModules ../../accounts))
     ++ (lib.attrValues (lib.findModules ./accounts));
   };

@@ -18,6 +18,12 @@
             "]d" = "goto_prev";
           };
         };
+        enabledServers = [
+          {
+            name = "nickel_ls";
+            extraOptions = { };
+          }
+        ];
       };
       fidget = {
         enable = true;

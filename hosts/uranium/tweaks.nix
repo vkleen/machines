@@ -13,7 +13,7 @@
     extraPackages = with pkgs; [
       vaapiVdpau
       libvdpau-va-gl
-      rocmPackages.clr.icd
+      rocmPackages_5.clr.icd
     ];
   };
 
@@ -28,4 +28,8 @@
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
   ];
+
+  boot.kernel.sysctl = {
+    "vm.nr_hugepages" = 65664;
+  };
 }

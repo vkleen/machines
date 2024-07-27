@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 let
   lock-session = pkgs.writeScriptBin "lock-session" ''
     #!${lib.getExe pkgs.zsh}
@@ -7,23 +7,26 @@ let
   '';
 in
 {
-  imports = [ inputs.hypridle.homeManagerModules.default ];
   config = {
     home.packages = [ lock-session ];
     services.hypridle = {
       enable = true;
-      lockCmd = lib.getExe lock-session;
-      unlockCmd = "true";
-      afterSleepCmd = "true";
-      beforeSleepCmd = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
-      ignoreDbusInhibit = false;
-      listeners = [
-        {
-          timeout = 600;
-          onTimeout = "echo timeout && ${lib.getExe' pkgs.libnotify "notify-send"} 'hypridle onTimeout 600'";
-          onResume = "echo resume && ${lib.getExe' pkgs.libnotify "notify-send"} 'hypridle onResume 600'";
-        }
-      ];
+      settings = {
+        general = {
+          after_sleep_cmd = "true";
+          before_sleep_cmd = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
+          lock_cmd = lib.getExe lock-session;
+          unlock_cmd = "true";
+          ignore_dbus_inhibit = false;
+        };
+        listeners = [
+          {
+            timeout = 600;
+            on-timeout = "echo timeout && ${lib.getExe' pkgs.libnotify "notify-send"} 'hypridle onTimeout 600'";
+            on-resume = "echo resume && ${lib.getExe' pkgs.libnotify "notify-send"} 'hypridle onResume 600'";
+          }
+        ];
+      };
     };
     systemd.user.services.hypridle = {
       Unit.PartOf = [ "hyprland-session.target" ];

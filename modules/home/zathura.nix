@@ -10,8 +10,10 @@
     home.packages = [ config.zathura.pkg ];
     xdg.configFile."zathura/zathurarc".text = ''
       set selection-clipboard clipboard
-      set sandbox normal
+      set sandbox strict
       set continuous-hist-save true
+
+      set database sqlite
 
       set default-bg "#103c48"
       set recolor-lightcolor "#103c48"

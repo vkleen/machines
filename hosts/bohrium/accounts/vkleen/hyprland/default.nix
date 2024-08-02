@@ -79,7 +79,7 @@ let
       runtimeInputs = with pkgs; [
         fuzzel
         ripgrep
-        zathura
+        evince
       ];
       text = ''
         prefix=(~/dl ~/books)
@@ -89,7 +89,7 @@ let
         }
 
         file=$(_do_select)
-        exec zathura "$file"
+        exec evince "$file"
       '';
     };
 
@@ -160,8 +160,6 @@ in
 
           layout = "master";
           no_border_on_floating = false;
-
-          cursor_inactive_timeout = 1;
         };
         misc = {
           vfr = true;

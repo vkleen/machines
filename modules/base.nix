@@ -15,7 +15,6 @@ in
     profiles.wipe-root
     trilby.profiles.documentation
     trilby.profiles.getty
-    trilby.profiles.kernel
     trilby.profiles.zram
   ];
 
@@ -42,7 +41,7 @@ in
       {
         label = "vkleen";
         distroId = "vkleen";
-        distroName = "Trilby unstable";
+        distroName = "unstable";
       }
     ];
 
@@ -77,6 +76,8 @@ in
     time.timeZone = lib.mkDefault "Etc/UTC";
 
     users.users.root.initialHashedPassword = "";
+
+    boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
 
     system.stateVersion = "24.05";
   };

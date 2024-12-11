@@ -1,15 +1,11 @@
 { pkgs, lib, ... }:
 let
   fonts = with pkgs; [
-    (nerdfonts.override {
-      fonts = [
-        "Cousine"
-        "FiraCode"
-        "Iosevka"
-        "RobotoMono"
-        "SourceCodePro"
-      ];
-    })
+    nerd-fonts.cousine
+    nerd-fonts.fira-code
+    nerd-fonts.iosevka
+    nerd-fonts.roboto-mono
+    nerd-fonts.symbols-only
     b612
     carlito
     corefonts
@@ -19,7 +15,6 @@ let
     fira-mono
     inconsolata
     inter
-    inter-ui
     libertine
     noto-fonts
     noto-fonts-emoji

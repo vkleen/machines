@@ -26,22 +26,8 @@
       flake = false;
     };
 
-    hyprlang = {
-      url = "github:hyprwm/hyprlang";
-    };
-    hyprcursor = {
-      url = "github:hyprwm/hyprcursor";
-      inputs.hyprlang.follows = "hyprlang";
-    };
-    hyprland = {
-      url = "github:hyprwm/hyprland/v0.39.1";
-      inputs.hyprlang.follows = "hyprlang";
-    };
-
-    hyprdim = {
-      url = "github:donovanglover/hyprdim";
-      flake = false;
-    };
+    hyprland.url = "github:hyprwm/hyprland/v0.45.2";
+    hyprlock.url = "github:hyprwm/hyprlock";
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
@@ -49,8 +35,14 @@
     };
     crane = {
       url = "github:ipetkov/crane";
+    };
+
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-hardware.url = "github:nixos/nixos-hardware";
   };
 
   outputs = inputs:
@@ -152,7 +144,7 @@
             } // (import nv.value { inherit name lib inputs buildPlatform; });
           in
           {
-            nixosConfigurations.${host.name} = host.system;
+            nixosConfigurations.${buildPlatform}.${host.name} = host.system;
             packages.${buildPlatform}.${host.name} = host.output;
           }
         ))
@@ -167,7 +159,7 @@
 
           utils = lib.pipe ./utils [
             lib.findModules
-            (lib.mapAttrsRecursive (_: f: import f { inherit inputs lib pkgs; }))
+            (lib.mapAttrsRecursive (_: f: import f { inherit inputs lib pkgs buildPlatform; }))
           ];
         in
         {

@@ -11,7 +11,6 @@ rec {
     modules = with inputs.self.nixosModules; [
       workstation
       laptop
-      profiles.zfs
       profiles.wireshark
       profiles.forst
       profiles.iio

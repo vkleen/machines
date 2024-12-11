@@ -34,6 +34,7 @@
       ripgrep
       streamlink
       tmate
+      xh
       yq
       yt-dlp
     ];

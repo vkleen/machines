@@ -15,7 +15,7 @@ in
         position = "top";
         modules-left = [ "idle_inhibitor" "hyprland/workspaces" "hyprland/submap" ];
         modules-center = [ "clock" ];
-        modules-right = [ "battery" "wireplumber" "backlight" "tray" ];
+        modules-right = [ "battery" "temperature" "wireplumber" "backlight" "privacy" "tray" ];
         "idle_inhibitor" = {
           format = "{icon}";
           format-icons = {
@@ -40,17 +40,22 @@ in
           format-icons = [ "" "" "" "" "" "" "" "" "" "" ];
           format-time = "{H}:{M:02}";
         };
+        "temperature" = {
+          hwmon-path-abs = "/sys/bus/pci/devices/0000:00:18.3/hwmon";
+          input-filename = "temp1_input";
+          format= "{temperatureC}°C";
+        };
         "wireplumber" = {
           format = "{volume}% {node_name}";
           format-mutes = " ";
           on-click = lib.getExe pkgs.helvum;
         };
-        "backlight" = {
-          device = "intel_backlight";
+        "backlight" = let device = "amdgpu_bl1"; in {
+          inherit device;
           format = "{percent}%";
-          on-scroll-up = "${lib.getExe pkgs.brightnessctl} -d intel_backlight s +1%";
-          on-scroll-down = "${lib.getExe pkgs.brightnessctl} -d intel_backlight s 1%-";
-          on-click = "${lib.getExe pkgs.brightnessctl} -d intel_backlight s 1%";
+          on-scroll-up = "${lib.getExe pkgs.brightnessctl} -d ${device} s +1%";
+          on-scroll-down = "${lib.getExe pkgs.brightnessctl} -d ${device} s 1%-";
+          on-click = "${lib.getExe pkgs.brightnessctl} -d ${device} s 1%";
         };
         "clock" = {
           format = "{:%d-%m %H:%M %Z}";

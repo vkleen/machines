@@ -25,11 +25,11 @@
     pkgs.sunshine
   ];
 
+  boot.binfmt = {
+    emulatedSystems = [ "aarch64-linux" "armv7l-linux" ];
+  };
+
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
   ];
-
-  boot.kernel.sysctl = {
-    "vm.nr_hugepages" = 65664;
-  };
 }

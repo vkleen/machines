@@ -1,7 +1,19 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 {
+  services.greetd = {
+    enable = true;
+    settings = {
+      command = "${lib.getExe' pkgs.dbus "dbus-run-session"} ${lib.getExe pkgs.cage} -s -m last -- ${lib.getExe config.programs.regreet.package}";
+      user = "greeter";
+    };
+  };
   programs.regreet = {
     enable = true;
+    font = {
+      package = pkgs.pragmatapro;
+      name = "PragmataPro Mono";
+      size = 16;
+    };
     settings = {
       commands = {
         poweroff = [ (lib.getExe' pkgs.systemd "systemctl") "poweroff" ];
@@ -9,7 +21,6 @@
       };
       GTK = {
         application_prefer_dark_theme = true;
-        font_name = "PragmataPro Mono 16";
       };
     };
   };

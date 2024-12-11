@@ -1,28 +1,39 @@
 { pkgs, config, lib, ... }:
-{
-  programs.wpaperd = {
+let
+  randomWallpaper = pkgs.writeScriptBin "random-wallpaper" ''
+    #!${lib.getExe pkgs.zsh}
+    _file=(~/wallpapers/*.jpg(Noe{'REPLY=$RANDOM,$RANDOM'}[1,1]))
+    _monitor1=eDP-1
+
+    hyprctl hyprpaper unload all
+    hyprctl hyprpaper preload "''${_file}"
+    hyprctl hyprpaper wallpaper "''${_monitor1},''${_file}"
+  '';
+in {
+  services.hyprpaper = {
     enable = true;
     settings = {
-      default = {
-        path = "${config.home.homeDirectory}/wallpapers/";
-        duration = "1h";
-        sorting = "random";
-      };
+      splash = false;
     };
   };
-  systemd.user.services.wpaperd = {
+  home.packages = [ randomWallpaper ];
+
+  systemd.user.services.random-wallpaper = {
+    Install.WantedBy = [ "graphical-session.target" ];
     Unit = {
-      Description = "Wpaperd wallpaper daemon";
-      PartOf = [ "hyprland-session.target" ];
-    };
-    Install = {
-      WantedBy = [ "hyprland-session.target" ];
+      Description = "Randomize desktop background";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
     };
     Service = {
-      Type = "forking";
-      ExecStart = lib.getExe pkgs.wpaperd;
-      RestartSec = 5;
-      Restart = "always";
+      Type = "oneshot";
+      ExecStart = lib.getExe randomWallpaper;
+      IOSchedulingClass = "idle";
     };
+  };
+
+  systemd.user.timers.random-wallpaper = {
+    Timer.OnUnitActiveSec = "30m";
+    Install.WantedBy = [ "timers.target" ];
   };
 }

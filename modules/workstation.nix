@@ -5,7 +5,7 @@
     profiles.fonts
     profiles.gnome-keyring
     profiles.hyprland
-    profiles.tuigreet
+    profiles.regreet
     profiles.virtualisation
     trilby.profiles.pipewire
     trilby.profiles.plymouth

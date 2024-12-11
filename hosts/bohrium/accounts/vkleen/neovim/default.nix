@@ -2,5 +2,5 @@
 with lib;
 with builtins;
 {
-  imports = attrValues (findModules ./.);
+  # imports = attrValues (findModules ./.);
 }

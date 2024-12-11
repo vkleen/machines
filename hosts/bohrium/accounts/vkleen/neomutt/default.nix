@@ -60,11 +60,9 @@ in
     set sendmail = '${account.neomutt.sendMailCommand}'
     set use_envelope_from = yes
 
-    virtual-mailboxes "inbox" "notmuch://?query=tag:inbox and not tag:tweag" \
-                      "tweag inbox"  "notmuch://?query=tag:inbox and tag:tweag" \
+    virtual-mailboxes "inbox" "notmuch://?query=tag:inbox" \
                       "sent"  "notmuch://?query=tag:sent" \
                       "flagged" "notmuch://?query=tag:flagged" \
-                      "tweag"  "notmuch://?query=tag:tweag"
 
     set real_name = '${account.realName}'
     alternates ${lib.concatMapStringsSep " " (a: "'^${a}$'") account.aliases}

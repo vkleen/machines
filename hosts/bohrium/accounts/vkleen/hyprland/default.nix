@@ -1,7 +1,7 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, inputs, ... }:
 let
   colors = import ./colors.nix { hash = false; };
-  terminal = lib.getExe pkgs.foot;
+  terminal = lib.getExe pkgs.alacritty;
 
   open-tmux = session: pkgs.writeShellScript "open-tmux" ''
     if ${lib.getExe pkgs.tmux} has-session -t ${session}; then
@@ -118,13 +118,13 @@ in
 {
   imports = with (lib.findModules ./.);
     [
-      hyprdim
       hypridle
       kanshi
       mako
       random-background
       redshift
       waybar
+      wluma
     ];
   config = {
     home.packages = with pkgs; [
@@ -137,6 +137,7 @@ in
 
     wayland.windowManager.hyprland = {
       enable = true;
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       settings = {
         monitor = [
           "eDP-1,preferred,auto,1.0"
@@ -165,13 +166,10 @@ in
           vfr = true;
           vrr = 1;
           new_window_takes_over_fullscreen = 2;
+          key_press_enables_dpms = true;
         };
         decoration = {
           rounding = 10;
-          drop_shadow = false;
-          shadow_range = 4;
-          shadow_render_power = 3;
-          "col.shadow" = "rgba(1a1a1aee)";
           blur = {
             enabled = true;
             size = 4;
@@ -192,11 +190,15 @@ in
         master = {
           orientation = "left";
         };
+        cursor = {
+          hide_on_key_press = true;
+        };
 
         windowrulev2 = [
           "suppressevent maximize,class:.*"
           "noinitialfocus,class:^(?!Rofi$).*$"
           "idleinhibit focus,class:^(mpv)$"
+          "float,class:^(Rofi)$"
         ];
 
         layerrule = [
@@ -301,6 +303,8 @@ in
 
         bindm = $mainMod, mouse:272, movewindow
         bindm = $mainMod, mouse:273, resizewindow
+
+	bindl = ,switch:on:Lid Switch,dpms,off
       '';
     };
   };

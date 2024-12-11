@@ -1,4 +1,4 @@
-{ lib, inputs, ... }:
+{ lib, inputs, buildPlatform, ... }:
 rec {
   ints = import ./ints.nix { inherit lib; };
 
@@ -42,7 +42,7 @@ rec {
 
   getPublic = type: host:
     let
-      addresses = inputs.self.nixosConfigurations.${host}.config.system.publicAddresses;
+      addresses = inputs.self.nixosConfigurations.${buildPlatform}.${host}.config.system.publicAddresses;
     in
     lib.lists.map (a: a.addr) (lib.lists.filter (a: a.type == type) addresses);
 
@@ -51,7 +51,7 @@ rec {
 
   getAllPublic = host:
     let
-      addresses = inputs.self.nixosConfigurations.${host}.config.system.publicAddresses;
+      addresses = inputs.self.nixosConfigurations.${buildPlatform}.${host}.config.system.publicAddresses;
     in
     lib.lists.map (a: a.addr) addresses;
 

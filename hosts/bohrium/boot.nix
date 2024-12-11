@@ -1,26 +1,36 @@
-{ inputs, ... }:
+{ inputs, pkgs, lib, ... }:
 {
   imports = [
-    inputs.self.nixosModules.profiles.initrd-all-crypto-modules
+    inputs.lanzaboote.nixosModules.lanzaboote
   ];
   config = {
-    boot.wipeRoot.enable = true;
+    boot.initrd = {
+      availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
+      kernelModules = [ "kvm-amd" ];
 
-    boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" ];
-    boot.initrd.kernelModules = [ "kvm-intel" ];
-
-    boot.loader.supportsInitrdSecrets = true;
-
-    boot.loader.efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi";
+      systemd.enable = true;
+      systemd.emergencyAccess = false;
     };
-    boot.loader.grub = {
+
+    boot.loader = {
+      supportsInitrdSecrets = lib.mkForce false;
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+      systemd-boot = {
+        enable = lib.mkForce false;
+      };
+    };
+
+    environment.systemPackages = [ pkgs.sbctl ];
+    boot.lanzaboote = {
       enable = true;
-      device = "nodev";
-      efiSupport = true;
-      enableCryptodisk = true;
-      copyKernels = true;
+      pkiBundle = "/etc/secureboot";
     };
+
+    environment.persistence."/persist".directories = [
+      "/etc/secureboot"
+    ];
   };
 }

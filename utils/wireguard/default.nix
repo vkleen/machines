@@ -1,5 +1,5 @@
-{ inputs, lib, ... }:
-lib.foreach inputs.self.nixosConfigurations (n: system:
+{ inputs, lib, buildPlatform, ... }:
+lib.foreach inputs.self.nixosConfigurations.${buildPlatform} (n: system:
 {
   ${n} = lib.optionalAttrs (system.config.wolkenheim.wireguard.enable or false) {
     public = system.config.wolkenheim.wireguard.public;

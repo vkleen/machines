@@ -32,6 +32,7 @@
       noti
       pavucontrol
       ripgrep
+      sioyek
       streamlink
       tmate
       xh

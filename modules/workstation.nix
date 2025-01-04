@@ -8,7 +8,6 @@
     profiles.regreet
     profiles.virtualisation
     trilby.profiles.pipewire
-    trilby.profiles.plymouth
   ];
   config = {
     programs.dconf.enable = true;

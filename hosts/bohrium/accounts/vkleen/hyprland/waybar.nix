@@ -65,7 +65,6 @@ in
             mode-mon-col = 3;
             weeks-pos = "right";
             on-scroll = 1;
-            on-click-right = "mode";
             format = {
               months = "<span color='#ffead3'><b>{}</b></span>";
               days = "<span color='#ecc6d9'><b>{}</b></span>";
@@ -77,6 +76,8 @@ in
           actions = {
             on-scroll-up = "shift_up";
             on-scroll-down = "shift_down";
+            on-click = "shift_reset";
+            on-click-right = "mode";
           };
         };
       };

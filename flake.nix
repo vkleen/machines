@@ -28,6 +28,10 @@
 
     hyprland.url = "github:hyprwm/hyprland/v0.45.2";
     hyprlock.url = "github:hyprwm/hyprlock";
+    hyprscroller = {
+      url = "github:dawsers/hyprscroller";
+      flake = false;
+    };
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";

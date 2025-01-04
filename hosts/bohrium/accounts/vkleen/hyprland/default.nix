@@ -79,7 +79,7 @@ let
       runtimeInputs = with pkgs; [
         fuzzel
         ripgrep
-        evince
+        sioyek
       ];
       text = ''
         prefix=(~/dl ~/books)
@@ -89,7 +89,7 @@ let
         }
 
         file=$(_do_select)
-        exec evince "$file"
+        exec sioyek "$file"
       '';
     };
 
@@ -138,6 +138,7 @@ in
     wayland.windowManager.hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      plugins = [ pkgs.hyprlandPlugins.hyprscroller ];
       settings = {
         monitor = [
           "eDP-1,preferred,auto,1.0"
@@ -167,6 +168,7 @@ in
           vrr = 1;
           new_window_takes_over_fullscreen = 2;
           key_press_enables_dpms = true;
+          font_family = "PragmataPro Mono";
         };
         decoration = {
           rounding = 10;
@@ -205,6 +207,15 @@ in
           "blur, ^(gtk-layer-shell)$"
           "blur, ^(launcher)$"
         ];
+
+        plugin.scroller = {
+          column_default_width = "onehalf";
+          column_widths = "onehalf twothirds";
+          window_heights = "onehalf twothirds";
+          focus_wrap = true;
+          cyclesize_wrap = true;
+          center_row_if_space_available = true;
+        };
 
         "$mainMod" = "SUPER";
       };

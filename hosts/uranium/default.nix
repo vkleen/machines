@@ -9,7 +9,7 @@ in
 rec {
   system = lib.nixosSystem trilbyConfig {
     modules = with inputs.self.nixosModules; [
-      workstation
+      server
       profiles.wireshark
       profiles.iio
     ]

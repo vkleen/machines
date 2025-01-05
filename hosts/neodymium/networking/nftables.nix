@@ -76,7 +76,7 @@ let
           type nat hook postrouting priority srcnat
           policy accept
 
-          oifname { ens3 } mark 0x1 masquerade
+          oifname { eth0 } mark 0x1 masquerade
         }
       }
     '';

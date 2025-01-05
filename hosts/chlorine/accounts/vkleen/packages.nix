@@ -61,7 +61,6 @@
     sqlite-interactive
     tio
     tree
-    tsocks
     unzip
     usb-modeswitch
     usbutils

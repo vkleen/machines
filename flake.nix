@@ -116,10 +116,10 @@
 
       {
         agenix-rekey = lib.foreach platforms (system: {
-          apps.${system} = lib.genAttrs [ "edit" "generate" "rekey" ] (app:
+          ${system} = lib.genAttrs [ "edit" "generate" "rekey" ] (app:
             import "${inputs.agenix-rekey}/apps/${app}.nix" {
               userFlake = inputs.self;
-              nodes = inputs.self.nixosConfigurations;
+              nodes = inputs.self.nixosConfigurations.${system};
               agePackage = p: p.rage;
               pkgs = lib.pkgsFor {
                 buildPlatform = system;
@@ -182,6 +182,8 @@
                 packages = [
                   pkgs.nixpkgs-fmt
                   pkgs.age
+                  pkgs.rage
+                  pkgs.knot-dns
                   agenix-pkgs.agenix-rekey
                   macname-pkgs.macname
                   (pkgs.python3.withPackages (ps: with ps; [ matplotlib ]))

@@ -18,12 +18,12 @@ $TTL 3600
 ns      IN A 202.61.250.130
 ns      IN AAAA 2a03:4000:54:9b1::1
 
-@       IN A 202.61.250.130
+@       IN A    188.68.45.180
 @       IN AAAA 2a03:4000:54:9b1::1
 @       IN MX 0 mail.as210286.net.
 @       IN TXT "v=spf1 a:mail.as210286.net -all"
 
-*       IN A 202.61.250.130
+*       IN A    188.68.45.180
 *       IN AAAA 2a03:4000:54:9b1::1
 *       IN MX 0 mail.as210286.net.
 *       IN TXT "v=spf1 redirect=as210286.net"

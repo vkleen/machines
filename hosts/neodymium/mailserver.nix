@@ -29,8 +29,8 @@ in {
     ];
     virtualAliases = {
       "martin@kleen.org" = "martin.kleen@gmail.com";
-      "tatjana@kleen.org" = "dr.kleen@t-online.de";
-      "tatjana@samarium.kleen.org" = "dr.kleen@t-online.de";
+      "tatjana@kleen.org" = "tatjana@kleen.consulting";
+      "tatjana@samarium.kleen.org" = "tatjana@kleen.consulting";
       "@samarium.17220103.de" = "vkleen";
       "@neodymium.17220103.de" = "vkleen";
       "@kleen.org" = "vkleen";
@@ -41,6 +41,12 @@ in {
     debug = false;
     messageSizeLimit = 0;
     mailboxSizeLimit = 0;
+    policydSPFExtraConfig = ''
+      TestOnly = 1
+      PermError_reject = False
+      Domain_Whitelist = solid-run.com
+      Domain_Whitelist_PTR = solid-run.com
+    '';
   };
 
   services.postfix = {

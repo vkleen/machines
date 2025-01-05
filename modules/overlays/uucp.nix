@@ -1,6 +1,9 @@
 { ... }:
 final: prev: {
   uucp = wrapperDir: prev.uucp.overrideAttrs (o: {
+    env = (o.env or {}) // {
+      NIX_CFLAGS_COMPILE = "-Wno-error=incompatible-pointer-types";
+    };
     configureFlags = (o.configureFlags or [ ]) ++ [ "--with-newconfigdir=/etc/uucp" ];
     patches = [
       (final.writeText "mailprogram" ''

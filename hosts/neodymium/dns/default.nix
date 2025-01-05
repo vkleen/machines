@@ -1,6 +1,9 @@
-{ flake, config, hostName, pkgs, lib, ... }:
+{ config, pkgs, lib, wolkenheim, ... }:
 let
-  inherit (flake.inputs.utils.lib) getPublicV6 getPublicV4 lists strings;
+  inherit (wolkenheim.nix) getPublicV6 getPublicV4;
+  inherit (lib) lists strings;
+
+  inherit (config.networking) hostName;
 
   reverseDomain = domain: strings.concatStringsSep "." (lists.reverseList (strings.splitString "." domain));
   indentString = indentation: str:
@@ -58,13 +61,13 @@ in {
       server:
         listen: 127.0.0.1@53
         listen: ::1@53
-        listen: ${lists.head (getPublicV4 flake hostName)}@53
-        listen: ${lists.head (getPublicV6 flake hostName)}@53
+        listen: ${lists.head (getPublicV4 hostName)}@53
+        listen: ${lists.head (getPublicV6 hostName)}@53
 
       remote:
         - id: inwx_notify
           address: 2a0a:c980::53
-          via: ${lists.head (getPublicV6 flake hostName)}
+          via: ${lists.head (getPublicV6 hostName)}
         - id: recursive
           address: ::1@5353
         - id: local
@@ -121,7 +124,8 @@ in {
           signing-threads: 2
           ksk-submission: validating-resolver
           cds-cdnskey-publish: double-ds
-          propagation-delay: 0
+          propagation-delay: 30s
+          zone-max-ttl: 1h
           ds-push: [local]
 
       template:
@@ -165,7 +169,7 @@ in {
           acmeDomains = ["as210286.net" "${hostName}.as210286.net" "radicale.as210286.net"];
         }
         { domain = "kleen.org";
-          acmeDomains = ["kleen.org" "paperless.kleen.org" "${hostName}.kleen.org"];
+          acmeDomains = ["kleen.org" "paperless.kleen.org" "matrix.kleen.org" "riot.kleen.org" "turn.kleen.org" "ejabberd.kleen.org" "xmpp.kleen.org" "pubsub.xmpp.kleen.org" "proxy.xmpp.kleen.org" "muc.xmpp.kleen.org" "${hostName}.kleen.org"];
         }
         { domain = "17220103.de";
           acmeDomains = ["17220103.de" "${hostName}.17220103.de"];

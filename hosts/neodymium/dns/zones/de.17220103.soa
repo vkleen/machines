@@ -15,17 +15,17 @@ $TTL 3600
 ns              IN A 202.61.250.130
 ns              IN AAAA 2a03:4000:54:9b1::1
 
-@               IN A 202.61.250.130
+@               IN A    188.68.45.180
 @               IN AAAA 2a03:4000:54:9b1::1
 @               IN MX 0 mail.17220103.de.
 @               IN TXT "v=spf1 a:mail.17220103.de -all"
 
-*               IN A 202.61.250.130
+*               IN A    188.68.45.180
 *               IN AAAA 2a03:4000:54:9b1::1
 *               IN MX 0 mail.17220103.de.
 *               IN TXT "v=spf1 redirect=17220103.de"
 
-neodymium       IN A    202.61.250.130
+neodymium       IN A    188.68.45.180
 neodymium       IN AAAA 2a03:4000:54:9b1::1
 neodymium       IN MX 0 mail.17220103.de
 neodymium       IN TXT "v=spf1 redirect=17220103.de"

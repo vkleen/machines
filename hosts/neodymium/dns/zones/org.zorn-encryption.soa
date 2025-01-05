@@ -18,12 +18,12 @@ ns              IN AAAA 2a03:4000:54:9b1::1
 @               IN CAA 128 issue "letsencrypt.org; validationmethods=dns-01"
 @               IN CAA 128 iodef "mailto:caa@zorn-encryption.org"
 
-@               IN A 202.61.250.130
+@               IN A    188.68.45.180
 @               IN AAAA 2a03:4000:54:9b1::1
 @               IN MX 0 mail.zorn-encryption.org.
 @               IN TXT "v=spf1 a:mail.zorn-encryption.org -all"
 
-*               IN A 202.61.250.130
+*               IN A    188.68.45.180
 *               IN AAAA 2a03:4000:54:9b1::1
 *               IN MX 0 mail.zorn-encryption.org.
 *               IN TXT "v=spf1 redirect=zorn-encryption.org"

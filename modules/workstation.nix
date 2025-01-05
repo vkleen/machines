@@ -7,7 +7,7 @@
     profiles.hyprland
     profiles.regreet
     profiles.virtualisation
-    trilby.profiles.pipewire
+    profiles.pipewire
   ];
   config = {
     programs.dconf.enable = true;

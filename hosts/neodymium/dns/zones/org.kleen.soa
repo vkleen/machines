@@ -18,8 +18,8 @@ $TTL 3600
 ns              IN A 202.61.250.130
 ns              IN AAAA 2a03:4000:54:9b1::1
 
-kleen.org.        IN A    172.104.139.29
-kleen.org.        IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+kleen.org.        IN A    188.68.45.180
+kleen.org.        IN AAAA 2a03:4000:54:9b1::1
 @               IN MX 0 mail.kleen.org.
 @               IN TXT "v=spf1 a:mail.kleen.org -all"
 
@@ -33,59 +33,68 @@ mail            IN AAAA 2a03:4000:54:9b1::25
 mail            IN MX 0 mail.kleen.org.
 mail            IN TXT "v=spf1 redirect=kleen.org"
 
-paperless       IN A    202.61.250.130
+paperless       IN A    188.68.45.180
 paperless       IN AAAA 2a03:4000:54:9b1::1
 
-www             IN A    202.61.250.130
+www             IN A    188.68.45.180
 www             IN AAAA 2a03:4000:54:9b1::1
 
-math            IN A    202.61.250.130
+math            IN A    188.68.45.180
 math            IN AAAA 2a03:4000:54:9b1::1
 
-beta.math       IN A    202.61.250.130
+beta.math       IN A    188.68.45.180
 beta.math       IN AAAA 2a03:4000:54:9b1::1
 
-neodymium       IN A    202.61.250.130
+neodymium       IN A    188.68.45.180
 neodymium       IN AAAA 2a03:4000:54:9b1::1
 neodymium       IN MX 0 mail.kleen.org.
 neodymium       IN TXT "v=spf1 redirect=kleen.org"
 
-remarkable      IN A    172.104.139.29
-remarkable      IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+remarkable      IN A    188.68.45.180
+remarkable      IN AAAA 2a03:4000:54:9b1::1
 
-riot            IN A    172.104.139.29
-riot            IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+riot            IN A    188.68.45.180
+riot            IN AAAA 2a03:4000:54:9b1::1
 
-turn            IN A    172.104.139.29
-turn            IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+turn            IN A    188.68.45.180
+turn            IN AAAA 2a03:4000:54:9b1::1
 
 europium        IN A    172.104.139.29
 europium        IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
 
-matrix          IN A    172.104.139.29
-matrix          IN AAAA 2a01:7e01::f03c:92ff:fe12:a0f4
+matrix          IN A    188.68.45.180
+matrix          IN AAAA 2a03:4000:54:9b1::1
 
-_matrix._tcp    IN SRV 10 0 443 europium.kleen.org.
+_matrix._tcp    IN SRV 10 0 443 neodymium.kleen.org.
 
-ejabberd        CNAME europium.kleen.org.
-
-git.sr.ht       CNAME europium.kleen.org.
-meta.sr.ht      CNAME europium.kleen.org.
-paste.sr.ht     CNAME europium.kleen.org.
+ejabberd        CNAME neodymium.kleen.org.
 
 grafana         CNAME europium.kleen.org.
 
-muc.xmpp        CNAME europium.kleen.org.
-proxy.xmpp      CNAME europium.kleen.org.
-pubsub.xmpp     CNAME europium.kleen.org.
-xmpp            CNAME europium.kleen.org.
+muc.xmpp        CNAME neodymium.kleen.org.
+proxy.xmpp      CNAME neodymium.kleen.org.
+pubsub.xmpp     CNAME neodymium.kleen.org.
+xmpp            CNAME neodymium.kleen.org.
 
 _acme-challenge           IN NS ns.kleen.org.
 _acme-challenge.paperless IN NS ns.kleen.org.
 _acme-challenge.neodymium IN NS ns.kleen.org.
+_acme-challenge.matrix IN NS ns.kleen.org.
+_acme-challenge.riot IN NS ns.kleen.org.
+_acme-challenge.turn IN NS ns.kleen.org.
 
-auenheim IN DS 36295 15 2 0CD802657202738B7D16C9E514FCFBC103D4F325A34E560A2DB1E876C0823BDF
-auenheim IN NS boron.auenheim.kleen.org.
+_acme-challenge.ejabberd IN NS ns.kleen.org.
+
+_acme-challenge.xmpp IN NS ns.kleen.org.
+_acme-challenge.pubsub.xmpp IN NS ns.kleen.org.
+_acme-challenge.proxy.xmpp IN NS ns.kleen.org.
+_acme-challenge.muc.xmpp IN NS ns.kleen.org.
+
+auenheim 60 IN DS 3888 15 2 17B1819507B58001B09F5283A5356F151853E0A15AD611BC736EF54414462FFA
+auenheim    IN NS boron.auenheim.kleen.org.
+
+forstheim 60 IN DS 19933 15 2 A5C60B288DFED6B52278ADE641B1ACF458C1AC9320A2DF5C42293128D829CC3C
+forstheim    IN NS boron.auenheim.kleen.org.
 
 mail._domainkey  IN TXT "v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCz/SAtvyVLQDrPGPQK1scyr88xP+AM+tYLh7Yhx48V+ojPBXAuLJMur1KEqTeCUSbN5x7DtvCPjHpjR9QbHg/DkPl+Udxo/cBMZgIALweD6tDOzBebHlQAPjxqCC924qDUx19XGKijDvPp9P+zixngaXiqpuHwuTEXEugM9reFqQIDAQAB"
 _dmarc           IN TXT "v=DMARC1;p=reject"

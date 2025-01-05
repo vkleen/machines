@@ -47,6 +47,7 @@ in {
           mkRFC2136 = {
             inherit domain;
             extraDomainNames = optional cfg.domains.${domain}.wildcard "*.${domain}";
+            webroot = lib.mkForce null;
             dnsResolver = "127.0.0.1:5353";
             dnsProvider = "rfc2136";
             credentialsFile = pkgs.writeText "${domain}_credentials.env" ''

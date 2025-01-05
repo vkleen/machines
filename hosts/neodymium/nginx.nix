@@ -1,38 +1,50 @@
-{ flake, config, pkgs, hostName, lib, ... }: {
-  imports = [
-    ./hardware.nix
-    ./networking.nix
-    ./mailserver.nix
-    ./math.kleen.org.nix
-    ./dns
-    ./tls
-  ] ++ (with flake.nixosModules.systemProfiles; [
-    hostid
-    latest-linux
-    no-coredump
-    ntp-server
-    ssh
-  ]);
-
-  nixpkgs = rec {
-    system = "x86_64-linux";
-  };
-
-  nix.settings = {
-    max-jobs = 4;
-    cores = 1;
-  };
-
-  system.macnameNamespace = "wolkenheim.kleen.org";
-
+{ config, pkgs, lib, ... }:
+{
   services.nginx = {
+    enable = true;
     virtualHosts = {
+      "www.kleen.org" = {
+        enableACME = true;
+        forceSSL = true;
+        default = true;
+        listen = [
+          { addr = "0.0.0.0"; port = 80; ssl = false; } 
+          { addr = "[::]"; port = 80; ssl = false; } 
+          { addr = "0.0.0.0"; port = 8443; ssl = true; } 
+          { addr = "[::]"; port = 8443; ssl = true; } 
+        ];
+        locations."/".return = "404";
+      };
+      "math.kleen.org" = {
+        enableACME = true;
+        forceSSL = true;
+        listen = [
+          { addr = "0.0.0.0"; port = 80; ssl = false; } 
+          { addr = "[::]"; port = 80; ssl = false; } 
+          { addr = "0.0.0.0"; port = 8443; ssl = true; } 
+          { addr = "[::]"; port = 8443; ssl = true; } 
+        ];
+        root = "/sites/math.kleen.org/";
+        locations."= /favicon.ico".return = "204";
+      };
+      "beta.math.kleen.org" = {
+        enableACME = true;
+        forceSSL = true;
+        listen = [
+          { addr = "0.0.0.0"; port = 80; ssl = false; } 
+          { addr = "[::]"; port = 80; ssl = false; } 
+          { addr = "0.0.0.0"; port = 8443; ssl = true; } 
+          { addr = "[::]"; port = 8443; ssl = true; } 
+        ];
+        root = "/sites/beta.math.kleen.org";
+        locations."= /favicon.ico".return = "204";
+      };
       "www.as210286.net" = {
         listen = [
-          { addr = "0.0.0.0"; port = 80; ssl = false; }
-          { addr = "[::]"; port = 80; ssl = false; }
-          { addr = "0.0.0.0"; port = 8443; ssl = true; }
-          { addr = "[::]"; port = 8443; ssl = true; }
+          { addr = "0.0.0.0"; port = 80; ssl = false; } 
+          { addr = "[::]"; port = 80; ssl = false; } 
+          { addr = "0.0.0.0"; port = 8443; ssl = true; } 
+          { addr = "[::]"; port = 8443; ssl = true; } 
         ];
         forceSSL = true;
         sslCertificate = "/run/credentials/nginx.service/as210286.net.pem";
@@ -45,10 +57,10 @@
       };
       "as210286.net" = {
         listen = [
-          { addr = "0.0.0.0"; port = 80; ssl = false; }
-          { addr = "[::]"; port = 80; ssl = false; }
-          { addr = "0.0.0.0"; port = 8443; ssl = true; }
-          { addr = "[::]"; port = 8443; ssl = true; }
+          { addr = "0.0.0.0"; port = 80; ssl = false; } 
+          { addr = "[::]"; port = 80; ssl = false; } 
+          { addr = "0.0.0.0"; port = 8443; ssl = true; } 
+          { addr = "[::]"; port = 8443; ssl = true; } 
         ];
         forceSSL = true;
         sslCertificate = "/run/credentials/nginx.service/as210286.net.pem";
@@ -59,15 +71,7 @@
         '';
         locations."/".return = "404";
       };
-    } // (lib.listToAttrs (builtins.map
-      (domain: lib.nameValuePair "${domain}" {
-        listen = [
-          { addr = "0.0.0.0"; port = 80; ssl = false; }
-          { addr = "[::]"; port = 80; ssl = false; }
-          { addr = "0.0.0.0"; port = 8443; ssl = true; }
-          { addr = "[::]"; port = 8443; ssl = true; }
-        ];
-      }) [ "beta.math.kleen.org" "math.kleen.org" "www.kleen.org" ]));
+    };
     streamConfig = ''
       upstream boron {
         server 10.172.50.136:443;
@@ -80,7 +84,8 @@
       }
 
       server {
-        listen 443 reuseport;
+        listen 0.0.0.0:443 reuseport;
+        listen [::0]:443 reuseport;
         proxy_connect_timeout 1s;
         proxy_timeout 3s;
 

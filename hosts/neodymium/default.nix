@@ -10,20 +10,11 @@ rec {
   system = lib.nixosSystem trilbyConfig {
     modules = with inputs.self.nixosModules; [
       server
+      profiles.mailserver
       profiles.wolkenheim
-    ] ++ (with (lib.findModules ./.); [
-      age
-      boot
-      filesystems
-      networking
-      ({ ... }: {
-        imports = [ "${inputs.nixpkgs}/nixos/modules/virtualisation/qemu-vm.nix" ];
-        virtualisation.graphics = false;
-        virtualisation.restrictNetwork = true;
-      })
-    ]);
-    # ++ (lib.attrValues (lib.findModules ../../accounts));
+    ]
+    ++ lib.findModulesList ./.
+    ++ lib.findModulesList ../../accounts;
   };
-  # output = system.config.system.build.toplevel;
-  output = system.config.system.build.vm;
+  output = system.config.system.build.toplevel;
 }

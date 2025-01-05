@@ -4,7 +4,6 @@ let
 in
 {
   system.publicAddresses = [
-    (mkV4 "202.61.250.130")
     (mkV4 "188.68.45.180")
     (mkV6 "2a03:4000:54:9b1::1")
   ];
@@ -16,11 +15,11 @@ in
     ];
     defaultGateway = {
       address = "202.61.248.1";
-      interface = "ens3";
+      interface = "eth0";
     };
     defaultGateway6 = {
       address = "fe80::1";
-      interface = "ens3";
+      interface = "eth0";
     };
     interfaces = {
       "eth0" = {

@@ -1,4 +1,4 @@
-#!/usr/bin/env nix-shell
+#!/usr/bin/env zsh
 #!nix-shell -i zsh
 #!nix-shell -p knot-dns rage
 

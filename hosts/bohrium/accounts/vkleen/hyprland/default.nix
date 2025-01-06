@@ -1,7 +1,7 @@
 { lib, pkgs, inputs, ... }:
 let
   colors = import ./colors.nix { hash = false; };
-  terminal = lib.getExe pkgs.alacritty;
+  terminal = lib.getExe pkgs.kitty;
 
   open-tmux = session: pkgs.writeShellScript "open-tmux" ''
     if ${lib.getExe pkgs.tmux} has-session -t ${session}; then
@@ -114,6 +114,9 @@ let
       | ${lib.getExe pkgs.rofi} -dmenu \
       | ${lib.getExe pkgs.gawk} 'BEGIN {FS="\t"; OFS="\t"}; {print $1}'
   '';
+
+  inherit (inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}) hyprland;
+  hyprscroller = pkgs.hyprlandPlugins.hyprscroller.override { inherit hyprland; };
 in
 {
   imports = with (lib.findModules ./.);
@@ -137,8 +140,8 @@ in
 
     wayland.windowManager.hyprland = {
       enable = true;
-      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-      plugins = [ pkgs.hyprlandPlugins.hyprscroller ];
+      package = hyprland;
+      plugins = [ hyprscroller ];
       settings = {
         monitor = [
           "eDP-1,preferred,auto,1.0"
@@ -315,7 +318,9 @@ in
         bindm = $mainMod, mouse:272, movewindow
         bindm = $mainMod, mouse:273, resizewindow
 
-	bindl = ,switch:on:Lid Switch,dpms,off
+        bindl = ,switch:on:Lid Switch,dpms,off
+
+        debug:disable_logs = false
       '';
     };
   };

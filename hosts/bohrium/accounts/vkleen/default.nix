@@ -24,6 +24,7 @@
   home-manager.users.vkleen = lib.mkMerge
     (with inputs.self.nixosModules.home; [
       alacritty
+      kitty
       workstation
       neovim
     ]

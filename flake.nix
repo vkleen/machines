@@ -26,7 +26,7 @@
       flake = false;
     };
 
-    hyprland.url = "github:hyprwm/hyprland/v0.45.2";
+    hyprland.url = "github:hyprwm/hyprland";
     hyprlock.url = "github:hyprwm/hyprlock";
     hyprscroller = {
       url = "github:dawsers/hyprscroller";
@@ -47,6 +47,7 @@
     };
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    catppuccin.url = "github:catppuccin/nix";
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
   };

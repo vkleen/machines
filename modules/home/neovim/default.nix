@@ -4,7 +4,8 @@ with builtins;
 with lib;
 let
   lazy-nix-helper-nvim = pkgs.vimUtils.buildVimPlugin {
-    name = "lazy-nix-helper.nvim";
+    pname = "lazy-nix-helper.nvim";
+    version = "2024-08-29";
     src = pkgs.fetchFromGitHub {
       owner = "b-src";
       repo = "lazy-nix-helper.nvim";
@@ -21,7 +22,12 @@ let
     in
     result;
 
-  pluginList = plugins: lib.strings.concatMapStrings (plugin: "  [\"${sanitizePluginName plugin.name}\"] = \"${plugin.outPath}\",\n") plugins;
+  plugins = with pkgs.vimPlugins; [
+    lazy-nix-helper-nvim
+    lazy-nvim
+  ];
+
+  pluginList = plugins: lib.strings.concatMapStrings (plugin: "  [\"${sanitizePluginName plugin}\"] = \"${plugin.outPath}\",\n") plugins;
 in
 {
   # imports = [
@@ -44,20 +50,20 @@ in
     recursive = true;
   };
 
+  catppuccin.nvim.enable = false;
+
   programs.neovim = {
     enable = true;
+    package = pkgs.neovim;
     extraPackages = with pkgs; [
       delta
       ripgrep
     ];
-    plugins = with pkgs.vimPlugins; [
-      lazy-nix-helper-nvim
-      lazy-nvim
-    ];
+    inherit plugins;
 
     extraLuaConfig = ''
       local plugins = {
-        ${pluginList config.programs.neovim.plugins}
+        ${pluginList plugins}
       }
       local lazy_nix_helper_path = "${lazy-nix-helper-nvim}"
       if not vim.loop.fs_stat(lazy_nix_helper_path) then

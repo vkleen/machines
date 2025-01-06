@@ -69,7 +69,7 @@ _matrix._tcp    IN SRV 10 0 443 neodymium.kleen.org.
 
 ejabberd        CNAME neodymium.kleen.org.
 
-grafana         CNAME europium.kleen.org.
+grafana         CNAME neodymium.kleen.org.
 
 muc.xmpp        CNAME neodymium.kleen.org.
 proxy.xmpp      CNAME neodymium.kleen.org.
@@ -78,6 +78,7 @@ xmpp            CNAME neodymium.kleen.org.
 
 _acme-challenge           IN NS ns.kleen.org.
 _acme-challenge.paperless IN NS ns.kleen.org.
+_acme-challenge.grafana IN NS ns.kleen.org.
 _acme-challenge.neodymium IN NS ns.kleen.org.
 _acme-challenge.matrix IN NS ns.kleen.org.
 _acme-challenge.riot IN NS ns.kleen.org.

@@ -169,7 +169,7 @@ in {
           acmeDomains = ["as210286.net" "${hostName}.as210286.net" "radicale.as210286.net"];
         }
         { domain = "kleen.org";
-          acmeDomains = ["kleen.org" "paperless.kleen.org" "matrix.kleen.org" "riot.kleen.org" "turn.kleen.org" "ejabberd.kleen.org" "xmpp.kleen.org" "pubsub.xmpp.kleen.org" "proxy.xmpp.kleen.org" "muc.xmpp.kleen.org" "${hostName}.kleen.org"];
+          acmeDomains = ["kleen.org" "paperless.kleen.org" "grafana.kleen.org" "matrix.kleen.org" "riot.kleen.org" "turn.kleen.org" "ejabberd.kleen.org" "xmpp.kleen.org" "pubsub.xmpp.kleen.org" "proxy.xmpp.kleen.org" "muc.xmpp.kleen.org" "${hostName}.kleen.org"];
         }
         { domain = "17220103.de";
           acmeDomains = ["17220103.de" "${hostName}.17220103.de"];

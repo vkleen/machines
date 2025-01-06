@@ -71,6 +71,20 @@
         '';
         locations."/".return = "404";
       };
+      "grafana.kleen.org" = {
+        listen = [
+          { addr = "0.0.0.0"; port = 80; ssl = false; } 
+          { addr = "[::]"; port = 80; ssl = false; } 
+          { addr = "0.0.0.0"; port = 8443; ssl = true; } 
+          { addr = "[::]"; port = 8443; ssl = true; } 
+        ];
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://10.172.50.136:2342";
+          proxyWebsockets = true;
+        };
+      };
     };
     streamConfig = ''
       upstream boron {
@@ -110,12 +124,15 @@
   };
 
 
-  security.acme.domains."as210286.net" = {
-    wildcard = true;
-    certCfg = {
-      postRun = ''
-        ${pkgs.systemd}/bin/systemctl try-restart nginx.service
-      '';
+  security.acme.domains = {
+    "grafana.kleen.org" = {};
+    "as210286.net" = {
+      wildcard = true;
+      certCfg = {
+        postRun = ''
+          ${pkgs.systemd}/bin/systemctl try-restart nginx.service
+        '';
+      };
     };
   };
 }

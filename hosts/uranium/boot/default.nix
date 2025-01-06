@@ -9,7 +9,7 @@ let
       hash = "sha256-Klu2uysbF5tH7SqVl815DwR7W+Vx6PyVDDLwoMZiqBI=";
     };
 
-    patches = [ ];
+    patches = [ ./0001-asm-unaligned.h-linux-unaligned.h.patch ];
   });
 
   gpu-bind = pkgs.writeShellScript "gpu-bind" ''

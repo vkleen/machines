@@ -20,7 +20,7 @@ in
           {
             publicKey = wireguard.neodymium.public;
             allowedIPs = [ "0.0.0.0/0" "::/0" ];
-            endpoint = "${getPrimaryPublicV4 "neodymium"}:${builtins.toString wireguard.neodymium.links.${trilby.name}.listenPort}";
+            endpoint = "${getPrimaryPublicV4 "neodymium"}:${builtins.toString wireguard.neodymium.links.boron.listenPort}";
           }
         ];
       };

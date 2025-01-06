@@ -201,7 +201,7 @@ in
 
         windowrulev2 = [
           "suppressevent maximize,class:.*"
-          "noinitialfocus,class:^(?!Rofi$).*$"
+          "noinitialfocus,class:negative:^(Rofi)"
           "idleinhibit focus,class:^(mpv)$"
           "float,class:^(Rofi)$"
         ];

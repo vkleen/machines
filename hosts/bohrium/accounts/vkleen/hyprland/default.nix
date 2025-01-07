@@ -141,7 +141,9 @@ in
     wayland.windowManager.hyprland = {
       enable = true;
       package = hyprland;
-      plugins = [ hyprscroller ];
+      plugins = [
+        # hyprscroller
+      ];
       settings = {
         monitor = [
           "eDP-1,preferred,auto,1.0"

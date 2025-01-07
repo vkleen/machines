@@ -17,10 +17,10 @@
             publicKey = wolkenheim.wireguard.bohrium.public;
             allowedIPs = [ "10.172.50.132/32" ];
           }
-          # {
-          #   publicKey = builtins.readFile ../../wireguard/helium.pub;
-          #   allowedIPs = [ "10.172.50.133/32" ];
-          # }
+          {
+            publicKey = builtins.readFile ./helium.pub;
+            allowedIPs = [ "10.172.50.133/32" ];
+          }
           {
             publicKey = builtins.readFile ./boron.pub;
             allowedIPs = [ "10.172.50.136/32" ];

@@ -12,6 +12,7 @@ rec {
       server
       profiles.wireshark
       profiles.iio
+      profiles.virtualisation
     ]
     ++ lib.findModulesList ./.
     ++ (lib.findModulesList ./accounts)

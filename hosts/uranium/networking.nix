@@ -10,8 +10,8 @@
   systemd.network = {
     enable = true;
     links = {
-      "30-eno6np1" = {
-        matchConfig.Path = "pci-0000:5d:00.1";
+      "30-eno5np0" = {
+        matchConfig.Path = "pci-0000:5d:00.0";
         extraConfig = ''
           [Link]
           SR-IOVVirtualFunctions=5
@@ -57,36 +57,43 @@
           Trust=no
         '';
       };
+      "30-eth1" = {
+        matchConfig.Path = "pci-0000:5d:00.1";
+        linkConfig = {
+          Name = "eth1";
+          MACAddress = "04:09:73:e3:16:31";
+        };
+      };
       "30-intucorp" = {
-        matchConfig.Path = "pci-0000:5d:10.1";
+        matchConfig.Path = "pci-0000:5d:00.2";
         linkConfig = {
           Name = "intucorp";
           MACAddress = "32:9e:08:68:b5:76";
         };
       };
       "30-intuitive" = {
-        matchConfig.Path = "pci-0000:5d:10.3";
+        matchConfig.Path = "pci-0000:5d:00.4";
         linkConfig = {
           Name = "intuitive";
           MACAddress = "32:9e:08:68:b5:78";
         };
       };
       "30-robot" = {
-        matchConfig.Path = "pci-0000:5d:10.4";
+        matchConfig.Path = "pci-0000:5d:00.5";
         linkConfig = {
           Name = "robot";
           MACAddress = "32:9e:08:68:b5:79";
         };
       };
       "30-xplane" = {
-        matchConfig.Path = "pci-0000:5d:10.2";
+        matchConfig.Path = "pci-0000:5d:00.3";
         linkConfig = {
           Name = "xplane";
           MACAddress = "32:9e:08:68:b5:77";
         };
       };
       "30-windows" = {
-        matchConfig.Path = "pci-0000:5d:10.5";
+        matchConfig.Path = "pci-0000:5d:00.6";
         linkConfig = {
           Name = "windows";
           MACAddress = "32:9e:08:68:b5:7a";
@@ -94,20 +101,20 @@
       };
     };
     networks = {
-      "30-eno5np0" = {
-        matchConfig.Name = "eno5np0";
-        linkConfig.RequiredForOnline = "routable";
-        networkConfig = {
-          DHCP = "ipv4";
-          IPv6AcceptRA = true;
-        };
-      };
       "30-eth1" = {
         matchConfig.Path = "pci-0000:5d:00.1";
         networkConfig = {
           DHCP = "no";
           LinkLocalAddressing = false;
           KeepConfiguration = true;
+        };
+      };
+      "30-eth0" = {
+        matchConfig.Path = "pci-0000:5d:00.0";
+        linkConfig.RequiredForOnline = "routable";
+        networkConfig = {
+          DHCP = "ipv4";
+          IPv6AcceptRA = true;
         };
       };
       "30-intuitive" = {

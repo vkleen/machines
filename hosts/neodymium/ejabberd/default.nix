@@ -32,7 +32,7 @@ let
         max_stanza_size = 524288;
       }
       { port = 5347;
-        ip = "10.172.50.1";
+        ip = "127.0.0.1";
         module = "ejabberd_service";
         check_from = "false";
         hosts = {
@@ -265,9 +265,5 @@ in {
 
   networking.firewall.allowedTCPPorts = [
     5222 5269
-  ];
-
-  networking.firewall.interfaces.boron.allowedTCPPorts = [
-    5347
   ];
 }

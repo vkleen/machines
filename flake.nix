@@ -50,6 +50,11 @@
     catppuccin.url = "github:catppuccin/nix";
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
+
+    matrix-bifrost = {
+      url = "github:vkleen/matrix-bifrost";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:

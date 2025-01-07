@@ -1,5 +1,7 @@
 { config, pkgs, lib, ... }:
 {
+  imports = [ ./matrix-bifrost.nix ];
+
   services.matrix-synapse = {
     enable = true;
     settings = {

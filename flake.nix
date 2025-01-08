@@ -63,9 +63,10 @@
         pkgsFor = t:
           let
             trilby = final.trilbyConfig t;
-            overlaySrcs = final.attrValues (final.recursiveUpdate
-              inputs.self.nixosModules.trilby.overlays
-              inputs.self.nixosModules.overlays);
+            # overlaySrcs = final.attrValues (final.recursiveUpdate
+            #   inputs.self.nixosModules.trilby.overlays
+            #   inputs.self.nixosModules.overlays);
+            overlaySrcs = final.attrValues inputs.self.nixosModules.overlays;
             overlays = map
               (o: (if final.isFunction o then o else import o) {
                 inherit inputs lib trilby;

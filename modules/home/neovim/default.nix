@@ -14,6 +14,17 @@ let
     };
   };
 
+  trailblazer-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "trailblazer.nvim";
+    version = "2023-04-08";
+    src = pkgs.fetchFromGitHub {
+      owner = "LeonHeidelbach";
+      repo = "trailblazer.nvim";
+      rev = "674bb6254a376a234d0d243366224122fc064eab";
+      hash = "sha256-9q8CmbUGmbKb7w4fzOS7XBSg8YM5WwqwvLUN2pVOAtI=";
+    };
+  };
+
   sanitizePluginName = input:
     let
       name = lib.strings.getName input;
@@ -44,6 +55,7 @@ let
     nvim-treesitter
     plenary-nvim
     tiny-inline-diagnostic-nvim
+    trailblazer-nvim
     vim-sleuth
     which-key-nvim
   ];

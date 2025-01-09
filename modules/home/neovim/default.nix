@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, ... }:
+{ pkgs, lib, inputs, ... }:
 
 with builtins;
 with lib;
@@ -22,28 +22,50 @@ let
     in
     result;
 
+  blink = inputs.blink-cmp.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (o: {
+    patches = [
+      ./force-blink-version.patch
+    ];
+  });
+
   plugins = with pkgs.vimPlugins; [
-    lazy-nix-helper-nvim
-    lazy-nvim
+    vim-sleuth
+    which-key-nvim
+    gitsigns-nvim
+    mini-nvim
+    fzf-lua
+    lazydev-nvim
+    luvit-meta
+    fidget-nvim
+    nvim-lspconfig
+    blink
+    nvim-treesitter
+    catppuccin-nvim
   ];
 
   pluginList = plugins: lib.strings.concatMapStrings (plugin: "  [\"${sanitizePluginName plugin}\"] = \"${plugin.outPath}\",\n") plugins;
+
+  nix-treesitter-grammars =
+    let
+      grammars = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+      grammarName = grammar:
+        lib.pipe grammar [
+          lib.getName
+
+          # added in buildGrammar
+          (lib.removeSuffix "-grammar")
+
+          # grammars from tree-sitter.builtGrammars
+          (lib.removePrefix "tree-sitter-")
+          (lib.replaceStrings [ "-" ] [ "_" ])
+        ];
+    in pkgs.linkFarm "nix-treesitter-grammars" (builtins.map (p: {
+        name = "parser/${grammarName p}.so";
+        path = "${p}/parser";
+    }) grammars);
 in
 {
-  # imports = [
-  #   inputs.nixvim.homeManagerModules.nixvim
-  # ] ++ (findModulesList ./config);
-
   home.packages = [ pkgs.neovim-remote ];
-
-  # programs.nixvim = {
-  #   enable = false;
-  #   luaLoader.enable = true;
-  #   viAlias = true;
-  #   vimAlias = true;
-  #   extraPackages = [ pkgs.delta ];
-  #   enableMan = false;
-  # };
 
   xdg.configFile."nvim/lua" = {
     source = ./lua;
@@ -59,11 +81,15 @@ in
       delta
       ripgrep
     ];
-    inherit plugins;
+    plugins = [
+      lazy-nix-helper-nvim
+      pkgs.vimPlugins.lazy-nvim
+    ];
 
-    extraLuaConfig = ''
+    extraLuaConfig = /* lua */ ''
       local plugins = {
         ${pluginList plugins}
+        ["nix-treesitter-grammars"] = "${nix-treesitter-grammars}",
       }
       local lazy_nix_helper_path = "${lazy-nix-helper-nvim}"
       if not vim.loop.fs_stat(lazy_nix_helper_path) then

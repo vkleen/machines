@@ -142,7 +142,7 @@ in
       enable = true;
       package = hyprland;
       plugins = [
-        # hyprscroller
+        hyprscroller
       ];
       settings = {
         monitor = [

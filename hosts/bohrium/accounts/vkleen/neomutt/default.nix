@@ -18,7 +18,7 @@ in
   xdg.configFile."neomutt/neomuttrc".text = ''
     set header_cache = "${config.xdg.cacheHome}/neomutt/headers/"
     set message_cachedir = "${config.xdg.cacheHome}/neomutt/messages/"
-    set editor = "${pkgs.helix}/bin/hx"
+    set editor = "${config.home.sessionVariables.EDITOR}"
     set tmpdir = "/run/user/${builtins.toString nixosConfig.users.users.vkleen.uid}"
     set implicit_autoview = yes
 

@@ -11,7 +11,7 @@ vim.opt.mouse = 'a'
 vim.opt.showmode = false
 
 vim.schedule(function()
-    vim.opt.clipboard = 'unnamedplus'
+  vim.opt.clipboard = 'unnamedplus'
 end)
 
 vim.opt.breakindent = true
@@ -33,6 +33,8 @@ vim.opt.splitbelow = true
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+vim.opt.expandtab = true
+
 vim.opt.inccommand = 'split'
 
 vim.opt.cursorline = false
@@ -48,3 +50,29 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 require('vkleen.mappings')
+
+require('lazy').setup({
+  spec = {
+    { import = "vkleen.plugins" },
+  },
+  ui = {
+    icons = vim.g.have_nerd_font and {} or {
+      cmd = '⌘',
+      config = '🛠',
+      event = '📅',
+      ft = '📂',
+      init = '⚙',
+      keys = '🗝',
+      plugin = '🔌',
+      runtime = '💻',
+      require = '🌙',
+      source = '📄',
+      start = '🚀',
+      task = '📌',
+      lazy = '💤 ',
+    },
+  },
+  install = {
+    missing = false,
+  },
+})

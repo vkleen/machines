@@ -55,6 +55,11 @@
       url = "github:vkleen/matrix-bifrost";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    blink-cmp = {
+      url = "github:Saghen/blink.cmp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -193,6 +198,7 @@
                   pkgs.age
                   pkgs.rage
                   pkgs.knot-dns
+                  pkgs.lua-language-server
                   agenix-pkgs.agenix-rekey
                   macname-pkgs.macname
                   (pkgs.python3.withPackages (ps: with ps; [ matplotlib ]))

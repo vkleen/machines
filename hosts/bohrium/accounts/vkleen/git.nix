@@ -31,10 +31,10 @@ in
       ghq.root = "~/src";
     };
     includes = [
-      {
-        condition = "gitdir:~/work/tweag/";
-        path = "~/work/tweag/gitconfig";
-      }
+      # {
+      #   condition = "gitdir:~/work/tweag/";
+      #   path = "~/work/tweag/gitconfig";
+      # }
     ];
   };
 }

@@ -199,6 +199,7 @@
                   pkgs.rage
                   pkgs.knot-dns
                   pkgs.lua-language-server
+                  pkgs.stylua
                   agenix-pkgs.agenix-rekey
                   macname-pkgs.macname
                   (pkgs.python3.withPackages (ps: with ps; [ matplotlib ]))

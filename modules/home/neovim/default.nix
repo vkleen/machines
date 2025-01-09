@@ -29,21 +29,29 @@ let
   });
 
   plugins = with pkgs.vimPlugins; [
-    vim-sleuth
-    which-key-nvim
-    gitsigns-nvim
-    mini-nvim
+    blink
+    catppuccin-nvim
+    conform-nvim
+    diffview-nvim
+    fidget-nvim
     fzf-lua
+    gitsigns-nvim
     lazydev-nvim
     luvit-meta
-    fidget-nvim
+    mini-nvim
+    neogit
     nvim-lspconfig
-    blink
     nvim-treesitter
-    catppuccin-nvim
+    plenary-nvim
+    tiny-inline-diagnostic-nvim
+    vim-sleuth
+    which-key-nvim
   ];
 
-  pluginList = plugins: lib.strings.concatMapStrings (plugin: "  [\"${sanitizePluginName plugin}\"] = \"${plugin.outPath}\",\n") plugins;
+  pluginList = plugins:
+    lib.strings.concatMapStrings
+      (plugin: "  [\"${sanitizePluginName plugin}\"] = \"${plugin.outPath}\",\n")
+      plugins;
 
   nix-treesitter-grammars =
     let
@@ -59,10 +67,13 @@ let
           (lib.removePrefix "tree-sitter-")
           (lib.replaceStrings [ "-" ] [ "_" ])
         ];
-    in pkgs.linkFarm "nix-treesitter-grammars" (builtins.map (p: {
+    in
+    pkgs.linkFarm "nix-treesitter-grammars" (builtins.map
+      (p: {
         name = "parser/${grammarName p}.so";
         path = "${p}/parser";
-    }) grammars);
+      })
+      grammars);
 in
 {
   home.packages = [ pkgs.neovim-remote ];

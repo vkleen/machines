@@ -27,19 +27,17 @@ in
           hide_cursor = true;
           grace = 5;
         };
-        input-field = [
-          {
-            size = "500, 50";
-            position = "0, -80";
-            monitor = "";
-            hide_input = false;
-            dots_center = true;
-            fade_on_empty = true;
-            outline_thickness = 2;
-            shadow_passes = 2;
-          }
-        ];
-        background = [
+        input-field = {
+          size = "500, 50";
+          position = "0, -80";
+          monitor = "";
+          hide_input = false;
+          dots_center = true;
+          fade_on_empty = true;
+          outline_thickness = 2;
+          shadow_passes = 2;
+        };
+        background = lib.mkForce [
           {
             path = "$BACKGROUND";
           }

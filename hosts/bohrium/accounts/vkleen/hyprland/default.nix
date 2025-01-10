@@ -161,8 +161,6 @@ in
           gaps_in = 5;
           gaps_out = 0;
           border_size = 1;
-          "col.active_border" = "rgba(${colors.blue}ff)";
-          "col.inactive_border" = "rgba(${colors.black}ff)";
 
           layout = "master";
           no_border_on_floating = false;

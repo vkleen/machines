@@ -2,7 +2,6 @@
 {
   imports = with inputs.self.nixosModules.home; [
     bat
-    cursor
     dconf
     direnv
     firefox

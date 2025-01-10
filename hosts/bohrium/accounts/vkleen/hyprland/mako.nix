@@ -3,7 +3,6 @@
   services.mako = {
     enable = true;
     maxVisible = -1;
-    font = "PragmataPro Mono Liga";
     borderRadius = 10;
     icons = false;
     defaultTimeout = 6000;

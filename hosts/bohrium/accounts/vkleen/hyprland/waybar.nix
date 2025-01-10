@@ -1,8 +1,9 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
-  colors = import ./colors.nix { };
+  colors = config.lib.stylix.colors.withHashtag;
 in
 {
+  stylix.targets.waybar.enable = false;
   programs.waybar = {
     enable = true;
     systemd = {
@@ -43,7 +44,7 @@ in
         "temperature" = {
           hwmon-path-abs = "/sys/bus/pci/devices/0000:00:18.3/hwmon";
           input-filename = "temp1_input";
-          format= "{temperatureC}°C";
+          format = "{temperatureC}°C";
         };
         "wireplumber" = {
           format = "{volume}% {node_name}";
@@ -52,7 +53,7 @@ in
         };
         "backlight" = let device = "amdgpu_bl1"; in {
           inherit device;
-          format = "{percent}%";
+          format = "{percent}%";
           on-scroll-up = "${lib.getExe pkgs.brightnessctl} -d ${device} s +1%";
           on-scroll-down = "${lib.getExe pkgs.brightnessctl} -d ${device} s 1%-";
           on-click = "${lib.getExe pkgs.brightnessctl} -d ${device} s 1%";
@@ -66,11 +67,11 @@ in
             weeks-pos = "right";
             on-scroll = 1;
             format = {
-              months = "<span color='#ffead3'><b>{}</b></span>";
-              days = "<span color='#ecc6d9'><b>{}</b></span>";
-              weeks = "<span color='#99ffdd'><b>W{}</b></span>";
-              weekdays = "<span color='#ffcc66'><b>{}</b></span>";
-              today = "<span color='#ff6699'><b><u>{}</u></b></span>";
+              months = "<span color='${colors.base05}'><b>{}</b></span>";
+              days = "<span color='${colors.base05}'><b>{}</b></span>";
+              weeks = "<span color='${colors.base07}'><b>W{}</b></span>";
+              weekdays = "<span color='${colors.base0A}'><b>{}</b></span>";
+              today = "<span color='${colors.base08}'><b><u>{}</u></b></span>";
             };
           };
           actions = {
@@ -82,93 +83,96 @@ in
         };
       };
     };
-    style = ''
+    style = with colors; /*css*/''
+      @define-color base00 ${base00}; @define-color base01 ${base01}; @define-color base02 ${base02}; @define-color base03 ${base03};
+      @define-color base04 ${base04}; @define-color base05 ${base05}; @define-color base06 ${base06}; @define-color base07 ${base07};
+
+      @define-color base08 ${base08}; @define-color base09 ${base09}; @define-color base0A ${base0A}; @define-color base0B ${base0B};
+      @define-color base0C ${base0C}; @define-color base0D ${base0D}; @define-color base0E ${base0E}; @define-color base0F ${base0F};
+
       * {
-          border: none;
-          border-radius: 0;
-          padding-left: 0;
-          padding-right: 0;
-          padding-top: 0.2ex;
-          padding-bottom: 0.2ex;
-          margin: 0;
-          font-family: PragmataPro;
-          font-size: 15px;
-          min-height: 0;
+        border: none;
+        border-radius: 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0.2ex;
+        padding-bottom: 0.2ex;
+        margin: 0;
+        min-height: 0;
+        font-family: "${config.stylix.fonts.sansSerif.name}";
+        font-size: 12pt;
+      }
+
+      window#waybar, tooltip {
+        background: alpha(@base00, ${builtins.toString config.stylix.opacity.desktop});
+        color: @base05;
+      }
+
+      tooltip {
+        background: @base00;
       }
 
       label {
-          padding-left: 0.5ex;
-          padding-right: 0.5ex;
+        padding-left: 0.5ex;
+        padding-right: 0.5ex;
       }
 
       window#waybar {
-          background-color: rgba(42, 46, 56, 0.7) ;
-          color: ${colors.fg};
-          border: none;
-          transition-property: background-color;
-          transition-duration: .5s;
+        border: none;
+        transition-property: background-color;
+        transition-duration: .5s;
       }
 
       #workspaces button {
-          min-width: 1em;
-          color: ${colors.fg};
+        font-weight: normal;
+        min-width: 1em;
       }
 
       #workspaces button:hover {
-          box-shadow: inherit;
-          text-shadow: inherit;
+        box-shadow: inherit;
+        text-shadow: inherit;
       }
 
       #workspaces button.active {
-          background-color: ${colors.blue};
-          color: ${colors.br_black};
+        color: @base00;
+        background-color: @base0D;
       }
 
       #workspaces button.urgent {
-          background-color: ${colors.red};
-          color: ${colors.br_black};
-      }
-
-      #mode {
-          background-color: ${colors.red};
-          color: ${colors.br_black};
+        background-color: @base08;
       }
 
       #battery.full, #battery.plugged {
-          color: ${colors.green};
+        color: @base0B;
       }
 
       #battery.good {
-          color: ${colors.fg};
+        color: @base05;
       }
 
       #battery.warning {
-          color: ${colors.orange};
+        color: @base09;
       }
 
       #battery.critical {
-          color: ${colors.red};
+        color: @base08;
       }
 
       @keyframes blink {
-          to {
-              background-color: ${colors.red};
-              color: ${colors.br_black};
-          }
+        to {
+          background-color: @base08;
+        }
       }
 
       #battery.critical:not(.charging) {
-          background-color: ${colors.br_black};
-          color: ${colors.red};
-          animation-name: blink;
-          animation-duration: 0.5s;
-          animation-timing-function: linear;
-          animation-iteration-count: infinite;
-          animation-direction: alternate;
+        background-color: alpha(@base00, ${builtins.toString config.stylix.opacity.desktop});
+        color: @base08;
+        animation-name: blink;
+        animation-duration: 0.5s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
       }
-
-      @define-color col_border_solid rgba(187, 194, 207, 1);
-      @define-color col_border_trans rgba(187, 194, 207, 0);
 
       #waybar > box:nth-child(2) > box:nth-child(3) > * > label, #tray {
         padding: 0 10px;
@@ -179,11 +183,11 @@ in
       }
 
       #waybar > box:nth-child(2) > box:nth-child(3) > *:not(:first-child) > label, #tray {
-          background-image:
-            linear-gradient(@col_border_trans, @col_border_solid 20%, @col_border_solid 80%, @col_border_trans);
-          background-size: 1px 80%;
-          background-position: 0 50%;
-          background-repeat: no-repeat;
+        background-image:
+          linear-gradient(alpha(@base05, 0), alpha(@base05, 1) 20%, alpha(@base05, 1) 80%, alpha(@base05, 0));
+        background-size: 1px 80%;
+        background-position: 0 50%;
+        background-repeat: no-repeat;
       }
     '';
   };

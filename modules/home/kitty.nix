@@ -2,10 +2,6 @@
 {
   programs.kitty = {
     enable = true;
-    font = {
-      name = "PragmataPro Mono";
-      size = 12;
-    };
     shellIntegration = {
       mode = "no-cursor";
       enableFishIntegration = true;

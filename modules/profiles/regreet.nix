@@ -9,11 +9,6 @@
   };
   programs.regreet = {
     enable = true;
-    font = {
-      package = pkgs.pragmatapro;
-      name = "PragmataPro Mono";
-      size = 16;
-    };
     settings = {
       commands = {
         poweroff = [ (lib.getExe' pkgs.systemd "systemctl") "poweroff" ];

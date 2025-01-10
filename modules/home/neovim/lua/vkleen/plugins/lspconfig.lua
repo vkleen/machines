@@ -12,6 +12,7 @@ return {
       dir = require("lazy-nix-helper").get_plugin_path("blink-cmp"),
     },
   },
+  event = { "VimEnter" },
   opts = {
     servers = require("vkleen.lsp.servers"),
   },

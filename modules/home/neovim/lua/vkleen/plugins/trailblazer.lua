@@ -1,6 +1,7 @@
 return {
   "LeonHeidelbach/trailblazer.nvim",
   dir = require("lazy-nix-helper").get_plugin_path("trailblazer.nvim"),
+  event = { "VimEnter" },
   opts = {
     mappings = {
       nv = {

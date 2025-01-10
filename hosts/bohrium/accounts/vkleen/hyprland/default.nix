@@ -127,7 +127,6 @@ in
       random-background
       redshift
       waybar
-      wluma
     ];
   config = {
     home.packages = with pkgs; [
@@ -142,7 +141,7 @@ in
       enable = true;
       package = hyprland;
       plugins = [
-        hyprscroller
+        # hyprscroller
       ];
       settings = {
         monitor = [
@@ -214,10 +213,10 @@ in
         ];
 
         plugin.scroller = {
-          column_default_width = "onehalf";
-          column_widths = "onehalf twothirds";
-          window_heights = "onehalf twothirds";
-          focus_wrap = true;
+          column_default_width = "one";
+          column_widths = "one onehalf twothirds";
+          window_heights = "one onehalf twothirds";
+          focus_wrap = false;
           cyclesize_wrap = true;
           center_row_if_space_available = true;
         };

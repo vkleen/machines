@@ -24,10 +24,10 @@
   systemd.user.services.mako = {
     Unit = {
       Description = "Mako notification daemon";
-      PartOf = [ "hyprland-session.target" ];
+      PartOf = [ "graphical-session.target" ];
     };
     Install = {
-      WantedBy = [ "hyprland-session.target" ];
+      WantedBy = [ "graphical-session.target" ];
     };
     Service = {
       Type = "dbus";

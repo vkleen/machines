@@ -8,23 +8,26 @@ in
     enable = true;
     systemd = {
       enable = true;
-      target = "hyprland-session.target";
+      target = "graphical-session.target";
     };
     settings = {
       top = {
         layer = "top";
         position = "top";
-        modules-left = [ "idle_inhibitor" "hyprland/workspaces" "hyprland/submap" ];
+        modules-left = [ "idle_inhibitor" "niri/workspaces" "hyprland/workspaces" "hyprland/submap" ];
         modules-center = [ "clock" ];
-        modules-right = [ "battery" "temperature" "wireplumber" "backlight" "privacy" "tray" ];
+        modules-right = [ "battery" "power-profiles-daemon" "temperature" "wireplumber" "backlight" "privacy" "tray" ];
         "idle_inhibitor" = {
           format = "{icon}";
           format-icons = {
-            activated = "";
-            deactivated = "";
+            activated = " ";
+            deactivated = " ";
           };
         };
         "hyperland/workspaces" = { };
+        "niri/workspaces" = {
+          format = "{value}";
+        };
         "hyprland/submap" = { };
         "battery" = {
           states = {
@@ -44,7 +47,7 @@ in
         "temperature" = {
           hwmon-path-abs = "/sys/bus/pci/devices/0000:00:18.3/hwmon";
           input-filename = "temp1_input";
-          format = "{temperatureC}°C";
+          format = "{temperatureC}°C";
         };
         "wireplumber" = {
           format = "{volume}% {node_name}";
@@ -79,6 +82,17 @@ in
             on-scroll-down = "shift_down";
             on-click = "shift_reset";
             on-click-right = "mode";
+          };
+        };
+        "power-profiles-daemon" = {
+          format = "{icon} ";
+          tooltip-format = "Power profile: {profile}\nDriver: {driver}";
+          tooltip = true;
+          format-icons = {
+            default = "";
+            performance = "";
+            balanced = "";
+            power-saver = "";
           };
         };
       };

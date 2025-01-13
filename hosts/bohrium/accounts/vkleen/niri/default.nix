@@ -139,7 +139,7 @@ in
           { proportion = 1. / 3.; }
           { proportion = 1. / 2.; }
           { proportion = 2. / 3.; }
-          { proportion = 8. / 9.; }
+          { proportion = 0.95; }
         ];
         default-column-width.proportion = 1. / 2.;
         preset-window-heights = [
@@ -157,7 +157,7 @@ in
       hotkey-overlay.skip-at-startup = true;
 
       animations = {
-        shaders.window-resize = ''
+        shaders.window-resize = /*glsl*/''
           vec4 resize_color(vec3 coords_curr_geo, vec3 size_curr_geo) {
             vec3 coords_next_geo = niri_curr_geo_to_next_geo * coords_curr_geo;
 
@@ -286,6 +286,11 @@ in
         "Mod+2".action = focus-workspace "term";
         "Mod+grave".action = focus-workspace "vid";
         "Mod+T".action = focus-workspace "chat";
+
+        "Mod+Shift+1".action = move-column-to-workspace "browser";
+        "Mod+Shift+2".action = move-column-to-workspace "term";
+        "Mod+Shift+grave".action = move-column-to-workspace "vid";
+        "Mod+Shift+T".action = move-column-to-workspace "chat";
 
         "Mod+Space".action = switch-focus-between-floating-and-tiling;
         "Mod+Shift+Space".action = toggle-window-floating;

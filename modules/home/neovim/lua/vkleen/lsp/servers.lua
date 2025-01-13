@@ -6,7 +6,7 @@ return {
           enable = true,
         },
         completion = {
-          callSnippet = 'Replace',
+          callSnippet = "Replace",
         },
         doc = {
           privateName = { "^_" },
@@ -19,8 +19,11 @@ return {
           semicolon = "Disable",
           arrayIndex = "Disable",
         },
+        telemetry = {
+          enable = false,
+        },
       },
     },
   },
-  nil_ls = { },
+  nil_ls = {},
 }

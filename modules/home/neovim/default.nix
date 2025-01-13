@@ -70,6 +70,7 @@ let
     trailblazer-nvim
     vim-sleuth
     which-key-nvim
+    inputs.rustaceanvim.packages.${pkgs.stdenv.hostPlatform.system}.rustaceanvim
   ];
 
   pluginList = plugins:

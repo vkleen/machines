@@ -141,7 +141,7 @@ in
           { proportion = 2. / 3.; }
           { proportion = 8. / 9.; }
         ];
-        default-column-width.proportion = 2. / 3.;
+        default-column-width.proportion = 1. / 2.;
         preset-window-heights = [
           { proportion = 1. / 3.; }
           { proportion = 1. / 2.; }

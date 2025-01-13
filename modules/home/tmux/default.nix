@@ -15,8 +15,7 @@
       set -g base-index 1
       set -g pane-base-index 1
 
-      set -ga terminal-overrides ",xterm-256color:Tc"
-      set -g default-terminal "tmux-256color"
+      set -as terminal-features ",alacritty:RGB"
 
       set -ga update-environment '${lib.concatStringsSep " " config.vkleen-tmux.update-environment}'
 
@@ -83,7 +82,7 @@
       bind-key Y run "tmux show-buffer | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -n"
     '';
 
-    home.file.".terminfo/t/tmux-256color".source = ./tmux-256color;
+    # home.file.".terminfo/t/tmux-256color".source = ./tmux-256color;
 
     home.packages = [
       pkgs.tmux

@@ -1,7 +1,6 @@
 { config, pkgs, lib, inputs, ... }:
 let
   hyprlock = inputs.hyprlock.packages.${pkgs.stdenv.hostPlatform.system}.hyprlock;
-  hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
   lock-session = pkgs.writeScriptBin "lock-session" ''
     #!${lib.getExe pkgs.zsh}
     _background=(~/wallpapers/*.jpg(Noe{'REPLY=$RANDOM,$RANDOM'}[1,1]))
@@ -61,7 +60,7 @@ in
           }
           {
             timeout = 600;
-            on-timeout = "${lib.getExe' hyprland "hyprctl"} dispatch dpms off";
+            on-timeout = "${lib.getExe config.programs.niri.package} msg action power-off-monitors";
           }
         ];
       };

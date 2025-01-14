@@ -221,6 +221,10 @@ in
         }
       ];
 
+      switch-events = with config.lib.niri.actions; {
+        lid-close.action = spawn "${lib.getExe config.programs.niri.package}" "msg" "action" "power-off-monitors";
+      };
+
       binds = with config.lib.niri.actions; {
         "Mod+Return".action = spawn terminal "-e" "${open-tmux "persistent"}";
         "Mod+Shift+Return".action = spawn terminal;

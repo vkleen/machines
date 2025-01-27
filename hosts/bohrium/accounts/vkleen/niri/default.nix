@@ -93,7 +93,7 @@ in
 
     programs.niri.settings = {
       prefer-no-csd = true;
-      screenshot-path = "${config.home.homeDirectory}/Pictures/niri";
+      screenshot-path = "${config.home.homeDirectory}/Pictures/niri/screenshot-%Y-%m-%d_%H-%M-%S.png";
 
       input = {
         keyboard.xkb = {

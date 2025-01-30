@@ -9,15 +9,15 @@
     method = "btrfs-systemd";
   };
 
-  boot.kernelPatches = [
-    {
-      name = "encrypted_key";
-      patch = null;
-      extraStructuredConfig = {
-        ENCRYPTED_KEYS = lib.kernel.yes;
-      };
-    }
-  ];
+  # boot.kernelPatches = [
+  #   {
+  #     name = "encrypted_key";
+  #     patch = null;
+  #     extraStructuredConfig = {
+  #       ENCRYPTED_KEYS = lib.kernel.yes;
+  #     };
+  #   }
+  # ];
 
   # cryptsetup:
   #   sudo cryptsetup --cipher aes-xts-plain64 --hash blake2b-512 --iter-time 5000 --key-size 256 --pbkdf argon2id --use-urandom luksFormat /dev/nvme0n1p2

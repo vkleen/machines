@@ -18,6 +18,7 @@
     Unit = {
       Description = "Wpaperd";
       PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
     };
     Service = {
       Type = "simple";

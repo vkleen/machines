@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ ... }:
 {
   services.mako = {
     enable = true;
@@ -20,21 +20,5 @@
       ignore-timeout=1
       default-timeout=0
     '';
-  };
-  systemd.user.services.mako = {
-    Unit = {
-      Description = "Mako notification daemon";
-      PartOf = [ "graphical-session.target" ];
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "dbus";
-      BusName = "org.freedesktop.Notifications";
-      ExecStart = lib.getExe pkgs.mako;
-      RestartSec = 5;
-      Restart = "always";
-    };
   };
 }

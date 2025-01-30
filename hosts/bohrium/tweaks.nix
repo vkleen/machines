@@ -5,7 +5,7 @@
   ];
 
   hardware.framework = {
-    laptop13.audioEnhancement.enable = true;
+    laptop13.audioEnhancement.enable = false;
   };
 
 

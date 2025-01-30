@@ -1,9 +1,11 @@
-{ pkgs, lib, ... }:
+args@{ pkgs, lib, ... }:
 let
-  pinentry = pkgs.writeShellScript "pinentry" ''
+  pinentry' = pkgs.writeShellScript "pinentry" ''
     PATH=$PATH:${lib.getBin pkgs.coreutils}/bin:${lib.getBin pkgs.rofi}/bin
     exec "${lib.getExe' pkgs.pinentry-rofi "pinentry-rofi"}" "$@"
   '';
+
+  pinentry = import ./pinentry-fuzzel.nix args;
 in
 {
   services.gpg-agent = {

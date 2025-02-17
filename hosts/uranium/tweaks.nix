@@ -13,13 +13,13 @@
     extraPackages = with pkgs; [
       vaapiVdpau
       libvdpau-va-gl
-      rocmPackages_5.clr.icd
+      # rocmPackages_5.clr.icd
     ];
   };
 
   nix.settings.keep-outputs = true;
 
-  nixpkgs.config.rocmSupport = true;
+  nixpkgs.config.rocmSupport = false;
 
   environment.systemPackages = [
     pkgs.sunshine

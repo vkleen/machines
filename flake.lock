@@ -2005,11 +2005,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1736290848,
-        "narHash": "sha256-b7JbZN77MtKvkpA/VH5NXdZVsUcl9v/UhmoKWGaA9JI=",
+        "lastModified": 1738371835,
+        "narHash": "sha256-jQq2JUgX2cyrzQ6GNcig+KVFhipDMAMG2oLVAXyCfPw=",
         "owner": "vkleen",
         "repo": "matrix-bifrost",
-        "rev": "a68f0039c2d059ebf441f637f4353ff3241ae018",
+        "rev": "dba9ea2bfb5f7f2b7d69157e40f683a2dafd7f43",
         "type": "github"
       },
       "original": {

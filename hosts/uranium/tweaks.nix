@@ -8,7 +8,7 @@
   programs.sway.enable = true;
   services.greetd.enable = lib.mkForce false;
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       vaapiVdpau

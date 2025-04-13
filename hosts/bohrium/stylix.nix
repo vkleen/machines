@@ -8,7 +8,11 @@
       base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
       polarity = "dark";
 
-      cursor.size = 16;
+      cursor = {
+        package = pkgs.vanilla-dmz;
+        size = 16;
+        name = "Vanilla-DMZ";
+      };
 
       opacity.desktop = 0.8;
 

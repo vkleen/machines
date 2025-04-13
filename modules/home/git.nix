@@ -2,6 +2,7 @@
 {
   home.packages = [
     pkgs.gh
+    pkgs.jujutsu
   ];
   programs.git = {
     enable = true;

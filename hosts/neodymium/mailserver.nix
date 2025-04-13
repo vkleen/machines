@@ -14,8 +14,10 @@ let
     "omega@17220103.de"
     "kleen@kleen.org"
     "admin@kleen.org"
+    "handwerker-versand@17220103.de"
   ];
-in {
+in
+{
   mailserver = {
     enable = true;
     fqdn = "neodymium.kleen.org";
@@ -71,5 +73,5 @@ in {
     after = [ "acme-certificates.target" ];
   };
 
-  security.acme.domains.${cfg.fqdn} = {};
+  security.acme.domains.${cfg.fqdn} = { };
 }

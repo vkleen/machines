@@ -71,6 +71,7 @@ let
     vim-sleuth
     which-key-nvim
     inputs.rustaceanvim.packages.${pkgs.stdenv.hostPlatform.system}.rustaceanvim
+    haskell-tools-nvim
   ];
 
   pluginList = plugins:
@@ -107,6 +108,8 @@ in
     source = ./lua;
     recursive = true;
   };
+
+  stylix.targets.neovim.enable = false;
 
   programs.neovim = {
     enable = true;

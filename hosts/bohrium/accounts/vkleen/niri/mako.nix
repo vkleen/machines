@@ -2,10 +2,12 @@
 {
   services.mako = {
     enable = true;
-    maxVisible = -1;
-    borderRadius = 10;
-    icons = false;
-    defaultTimeout = 6000;
+    settings = {
+      icons = false;
+      default-timeout = 6000;
+      border-radius = 10;
+      max-visible = -1;
+    };
     extraConfig = ''
       [urgency=low]
       default-timeout=4000

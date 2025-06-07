@@ -225,82 +225,86 @@ in
         lid-close.action = spawn "${lib.getExe config.programs.niri.package}" "msg" "action" "power-off-monitors";
       };
 
-      binds = with config.lib.niri.actions; {
-        "Mod+Return".action = spawn terminal "-e" "${open-tmux "persistent"}";
-        "Mod+Shift+Return".action = spawn terminal;
+      binds = with config.lib.niri.actions;
+        let
+          move-column-to-workspace = inputs.niri.lib.kdl.magic-leaf "move-column-to-workspace";
+        in
+        {
+          "Mod+Return".action = spawn terminal "-e" "${open-tmux "persistent"}";
+          "Mod+Shift+Return".action = spawn terminal;
 
-        "Mod+P".action = spawn (lib.getExe fuzzel-pdf);
-        "Mod+Shift+P".action = spawn (lib.getExe fuzzel-pass);
+          "Mod+P".action = spawn (lib.getExe fuzzel-pdf);
+          "Mod+Shift+P".action = spawn (lib.getExe fuzzel-pass);
 
-        "Mod+W".action = spawn (lib.getExe switch-window);
+          "Mod+W".action = spawn (lib.getExe switch-window);
 
-        "Mod+Shift+Control+X".action = quit;
+          "Mod+Shift+Control+X".action = quit;
 
-        "Mod+H".action = focus-column-left;
-        "Mod+J".action = focus-window-down;
-        "Mod+K".action = focus-window-up;
-        "Mod+L".action = focus-column-right;
+          "Mod+H".action = focus-column-left;
+          "Mod+J".action = focus-window-down;
+          "Mod+K".action = focus-window-up;
+          "Mod+L".action = focus-column-right;
 
-        "Mod+N".action = focus-column-left;
-        "Mod+E".action = focus-window-down;
-        "Mod+I".action = focus-window-up;
-        "Mod+O".action = focus-column-right;
+          "Mod+N".action = focus-column-left;
+          "Mod+E".action = focus-window-down;
+          "Mod+I".action = focus-window-up;
+          "Mod+O".action = focus-column-right;
 
-        "Mod+Shift+H".action = move-column-left;
-        "Mod+Shift+J".action = move-window-down;
-        "Mod+Shift+K".action = move-window-up;
-        "Mod+Shift+L".action = move-column-right;
+          "Mod+Shift+H".action = move-column-left;
+          "Mod+Shift+J".action = move-window-down;
+          "Mod+Shift+K".action = move-window-up;
+          "Mod+Shift+L".action = move-column-right;
 
-        "Mod+Shift+N".action = move-column-left;
-        "Mod+Shift+E".action = move-window-down;
-        "Mod+Shift+I".action = move-window-up;
-        "Mod+Shift+O".action = move-column-right;
+          "Mod+Shift+N".action = move-column-left;
+          "Mod+Shift+E".action = move-window-down;
+          "Mod+Shift+I".action = move-window-up;
+          "Mod+Shift+O".action = move-column-right;
 
-        "Mod+U".action = focus-workspace-down;
-        "Mod+Y".action = focus-workspace-up;
-        "Mod+Control+U".action = move-workspace-down;
-        "Mod+Control+Y".action = move-workspace-up;
-        "Mod+Shift+U".action = move-column-to-workspace-down;
-        "Mod+Shift+Y".action = move-column-to-workspace-up;
+          "Mod+U".action = focus-workspace-down;
+          "Mod+Y".action = focus-workspace-up;
+          "Mod+Control+U".action = move-workspace-down;
+          "Mod+Control+Y".action = move-workspace-up;
+          "Mod+Shift+U".action = move-column-to-workspace-down;
+          "Mod+Shift+Y".action = move-column-to-workspace-up;
 
-        "Mod+Control+H".action = focus-workspace-up;
-        "Mod+Control+L".action = focus-workspace-down;
+          "Mod+Control+H".action = focus-workspace-up;
+          "Mod+Control+L".action = focus-workspace-down;
 
-        "Mod+Comma".action = consume-window-into-column;
-        "Mod+Period".action = expel-window-from-column;
+          "Mod+Comma".action = consume-window-into-column;
+          "Mod+Period".action = expel-window-from-column;
 
-        "Mod+Shift+Control+H".action = move-workspace-to-monitor-left;
-        "Mod+Shift+Control+J".action = move-workspace-to-monitor-down;
-        "Mod+Shift+Control+K".action = move-workspace-to-monitor-up;
-        "Mod+Shift+Control+L".action = move-workspace-to-monitor-right;
+          "Mod+Shift+Control+H".action = move-workspace-to-monitor-left;
+          "Mod+Shift+Control+J".action = move-workspace-to-monitor-down;
+          "Mod+Shift+Control+K".action = move-workspace-to-monitor-up;
+          "Mod+Shift+Control+L".action = move-workspace-to-monitor-right;
 
-        "Mod+Shift+Control+N".action = move-workspace-to-monitor-left;
-        "Mod+Shift+Control+E".action = move-workspace-to-monitor-down;
-        "Mod+Shift+Control+I".action = move-workspace-to-monitor-up;
-        "Mod+Shift+Control+O".action = move-workspace-to-monitor-right;
+          "Mod+Shift+Control+N".action = move-workspace-to-monitor-left;
+          "Mod+Shift+Control+E".action = move-workspace-to-monitor-down;
+          "Mod+Shift+Control+I".action = move-workspace-to-monitor-up;
+          "Mod+Shift+Control+O".action = move-workspace-to-monitor-right;
 
-        "Mod+C".action = center-column;
+          "Mod+C".action = center-column;
 
-        "Mod+F".action = maximize-column;
-        "Mod+Shift+F".action = fullscreen-window;
+          "Mod+F".action = maximize-column;
+          "Mod+Shift+F".action = fullscreen-window;
 
-        "Mod+Equal".action = switch-preset-column-width;
+          "Mod+Equal".action = switch-preset-column-width;
 
-        "Mod+1".action = focus-workspace "browser";
-        "Mod+2".action = focus-workspace "term";
-        "Mod+grave".action = focus-workspace "vid";
-        "Mod+T".action = focus-workspace "chat";
+          "Mod+1".action = focus-workspace "browser";
+          "Mod+2".action = focus-workspace "term";
+          "Mod+grave".action = focus-workspace "vid";
+          "Mod+T".action = focus-workspace "chat";
 
-        "Mod+Shift+1".action = move-column-to-workspace "browser";
-        "Mod+Shift+2".action = move-column-to-workspace "term";
-        "Mod+Shift+grave".action = move-column-to-workspace "vid";
-        "Mod+Shift+T".action = move-column-to-workspace "chat";
+          "Mod+Shift+1".action = move-column-to-workspace "browser";
+          "Mod+Shift+2".action = move-column-to-workspace "term";
+          "Mod+Shift+grave".action = move-column-to-workspace "vid";
+          "Mod+Shift+T".action = move-column-to-workspace "chat";
 
-        "Mod+Space".action = switch-focus-between-floating-and-tiling;
-        "Mod+Shift+Space".action = toggle-window-floating;
+          "Mod+Space".action = switch-focus-between-floating-and-tiling;
+          "Mod+Shift+Space".action = toggle-window-floating;
 
-        "Mod+Shift+Q".action = close-window;
-      };
+          "Mod+Shift+Q".action = close-window;
+        };
     };
   };
 }

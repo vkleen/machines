@@ -2,7 +2,7 @@
 {
   stylix.targets.wpaperd.enable = false;
 
-  programs.wpaperd = {
+  services.wpaperd = {
     enable = true;
     settings = {
       default = {

@@ -19,7 +19,7 @@
       fonts = {
         monospace = {
           package = pkgs.pragmatapro;
-          name = "PragmataPro Mono";
+          name = "Pragmasevka";
         };
         emoji = {
           package = pkgs.noto-fonts-emoji;

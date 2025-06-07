@@ -9,7 +9,7 @@
       vim.g.neovide_floating_blur = false
       vim.g.neovide_floating_opacity = 0.9
       vim.g.neovide_remember_window_size = false
-      vim.opt.guifont = "PragmataPro Mono Liga,Noto Color Emoji:h12"
+      vim.opt.guifont = "Pragmasevka,Noto Color Emoji:h12"
     end
   '';
 }

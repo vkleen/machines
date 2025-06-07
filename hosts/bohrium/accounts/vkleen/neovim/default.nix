@@ -8,7 +8,7 @@ with builtins;
     settings = {
       fork = true;
       font = {
-        normal = [ "PragmataPro Mono" "Noto Color Emoji" ];
+        normal = [ "Pragmasevka" "Noto Color Emoji" ];
         size = 12;
       };
     };

@@ -30,7 +30,7 @@ in
                 font-hinting = "full";
                 gtk-im-module = "gtk-im-context-simple";
                 color-scheme = "prefer-dark";
-                monospace-font-name = "PragmataPro Mono Liga 11";
+                monospace-font-name = "Pragmasevka 11";
               };
               peripherals = {
                 touchpad = {

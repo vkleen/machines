@@ -113,7 +113,7 @@ in
       script-opts=ytdl_hook-ytdl_path=${pkgs.yt-dlp}/bin/yt-dlp
       ytdl-format=bestvideo[fps=60]+bestaudio/bestvideo+bestaudio
       ytdl-raw-options=sub-format=en,write-srt=
-      sub-ass-force-style=FontName=PragmataPro
+      sub-ass-force-style=FontName=Pragmasevka
       slang=en-US
     '';
 

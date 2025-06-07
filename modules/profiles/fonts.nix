@@ -1,11 +1,6 @@
 { pkgs, lib, ... }:
 let
   fonts = with pkgs; [
-    nerd-fonts.cousine
-    nerd-fonts.fira-code
-    nerd-fonts.iosevka
-    nerd-fonts.roboto-mono
-    nerd-fonts.symbols-only
     b612
     carlito
     corefonts
@@ -16,10 +11,14 @@ let
     inconsolata
     inter
     libertine
+    nerd-fonts.cousine
+    nerd-fonts.fira-code
+    nerd-fonts.roboto-mono
+    nerd-fonts.symbols-only
     noto-fonts
     noto-fonts-emoji
     noto-fonts-extra
-    pragmatapro
+    pragmasevka
     roboto
     roboto-mono
     source-code-pro
@@ -40,9 +39,9 @@ in
     enableGhostscriptFonts = true;
 
     fontconfig.defaultFonts = {
-      sansSerif = [ "PragmataPro Mono Liga" ];
-      serif = [ "PragmataPro Mono Liga" ];
-      monospace = [ "PragmataPro Mono Liga" ];
+      sansSerif = [ "Pragmasevka" ];
+      serif = [ "Pragmasevka" ];
+      monospace = [ "Pragmasevka" ];
       emoji = [ "Noto Color Emoji" ];
     };
 

@@ -34,6 +34,7 @@
   #      EVDEV_ABS_36=::11
   #   '';
   # };
+  hardware.bladeRF.enable = true;
   services.upower.criticalPowerAction = "PowerOff";
 
   programs.nix-ld.enable = true;

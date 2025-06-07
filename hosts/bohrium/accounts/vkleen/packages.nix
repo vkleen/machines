@@ -67,6 +67,7 @@
     usb-modeswitch
     usbutils
     w3m
+    watchman
     wavemon
     yq
     zig

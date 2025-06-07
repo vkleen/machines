@@ -47,14 +47,6 @@
           MACAddress=32:9e:08:68:b5:79
           LinkState=yes
           Trust=yes
-          [SR-IOV]
-          VirtualFunction=4
-          VLANId=11
-          VLANProtocol=802.1Q
-          MACSpoofCheck=yes
-          MACAddress=32:9e:08:68:b5:7a
-          LinkState=yes
-          Trust=no
         '';
       };
       "30-eth1" = {
@@ -90,13 +82,6 @@
         linkConfig = {
           Name = "xplane";
           MACAddress = "32:9e:08:68:b5:77";
-        };
-      };
-      "30-windows" = {
-        matchConfig.Path = "pci-0000:5d:00.6";
-        linkConfig = {
-          Name = "windows";
-          MACAddress = "32:9e:08:68:b5:7a";
         };
       };
     };

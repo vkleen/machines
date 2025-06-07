@@ -46,29 +46,29 @@ in
       emoji = [ "Noto Color Emoji" ];
     };
 
-    fontconfig.localConf = ''
-      <?xml version="1.0"?>
-      <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-      <fontconfig>
-        <alias binding="weak">
-          <family>monospace</family>
-          <prefer>
-            <family>emoji</family>
-          </prefer>
-        </alias>
-        <alias binding="weak">
-          <family>sans-serif</family>
-          <prefer>
-            <family>emoji</family>
-          </prefer>
-        </alias>
-        <alias binding="weak">
-          <family>serif</family>
-          <prefer>
-            <family>emoji</family>
-          </prefer>
-        </alias>
-      </fontconfig>
-    '';
+    # fontconfig.localConf = ''
+    #   <?xml version="1.0"?>
+    #   <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+    #   <fontconfig>
+    #     <alias binding="weak">
+    #       <family>monospace</family>
+    #       <prefer>
+    #         <family>emoji</family>
+    #       </prefer>
+    #     </alias>
+    #     <alias binding="weak">
+    #       <family>sans-serif</family>
+    #       <prefer>
+    #         <family>emoji</family>
+    #       </prefer>
+    #     </alias>
+    #     <alias binding="weak">
+    #       <family>serif</family>
+    #       <prefer>
+    #         <family>emoji</family>
+    #       </prefer>
+    #     </alias>
+    #   </fontconfig>
+    # '';
   };
 }

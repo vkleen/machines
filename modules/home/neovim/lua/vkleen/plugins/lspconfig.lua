@@ -25,14 +25,14 @@ return {
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
         end
 
-        map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
-        map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
-        map("gI", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementations")
-        map("<leader>D", require("fzf-lua").lsp_typedefs, "Type [D]efinition")
-        map("<leader>ds", require("fzf-lua").lsp_document_symbols, "[D]ocument [S]ymbols")
-        map("<leader>ws", require("fzf-lua").lsp_live_workspace_symbols, "[W]orkspace [S]ymbols")
+        map("gd", function() require("fzf-lua").lsp_definitions() end, "[G]oto [D]efinition")
+        map("gr", function() require("fzf-lua").lsp_references() end, "[G]oto [R]eferences")
+        map("gI", function() require("fzf-lua").lsp_implementations() end, "[G]oto [I]mplementations")
+        map("<leader>D", function() require("fzf-lua").lsp_typedefs() end, "Type [D]efinition")
+        map("<leader>ds", function() require("fzf-lua").lsp_document_symbols() end, "[D]ocument [S]ymbols")
+        map("<leader>ws", function() require("fzf-lua").lsp_live_workspace_symbols() end, "[W]orkspace [S]ymbols")
         map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-        map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
+        map("<leader>ca", function() require("fzf-lua").lsp_code_actions({silent = true}) end, "[C]ode [A]ction", { "n", "x" })
         map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
         map("<leader>td", function()

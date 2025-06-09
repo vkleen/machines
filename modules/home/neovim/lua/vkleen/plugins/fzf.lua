@@ -7,7 +7,16 @@ return {
       dir = require('lazy-nix-helper').get_plugin_path('mini.nvim'),
     }
   },
-  opts = {},
+  opts = {
+    fzf_colors = true,
+    winopts = {
+      fullscreen = true,
+      preview = {
+        layout = "flex",
+        flip_columns = 120,
+      },
+    },
+  },
   keys = {
     { '<leader>sh', function() require('fzf-lua').helptags() end, desc = '[S]earch [H]elp' },
     { '<leader>sk', function() require('fzf-lua').keymaps() end, desc = '[S]earch [K]eymaps' },

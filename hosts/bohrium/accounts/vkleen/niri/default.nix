@@ -228,6 +228,7 @@ in
       binds = with config.lib.niri.actions;
         let
           move-column-to-workspace = inputs.niri.lib.kdl.magic-leaf "move-column-to-workspace";
+          screenshot-screen = inputs.niri.lib.kdl.magic-leaf "screenshot-screen";
         in
         {
           "Mod+Return".action = spawn terminal "-e" "${open-tmux "persistent"}";
@@ -302,6 +303,14 @@ in
 
           "Mod+Space".action = switch-focus-between-floating-and-tiling;
           "Mod+Shift+Space".action = toggle-window-floating;
+
+          "Print".action = screenshot {
+            "show-pointer" = false;
+          };
+          "Ctrl+Print".action = screenshot-screen {
+            "show-pointer" = false;
+          };
+          "Alt+Print".action = screenshot-window;
 
           "Mod+Shift+Q".action = close-window;
         };

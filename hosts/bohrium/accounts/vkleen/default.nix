@@ -8,6 +8,7 @@
       "bladerf"
       "camera"
       "dialout"
+      "disk"
       "docker"
       "input"
       "jackaudio"

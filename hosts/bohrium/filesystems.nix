@@ -105,4 +105,9 @@
   # systemd.tmpfiles.rules = [
   #   "d /btrfs/.snapshots 0755 root root"
   # ];
+
+
+  environment.persistence."/persist".directories = [
+    "/var/lib/libvirt"
+  ];
 }

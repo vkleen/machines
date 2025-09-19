@@ -32,7 +32,6 @@
     };
     stylix.url = "github:danth/stylix";
 
-    hyprland.url = "github:hyprwm/hyprland";
     hyprlock.url = "github:hyprwm/hyprlock";
     hyprscroller = {
       url = "github:dawsers/hyprscroller";

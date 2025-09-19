@@ -20,9 +20,11 @@ in
         Type = "forking";
         Restart = "on-failure";
         SuccessExitStatus = "0 2";
+        Environment = [
+          "SSH_ASKPASS=${askPassword}"
+          "DISPLAY=fake" # required to make ssh-agent start $SSH_ASKPASS
+        ];
       };
-    environment.SSH_ASKPASS = askPassword;
-    environment.DISPLAY = "fake"; # required to make ssh-agent start $SSH_ASKPASS
   };
 
   home.sessionVariablesExtra = ''

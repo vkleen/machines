@@ -11,7 +11,8 @@ let
     trap on_exit EXIT INT TERM
 
     BACKGROUND="$_background" ${lib.getExe' pkgs.gettext "envsubst"} '$${BACKGROUND}' <"${config.home.homeDirectory}/${config.xdg.configFile."hypr/hyprlock.conf".target}" >"$_config"
-    ${lib.getExe hyprlock} -c "$_config" "$@"
+    # ${lib.getExe hyprlock} -c "$_config" "$@"
+    ${lib.getExe pkgs.swaylock} -i "$_background"
   '';
 in
 {

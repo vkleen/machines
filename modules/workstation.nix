@@ -4,7 +4,6 @@
     profiles.bluetooth
     profiles.fonts
     profiles.gnome-keyring
-    profiles.hyprland
     profiles.regreet
     profiles.virtualisation
     profiles.pipewire

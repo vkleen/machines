@@ -35,7 +35,6 @@
           enable = true;
           enableSmtp = false;
           setSendmail = true;
-          networksStyle = "host";
           hostname = "${cfg.networking.hostName}.kleen.org";
           destination = [ "${cfg.networking.hostName}.kleen.org" "localhost" ];
           relayDomains = destination;
@@ -56,9 +55,9 @@
             };
           };
 
-          config = {
-            mailbox_size_limit = "8192000000";
-            message_size_limit = "2048000000";
+          settings.main = {
+            mailbox_size_limit = 8192000000;
+            message_size_limit = 2048000000;
           };
         };
     };

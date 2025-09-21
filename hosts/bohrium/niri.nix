@@ -46,8 +46,8 @@ in
           };
           extraPortals = lib.mkIf
             (!cfg.package.cargoBuildNoDefaultFeatures || builtins.elem "xdp-gnome-screencast" cfg.package.cargoBuildFeatures)
-            [ pkgs.xdg-desktop-portal-gnome ];
-          configPackages = [ cfg.package ];
+            [ pkgs.xdg-desktop-portal-gnome pkgs.xdg-desktop-portal-gtk ];
+          configPackages = [ ];
         };
 
         security.polkit.enable = true;
